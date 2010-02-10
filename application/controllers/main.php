@@ -9,17 +9,22 @@ class Main extends Controller {
 	
 	function index()
 	{
-		$this->load->view('main');
+                $page = $this->load->view('main_index', null, true);
+		$this->load->view('main',array('page' => $page));
 	}
 
         function register()
         {
-                $this->load->view('main');
+                $page = $this->load->view('main_register', null, true);
+		$this->load->view('main',array('page' => $page));
         }
 
-        function tour()
+        function tour($id = 1)
         {
-                $this->load->view('main');
+                $page_id = $id > 5 ? 5 : $id;
+                $page_id = $id < 1 ? 1 : $id;
+                $page = $this->load->view('main_tour_'.$page_id, null, true);
+		$this->load->view('main',array('page' => $page));
         }
 }
 
