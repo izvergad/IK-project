@@ -9,6 +9,7 @@ class Main extends Controller {
 	
 	function index()
 	{
+                $this->User_Model->User_Login();
                 $page = $this->load->view('main_index', null, true);
 		$this->load->view('main',array('page' => $page));
 	}
@@ -24,6 +25,13 @@ class Main extends Controller {
                 $page_id = $id > 5 ? 5 : $id;
                 $page_id = $id < 1 ? 1 : $id;
                 $page = $this->load->view('main_tour_'.$page_id, null, true);
+		$this->load->view('main',array('page' => $page));
+        }
+
+        function error()
+        {
+                $error = $this->session->userdata('error');
+                $page = $this->load->view('main_error', array('error' => $error), true);
 		$this->load->view('main',array('page' => $page));
         }
 }

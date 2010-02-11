@@ -9,7 +9,7 @@
                     <div class="joinbutton">
                         <a href="/main/register/" title="Давай! Нажми меня!">Играть бесплатно сейчас!</a>
                     </div>
-                    <form id="loginForm" name="loginForm" action="#" method="post">
+                    <form id="loginForm" name="loginForm" action="/" method="post">
                         <div id="formz">
                             <table cellpadding="0" cellspacing="0" id="logindata">
                                 <tr>
@@ -20,7 +20,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <select id="universe" class="uni" size="1">
+                                        <select name="universe" class="uni" size="1">
                                             <option value="alpha">Alpha</option>
                                         </select>
                                     </td>
