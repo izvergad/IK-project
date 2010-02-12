@@ -8,7 +8,7 @@ class Game extends Controller
         parent::Controller();
         if (!$this->session->userdata('login'))
         {
-            $this->User_Model->Error('Âàøà ñåññèÿ èñòåêëà, âîéäèòå ñíîâà!');
+            $this->User_Model->Error('Ð’Ð°ÑˆÐ° ÑÐµÑÑÐ¸Ñ Ð¸ÑÑ‚ÐµÐºÐ»Ð°, Ð²Ð¾Ð¹Ð´Ð¸Ñ‚Ðµ ÑÐ½Ð¾Ð²Ð°!');
         }
     }
 
@@ -19,6 +19,18 @@ class Game extends Controller
     }
     
     function index()
+    {
+        $location = 'city';
+        $bread = $this->load->view('bread_'.$location, null, true);
+        $this->load->view('game',array('location' => $location, 'bread' => $bread));
+    }
+
+    function city()
+    {
+        $this->index();
+    }
+    
+    function show()
     {
         
     }

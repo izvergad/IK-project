@@ -2,12 +2,14 @@
 
 class User_Model extends Model
 {
+    var $gold = 0;
+    var $ambrosy = 0;
     
     function User_Model()
     {
         // Call the Model constructor
         parent::Model();
-        
+        $this->Load_User($this->session->userdata('id'));
     }
 
     function User_Login()
@@ -18,17 +20,21 @@ class User_Model extends Model
             $query = $this->db->get_where($_POST['universe'].'_users', array('login' => $_POST['name'], 'password' => $_POST['password']));
             if ($query->num_rows() > 0)
             {
+                $user = $query->row();
+                
                 $data = array();
+                $data['id'] = $user->id;
                 $data['universe'] = $_POST['universe'];
                 $data['login'] = $_POST['name'];
                 $data['password'] = $_POST['password'];
+                $data['town'] = $user->town;
 
                 $this->session->set_userdata($data);
                 redirect('/game/', 'refresh');
             }
             else
             {
-                $this->Error('Íåâåðíîå èìÿ èëè ïàðîëü.');
+                $this->Error('ÐÐµÐ²ÐµÑ€Ð½Ñ‹Ðµ Ð»Ð¾Ð³Ð¸Ð½ Ð¸Ð»Ð¸ Ð¿Ð°Ñ€Ð¾Ð»ÑŒ.');
             }
         }
     }
@@ -37,6 +43,20 @@ class User_Model extends Model
     {
                 $this->session->set_userdata(array('error' => $error));
                 redirect('/main/error/', 'refresh');
+    }
+
+    function Load_User($id)
+    {
+        if ($id > 0)
+        {
+            $query = $this->db->get_where($this->session->userdata('universe').'_users', array('id' => $id));
+            if ($query->num_rows() > 0)
+            {
+                $user = $query->row();
+                $this->gold = $user->gold;
+                $this->ambrosy = $user->ambrosy;
+            }
+        }
     }
 }
 ?>

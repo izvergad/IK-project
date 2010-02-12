@@ -66,7 +66,7 @@ if (strpos($system_folder, '/') === FALSE)
 	{
 		$system_folder = realpath(dirname(__FILE__)).'/'.$system_folder;
 	}
-}
+} 
 else
 {
 	// Swap directory separators to Unix style for consistency

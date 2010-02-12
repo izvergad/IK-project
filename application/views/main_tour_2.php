@@ -1,18 +1,18 @@
 <div id="tour">
-<h3>Тур по игре (2/5) - Ресурсы</h3>
+<h3>РўСѓСЂ РїРѕ РёРіСЂРµ (2/5) - Р РµСЃСѓСЂСЃС‹</h3>
 <div id="imgcontainer">
     <img src="/design/tour/tour_resources.jpg" width="530" height="230" alt="" >
 </div>
 <div id="tourtext">
-    <p>Существуют пять видов ресурсов:<br>
-        <img src="/design/tour/icon_wood.gif"> стройматериалы,
-        <img src="/design/tour/icon_wine.gif"> вино,
-        <img src="/design/tour/icon_marble.gif"> мрамор,
-        <img src="/design/tour/icon_glass.gif"> хрусталь и
-        <img src="/design/tour/icon_sulfur.gif"> сера.
+    <p>РЎСѓС‰РµСЃС‚РІСѓСЋС‚ РїСЏС‚СЊ РІРёРґРѕРІ СЂРµСЃСѓСЂСЃРѕРІ:<br>
+        <img src="/design/tour/icon_wood.gif"> СЃС‚СЂРѕР№РјР°С‚РµСЂРёР°Р»С‹,
+        <img src="/design/tour/icon_wine.gif"> РІРёРЅРѕ,
+        <img src="/design/tour/icon_marble.gif"> РјСЂР°РјРѕСЂ,
+        <img src="/design/tour/icon_glass.gif"> С…СЂСѓСЃС‚Р°Р»СЊ Рё
+        <img src="/design/tour/icon_sulfur.gif"> СЃРµСЂР°.
     </p>
-    <p>Во время игры Вам понадобится большое количество строительных материалов. Отправляйте рабочих на выработку древесины и добывайте вместе с другими игроками полезные ископаемые на Вашем острове!</p>
+    <p>Р’Рѕ РІСЂРµРјСЏ РёРіСЂС‹ Р’Р°Рј РїРѕРЅР°РґРѕР±РёС‚СЃСЏ Р±РѕР»СЊС€РѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ СЃС‚СЂРѕРёС‚РµР»СЊРЅС‹С… РјР°С‚РµСЂРёР°Р»РѕРІ. РћС‚РїСЂР°РІР»СЏР№С‚Рµ СЂР°Р±РѕС‡РёС… РЅР° РІС‹СЂР°Р±РѕС‚РєСѓ РґСЂРµРІРµСЃРёРЅС‹ Рё РґРѕР±С‹РІР°Р№С‚Рµ РІРјРµСЃС‚Рµ СЃ РґСЂСѓРіРёРјРё РёРіСЂРѕРєР°РјРё РїРѕР»РµР·РЅС‹Рµ РёСЃРєРѕРїР°РµРјС‹Рµ РЅР° Р’Р°С€РµРј РѕСЃС‚СЂРѕРІРµ!</p>
 </div>
-<a class="back" href="/main/tour/1/" title="Назад">&laquo; Назад</a>
-<a class="next" href="/main/tour/3/" title="Продолжить">Дальше &raquo;</a>
+<a class="back" href="/main/tour/1/" title="РќР°Р·Р°Рґ">&laquo; РќР°Р·Р°Рґ</a>
+<a class="next" href="/main/tour/3/" title="РџСЂРѕРґРѕР»Р¶РёС‚СЊ">Р”Р°Р»СЊС€Рµ &raquo;</a>
 </div>

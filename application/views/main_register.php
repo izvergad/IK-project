@@ -1,14 +1,14 @@
 <div id="register">
     	<img class="bild1" src="/design/bild1.jpg" width="173" height="85" />
         <img class="bild2" src="/design/bild2.jpg" width="173" height="85" />
-        <h1>Добро пожаловать в мир Икариам</h1>
-        <p class="desc">Для начала игры необходимо ввести имя, пароль и адрес e-mail и принять Основные Положения.</p>
+        <h1>Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РјРёСЂ РРєР°СЂРёР°Рј</h1>
+        <p class="desc">Р”Р»СЏ РЅР°С‡Р°Р»Р° РёРіСЂС‹ РЅРµРѕР±С…РѕРґРёРјРѕ РІРІРµСЃС‚Рё РёРјСЏ, РїР°СЂРѕР»СЊ Рё Р°РґСЂРµСЃ e-mail Рё РїСЂРёРЅСЏС‚СЊ РћСЃРЅРѕРІРЅС‹Рµ РџРѕР»РѕР¶РµРЅРёСЏ.</p>
         <form name="registerForm" action="#" method="post">
             <input type="hidden" name="function" value="createAvatar">
             <p class="desc">
     	        <table cellpadding="3" cellspacing="0" id="logindata">
                     <tr>
-                        <td><label for="welt" class="labelwelt">Мир</label></td>
+                        <td><label for="welt" class="labelwelt">РњРёСЂ</label></td>
                     	<td>
                             <select id="universe" class="uni" size="1" onchange="getServerNotice(this.value, 'infotext');">
                                 <option value="alpha" >Alpha</option>
@@ -16,11 +16,11 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label for="login" class="labellogin">Имя игрока</label></td>
+                        <td><label for="login" class="labellogin">РРјСЏ РёРіСЂРѕРєР°</label></td>
                         <td><input type='text' name='name' class="startinput"  size='30'></td>
                     </tr>
                     <tr>
-                        <td><label for="login" class="labellogin">Пароль</label></td>
+                        <td><label for="login" class="labellogin">РџР°СЂРѕР»СЊ</label></td>
                         <td><input type='password' name='password' class="startinput" size='30'></td>
                     </tr>
                     <tr>
@@ -29,11 +29,11 @@
                     </tr>
                     <tr>
                         <td></td>
-                        <td><input type=checkbox name="agb" >Я принимаю Основные Положения.</td>
+                        <td><input type=checkbox name="agb" >РЇ РїСЂРёРЅРёРјР°СЋ РћСЃРЅРѕРІРЅС‹Рµ РџРѕР»РѕР¶РµРЅРёСЏ.</td>
                     </tr>
                 </table>
             </p>
             <div id="infotext"></div>
-            <input type="submit" class="button" value="Регистрация">
+            <input type="submit" class="button" value="Р РµРіРёСЃС‚СЂР°С†РёСЏ">
         </form>
 </div>

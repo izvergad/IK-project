@@ -1,21 +1,21 @@
                     <img class="bild1" src="/design/bild1.jpg" width="173" height="85">
                     <img class="bild2" src="/design/bild2.jpg" width="173" height="85">
-                    <h1>Жизнь в древнем мире!</h1>
-                    <p class="desc">Ласковый шепот прибоя, белый песчаный берег и яркое солнце!
-                        На маленьком острове где-то в Средиземноморье возникает древняя цивилизация.
-                        Под Вашим лидерством начинается эра открытий и процветания.
-                        Добро пожаловать в Икариам
+                    <h1>Р–РёР·РЅСЊ РІ РґСЂРµРІРЅРµРј РјРёСЂРµ!</h1>
+                    <p class="desc">Р›Р°СЃРєРѕРІС‹Р№ С€РµРїРѕС‚ РїСЂРёР±РѕСЏ, Р±РµР»С‹Р№ РїРµСЃС‡Р°РЅС‹Р№ Р±РµСЂРµРі Рё СЏСЂРєРѕРµ СЃРѕР»РЅС†Рµ!
+                        РќР° РјР°Р»РµРЅСЊРєРѕРј РѕСЃС‚СЂРѕРІРµ РіРґРµ-С‚Рѕ РІ РЎСЂРµРґРёР·РµРјРЅРѕРјРѕСЂСЊРµ РІРѕР·РЅРёРєР°РµС‚ РґСЂРµРІРЅСЏСЏ С†РёРІРёР»РёР·Р°С†РёСЏ.
+                        РџРѕРґ Р’Р°С€РёРј Р»РёРґРµСЂСЃС‚РІРѕРј РЅР°С‡РёРЅР°РµС‚СЃСЏ СЌСЂР° РѕС‚РєСЂС‹С‚РёР№ Рё РїСЂРѕС†РІРµС‚Р°РЅРёСЏ.
+                        Р”РѕР±СЂРѕ РїРѕР¶Р°Р»РѕРІР°С‚СЊ РІ РРєР°СЂРёР°Рј
                     </p>
                     <div class="joinbutton">
-                        <a href="/main/register/" title="Давай! Нажми меня!">Играть бесплатно сейчас!</a>
+                        <a href="/main/register/" title="Р”Р°РІР°Р№! РќР°Р¶РјРё РјРµРЅСЏ!">РРіСЂР°С‚СЊ Р±РµСЃРїР»Р°С‚РЅРѕ СЃРµР№С‡Р°СЃ!</a>
                     </div>
                     <form id="loginForm" name="loginForm" action="/" method="post">
                         <div id="formz">
                             <table cellpadding="0" cellspacing="0" id="logindata">
                                 <tr>
-                                    <td><label for="welt" class="labelwelt">Мир</label></td>
-                                    <td><label for="login" class="labellogin">Имя игрока</label></td>
-                                    <td><label for="pwd" class="labelpwd">Пароль</label></td>
+                                    <td><label for="welt" class="labelwelt">РњРёСЂ</label></td>
+                                    <td><label for="login" class="labellogin">РРјСЏ РёРіСЂРѕРєР°</label></td>
+                                    <td><label for="pwd" class="labelpwd">РџР°СЂРѕР»СЊ</label></td>
                                     <td></td>
                                 </tr>
                                 <tr>
@@ -26,7 +26,7 @@
                                     </td>
                                     <td><input id="login" name="name" type="text" class="login"></td>
                                     <td><input id="pwd"  name="password" type="password" class="pass"></td>
-                                    <td><input type="submit" class="button" value="Вход"></td>
+                                    <td><input type="submit" class="button" value="Р’С…РѕРґ"></td>
                                 </tr>
                             </table>
                         </div>

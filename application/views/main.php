@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 		<meta name="language" content="ru">
-		<meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков - управлять своим собственным народом в древнем мире, строить города, вести торговлю, завоевывать острова.">
-		<title>Икариам - Бесплатная браузерная игра</title>
+		<meta name="Description" content="РРєР°СЂРёР°Рј - СЌС‚Рѕ Р±РµСЃРїР»Р°С‚РЅР°СЏ Р±СЂР°СѓР·РµСЂРЅР°СЏ РёРіСЂР°. Р—Р°РґР°С‡Р° РёРіСЂРѕРєРѕРІ - СѓРїСЂР°РІР»СЏС‚СЊ СЃРІРѕРёРј СЃРѕР±СЃС‚РІРµРЅРЅС‹Рј РЅР°СЂРѕРґРѕРј РІ РґСЂРµРІРЅРµРј РјРёСЂРµ, СЃС‚СЂРѕРёС‚СЊ РіРѕСЂРѕРґР°, РІРµСЃС‚Рё С‚РѕСЂРіРѕРІР»СЋ, Р·Р°РІРѕРµРІС‹РІР°С‚СЊ РѕСЃС‚СЂРѕРІР°.">
+		<title>РРєР°СЂРёР°Рј - Р‘РµСЃРїР»Р°С‚РЅР°СЏ Р±СЂР°СѓР·РµСЂРЅР°СЏ РёРіСЂР°</title>
                 <link href="/start.css" rel="stylesheet" type="text/css" media="screen">
     </head>
     <body>
@@ -15,10 +15,10 @@
             <div id="main">
                 <div id="wrapper">
                     <div id="links">
-                        <a href="/" title="Ко входу">Вход</a>
-                        <a href="/main/register/" title="Регистрация!">Регистрация</a>
-                        <a href="/main/tour/" title="Небольшой тур по миру Ikariam">Тур по игре</a>
-                        <a href="/forum/" target="_blank" title="На форум">Форум</a>
+                        <a href="/" title="РљРѕ РІС…РѕРґСѓ">Р’С…РѕРґ</a>
+                        <a href="/main/register/" title="Р РµРіРёСЃС‚СЂР°С†РёСЏ!">Р РµРіРёСЃС‚СЂР°С†РёСЏ</a>
+                        <a href="/main/tour/" title="РќРµР±РѕР»СЊС€РѕР№ С‚СѓСЂ РїРѕ РјРёСЂСѓ РРєР°СЂРёР°Рј">РўСѓСЂ РїРѕ РёРіСЂРµ</a>
+                        <a href="/forum/" target="_blank" title="РќР° С„РѕСЂСѓРј">Р¤РѕСЂСѓРј</a>
                     </div>
                 </div>
                 <div id="text">
@@ -27,7 +27,7 @@
                 </div>
             </div>
             <div id="footer"></div>
-            <div id="footer2">© 2010 by Nexus.</div>
+            <div id="footer2">В© 2010 by Nexus.</div>
         </div>
     </body>
 </html>
