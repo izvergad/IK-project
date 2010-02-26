@@ -12,6 +12,7 @@ class View_Model extends Model
     {
         switch($location)
         {
+            case 'buildingGround': $this->buildingGround(); break;
             default: $this->city(); break;
         }
     }
@@ -19,6 +20,11 @@ class View_Model extends Model
     function city()
     {
         $this->load->view('view_city');
+    }
+
+    function buildingGround()
+    {
+        $this->load->view('view_buildingGround');
     }
 }
 ?>

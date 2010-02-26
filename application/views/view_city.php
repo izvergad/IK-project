@@ -1,4 +1,4 @@
-<div id="mainview" class="phase<?=$this->Town_Model->level?>">
+<div id="mainview" class="phase<?=$this->Town_Model->level?>"> 
     <ul id="locations">
 <?
 for ($i = 0; $i <= 14; $i++)

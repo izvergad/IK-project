@@ -4,6 +4,7 @@ class User_Model extends Model
 {
     var $gold = 0;
     var $ambrosy = 0;
+    var $tutorial = 0;
     
     function User_Model()
     {
@@ -55,6 +56,7 @@ class User_Model extends Model
                 $user = $query->row();
                 $this->gold = $user->gold;
                 $this->ambrosy = $user->ambrosy;
+                $this->tutorial = $user->tutorial;
             }
         }
     }

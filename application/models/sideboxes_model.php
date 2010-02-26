@@ -12,6 +12,7 @@ class SideBoxes_Model extends Model
     {
         switch($location)
         {
+            case 'buildingGround': break;
             default: $this->city(); break;
         }
     }
@@ -20,5 +21,6 @@ class SideBoxes_Model extends Model
     {
         $this->load->view('sb_city');
     }
+
 }
 ?>

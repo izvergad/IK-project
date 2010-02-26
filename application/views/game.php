@@ -7,9 +7,9 @@
         <meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков заключается в управлении народом в древнем мире, основывая города, ведя торговлю и завоевывая другие острова.">
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
         <title>Икариам</title>
-	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link href="<?=$this->config->item('style_url')?>skin/ik_common_0.3.2.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="<?=$this->config->item('style_url')?>skin/ik_city_0.3.2.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="<?=$this->config->item('style_url')?>skin/ik_<?=$location?>_0.3.2.css" rel="stylesheet" type="text/css" media="screen">
 
 
 		<script type="text/javascript" src="<?=$this->config->item('style_url')?>js/complete-0.3.2.js"></script>
@@ -50,17 +50,17 @@
 						},
 				currentCity : {
 						resources : {
-								wood: <?=floor($this->Town_Model->resources['wood'])?>,
-								wine: <?=floor($this->Town_Model->resources['wine'])?>,
-								marble: <?=floor($this->Town_Model->resources['marble'])?>,
-								crystal: <?=floor($this->Town_Model->resources['crystal'])?>,
-								sulfur: <?=floor($this->Town_Model->resources['sulfur'])?>						},
+								wood: <?=$this->Town_Model->resources['wood']?>,
+								wine: <?=$this->Town_Model->resources['wine']?>,
+								marble: <?=$this->Town_Model->resources['marble']?>,
+								crystal: <?=$this->Town_Model->resources['crystal']?>,
+								sulfur: <?=$this->Town_Model->resources['sulfur']?>						},
 						maxCapacity : {
-								wood: <?=floor($this->Town_Model->capacity['wood'])?>,
-								wine: <?=floor($this->Town_Model->capacity['wine'])?>,
-								marble: <?=floor($this->Town_Model->capacity['marble'])?>,
-								crystal: <?=floor($this->Town_Model->capacity['crystal'])?>,
-								sulfur: <?=floor($this->Town_Model->capacity['sulfur'])?>						}
+								wood: <?=$this->Town_Model->capacity['wood']?>,
+								wine: <?=$this->Town_Model->capacity['wine']?>,
+								marble: <?=$this->Town_Model->capacity['marble']?>,
+								crystal: <?=$this->Town_Model->capacity['crystal']?>,
+								sulfur: <?=$this->Town_Model->capacity['sulfur']?>						}
 				},
 				view : {
 						get : function() {
@@ -154,7 +154,7 @@
 		</script>
 	</head>
 
-	<body id="city">
+	<body id="<?=$location?>">
             <div id="container">
                 <div id="container2">
                     <div id="header">
@@ -166,6 +166,7 @@
                     <?=$this->SideBoxes_Model->show($location)?>
                     <?=$this->View_Model->show($location)?>
 
+                    <?=$this->Tutorials_Model->show($location)?>
 <div id="cityNav">
     <form id="changeCityForm" action="index.php" method="POST">
         <fieldset style="display: none;">
@@ -210,14 +211,14 @@
                 <span class="textLabel">Торговые корабли:</span><span>0 (0)</span>
             </a>
         </li>
-	<li class="ambrosia" title="<?=floor($this->User_Model->ambrosy)?> Амброзия">
+	<li class="ambrosia" title="<?=number_format($this->User_Model->ambrosy)?> Амброзия">
             <a href="/game/premium/">
-                <span class="textLabel">Амброзия:</span><span><?=floor($this->User_Model->ambrosy)?></span>
+                <span class="textLabel">Амброзия:</span><span><?=number_format($this->User_Model->ambrosy)?></span>
             </a>
         </li>
-	<li class="gold" title="<?=floor($this->User_Model->gold)?> Золото">
+	<li class="gold" title="<?=number_format($this->User_Model->gold)?> Золото">
             <a href="/game/finances/">
-                <span class="textLabel">Золото:</span><span id="value_gold"><?=floor($this->User_Model->gold)?></span>
+                <span class="textLabel">Золото:</span><span id="value_gold"><?=number_format($this->User_Model->gold)?></span>
             </a>
         </li>
     </ul>
@@ -226,38 +227,38 @@
 <div id="cityResources"><h3>Ресурсы города</h3>
     <ul class="resources">
         <li class="population" title="Население">
-            <span class="textLabel">Население: </span><span id="value_inhabitants" style="display: block; width: 80px;"><?=floor($this->Town_Model->peoples['free'])?> (<?=floor($this->Town_Model->peoples['all'])?>)</span>
+            <span class="textLabel">Население: </span><span id="value_inhabitants" style="display: block; width: 80px;"><?=number_format($this->Town_Model->peoples['free'])?> (<?=floor($this->Town_Model->peoples['all'])?>)</span>
 	</li>
 	<li class="actions" title="Баллы действия">
-            <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=floor($this->Town_Model->actions)?></span>
+            <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=number_format($this->Town_Model->actions)?></span>
 	</li>
 	<li class="wood">
-            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class=""><?=floor($this->Town_Model->resources['wood'])?></span>
+            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class=""><?=number_format($this->Town_Model->resources['wood'])?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Стройматериалы:</span><?=floor($this->Town_Model->capacity['wood'])?>
+                <span class="textLabel">Вместимость Стройматериалы:</span><?=number_format($this->Town_Model->capacity['wood'])?>
             </div>
 	</li>
 	<li class="wine disabled">
-            <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=floor($this->Town_Model->resources['wine'])?></span>
+            <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=number_format($this->Town_Model->resources['wine'])?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Виноград:</span><?=floor($this->Town_Model->capacity['wine'])?>
+                <span class="textLabel">Вместимость Виноград:</span><?=number_format($this->Town_Model->capacity['wine'])?>
             </div>
 	</li>
 	<li class="marble disabled">
-            <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=floor($this->Town_Model->resources['marble'])?></span>
-            <div class="tooltip"><span class="textLabel">Вместимость Мрамор: </span><?=floor($this->Town_Model->capacity['marble'])?>
+            <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=number_format($this->Town_Model->resources['marble'])?></span>
+            <div class="tooltip"><span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Town_Model->capacity['marble'])?>
             </div>
 	</li>
 	<li class="glass disabled">
-            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=floor($this->Town_Model->resources['crystal'])?></span>
+            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=number_format($this->Town_Model->resources['crystal'])?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Хрусталь: </span><?=floor($this->Town_Model->capacity['crystal'])?>
+                <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Town_Model->capacity['crystal'])?>
             </div>
 	</li>
 	<li class="sulfur disabled">
-            <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=floor($this->Town_Model->resources['sulfur'])?></span>
+            <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=number_format($this->Town_Model->resources['sulfur'])?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Сера: </span><?=floor($this->Town_Model->capacity['sulfur'])?>
+                <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Town_Model->capacity['sulfur'])?>
             </div>
         </li>
     </ul>
@@ -306,7 +307,7 @@
 <!-- TODO Обучение -->
 
 <div id="footer">
-    <span class="copyright">&copy; 2010 by Nexus.</span>
+    <span class="copyright">&copy; 2010 by Nexus. Страница сгенерирована за {elapsed_time} сек.</span>
 </div>
 
 <div id="conExtraDiv1"><span></span></div>
@@ -330,7 +331,7 @@
                     </li>
                     <li class="premium">
                         <a href="/game/premium/" title="Икариам ПЛЮС">
-                            <span class="textLabel">Икариам ПЛЮС (<?=floor($this->User_Model->ambrosy)?>)</span>
+                            <span class="textLabel">Икариам ПЛЮС (<?=number_format($this->User_Model->ambrosy)?>)</span>
                         </a>
                     </li>
                     <li class="highscore">
@@ -359,8 +360,8 @@
                         </a>
                     </li>
                     <li class="version">
-                        <a href="/game/version/" title="Version">
-                            <span class="textLabel">v.0.3.2</span>
+                        <a href="/game/version/" title="Версия игры">
+                            <span class="textLabel">v.0.0.1</span>
                         </a>
                     </li>
                     <li class="serverTime">

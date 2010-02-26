@@ -10,6 +10,10 @@ class Game extends Controller
         {
             $this->User_Model->Error('Ваша сессия истекла, войдите снова!');
         }
+        else
+        {
+            $this->load->model('Update_Model');
+        }
     }
 
     function logout()
@@ -20,18 +24,23 @@ class Game extends Controller
     
     function index()
     {
-        $location = 'city';
-        $bread = $this->load->view('bread_'.$location, null, true);
-        $this->load->view('game',array('location' => $location, 'bread' => $bread));
+        $this->show('city');
     }
 
     function city()
     {
         $this->index();
     }
-    
-    function show()
+
+    function buildingGround()
     {
+        $this->show('buildingGround');
+    }
+
+    function show($location)
+    {
+        $bread = $this->load->view('bread_'.$location, null, true);
+        $this->load->view('game',array('location' => $location, 'bread' => $bread));
         
     }
 }
