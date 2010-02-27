@@ -8,11 +8,11 @@ class View_Model extends Model
         parent::Model();
     }
 
-    function show($location = 'city')
+    function show($location = 'city', $position)
     {
         switch($location)
         {
-            case 'buildingGround': $this->buildingGround(); break;
+            case 'buildingGround': $this->buildingGround($position); break;
             default: $this->city(); break;
         }
     }
@@ -22,9 +22,9 @@ class View_Model extends Model
         $this->load->view('view_city');
     }
 
-    function buildingGround()
+    function buildingGround($position)
     {
-        $this->load->view('view_buildingGround');
+        $this->load->view('view_buildingGround', array('position' => $position));
     }
 }
 ?>

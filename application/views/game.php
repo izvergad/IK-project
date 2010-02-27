@@ -164,9 +164,8 @@
                     <div id="avatarNotes"></div>
                     <?=$bread?>
                     <?=$this->SideBoxes_Model->show($location)?>
-                    <?=$this->View_Model->show($location)?>
+                    <?=$this->View_Model->show($location, $position)?>
 
-                    <?=$this->Tutorials_Model->show($location)?>
 <div id="cityNav">
     <form id="changeCityForm" action="index.php" method="POST">
         <fieldset style="display: none;">
@@ -305,6 +304,7 @@
 </div>
 
 <!-- TODO Обучение -->
+<?=$this->Tutorials_Model->show($location)?>
 
 <div id="footer">
     <span class="copyright">&copy; 2010 by Nexus. Страница сгенерирована за {elapsed_time} сек.</span>
@@ -586,5 +586,3 @@ function getCookie ( check_name, def_val ) {
 
         </body>
 </html>
-
- 

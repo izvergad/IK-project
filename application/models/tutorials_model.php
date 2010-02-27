@@ -13,6 +13,7 @@ class Tutorials_Model extends Model
         switch($this->User_Model->tutorial)
         {
             case 0: $this->load->view('tut0',array('location' => $location)); break;
+            case 1: $this->load->view('tut1',array('location' => $location)); break;
         }
     }
     

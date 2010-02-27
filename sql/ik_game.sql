@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50024
 File Encoding         : 65001
 
-Date: 2010-02-26 15:08:43
+Date: 2010-02-27 10:12:24
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -47,6 +47,8 @@ CREATE TABLE `alpha_towns` (
   `crystal` varchar(255) character set utf8 NOT NULL default '0',
   `sulfur` varchar(255) character set utf8 NOT NULL default '0',
   `buildings` varchar(255) collate latin1_general_ci NOT NULL default '1,1;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0',
+  `build_line` varchar(255) collate latin1_general_ci NOT NULL,
+  `build_start` int(11) NOT NULL default '0',
   `peoples` varchar(255) character set utf8 NOT NULL default '40',
   `actions` varchar(255) character set utf8 NOT NULL default '3',
   PRIMARY KEY  (`id`,`user`)
@@ -55,7 +57,7 @@ CREATE TABLE `alpha_towns` (
 -- ----------------------------
 -- Records of alpha_towns
 -- ----------------------------
-INSERT INTO `alpha_towns` VALUES ('1', '1', '1', 'Аместрис', '160', '0', '0', '0', '0', '1,1;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0', '40', '3');
+INSERT INTO `alpha_towns` VALUES ('1', '1', '1', 'Аместрис', '1600', '0', '0', '0', '0', '1,1;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0;0,0', '', '0', '40', '3');
 
 -- ----------------------------
 -- Table structure for `alpha_users`
@@ -76,4 +78,4 @@ CREATE TABLE `alpha_users` (
 -- ----------------------------
 -- Records of alpha_users
 -- ----------------------------
-INSERT INTO `alpha_users` VALUES ('1', 'Player', '12345', '1267185042', '1', '2550', '25', '1');
+INSERT INTO `alpha_users` VALUES ('1', 'Player', '12345', '1267254618', '1', '2550', '25', '1');

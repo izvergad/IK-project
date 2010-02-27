@@ -15,6 +15,9 @@ class Town_Model extends Model
     var $trade_resource = 0;
     var $peoples = array();
     var $actions = 0;
+    var $build_line = array();
+    var $build_text = '';
+    var $build_start = 0;
 
     function Town_Model()
     {
@@ -45,7 +48,7 @@ class Town_Model extends Model
             $this->capacity['sulfur'] = $this->config->item('standart_capacity');
             // Название города
             $this->name = $town->name;
-            // Загружаем постройки
+            // Загружаем готовые постройки
             $buildings_data_1 = explode(";", $town->buildings);
             for ($i = 0; $i <= 14; $i++)
             {
@@ -54,6 +57,10 @@ class Town_Model extends Model
                 $this->buildings[$i]['level'] = $temp_data[1];
             }
             $this->level = $this->buildings[0]['level'];
+            // Загружаем список текущих построек
+            $this->load_build_line($town->build_line);
+
+            $this->build_start = $town->build_start;
             // Население
             $this->peoples['all'] = $town->peoples;
             $this->peoples['free'] = $town->peoples;
@@ -68,6 +75,52 @@ class Town_Model extends Model
             $this->island_name = $island->name;
         }
     }
+
+    function load_build_line($text)
+    {
+            $this->build_text = $text;
+            $this->build_line = array();
+            if ($text != '')
+            {
+                $build_line = explode(";", $text);
+                for ($i = 0; $i < count($build_line); $i++)
+                {
+                    if ($build_line[$i] != '')
+                    {
+                        $temp_data = explode(",", $build_line[$i]);
+                        $this->build_line[$i] = array();
+                        $this->build_line[$i]['position'] = $temp_data[0];
+                        $this->build_line[$i]['type'] = $temp_data[1];
+                    }
+                }
+            }   
+    }
+
+    function get_buildings_text()
+    {
+        $return = '';
+            for ($i = 0; $i <= 14; $i++)
+            {
+                $return .= $this->buildings[$i]['type'].','.$this->buildings[$i]['level'];
+                if ($i < 14) { $return .= ';'; }
+            }
+            return $return;
+    }
+
+    /*function get_build_line_text()
+    {
+        $return = '';
+        if ($this->build_text != '')
+        {
+            for ($i = 1; $i <= count($this->build_line); $i++)
+            {
+                $return .= $this->build_line[$i-1]['position'].','.$this->build_line[$i-1]['type'];
+                if ($i < count($this->build_line)){ $return .= ';'; }
+            }
+        }
+        return $return;
+    }*/
+    
 
 }
 ?>

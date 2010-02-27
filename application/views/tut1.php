@@ -1,5 +1,6 @@
+<?if ($location == 'city'){$class = 'workerAdvisor';}else{$class = 'invisible';}?>
 <style>
-#tutorialAdvisor { 
+#tutorialAdvisor {
     position: absolute;
     top: 185px;
     left: 260px;
@@ -101,17 +102,17 @@
 
 <div id="arrow">
 </div>
+
 <div id="tutorialAdvisor">
-    <div id="advisorImage" class="allAdvisors"><a href="javascript:;" id="tutorialAdvisorLink" title="Обучение"></a></div>
+    <div id="advisorImage" class="<?=$class?>"><a href="javascript:;" id="tutorialAdvisorLink" title="Обучение"></a></div>
 </div>
 <div id="tutorialMessage">
     <h3>Обучение</h3>
     <a href="javascript:;" id="tutorialAdvisorCloseLink"></a>
     <div class="content">
-    <p>Добро пожаловать в островное королевство,<br />
-Мы твои советники и мы расскажем тебе обо всех важных событиях, связанных с городами, военными действиями, исследованиями и дипломатией.<br />
+    <p>Привет,<br />
 <br />
-Также мы появимся в начале игры и расскажем о первых важных шагах в игре. Если вам нужна наша помощь, нажмите на символах в верхней левой части игрового окна. </p>
+Я Пелеус, начальник лесопилки. Наши прилежные рабочие трудятся здесь для создания строительных материалов для строений и кораблей. Строительные материалы также нужны для тренировки наших солдат. Отправляйся на лесопилку через кнопку `Остров` и назначь сколько твоих жителей будет работать там. Для возврата в город нажми кнопку `Город`.</p>
 
         <div class="centerButton"><a href="javascript:;" id="okButton" class="button">ОК</a></div>
     <div class="footer"></div>
@@ -121,12 +122,13 @@
 <script language="javascript">
 
 var counter = 0;
-var startY = 0;
-var startX = 0;
+var startY = 70;
+var startX = 400;
 
-var defaultClass = "allAdvisors" ;
+var defaultClass = "<?=$class?>" ;
+
 Dom.get("advisorImage").onmouseover = function() {
-    Dom.get("advisorImage").className = "allAdvisors lighten";
+    Dom.get("advisorImage").className = "workerAdvisor lighten";
 };
 Dom.get("advisorImage").onmouseout = function() {
     Dom.get("advisorImage").className = defaultClass;
@@ -154,8 +156,8 @@ function Tutorial() {
         Dom.get("tutorialAdvisorLink").onclick = function() {
             that.showMessage();
             that.goToNextState();
-            defaultClass = "allAdvisors";
-            Dom.get("advisorImage").className = "allAdvisors";
+            defaultClass = "workerAdvisor";
+            Dom.get("advisorImage").className = "workerAdvisor";
         }
     }
 
@@ -211,9 +213,9 @@ function Tutorial() {
             console.log(i);
             if (links[i].onclick != '') {
                 links[i].onmouseup = function() {
-                    if (startX != 0) {
-                        startY = 0;
-                        startX = 0;
+                    if (startX != 400) {
+                        startY = 70;
+                        startX = 400;
                         that.animateArrow();
                     }
                 }
@@ -229,14 +231,11 @@ function Tutorial() {
 
 }
 
-
 Event.onDOMReady(function() {
-	//Javascript: var MyTutorial = new Tutorial(); MyTutorial.animateArrow();
     var MyTutorial = new Tutorial();
         MyTutorial.registerDefaultBehavior();
-       // MyTutorial.animateArrow();
-    MyTutorial.showMessage();
-MyTutorial.goToNextState();
+    MyTutorial.animateArrow();
+MyTutorial.animateArrow();
 });
 
-</script>
+</script> 

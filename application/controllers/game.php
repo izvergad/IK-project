@@ -24,7 +24,7 @@ class Game extends Controller
     
     function index()
     {
-        $this->show('city');
+        $this->show('city',0);
     }
 
     function city()
@@ -32,16 +32,22 @@ class Game extends Controller
         $this->index();
     }
 
-    function buildingGround()
+    function buildingGround($position)
     {
-        $this->show('buildingGround');
+        if ($position > 0)
+        {
+            $this->show('buildingGround', $position);
+        }
+        else
+        {
+            $this->city();
+        }
     }
 
-    function show($location)
+    function show($location, $position)
     {
         $bread = $this->load->view('bread_'.$location, null, true);
-        $this->load->view('game',array('location' => $location, 'bread' => $bread));
-        
+        $this->load->view('game',array('location' => $location, 'bread' => $bread, 'position' => $position));
     }
 }
 ?>
