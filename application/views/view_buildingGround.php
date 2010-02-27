@@ -9,10 +9,10 @@
         <div class="content">
             <ul id="buildings">
 
-
-<?if ($position >= 1 and $position <= 2){?>
-
-<?$building_id=2?>
+<?for ($i = 2; $i <= 26; $i++){?>
+<?if ($this->Town_Model->already_build[$i] == false){?>
+                
+<?$building_id=$i?>
 <?$cost = $this->Data_Model->building_cost($building_id,0)?>
 
                 <li class="building <?=$this->Data_Model->building_class_by_type($building_id)?>">
@@ -63,6 +63,7 @@
                     </div>
                 </li>
 
+<?}?>
 <?}?>
 
 			

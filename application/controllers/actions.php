@@ -23,7 +23,7 @@ class Actions extends Controller
     {
         $class = $this->Data_Model->building_class_by_type($id);
         // Заглушка build_text пока не будет готова очередь потроек
-        if ($class != 'buildingGround' and $this->Town_Model->build_text == '')
+        if ($class != 'buildingGround' and $this->Town_Model->build_text == '' and $this->Town_Model->buildings[$position]['type'] == 0)
         {
             // Получаем цены
             $cost = $this->Data_Model->building_cost($id, 0);

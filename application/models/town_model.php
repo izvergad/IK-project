@@ -18,6 +18,7 @@ class Town_Model extends Model
     var $build_line = array();
     var $build_text = '';
     var $build_start = 0;
+    var $already_build = array();
 
     function Town_Model()
     {
@@ -48,6 +49,11 @@ class Town_Model extends Model
             $this->capacity['sulfur'] = $this->config->item('standart_capacity');
             // Название города
             $this->name = $town->name;
+            // Заполняем список построенных типов зданий нулями
+            for ($i = 0; $i <= 26; $i++)
+            {
+                $this->already_build[$i] = false;
+            }
             // Загружаем готовые постройки
             $buildings_data_1 = explode(";", $town->buildings);
             for ($i = 0; $i <= 14; $i++)
@@ -55,6 +61,8 @@ class Town_Model extends Model
                 $temp_data = explode(",", $buildings_data_1[$i]);
                 $this->buildings[$i]['type'] = $temp_data[0];
                 $this->buildings[$i]['level'] = $temp_data[1];
+                // Отмечаем что данный тип здания уже построен
+                if ($temp_data[1] > 0){ $this->already_build[$temp_data[0]] = true; }
             }
             $this->level = $this->buildings[0]['level'];
             // Загружаем список текущих построек
@@ -91,6 +99,7 @@ class Town_Model extends Model
                         $this->build_line[$i] = array();
                         $this->build_line[$i]['position'] = $temp_data[0];
                         $this->build_line[$i]['type'] = $temp_data[1];
+                        $this->already_build[$temp_data[1]] = true;
                     }
                 }
             }   
