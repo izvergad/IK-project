@@ -1,5 +1,10 @@
 <?php
 
+    /**
+     * Форматирование времени
+     * @param <int> $seconds
+     * @return <string>
+     */
     function format_time($seconds)
     {
         $days = floor($seconds/86400);
@@ -14,4 +19,5 @@
         return $return;
     }
 
-?>
+/* End of file ikariam_helper.php */
+/* Location: ./system/application/helpers/ikariam_helper.php */

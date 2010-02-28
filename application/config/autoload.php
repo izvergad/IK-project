@@ -108,7 +108,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array('User_Model', 'Town_Model', 'SideBoxes_Model', 'View_Model', 'Data_Model', 'Tutorials_Model');
+$autoload['model'] = array('User_Model', 'Town_Model', 'Data_Model');
 
 
 

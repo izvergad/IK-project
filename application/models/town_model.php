@@ -1,5 +1,7 @@
 <?
-
+/**
+ * Модель города
+ */
 class Town_Model extends Model
 {
     var $id = 0;
@@ -27,6 +29,10 @@ class Town_Model extends Model
         $this->Town_Load($this->session->userdata('town'));
     }
 
+    /**
+     * Загрузка данных города
+     * @param <int> $id
+     */
     function Town_Load($id)
     {
         if ($id > 0)
@@ -84,6 +90,10 @@ class Town_Model extends Model
         }
     }
 
+    /**
+     * Очередь построек
+     * @param <string> $text
+     */
     function load_build_line($text)
     {
             $this->build_text = $text;
@@ -105,6 +115,10 @@ class Town_Model extends Model
             }   
     }
 
+    /**
+     * Все здания города в строке
+     * @return <string>
+     */
     function get_buildings_text()
     {
         $return = '';
@@ -129,7 +143,8 @@ class Town_Model extends Model
         }
         return $return;
     }*/
-    
 
 }
-?>
+
+/* End of file town_model.php */
+/* Location: ./system/application/models/town_model.php */

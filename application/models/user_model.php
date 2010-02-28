@@ -1,11 +1,17 @@
 <?php
-
+/**
+ * модель пользователя
+ */
 class User_Model extends Model
 {
+    var $id = 0;
     var $gold = 0;
     var $ambrosy = 0;
     var $tutorial = 0;
-    
+
+    /**
+     * Инициализация
+     */
     function User_Model()
     {
         // Call the Model constructor
@@ -13,6 +19,9 @@ class User_Model extends Model
         $this->Load_User($this->session->userdata('id'));
     }
 
+    /**
+     * Вход в игру
+     */
     function User_Login()
     {
         if (isset($_POST['name']) & isset($_POST['password']))
@@ -40,12 +49,20 @@ class User_Model extends Model
         }
     }
 
+    /**
+     * Переход на страницу ошибок
+     * @param <string> $error
+     */
     function Error($error)
     {
                 $this->session->set_userdata(array('error' => $error));
                 redirect('/main/error/', 'refresh');
     }
 
+    /**
+     * Загрузка пользователя
+     * @param <int> $id
+     */
     function Load_User($id)
     {
         if ($id > 0)
@@ -54,6 +71,7 @@ class User_Model extends Model
             if ($query->num_rows() > 0)
             {
                 $user = $query->row();
+                $this->id = $user->id;
                 $this->gold = $user->gold;
                 $this->ambrosy = $user->ambrosy;
                 $this->tutorial = $user->tutorial;
@@ -61,4 +79,6 @@ class User_Model extends Model
         }
     }
 }
-?>
+
+/* End of file user_model.php */
+/* Location: ./system/application/models/user_model.php */

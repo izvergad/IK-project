@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Модель управления данными
+ */
 class Data_Model extends Model
 {
 
@@ -9,6 +11,11 @@ class Data_Model extends Model
         parent::Model();
     }
 
+    /**
+     * Имя здания по типу
+     * @param <int> $type
+     * @return <string>
+     */
     function building_name_by_type($type)
     {
         switch($type)
@@ -43,6 +50,11 @@ class Data_Model extends Model
         }
     }
 
+    /**
+     * Описание здания по типу
+     * @param <int> $type
+     * @return <string>
+     */
     function building_desc_by_type($type)
     {
         switch($type)
@@ -76,6 +88,11 @@ class Data_Model extends Model
         }
     }
 
+    /**
+     * Класс здания по типу
+     * @param <int> $type
+     * @return <string>
+     */
     function building_class_by_type($type)
     {
         switch($type)
@@ -110,6 +127,11 @@ class Data_Model extends Model
         }
     }
 
+    /**
+     * Название ресурса по типу
+     * @param <int> $type
+     * @return <string>
+     */
     function resource_name_by_type($type)
     {
         switch($type)
@@ -122,6 +144,11 @@ class Data_Model extends Model
         }
     }
 
+    /**
+     * Количество жителей от уровня
+     * @param <int> $level
+     * @return <int>
+     */
     function peoples_by_level($level = 1)
     {
         switch($level)
@@ -178,6 +205,12 @@ class Data_Model extends Model
         return ($level > 48) ? 6760 + (($level - 48) * 250) : 60;
     }
 
+    /**
+     * Цены на здания и время построек
+     * @param <int> $id
+     * @param <int> $level
+     * @return <array>
+     */
     function building_cost($id = 1, $level = 0)
     {
         $wood = ''; $wine = ''; $marble = ''; $crystal = ''; $sulfur = ''; $time = ''; $max_level = 0;
@@ -240,4 +273,6 @@ class Data_Model extends Model
     }
     
 }
-?>
+
+/* End of file data_model.php */
+/* Location: ./system/application/models/data_model.php */

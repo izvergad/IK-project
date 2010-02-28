@@ -3,7 +3,7 @@
     <div class="content">
         <ul class="cityinfo">
             <li class="name"><span class="textLabel">Имя: </span><?=$this->Town_Model->name?></li>
-            <li class="citylevel"><span class="textLabel">Размер: </span>1</li>
+            <li class="citylevel"><span class="textLabel">Размер: </span><?=$this->Town_Model->buildings[0]['level']?></li>
             <div class="centerButton">
                 <a href="/game/military/" class="button">Войска в городе</a>
             </div>

@@ -1,8 +1,13 @@
 <?php
-
+/**
+ * Модель обновления
+ */
 class Update_Model extends Model
 {
 
+    /**
+     * Инициализация
+     */
     function Update_Model()
     {
         parent::Model();
@@ -10,6 +15,9 @@ class Update_Model extends Model
         $this->update_user();
     }
 
+    /**
+     * Обновляем пользователя
+     */
     function update_user()
     {
         $this->db->set('last_visit', time());
@@ -18,6 +26,10 @@ class Update_Model extends Model
         $this->db->update($this->session->userdata('universe').'_users');
     }
 
+    /**
+     * Обновляем город
+     * @param <int> $id
+     */
     function update_town($id)
     {
         // Если выбранный город не нужно загружать данные
@@ -64,4 +76,6 @@ class Update_Model extends Model
     }
 
 }
-?>
+
+/* End of file update_model.php */
+/* Location: ./system/application/models/update_model.php */

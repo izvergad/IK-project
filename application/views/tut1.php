@@ -122,8 +122,45 @@
 <script language="javascript">
 
 var counter = 0;
+<?if ($location == 'island'){?>
+<?switch($this->Island_Model->island->type)
+{
+    case 1:
+?>
+var startY = 360;
+var startX = 530;
+<?
+    break;
+    case 2:
+?>
+var startY = 300;
+var startX = 700;
+<?
+    break;
+    case 3:
+?>
+var startY = 470;
+var startX = 680;
+<?
+    break;
+    case 4:
+?>
+var startY = 400;
+var startX = 560;
+<?
+    break;
+    case 5:
+?>
+var startY = 440;
+var startX = 370;
+<?
+    break;
+}?>
+
+<?}else{?>
 var startY = 70;
 var startX = 400;
+<?}?>
 
 var defaultClass = "<?=$class?>" ;
 
@@ -234,6 +271,10 @@ function Tutorial() {
 Event.onDOMReady(function() {
     var MyTutorial = new Tutorial();
         MyTutorial.registerDefaultBehavior();
+<?if($active){?>
+    MyTutorial.showMessage();
+    MyTutorial.goToNextState();
+<?}?>
     MyTutorial.animateArrow();
 MyTutorial.animateArrow();
 });

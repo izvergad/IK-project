@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Контроллер действий
+ */
 class Actions extends Controller
 {
 
@@ -8,10 +10,15 @@ class Actions extends Controller
         parent::Controller();
     }
 
+    /**
+     * Обучение: Переход к следующему обучению
+     * @param <string> $action
+     */
     function tutorials($action)
     {
         switch($action)
         {
+            // следующий этап обучения
             case 'next':
                 $this->User_Model->tutorial = $this->User_Model->tutorial + 1;
                 $this->db->query('UPDATE `'.$this->session->userdata('universe').'_users'.'` SET `tutorial`=`tutorial`+1 WHERE `id`="'.$this->session->userdata('id').'"');
@@ -19,6 +26,12 @@ class Actions extends Controller
         }
     }
 
+    /**
+     * Постройка здания
+     * @param <int> $position
+     * @param <int> $id
+     * @param <bool> $redirect
+     */
     function build($position, $id, $redirect = true)
     {
         $class = $this->Data_Model->building_class_by_type($id);
@@ -70,4 +83,5 @@ class Actions extends Controller
 
 }
 
-?>
+/* End of file actions.php */
+/* Location: ./system/application/controllers/actions.php */

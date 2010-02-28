@@ -12,6 +12,10 @@
 <?for ($i = 2; $i <= 26; $i++){?>
 <?if ($this->Town_Model->already_build[$i] == false){?>
                 
+<?if ($i != 7 and $position == 14){ continue; }?>
+<?if (($i != 4 and $i != 2) and ($position == 1 or $position ==2)){ continue; }?>
+<?if (($i == 4 or $i == 2 or $i == 7) and ($position >2 and $position < 14)){ continue; }?>
+
 <?$building_id=$i?>
 <?$cost = $this->Data_Model->building_cost($building_id,0)?>
 
