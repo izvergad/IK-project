@@ -34,6 +34,7 @@ class Actions extends Controller
     {
         $position = intval($position);
         $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->session->userdata('town'));
         if ($this->Town_Model->buildings[$position] != false){
             $this->build($position, $this->Town_Model->buildings[$position]['type'], $this->Data_Model->building_class_by_type($this->Town_Model->buildings[$position]['type']));
         }
