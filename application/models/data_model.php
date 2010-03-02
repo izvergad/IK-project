@@ -12,6 +12,23 @@ class Data_Model extends Model
     }
 
     /**
+     * Имя шахты по типу
+     * @param <int> $id
+     * @return <string>
+     */
+    function island_building_by_resource($id)
+    {
+        switch($id)
+        {
+            case 1: return 'Виноградники'; break;
+            case 2: return 'Карьер'; break;
+            case 3: return 'Шахта добычи хрусталя'; break;
+            case 4: return 'Выработка серы'; break;
+            default: return 'Лес'; break;
+        }
+    }
+
+    /**
      * Имя здания по типу
      * @param <int> $type
      * @return <string>
@@ -145,6 +162,23 @@ class Data_Model extends Model
     }
 
     /**
+     * Название класса ресурса по типу
+     * @param <int> $type
+     * @return <string>
+     */
+    function resource_class_by_type($type)
+    {
+        switch($type)
+        {
+            case 1: return 'wine'; break;
+            case 2: return 'marble'; break;
+            case 3: return 'crystal'; break;
+            case 4: return 'sulfur'; break;
+            default: return 'wood'; break;
+        }
+    }
+
+    /**
      * Количество жителей от уровня
      * @param <int> $level
      * @return <int>
@@ -203,6 +237,53 @@ class Data_Model extends Model
             case 48: return 6760; break;
         }
         return ($level > 48) ? 6760 + (($level - 48) * 250) : 60;
+    }
+
+    /**
+     * Цены, время на шахты, количество работников
+     * @param <int> $id
+     * @param <int> $level
+     * @return <array>
+     */
+    function island_cost($id = 0, $level = 0)
+    {
+        $wood = ''; $workers = ''; $time = ''; $max_level = 0;
+        switch($id)
+        {
+            case 0:
+                $wood = '0 394 992 1732 2788 3783 5632 8139 10452 13298 18478 23213 29038 39494 49107 66010 81766 101146 134598 154304 205012 270839 311541 411229 506475 665201 767723 1007959 1240496 1526516 1995717 2311042 3020994 3935195 4572136 5624478 7325850 9011590';
+                $workers = '30 38 50 64 80 96 114 134 154 174 196 218 240 264 288 314 340 366 394 420 448 478 506 536 566 598 628 660 692 724 758 790 824 860 894 928 964 1000';
+                $time = '0 1512 2383 3342 4380 5520 6540 8220 9720 11460 13320 15360 17640 20100 22860 25680 29160 32820 36780 41220 46080 51420 57240 63660 70800 78600 86400 93600 104400 115200 129600 144000 158400 176400 194400 212400 234000 259200';
+            break;
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+                $wood = '0 1303 2689 4373 7421 10037 13333 20665 26849 37305 47879 65572 89127 106217 152739 193512 244886 309618 414190 552058 660106 925396 1108885 1471979 1855942 2339735 3096779 3903252 5153666';
+                $workers = '20 32 48 66 88 110 132 158 184 212 240 270 302 332 366 400 434 468 504 542 578 618 656 696 736 776 818 860 904';
+                $time = '0 3024 4740 6660 8760 11100 13620 16440 19500 22920 26640 30660 35100 39300 45720 51720 58320 65640 73680 90000 100800 111600 126000 140400 154800 174360 190800 212400';
+            break;
+        }
+        if ($wood != '')
+        {
+            $wood_array = explode(' ', $wood) ;
+            $return['wood'] = ($wood_array[$level] > 0) ? $wood_array[$level] : 0;
+            $max_level = count($wood_array)-1;
+        }else{$return['wood'] = 0;}
+        if ($workers != '')
+        {
+            $workers_array = explode(' ', $workers) ;
+            $return['workers'] = ($workers_array[$level] > 0) ? $workers_array[$level] : 0;
+            $max_level = count($workers_array)-1;
+        }else{$return['workers'] = 0;}
+        if ($time != '')
+        {
+            $time_array = explode(' ', $time) ;
+            $return['time'] = ($time_array[$level] > 0) ? $time_array[$level] : 0;
+            $max_level = count($time_array)-1;
+        }else{$return['time'] = 0;}
+        $return['max_level'] = $max_level;
+        return $return;
     }
 
     /**
@@ -271,7 +352,66 @@ class Data_Model extends Model
         $return['max_level'] = $max_level;
         return $return;
     }
-    
+
+    /**
+     * Название счастья по количеству
+     * @param <int> $count
+     * @return <string>
+     */
+    function good_name_by_count($count = 0)
+    {
+        if ($count <= -50)
+        {
+            return 'Ярость';
+        }
+        elseif($count > -50 and $count <= -1)
+        {
+            return 'Горе';
+        }
+        elseif($count >= 0 and $count < 50)
+        {
+            return 'Нейтрально';
+        }
+        elseif($count >= 50 and $count < 300)
+        {
+            return 'Счастье';
+        }
+        elseif($count >= 300)
+        {
+            return 'Эйфория';
+        }
+    }
+
+    /**
+     * Класс счастья по количеству
+     * @param <int> $count
+     * @return <string>
+     */
+    function good_class_by_count($count = 0)
+    {
+        if ($count <= -50)
+        {
+            return 'outraged';
+        }
+        elseif($count > -50 and $count <= -1)
+        {
+            return 'sad';
+        }
+        elseif($count >= 0 and $count < 50)
+        {
+            return 'neutral';
+        }
+        elseif($count >= 50 and $count < 300)
+        {
+            return 'happy';
+        }
+        elseif($count >= 300)
+        {
+            return 'ecstatic';
+        }
+    }
+
+
 }
 
 /* End of file data_model.php */

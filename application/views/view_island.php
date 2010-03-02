@@ -63,14 +63,14 @@
 
     <h3>Достопримечательности на острове <?=$this->Island_Model->island->name?></h3>
     <ul id="islandfeatures">
-        <li class="wood level14">
-            <a href="/game/resource/resource/<?=$this->Island_Model->island->id?>/" title="Лес 14">
-                <span class="textLabel">Лес</span>
+        <li class="<?=$this->Data_Model->resource_class_by_type(0)?> level<?=$this->Island_Model->levels[0]?>">
+            <a href="/game/resource/<?=$this->Island_Model->island->id?>/" title="<?=$this->Data_Model->island_building_by_resource(0)?> <?=$this->Island_Model->levels[0]?>">
+                <span class="textLabel"><?=$this->Data_Model->island_building_by_resource(0)?></span>
             </a>
         </li>
-        <li id="tradegood"  class="crystal level14">
-            <a href="/game/noluxury/tradegood/<?=$this->Island_Model->island->id?>/" title="Шахта добычи хрусталя 14">
-                <span class="textLabel">Шахта добычи хрусталя</span>
+        <li id="tradegood"  class="<?=$this->Data_Model->resource_class_by_type($this->Island_Model->island->trade_resource)?> level<?=$this->Island_Model->levels[1]?>">
+            <a href="/game/noluxury/<?=$this->Island_Model->island->id?>/" title="<?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?> <?=$this->Island_Model->levels[1]?>">
+                <span class="textLabel"><?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?></span>
             </a>
         </li>
         <li id="wonder" class="wonder5">

@@ -163,7 +163,7 @@
                     </div>
                     <div id="avatarNotes"></div>
                     <?=$bread?>
-                    <?=$this->SideBoxes_Model->show($location)?>
+                    <?=$this->SideBoxes_Model->show($location, $position)?>
                     <?=$this->View_Model->show($location, $position)?>
 
 <div id="cityNav">
@@ -226,7 +226,7 @@
 <div id="cityResources"><h3>Ресурсы города</h3>
     <ul class="resources">
         <li class="population" title="Население">
-            <span class="textLabel">Население: </span><span id="value_inhabitants" style="display: block; width: 80px;"><?=number_format($this->Town_Model->peoples['free'])?> (<?=floor($this->Town_Model->peoples['all'])?>)</span>
+            <span class="textLabel">Население: </span><span id="value_inhabitants" style="display: block; width: 80px;"><?=floor($this->Town_Model->peoples['free'])?> (<?=floor($this->Town_Model->peoples['all'])?>)</span>
 	</li>
 	<li class="actions" title="Баллы действия">
             <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=number_format($this->Town_Model->actions)?></span>

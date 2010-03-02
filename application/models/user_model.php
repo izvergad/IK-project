@@ -8,6 +8,8 @@ class User_Model extends Model
     var $gold = 0;
     var $ambrosy = 0;
     var $tutorial = 0;
+    var $capital = 0;
+    var $last_visit = 0;
 
     /**
      * Инициализация
@@ -75,6 +77,8 @@ class User_Model extends Model
                 $this->gold = $user->gold;
                 $this->ambrosy = $user->ambrosy;
                 $this->tutorial = $user->tutorial;
+                $this->capital = $user->capital;
+                $this->last_visit = $user->last_visit;
             }
         }
     }

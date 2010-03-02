@@ -14,30 +14,20 @@ class SideBoxes_Model extends Model
      * Выбирает какие функции для каких страниц
      * @param <string> $location
      */
-    function show($location = 'city')
+    function show($location = 'city', $position = 0)
     {
         switch($location)
         {
-            case 'island': $this->island(); break;
             case 'buildingGround': break;
-            default: $this->city(); break;
+            case 'townHall': $this->load->view('sb_update', array('type' => 1, 'position' => $position));
+            case 'city':
+            case 'island': 
+            case 'resource':
+            case 'renameCity':
+                $this->load->view('sb_'.$location);
+            break;
+            default: break;
         }
-    }
-
-    /**
-     * Панель города
-     */
-    function city()
-    {
-        $this->load->view('sb_city');
-    }
-
-    /**
-     * Панель острова
-     */
-    function island()
-    {
-        $this->load->view('sb_island');
     }
 
 }

@@ -1,4 +1,4 @@
-<?if ($location == 'city'){$class = 'workerAdvisor';}else{$class = 'invisible';}?>
+<?if ($location == 'city'){$class = 'cityAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
 
 <style>
@@ -104,7 +104,6 @@
 
 <div id="arrow">
 </div>
-
 <div id="tutorialAdvisor">
     <div id="advisorImage" class="<?=$class?>"><a href="javascript:;" id="tutorialAdvisorLink" title="Обучение"></a></div>
 </div>
@@ -113,8 +112,9 @@
     <a href="javascript:;" id="tutorialAdvisorCloseLink"></a>
     <div class="content">
     <p>Привет,<br />
-<br />
-Я Пелеус, начальник лесопилки. Наши прилежные рабочие трудятся здесь для создания строительных материалов для строений и кораблей. Строительные материалы также нужны для тренировки наших солдат. Отправляйся на лесопилку через кнопку `Остров` и назначь сколько твоих жителей будет работать там. Для возврата в город нажми кнопку `Город`.</p>
+Я Манурон, администратор. Конечно, я всегда знаю, что происходит здесь. Я собираюсь рассказать тебе о всех важных событиях, которые происходят в твоих городах.<br>
+<br>
+Сейчас, я рекомендую тебе <b>построить академию</b>. Чтобы сделать это, нажми на один из красных флажков и выбери там академию.</p>
 
         <div class="centerButton"><a href="javascript:;" id="okButton" class="button">ОК</a></div>
     <div class="footer"></div>
@@ -124,55 +124,21 @@
 <script language="javascript">
 
 var counter = 0;
-<?if ($location == 'island'){?>
-<?switch($this->Island_Model->island->type)
-{
-    case 1:
-?>
-var startY = 360;
-var startX = 530;
-<?
-    break;
-    case 2:
-?>
-var startY = 300;
-var startX = 700;
-<?
-    break;
-    case 3:
-?>
-var startY = 470;
-var startX = 680;
-<?
-    break;
-    case 4:
-?>
-var startY = 400;
-var startX = 560;
-<?
-    break;
-    case 5:
-?>
-var startY = 440;
-var startX = 370;
-<?
-    break;
-}?>
-
-<?}else{?>
-<?if($location == 'resource'){?>
-var startY = 420;
-var startX = 570;
+<?if($location == 'city'){?>
+var startY = 340;
+var startX = 460;
+<?}elseif($location == 'buildingGround'){?>
+var startY = 365;
+var startX = 785;
 <?}else{?>
 var startY = 70;
-var startX = 400;
-<?}?>
+var startX = 480;
 <?}?>
 
 var defaultClass = "<?=$class?>" ;
 
 Dom.get("advisorImage").onmouseover = function() {
-    Dom.get("advisorImage").className = "workerAdvisor lighten";
+    Dom.get("advisorImage").className = "cityAdvisor lighten";
 };
 Dom.get("advisorImage").onmouseout = function() {
     Dom.get("advisorImage").className = defaultClass;
@@ -200,8 +166,8 @@ function Tutorial() {
         Dom.get("tutorialAdvisorLink").onclick = function() {
             that.showMessage();
             that.goToNextState();
-            defaultClass = "workerAdvisor";
-            Dom.get("advisorImage").className = "workerAdvisor";
+            defaultClass = "cityAdvisor";
+            Dom.get("advisorImage").className = "cityAdvisor";
         }
     }
 
@@ -276,14 +242,15 @@ function Tutorial() {
 }
 
 Event.onDOMReady(function() {
+	//Javascript: var MyTutorial = new Tutorial(); MyTutorial.animateArrow();
     var MyTutorial = new Tutorial();
         MyTutorial.registerDefaultBehavior();
-<?if($active){?>
+       // MyTutorial.animateArrow();
+<?if ($active){?>
     MyTutorial.showMessageAndGoToNextState();
     MyTutorial.animateArrowOnClose();
 <?}else{?>
-    MyTutorial.animateArrowOnResView();
-    MyTutorial.animateArrow();
+        MyTutorial.animateArrow();
 <?}?>
 });
 

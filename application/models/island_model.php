@@ -7,7 +7,9 @@ class Island_Model extends Model
     var $towns = array();
     var $users = array();
     var $island = array();
-    
+    var $levels = array();
+    var $resources = array();
+
     function Island_Model()
     {
         // Call the Model constructor
@@ -27,6 +29,9 @@ class Island_Model extends Model
         $this->island = $query->row();
         // Загружаем города
         $this->Load_Towns($this->island->towns);
+        $this->Load_Levels($this->island->resource_levels);
+        $this->Load_Resources($this->island->resource_wood);
+
     }
 
     /**
@@ -54,7 +59,24 @@ class Island_Model extends Model
             }
         }
     }
-    
+
+    function Load_Levels($text)
+    {
+        $levels = explode(" ", $text);
+        for ($i = 0; $i < count($levels); $i++)
+        {
+            $this->levels[$i] = $levels[$i];
+        }
+    }
+
+    function Load_Resources($text)
+    {
+        $resources = explode(" ", $text);
+        for ($i = 0; $i < count($resources); $i++)
+        {
+            $this->resources[$i] = $resources[$i];
+        }
+    }
 }
 
 /* End of file island_model.php */

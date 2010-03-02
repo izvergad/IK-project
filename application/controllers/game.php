@@ -17,6 +17,8 @@ class Game extends Controller
         }
         else
         {
+            $this->load->model('Town_Model');
+            $this->Town_Model->Town_Load($this->session->userdata('town'));
             $this->load->model('Update_Model');
             $this->load->model('Tutorials_Model');
             $this->load->model('SideBoxes_Model');
@@ -78,6 +80,38 @@ class Game extends Controller
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($id);
         $this->show('island', $id);
+    }
+
+    /**
+     * Лес
+     * @param <int> $id
+     */
+    function resource($id = 0)
+    {
+        if ($id == 0)
+        {
+            $id = $this->Town_Model->island;
+        }
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($id);
+        $this->show('resource', $id);
+    }
+
+    /**
+     * Ратуша
+     * @param <int> $position
+     */
+    function townHall($position = 0)
+    {
+        $this->show('townHall', $position);
+    }
+
+    /**
+     * Переименовать город
+     */
+    function renameCity()
+    {
+        $this->show('renameCity', 0);
     }
 
     /**

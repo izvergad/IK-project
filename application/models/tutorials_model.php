@@ -23,6 +23,12 @@ class Tutorials_Model extends Model
             // Посетите лесопилку
             case 1: $this->load->view('tut1',array('location' => $location, 'active' => true)); break;
             case 2: $this->load->view('tut1',array('location' => $location, 'active' => false)); break;
+            // Постройте академию
+            case 3: $this->load->view('tut2',array('location' => $location, 'active' => true)); break;
+            case 4: $this->load->view('tut2',array('location' => $location, 'active' => false)); break;
+            case 6: $this->load->view('tut3',array('location' => $location, 'active' => true)); break;
+            case 7: $this->load->view('tut3',array('location' => $location, 'active' => false)); break;
+
         }
     }
     

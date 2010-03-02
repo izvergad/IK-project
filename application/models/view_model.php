@@ -11,7 +11,7 @@ class View_Model extends Model
     }
 
     /**
-     * Выбирает какие функции для каких страниц
+     * Главное отображение
      * @param <string> $location
      * @param <int> $position
      */
@@ -19,38 +19,24 @@ class View_Model extends Model
     {
         switch($location)
         {
-            case 'buildingGround': $this->buildingGround($position); break;
-            case 'island': $this->island($position); break;
-
-            default: $this->city(); break;
+            case 'city':
+            case 'buildingGround':
+            case 'island':
+            case 'resource':
+            case 'townHall':
+            case 'renameCity':
+                $this->load->view('view_'.$location, array('position' => $position));
+            break;
+            default: $this->not_found(); break;
         }
     }
 
     /**
-     * Страница города
+     * Страница не найдена
      */
-    function city()
+    function not_found()
     {
         $this->load->view('view_city');
-    }
-
-    /**
-     * Страница построек
-     * @param <int> $position
-     */
-    function buildingGround($position)
-    {
-        $this->load->view('view_buildingGround', array('position' => $position));
-    }
-
-    /**
-     * Страница острова
-     * @param <int> $id
-     */
-    function island($id)
-    {
-        //$this->Island->Load_Island($id);
-        $this->load->view('view_island');
     }
 
 }

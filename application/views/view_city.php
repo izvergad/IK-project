@@ -12,7 +12,8 @@ for ($i = 0; $i <= 14; $i++)
 
 <?if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $i){?>
 <?
-    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type']);
+    $level = ($this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']] != false ) ? $this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']]['level'] : 0;
+    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level);
     $end_date = $this->Town_Model->build_start + $cost['time'];
     $ostalos = $end_date - time();
 ?>

@@ -5,6 +5,7 @@
 class Town_Model extends Model
 {
     var $id = 0;
+    var $is_capital = false;
     var $resources = array();
     var $capacity = array();
     var $name = 'Полис';
@@ -12,6 +13,8 @@ class Town_Model extends Model
     var $level = 0;
     var $island = 0;
     var $island_name = 'Остров';
+    var $island_resource_level = 0;
+    var $island_special_level = 0;
     var $x = 0;
     var $y = 0;
     var $trade_resource = 0;
@@ -21,12 +24,16 @@ class Town_Model extends Model
     var $build_text = '';
     var $build_start = 0;
     var $already_build = array();
+    var $garrison_limit = 0;
+    var $minus = array();
+    var $plus = array();
+    var $good = 0;
 
     function Town_Model()
     {
         // Call the Model constructor
         parent::Model();
-        $this->Town_Load($this->session->userdata('town'));
+
     }
 
     /**
@@ -39,7 +46,12 @@ class Town_Model extends Model
         {
             $query = $this->db->get_where($this->session->userdata('universe').'_towns', array('id' => $id));
             $town = $query->row();
+            $query = $this->db->get_where($this->session->userdata('universe').'_users', array('id' => $town->user));
+            $user = $query->row();
+
             $this->id = $town->id;
+
+            $this->is_capital = ($user->capital == $this->id) ? true : false;
             $this->island = $town->island;
             // Загружаем ресурсы
             $this->resources['wood'] = $town->wood;
@@ -76,17 +88,34 @@ class Town_Model extends Model
 
             $this->build_start = $town->build_start;
             // Население
-            $this->peoples['all'] = $town->peoples;
             $this->peoples['free'] = $town->peoples;
+            $this->peoples['workers'] = $town->workers;
+            $this->peoples['special'] = 0;
+            $this->peoples['research'] = 0;
+            $this->peoples['templer'] = 0;
+            $this->peoples['max'] = $this->Data_Model->peoples_by_level($this->level);
+            $this->peoples['all'] = $this->peoples['free'] + $this->peoples['workers'] + $this->peoples['special'] + $this->peoples['research'] + $this->peoples['templer'];
             // очки действий
             $this->actions = $town->actions;
-
+            // Остров
             $query = $this->db->get_where($this->session->userdata('universe').'_islands', array('id' => $this->island));
             $island = $query->row();
             $this->trade_resource = $island->trade_resource;
             $this->x = $island->x;
             $this->y = $island->y;
             $this->island_name = $island->name;
+            $this->island_resource_level = $island->resource_levels;
+            // лимит гарнизона
+            $wall_level = 0;
+            $this->garrison_limit = 250 + (($this->buildings[0]['level'] + $wall_level) * 50);
+            // Счастье
+            $this->minus['peoples'] = $this->peoples['all'];
+            $this->plus['base'] = 196;
+            $this->plus['capital'] = ($this->is_capital) ? 250 : 0;
+            $this->plus['capital'] = 0;
+            $this->plus['research'] = 0;
+            $this->good = ($this->plus['base'] + $this->plus['capital']) - ($this->minus['peoples']);
+            
         }
     }
 
