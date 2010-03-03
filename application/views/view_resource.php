@@ -27,7 +27,7 @@ $max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
                             </div>
                         </div>
                         <div class="gainPerHour">
-                            <span id="valueResource" >+0</span> <span class="timeUnit">в час</span>
+                            <span id="valueResource" >+<?=floor($this->Town_Model->peoples['workers'])?></span> <span class="timeUnit">в час</span>
                         </div>
                     </li>
                     <li class="costs">
