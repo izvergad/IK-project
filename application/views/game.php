@@ -325,7 +325,7 @@
                 <h3>Другие опции</h3>
                 <ul>
                     <li class="help">
-                        <a href="/game/help/" title="Помощь">
+                        <a href="/game/informations/" title="Помощь">
                             <span class="textLabel">Помощь</span>
                         </a>
                     </li>

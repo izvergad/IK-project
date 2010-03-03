@@ -115,6 +115,15 @@ class Game extends Controller
     }
 
     /**
+     * Помощь
+     * @param <int> $id
+     */
+    function informations($id = 6)
+    {
+        $this->show('informations', $id);
+    }
+
+    /**
      * Функция отображения страниц
      * @param <string> $location
      * @param <int> $position
