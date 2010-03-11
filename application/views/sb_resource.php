@@ -5,7 +5,7 @@ $need_wood = $cost['wood'] - $this->Island_Model->resources[0];
 
 <div id="resUpgrade" class="dynamic">
     <h3 class="header">Лесопилка
-        <a class="help" href="/game/informations/10012/" title="Помощь">
+        <a class="help" href="<?=$this->config->item('base_url')?>game/informations/10012/" title="Помощь">
             <span class="textLabel">Нужна помощь?</span>
         </a>
     </h3>
@@ -26,7 +26,7 @@ $need_wood = $cost['wood'] - $this->Island_Model->resources[0];
             </ul>
         </div>
 
-        <form id="donateForm" action="/actions/resources/<?=$this->Island_Model->island->id?>/"  method="POST">
+        <form id="donateForm" action="<?=$this->config->item('base_url')?>actions/resources/<?=$this->Island_Model->island->id?>/"  method="POST">
             <div id="donate">
                 <label for="donateWood">Пожертвовать:</label>
                 <input type="hidden" name="id" value="<?=$this->Island_Model->island->id?>">

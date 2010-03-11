@@ -10,5 +10,5 @@
     <span>&nbsp;&gt;&nbsp;</span>
     <a href="<?=$this->config->item('base_url')?>game/city/" class="city" title="Назад в город"><?=$this->Town_Model->name?></a>
     <span>&nbsp;&gt;&nbsp;</span>
-    <span class="building">Ратуша</span>
+    <span class="building">Академия</span>
 </div>

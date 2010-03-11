@@ -147,7 +147,7 @@ function Tutorial() {
     }
 
     this.goToNextState = function() {
-        ajaxRequest("/actions/tutorials/next/");
+        ajaxRequest("<?=$this->config->item('base_url')?>actions/tutorials/next/");
     }
 
     this.showMessageAndGoToNextState = function() {

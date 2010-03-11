@@ -19,13 +19,14 @@ class View_Model extends Model
     {
         switch($location)
         {
-            case 'city':
+            case 'academy':
             case 'buildingGround':
+            case 'city':
+            case 'informations':
             case 'island':
+            case 'renameCity':
             case 'resource':
             case 'townHall':
-            case 'renameCity':
-            case 'informations':
                 $this->load->view('view_'.$location, array('position' => $position));
             break;
             default: $this->not_found(); break;

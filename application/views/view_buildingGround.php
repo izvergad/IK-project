@@ -22,12 +22,12 @@
                 <li class="building <?=$this->Data_Model->building_class_by_type($building_id)?>">
                     <div class="buildinginfo">
                         <h4><?=$this->Data_Model->building_name_by_type($building_id)?></h4>
-                        <a href="/game/buildingDetail/<?=$building_id?>/"><img src="<?=$this->config->item('style_url')?>skin/buildings/y100/<?=$this->Data_Model->building_class_by_type($building_id)?>.gif" /></a>
+                        <a href="<?=$this->config->item('base_url')?>game/buildingDetail/<?=$building_id?>/"><img src="<?=$this->config->item('style_url')?>skin/buildings/y100/<?=$this->Data_Model->building_class_by_type($building_id)?>.gif" /></a>
                         <p><?=$this->Data_Model->building_desc_by_type($building_id)?></p>
                     </div>
                     <hr>
                     <div class="centerButton">
-                        <a class="button build" style="padding-left:3px;padding-right:3px;" href="/actions/build/<?=$position?>/<?=$building_id?>/">
+                        <a class="button build" style="padding-left:3px;padding-right:3px;" href="<?=$this->config->item('base_url')?>actions/build/<?=$position?>/<?=$building_id?>/">
                             <span class="textLabel">Построить</span>
                         </a>
                     </div>

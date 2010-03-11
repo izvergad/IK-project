@@ -5,10 +5,65 @@
 class Data_Model extends Model
 {
 
+    var $temp_towns_db = array();
+    var $temp_islands_db = array();
+    var $temp_users_db = array();
+
     function Data_Model()
     {
         // Call the Model constructor
         parent::Model();
+    }
+    
+    /**
+     * Получаем город из темпа или из базы
+     */
+    function Load_Town($id = 0)
+    {
+        if ($id > 0)
+        {
+            if (!isset($temp_towns_db[$id]))
+            {
+                $query = $this->db->get_where($this->session->userdata('universe').'_towns', array('id' => $id));
+                $return = $query->row();
+                // Отправляем в темп
+                $this->temp_towns_db[$id] = $return;
+            }
+        }
+    }
+
+    /**
+     * Получаем остров из темпа или из базы
+     */
+    function Load_Island($id = 0)
+    {
+        if ($id > 0)
+        {
+            if (!isset($temp_islands_db[$id]))
+            {
+                $query = $this->db->get_where($this->session->userdata('universe').'_islands', array('id' => $id));
+                $return = $query->row();
+                // Отправляем в темп
+                $this->temp_islands_db[$id] = $return;
+            }
+        }
+    }
+
+    /**
+     * Получаем игрока из темпа или из базы
+     */
+    function Load_User($id = 0)
+    {
+        if ($id > 0)
+        {
+            if (!isset($temp_users_db[$id]))
+            {
+                $query = $this->db->get_where($this->session->userdata('universe').'_users', array('id' => $id));
+                $return = $query->row();
+                // Отправляем в темп
+                $this->temp_users_db[$id] = $return;
+            }
+        }
     }
 
     /**
@@ -102,6 +157,44 @@ class Data_Model extends Model
             case 24: return 'Только самые креплёные вина настаиваются в глубоких подвалах нашего города. И винодел проследит, чтобы вино не просочилось никуда и пробежало только по горлам наших жителей. С каждым уровнем расширения погреба потребление вина в городе снижается на 1%.'; break;
             case 25: return 'Эксперименты пиротехников частенько приводят к воспламенению близлежащих зданий. Но этого не избежать, ведь наши исследователи пробуют новые смеси снова и снова, стараясь оптимизировать расход серы. К счастью, мелкие пожары не очень опасны, поэтому жители, благодарные пиротехникам за красочные фейерверки, зажигающие ночное небо по праздникам, быстро их тушат. Каждый уровень строения уменьшает затраты серы на 1% в городе.'; break;
             case 26: return 'Храм является местом веры, надежды и размышлений. В нем живут священники, которые превозносят Бога, и распространяют его слова по всему острову. Здесь также можно вызвать чудеса, но лишь в том случае, если Бог получит достаточное уважение.'; break;
+        }
+    }
+
+    /**
+     * Тип здания по классу
+     * @param <string> $class
+     * @return <int>
+     */
+    function building_type_by_class($class)
+    {
+        switch($class)
+        {
+            case 'townHall': return 1; break;
+            case 'port': return 2; break;
+            case 'academy': return 3; break;
+            case 'shipyard': return 4; break;
+            case 'barracks': return 5; break;
+            case 'warehouse': return 6; break;
+            case 'wall': return 7; break;
+            case 'tavern': return 8; break;
+            case 'museum': return 9; break;
+            case 'palace': return 10; break;
+            case 'embassy': return 11; break;
+            case 'branchOffice': return 12; break;
+            case 'workshop': return 13; break;
+            case 'safehouse': return 14; break;
+            case 'palaceColony': return 15; break;
+            case 'forester': return 16; break;
+            case 'stonemason': return 17; break;
+            case 'glassblowing': return 18; break;
+            case 'winegrower': return 19; break;
+            case 'alchemist': return 20; break;
+            case 'carpentering': return 21; break;
+            case 'architect': return 22; break;
+            case 'optician': return 23; break;
+            case 'vineyard': return 24; break;
+            case 'fireworker': return 25; break;
+            case 'temple': return 26; break;
         }
     }
 
@@ -237,6 +330,44 @@ class Data_Model extends Model
             case 48: return 6760; break;
         }
         return ($level > 48) ? 6760 + (($level - 48) * 250) : 60;
+    }
+
+    function scientists_by_level($level = 0)
+    {
+        switch($level)
+        {
+            case 0: return 0; break;
+            case 1: return 8; break;
+            case 2: return 12; break;
+            case 3: return 16; break;
+            case 4: return 22; break;
+            case 5: return 28; break;
+            case 6: return 35; break;
+            case 7: return 43; break;
+            case 8: return 51; break;
+            case 9: return 60; break;
+            case 10: return 69; break;
+            case 11: return 79; break;
+            case 12: return 89; break;
+            case 13: return 100; break;
+            case 14: return 111; break;
+            case 15: return 122; break;
+            case 16: return 134; break;
+            case 17: return 146; break;
+            case 18: return 159; break;
+            case 19: return 172; break;
+            case 20: return 185; break;
+            case 21: return 198; break;
+            case 22: return 212; break;
+            case 23: return 227; break;
+            case 24: return 241; break;
+            case 25: return 256; break;
+            case 26: return 271; break;
+            case 27: return 287; break;
+            case 28: return 302; break;
+        }
+        if ($level > 28){ $return = 300 + (($level - 28)*20); return $return;}
+        // На будущее по 20 ученых на каждом уровне
     }
 
     /**
@@ -411,6 +542,30 @@ class Data_Model extends Model
         }
     }
 
+
+    /**
+     * Очередь построек
+     * @param <string> $text
+     */
+    function load_build_line($text)
+    {
+            if ($text != '')
+            {
+                $build_line = explode(";", $text);
+                for ($i = 0; $i < count($build_line); $i++)
+                {
+                    if ($build_line[$i] != '')
+                    {
+                        $temp_data = explode(",", $build_line[$i]);
+                        $build_line[$i] = array();
+                        $build_line[$i]['position'] = $temp_data[0];
+                        $build_line[$i]['type'] = $temp_data[1];
+                        //$already_build[$temp_data[1]] = true;
+                    }
+                }
+                return $build_line;
+            }
+    }
 
 }
 

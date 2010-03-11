@@ -119,7 +119,7 @@
 		selectedCity = -1;
 		function selectCity(cityNum, cityId, viewAble) {
 		    if(selectedCity == cityNum) {
-		        if(viewAble) document.location.href="/game/city/"+cityId;
+		        if(viewAble) document.location.href="<?=$this->config->item('base_url')?>game/city/"+cityId;
 		        else document.location.href="#";
 		    } else {
 		        selectedCity = cityNum;
@@ -167,7 +167,7 @@
                     <?=$this->View_Model->show($location, $position)?>
 
 <div id="cityNav">
-    <form id="changeCityForm" action="index.php" method="POST">
+    <form id="changeCityForm" action="<?=$this->config->item('base_url')?>game/city/" method="POST">
         <fieldset style="display: none;">
             <input type="hidden" name="action" value="header">
             <input type="hidden" name="function" value="changeCurrentCity">
@@ -179,22 +179,26 @@
             <li>
                 <label for="citySelect">Выбранный город:</label>
                 <select	id="citySelect"	class="citySelect smallFont" name="cityId" tabindex="1" onchange="this.form.submit()">
-                    <option class="coords" value="<?=$this->Town_Model->id?>" selected="selected" title="Торговля: <?=$this->Data_Model->resource_name_by_type($this->Town_Model->trade_resource)?>" ><p>[<?=$this->Town_Model->x?>:<?=$this->Town_Model->y?>]&nbsp;<?=$this->Town_Model->name?></p></option>
+<?foreach($this->User_Model->towns as $town){?>
+<?$island = $this->User_Model->islands[$town->island]?>
+<?$selected = ($this->User_Model->town == $town->id) ? 'selected="selected"' : ''?>
+                    <option class="coords" value="<?=$town->id?>" <?=$selected?> title="Торговля: <?=$this->Data_Model->resource_name_by_type($island->trade_resource)?>" ><p>[<?=$island->x?>:<?=$island->y?>]&nbsp;<?=$town->name?></p></option>
+<?}?>
                 </select>
             </li>
     
             <li class="viewWorldmap">
-                <a href="/game/world/" tabindex="4" title="Центрировать выбранный город на карте мира">
+                <a href="<?=$this->config->item('base_url')?>game/world/" tabindex="4" title="Центрировать выбранный город на карте мира">
                     <span class="textLabel">Мир</span>
                 </a>
             </li>
             <li class="viewIsland">
-                <a href="/game/island/" tabindex="5" title="Перейти на островную карту выбранного города">
+                <a href="<?=$this->config->item('base_url')?>game/island/" tabindex="5" title="Перейти на островную карту выбранного города">
                     <span class="textLabel">Остров</span>
                 </a>
             </li>
             <li class="viewCity">
-                <a href="/game/city/" tabindex="6" title="Инспектировать выбранный город">
+                <a href="<?=$this->config->item('base_url')?>game/city/" tabindex="6" title="Инспектировать выбранный город">
                     <span class="textLabel">Город</span>
                 </a>
             </li>
@@ -206,17 +210,17 @@
     <h3>Ресурсы империи</h3>
     <ul>
         <li class="transporters" title="Сухогрузов доступно (всего)">
-            <a href="/game/merchantNavy/">
+            <a href="<?=$this->config->item('base_url')?>game/merchantNavy/">
                 <span class="textLabel">Торговые корабли:</span><span>0 (0)</span>
             </a>
         </li>
 	<li class="ambrosia" title="<?=number_format($this->User_Model->ambrosy)?> Амброзия">
-            <a href="/game/premium/">
+            <a href="<?=$this->config->item('base_url')?>game/premium/">
                 <span class="textLabel">Амброзия:</span><span><?=number_format($this->User_Model->ambrosy)?></span>
             </a>
         </li>
 	<li class="gold" title="<?=number_format($this->User_Model->gold)?> Золото">
-            <a href="/game/finances/">
+            <a href="<?=$this->config->item('base_url')?>game/finances/">
                 <span class="textLabel">Золото:</span><span id="value_gold"><?=number_format($this->User_Model->gold)?></span>
             </a>
         </li>
@@ -269,34 +273,34 @@
     <h3>Обзоры</h3>
     <ul>
         <li id="advCities">
-            <a href="/game/advisors/trade/" title="Обзор городов и финансов" class="normal">
+            <a href="<?=$this->config->item('base_url')?>game/advisors/trade/" title="Обзор городов и финансов" class="normal">
                 <span class="textLabel">Города</span>
             </a>
-            <a class="plusteaser" href="/game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
                 <span class="textLabel">К обзору</span>
             </a>
         </li>
 	<li id="advMilitary">
-            <a href="/game/advisors/military/" title="Военный обзор" class="normal">
+            <a href="<?=$this->config->item('base_url')?>game/advisors/military/" title="Военный обзор" class="normal">
                 <span class="textLabel">Войска</span>
             </a>
-            <a class="plusteaser" href="/game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
                 <span class="textLabel">К обзору</span>
             </a>
         </li>
 	<li id="advResearch">
-            <a href="/game/advisors/research/" title="Научный обзор" class="normal">
+            <a href="<?=$this->config->item('base_url')?>game/advisors/research/" title="Научный обзор" class="normal">
                 <span class="textLabel">Исследования</span>
             </a>
-            <a class="plusteaser" href="/game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
                 <span class="textLabel">К обзору</span>
             </a>
 	</li>
 	<li id="advDiplomacy">
-            <a href="/game/advisors/diplomacy/" title="Обзор сообщений и дипломатии" class="normal">
+            <a href="<?=$this->config->item('base_url')?>game/advisors/diplomacy/" title="Обзор сообщений и дипломатии" class="normal">
                 <span class="textLabel">Дипломатия</span>
             </a>
-            <a class="plusteaser" href="/game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
                 <span class="textLabel">К обзору</span>
             </a>
 	</li>
@@ -304,7 +308,9 @@
 </div>
 
 <!-- TODO Обучение -->
+<?if ($this->Town_Model->is_capital){?>
 <?=$this->Tutorials_Model->show($location)?>
+<?}?>
 
 <div id="footer">
     <span class="copyright">&copy; 2010 by Nexus. Страница сгенерирована за {elapsed_time} сек.</span>
@@ -325,22 +331,22 @@
                 <h3>Другие опции</h3>
                 <ul>
                     <li class="help">
-                        <a href="/game/informations/" title="Помощь">
+                        <a href="<?=$this->config->item('base_url')?>game/informations/" title="Помощь">
                             <span class="textLabel">Помощь</span>
                         </a>
                     </li>
                     <li class="premium">
-                        <a href="/game/premium/" title="Икариам ПЛЮС">
+                        <a href="<?=$this->config->item('base_url')?>game/premium/" title="Икариам ПЛЮС">
                             <span class="textLabel">Икариам ПЛЮС (<?=number_format($this->User_Model->ambrosy)?>)</span>
                         </a>
                     </li>
                     <li class="highscore">
-                        <a href="/game/highscore/" title="Топ-лист игры">
+                        <a href="<?=$this->config->item('base_url')?>game/highscore/" title="Топ-лист игры">
                             <span class="textLabel">Топ-лист</span>
                         </a>
                     </li>
                     <li class="options">
-                        <a href="/game/options/" title="Настройки">
+                        <a href="<?=$this->config->item('base_url')?>game/options/" title="Настройки">
                             <span class="textLabel">Настройки</span>
                         </a>
                     </li>
@@ -355,12 +361,12 @@
                         </a>
                     </li>
                     <li class="logout">
-                        <a href="/game/logout/" title="Выйти из игры">
+                        <a href="<?=$this->config->item('base_url')?>game/logout/" title="Выйти из игры">
                             <span class="textLabel">Выход</span>
                         </a>
                     </li>
                     <li class="version">
-                        <a href="/game/version/" title="Версия игры">
+                        <a href="<?=$this->config->item('base_url')?>game/version/" title="Версия игры">
                             <span class="textLabel">v.0.0.1</span>
                         </a>
                     </li>
@@ -486,7 +492,7 @@ function switchNoteDisplay() {
         noteLayer.style.display = "none";
     } else {
         if (noteLayer.innerHTML == "") { // nur AjaxRequest starten, wenn Notizen noch nicht geladen sind
-            ajaxRequest('/game/avatarNotes/', updateNoteLayer);
+            ajaxRequest('<?=$this->config->item('base_url')?>game/avatarNotes/', updateNoteLayer);
             document.cookie = 'notes=1;';
         }
         noteLayer.style.display = "block";

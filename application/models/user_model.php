@@ -10,6 +10,10 @@ class User_Model extends Model
     var $tutorial = 0;
     var $capital = 0;
     var $last_visit = 0;
+    var $town = 0;
+
+    var $towns = array();
+    var $islands = array();
 
     /**
      * Инициализация
@@ -18,7 +22,6 @@ class User_Model extends Model
     {
         // Call the Model constructor
         parent::Model();
-        $this->Load_User($this->session->userdata('id'));
     }
 
     /**
@@ -39,7 +42,6 @@ class User_Model extends Model
                 $data['universe'] = $_POST['universe'];
                 $data['login'] = $_POST['name'];
                 $data['password'] = $_POST['password'];
-                $data['town'] = $user->town;
 
                 $this->session->set_userdata($data);
                 redirect('/game/', 'refresh');
@@ -69,16 +71,29 @@ class User_Model extends Model
     {
         if ($id > 0)
         {
-            $query = $this->db->get_where($this->session->userdata('universe').'_users', array('id' => $id));
-            if ($query->num_rows() > 0)
+
+            // Загружаем пользователя из Базы
+            $this->Data_Model->Load_User($id);
+            $user =& $this->Data_Model->temp_users_db[$id];
+            if (isset($user))
             {
-                $user = $query->row();
                 $this->id = $user->id;
                 $this->gold = $user->gold;
                 $this->ambrosy = $user->ambrosy;
                 $this->tutorial = $user->tutorial;
                 $this->capital = $user->capital;
                 $this->last_visit = $user->last_visit;
+                $this->town = $user->town;
+                // Загружаем города
+                $query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
+                foreach ($query->result() as $row)
+                {
+                    $this->towns[] = $row;
+                    $this->Data_Model->temp_towns_db[$row->id] = $row;
+                    // Загружаем остров из базы
+                    $this->Data_Model->Load_Island($row->island);
+                    $this->islands[$row->island] =& $this->Data_Model->temp_islands_db[$row->island];
+                }
             }
         }
     }

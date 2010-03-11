@@ -5,7 +5,7 @@
 		<meta name="language" content="ru">
 		<meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков - управлять своим собственным народом в древнем мире, строить города, вести торговлю, завоевывать острова.">
 		<title>Икариам - Бесплатная браузерная игра</title>
-                <link href="/start.css" rel="stylesheet" type="text/css" media="screen">
+                <link href="<?=$this->config->item('base_url')?>start.css" rel="stylesheet" type="text/css" media="screen">
     </head>
     <body>
         <div id="headback">
@@ -15,9 +15,9 @@
             <div id="main">
                 <div id="wrapper">
                     <div id="links">
-                        <a href="/" title="Ко входу">Вход</a>
-                        <a href="/main/register/" title="Регистрация!">Регистрация</a>
-                        <a href="/main/tour/" title="Небольшой тур по миру Икариам">Тур по игре</a>
+                        <a href="<?=$this->config->item('base_url')?>" title="Ко входу">Вход</a>
+                        <a href="<?=$this->config->item('base_url')?>main/register/" title="Регистрация!">Регистрация</a>
+                        <a href="<?=$this->config->item('base_url')?>main/tour/" title="Небольшой тур по миру Икариам">Тур по игре</a>
                         <a href="/forum/" target="_blank" title="На форум">Форум</a>
                     </div>
                 </div>

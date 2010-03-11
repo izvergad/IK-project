@@ -11,29 +11,29 @@ class Town_Model extends Model
     var $name = 'Полис';
     var $buildings = array();
     var $level = 0;
-    var $island = 0;
-    var $island_name = 'Остров';
-    var $island_resource_level = 0;
-    var $island_special_level = 0;
-    var $x = 0;
-    var $y = 0;
-    var $trade_resource = 0;
+    
+    var $island = array();
+
     var $peoples = array();
     var $actions = 0;
+    
     var $build_line = array();
     var $build_text = '';
     var $build_start = 0;
     var $already_build = array();
+
     var $garrison_limit = 0;
+
     var $minus = array();
     var $plus = array();
     var $good = 0;
+
+    var $last_update = 0;
 
     function Town_Model()
     {
         // Call the Model constructor
         parent::Model();
-
     }
 
     /**
@@ -44,15 +44,20 @@ class Town_Model extends Model
     {
         if ($id > 0)
         {
-            $query = $this->db->get_where($this->session->userdata('universe').'_towns', array('id' => $id));
-            $town = $query->row();
-            $query = $this->db->get_where($this->session->userdata('universe').'_users', array('id' => $town->user));
-            $user = $query->row();
-
+            // Загружаем город из Базы
+            $this->Data_Model->Load_Town($id);
+            $town =& $this->Data_Model->temp_towns_db[$id];
+            // Загружаем пользователя из Базы
+            $this->Data_Model->Load_User($town->user);
+            $user =& $this->Data_Model->temp_users_db[$town->user];
+            // Загружаем остров из Базы
+            $this->Data_Model->Load_Island($town->island);
+            $this->island =& $this->Data_Model->temp_islands_db[$town->island];
+            // Заполняем класс данными
             $this->id = $town->id;
-
+            // проверка на столицу
             $this->is_capital = ($user->capital == $this->id) ? true : false;
-            $this->island = $town->island;
+            
             // Загружаем ресурсы
             $this->resources['wood'] = $town->wood;
             $this->resources['wine'] = $town->wine;
@@ -67,24 +72,53 @@ class Town_Model extends Model
             $this->capacity['sulfur'] = $this->config->item('standart_capacity');
             // Название города
             $this->name = $town->name;
+            // Счетчик
+            $this->last_update = $town->last_update;
             // Заполняем список построенных типов зданий нулями
             for ($i = 0; $i <= 26; $i++)
             {
                 $this->already_build[$i] = false;
             }
             // Загружаем готовые постройки
-            $buildings_data_1 = explode(";", $town->buildings);
-            for ($i = 0; $i <= 14; $i++)
-            {
-                $temp_data = explode(",", $buildings_data_1[$i]);
-                $this->buildings[$i]['type'] = $temp_data[0];
-                $this->buildings[$i]['level'] = $temp_data[1];
+                $this->buildings[0]['type'] = $town->pos0_type;
+                $this->buildings[0]['level'] = $town->pos0_level;
+                $this->buildings[1]['type'] = $town->pos1_type;
+                $this->buildings[1]['level'] = $town->pos1_level;
+                $this->buildings[2]['type'] = $town->pos2_type;
+                $this->buildings[2]['level'] = $town->pos2_level;
+                $this->buildings[3]['type'] = $town->pos3_type;
+                $this->buildings[3]['level'] = $town->pos3_level;
+                $this->buildings[4]['type'] = $town->pos4_type;
+                $this->buildings[4]['level'] = $town->pos4_level;
+                $this->buildings[5]['type'] = $town->pos5_type;
+                $this->buildings[5]['level'] = $town->pos5_level;
+                $this->buildings[6]['type'] = $town->pos6_type;
+                $this->buildings[6]['level'] = $town->pos6_level;
+                $this->buildings[7]['type'] = $town->pos7_type;
+                $this->buildings[7]['level'] = $town->pos7_level;
+                $this->buildings[8]['type'] = $town->pos8_type;
+                $this->buildings[8]['level'] = $town->pos8_level;
+                $this->buildings[9]['type'] = $town->pos9_type;
+                $this->buildings[9]['level'] = $town->pos9_level;
+                $this->buildings[10]['type'] = $town->pos10_type;
+                $this->buildings[10]['level'] = $town->pos10_level;
+                $this->buildings[11]['type'] = $town->pos11_type;
+                $this->buildings[11]['level'] = $town->pos11_level;
+                $this->buildings[12]['type'] = $town->pos12_type;
+                $this->buildings[12]['level'] = $town->pos12_level;
+                $this->buildings[13]['type'] = $town->pos13_type;
+                $this->buildings[13]['level'] = $town->pos13_level;
+                $this->buildings[14]['type'] = $town->pos14_type;
+                $this->buildings[14]['level'] = $town->pos14_level;
                 // Отмечаем что данный тип здания уже построен
-                if ($temp_data[1] > 0){ $this->already_build[$temp_data[0]] = true; }
-            }
+                for ($i = 0; $i <= 14; $i++)
+                {
+                    if ($this->buildings[$i]['level'] > 0){ $this->already_build[$this->buildings[$i]['type']] = true; }
+                }
             $this->level = $this->buildings[0]['level'];
             // Загружаем список текущих построек
-            $this->load_build_line($town->build_line);
+            $this->build_text = $town->build_line;
+            $this->build_line = $this->Data_Model->load_build_line($town->build_line);
 
             $this->build_start = $town->build_start;
             // Население
@@ -97,14 +131,6 @@ class Town_Model extends Model
             $this->peoples['all'] = $this->peoples['free'] + $this->peoples['workers'] + $this->peoples['special'] + $this->peoples['research'] + $this->peoples['templer'];
             // очки действий
             $this->actions = $town->actions;
-            // Остров
-            $query = $this->db->get_where($this->session->userdata('universe').'_islands', array('id' => $this->island));
-            $island = $query->row();
-            $this->trade_resource = $island->trade_resource;
-            $this->x = $island->x;
-            $this->y = $island->y;
-            $this->island_name = $island->name;
-            $this->island_resource_level = $island->resource_levels;
             // лимит гарнизона
             $wall_level = 0;
             $this->garrison_limit = 250 + (($this->buildings[0]['level'] + $wall_level) * 50);
@@ -115,48 +141,30 @@ class Town_Model extends Model
             $this->plus['capital'] = 0;
             $this->plus['research'] = 0;
             $this->good = ($this->plus['base'] + $this->plus['capital']) - ($this->minus['peoples']);
-            
+
         }
     }
 
     /**
-     * Очередь построек
-     * @param <string> $text
+     * Счастье города
+     * @param <int> $peoples
+     * @return <int>
      */
-    function load_build_line($text)
+    function get_good($peoples = 0)
     {
-            $this->build_text = $text;
-            $this->build_line = array();
-            if ($text != '')
-            {
-                $build_line = explode(";", $text);
-                for ($i = 0; $i < count($build_line); $i++)
-                {
-                    if ($build_line[$i] != '')
-                    {
-                        $temp_data = explode(",", $build_line[$i]);
-                        $this->build_line[$i] = array();
-                        $this->build_line[$i]['position'] = $temp_data[0];
-                        $this->build_line[$i]['type'] = $temp_data[1];
-                        $this->already_build[$temp_data[1]] = true;
-                    }
-                }
-            }   
+        $good = 196;
+        $good = $good - $peoples;
+        return $good;
     }
 
     /**
-     * Все здания города в строке
-     * @return <string>
+     * Золото в секунду
+     * @param <array> $peoples
+     * @return <float>
      */
-    function get_buildings_text()
+    function add_gold_on_sec($peoples)
     {
-        $return = '';
-            for ($i = 0; $i <= 14; $i++)
-            {
-                $return .= $this->buildings[$i]['type'].','.$this->buildings[$i]['level'];
-                if ($i < 14) { $return .= ';'; }
-            }
-            return $return;
+        return ($peoples['free']*3)/3600;
     }
 
     /*function get_build_line_text()

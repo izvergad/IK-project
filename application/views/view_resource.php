@@ -12,7 +12,7 @@ $max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
 Лесопилка улучшается всеми жителями острова. Чем больше лесопилка, тем больше рабочих Вы можете на ней использовать.</p>      
     </div>
 
-    <form id="setWorkers" action="/actions/workers/resource/<?=$this->Island_Model->island->id?>"  method="POST">
+    <form id="setWorkers" action="<?=$this->config->item('base_url')?>actions/workers/resource/<?=$this->Island_Model->island->id?>"  method="POST">
         <div id="setWorkersBox" class="contentBox">
             <h3 class="header"><span class="textLabel">Назначить рабочих</span></h3>
             <div class="content">

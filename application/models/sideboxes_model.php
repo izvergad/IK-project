@@ -20,12 +20,12 @@ class SideBoxes_Model extends Model
         {
             case 'buildingGround': break;
             case 'informations': $this->load->view('sb_'.$location, array('id' => $position)); break;
-            case 'townHall': $this->load->view('sb_update', array('type' => 1, 'position' => $position));
+            case 'academy':
+            case 'townHall': $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $position));
             case 'city':
             case 'island': 
             case 'resource':
             case 'renameCity':
-
                 $this->load->view('sb_'.$location);
             break;
             default: break;

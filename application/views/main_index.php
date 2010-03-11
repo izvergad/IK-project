@@ -1,5 +1,5 @@
-                    <img class="bild1" src="/design/bild1.jpg" width="173" height="85">
-                    <img class="bild2" src="/design/bild2.jpg" width="173" height="85">
+                    <img class="bild1" src="<?=$this->config->item('base_url')?>design/bild1.jpg" width="173" height="85">
+                    <img class="bild2" src="<?=$this->config->item('base_url')?>design/bild2.jpg" width="173" height="85">
                     <h1>Жизнь в древнем мире!</h1>
                     <p class="desc">Ласковый шепот прибоя, белый песчаный берег и яркое солнце!
                         На маленьком острове где-то в Средиземноморье возникает древняя цивилизация.
@@ -7,9 +7,9 @@
                         Добро пожаловать в Икариам
                     </p>
                     <div class="joinbutton">
-                        <a href="/main/register/" title="Давай! Нажми меня!">Играть бесплатно сейчас!</a>
+                        <a href="<?=$this->config->item('base_url')?>main/register/" title="Давай! Нажми меня!">Играть бесплатно сейчас!</a>
                     </div>
-                    <form id="loginForm" name="loginForm" action="/" method="post">
+                    <form id="loginForm" name="loginForm" action="<?=$this->config->item('base_url')?>" method="post">
                         <div id="formz">
                             <table cellpadding="0" cellspacing="0" id="logindata">
                                 <tr>

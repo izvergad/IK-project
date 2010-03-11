@@ -18,7 +18,7 @@
                 <tr>
                     <td width="50%" align="left"></td>
                     <td width="50%" align="right">
-                        <a title="К теме: FAQ - Транспорт, исследования и войска" href="/game/informations/2/">FAQ - Транспорт, исследования и войска<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>
+                        <a title="К теме: FAQ - Транспорт, исследования и войска" href="<?=$this->config->item('base_url')?>game/informations/2/">FAQ - Транспорт, исследования и войска<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>
                     </td>
                 </tr>
             </table>
@@ -47,9 +47,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: FAQ - Строительство, стройматериалы и население" href="/game/informations/1/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Строительство, стройматериалы и население</a></td>
+                    <a title="Назад к теме: FAQ - Строительство, стройматериалы и население" href="<?=$this->config->item('base_url')?>game/informations/1/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Строительство, стройматериалы и население</a></td>
                     <td width="50%" align="right">
-                    <a title="К теме: FAQ - Боевые корабли и бой" href="/game/informations/3/">FAQ - Боевые корабли и бой<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a></td>
+                    <a title="К теме: FAQ - Боевые корабли и бой" href="<?=$this->config->item('base_url')?>game/informations/3/">FAQ - Боевые корабли и бой<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a></td>
                 </tr>
             </table>
         </div>
@@ -65,9 +65,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: FAQ - Транспорт, исследования и войска" href="/game/informations/2/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Транспорт, исследования и войска</a>                    </td>
+                    <a title="Назад к теме: FAQ - Транспорт, исследования и войска" href="<?=$this->config->item('base_url')?>game/informations/2/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Транспорт, исследования и войска</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: FAQ - Города и альянсы" href="/game/informations/4/">FAQ - Города и альянсы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: FAQ - Города и альянсы" href="<?=$this->config->item('base_url')?>game/informations/4/">FAQ - Города и альянсы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -83,9 +83,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: FAQ - Боевые корабли и бой" href="/game/informations/3/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Боевые корабли и бой</a>                    </td>
+                    <a title="Назад к теме: FAQ - Боевые корабли и бой" href="<?=$this->config->item('base_url')?>game/informations/3/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Боевые корабли и бой</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Первые Шаги - Что такое браузерная игра?" href="/game/informations/5/">Первые Шаги - Что такое браузерная игра?<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Первые Шаги - Что такое браузерная игра?" href="<?=$this->config->item('base_url')?>game/informations/5/">Первые Шаги - Что такое браузерная игра?<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -101,9 +101,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: FAQ - Города и альянсы" href="/game/informations/4/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Города и альянсы</a>                    </td>
+                    <a title="Назад к теме: FAQ - Города и альянсы" href="<?=$this->config->item('base_url')?>game/informations/4/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">FAQ - Города и альянсы</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Первые шаги - Ресурсы" href="/game/informations/6/">Первые шаги - Ресурсы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Первые шаги - Ресурсы" href="<?=$this->config->item('base_url')?>game/informations/6/">Первые шаги - Ресурсы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -119,9 +119,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Первые Шаги - Что такое браузерная игра?" href="/game/informations/5/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые Шаги - Что такое браузерная игра?</a>                    </td>
+                    <a title="Назад к теме: Первые Шаги - Что такое браузерная игра?" href="<?=$this->config->item('base_url')?>game/informations/5/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые Шаги - Что такое браузерная игра?</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Первые Шаги - Здания" href="/game/informations/7/">Первые Шаги - Здания<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Первые Шаги - Здания" href="<?=$this->config->item('base_url')?>game/informations/7/">Первые Шаги - Здания<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -137,9 +137,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Первые шаги - Ресурсы" href="/game/informations/6/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые шаги - Ресурсы</a>                    </td>
+                    <a title="Назад к теме: Первые шаги - Ресурсы" href="<?=$this->config->item('base_url')?>game/informations/6/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые шаги - Ресурсы</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Первые Шаги - Исследования" href="/game/informations/8/">Первые Шаги - Исследования<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Первые Шаги - Исследования" href="<?=$this->config->item('base_url')?>game/informations/8/">Первые Шаги - Исследования<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -162,9 +162,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Первые Шаги - Здания" href="/game/informations/7/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые Шаги - Здания</a>                    </td>
+                    <a title="Назад к теме: Первые Шаги - Здания" href="<?=$this->config->item('base_url')?>game/informations/7/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые Шаги - Здания</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Первые шаги - Торговля" href="/game/informations/9/">Первые шаги - Торговля<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Первые шаги - Торговля" href="<?=$this->config->item('base_url')?>game/informations/9/">Первые шаги - Торговля<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -180,9 +180,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Первые Шаги - Исследования" href="/game/informations/8/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые Шаги - Исследования</a>                    </td>
+                    <a title="Назад к теме: Первые Шаги - Исследования" href="<?=$this->config->item('base_url')?>game/informations/8/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые Шаги - Исследования</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Первые шаги - Война" href="/game/informations/10/">Первые шаги - Война<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Первые шаги - Война" href="<?=$this->config->item('base_url')?>game/informations/10/">Первые шаги - Война<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -204,9 +204,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Первые шаги - Торговля" href="/game/informations/9/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые шаги - Торговля</a>                    </td>
+                    <a title="Назад к теме: Первые шаги - Торговля" href="<?=$this->config->item('base_url')?>game/informations/9/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые шаги - Торговля</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Защищающая рука богов" href="/game/informations/11/">Защищающая рука богов<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Защищающая рука богов" href="<?=$this->config->item('base_url')?>game/informations/11/">Защищающая рука богов<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -222,9 +222,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Первые шаги - Война" href="/game/informations/10/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые шаги - Война</a>                    </td>
+                    <a title="Назад к теме: Первые шаги - Война" href="<?=$this->config->item('base_url')?>game/informations/10/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Первые шаги - Война</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Навигация" href="/game/informations/12/">Навигация<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Навигация" href="<?=$this->config->item('base_url')?>game/informations/12/">Навигация<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -240,9 +240,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Защищающая рука богов" href="/game/informations/11/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Защищающая рука богов</a>                    </td>
+                    <a title="Назад к теме: Защищающая рука богов" href="<?=$this->config->item('base_url')?>game/informations/11/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Защищающая рука богов</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Население и довольство жизнью" href="/game/informations/13/">Население и довольство жизнью<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Население и довольство жизнью" href="<?=$this->config->item('base_url')?>game/informations/13/">Население и довольство жизнью<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -258,9 +258,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Навигация" href="/game/informations/12/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Навигация</a>                    </td>
+                    <a title="Назад к теме: Навигация" href="<?=$this->config->item('base_url')?>game/informations/12/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Навигация</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Золото и финансы" href="/game/informations/14/">Золото и финансы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Золото и финансы" href="<?=$this->config->item('base_url')?>game/informations/14/">Золото и финансы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -284,9 +284,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Население и довольство жизнью" href="/game/informations/13/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Население и довольство жизнью</a>                    </td>
+                    <a title="Назад к теме: Население и довольство жизнью" href="<?=$this->config->item('base_url')?>game/informations/13/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Население и довольство жизнью</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Ресурсы - Строительный материал" href="/game/informations/15/">Ресурсы - Строительный материал<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Ресурсы - Строительный материал" href="<?=$this->config->item('base_url')?>game/informations/15/">Ресурсы - Строительный материал<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -309,9 +309,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Золото и финансы" href="/game/informations/14/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Золото и финансы</a>                    </td>
+                    <a title="Назад к теме: Золото и финансы" href="<?=$this->config->item('base_url')?>game/informations/14/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Золото и финансы</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Ресурсы - Добыча" href="/game/informations/16/">Ресурсы - Добыча<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Ресурсы - Добыча" href="<?=$this->config->item('base_url')?>game/informations/16/">Ресурсы - Добыча<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -334,9 +334,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Ресурсы - Строительный материал" href="/game/informations/15/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Ресурсы - Строительный материал</a>                    </td>
+                    <a title="Назад к теме: Ресурсы - Строительный материал" href="<?=$this->config->item('base_url')?>game/informations/15/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Ресурсы - Строительный материал</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Искусство войны - Оккупация" href="/game/informations/17/">Искусство войны - Оккупация<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Искусство войны - Оккупация" href="<?=$this->config->item('base_url')?>game/informations/17/">Искусство войны - Оккупация<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -357,9 +357,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Ресурсы - Добыча" href="/game/informations/16/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Ресурсы - Добыча</a>                    </td>
+                    <a title="Назад к теме: Ресурсы - Добыча" href="<?=$this->config->item('base_url')?>game/informations/16/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Ресурсы - Добыча</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Битва" href="/game/informations/18/">Битва<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Битва" href="<?=$this->config->item('base_url')?>game/informations/18/">Битва<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -375,9 +375,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Искусство войны - Оккупация" href="/game/informations/17/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Искусство войны - Оккупация</a>                    </td>
+                    <a title="Назад к теме: Искусство войны - Оккупация" href="<?=$this->config->item('base_url')?>game/informations/17/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Искусство войны - Оккупация</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Подразделения" href="/game/informations/19/">Подразделения<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Подразделения" href="<?=$this->config->item('base_url')?>game/informations/19/">Подразделения<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -403,9 +403,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Битва" href="/game/informations/18/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Битва</a>                    </td>
+                    <a title="Назад к теме: Битва" href="<?=$this->config->item('base_url')?>game/informations/18/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Битва</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Урон & Потери" href="/game/informations/20/">Урон & Потери<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Урон & Потери" href="<?=$this->config->item('base_url')?>game/informations/20/">Урон & Потери<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -421,9 +421,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Битва" href="/game/informations/19/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Битва</a>                    </td>
+                    <a title="Назад к теме: Битва" href="<?=$this->config->item('base_url')?>game/informations/19/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Битва</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Лечение" href="/game/informations/21/">Лечение<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Лечение" href="<?=$this->config->item('base_url')?>game/informations/21/">Лечение<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -439,9 +439,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Урон & Потери" href="/game/informations/20/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Урон & Потери</a>                    </td>
+                    <a title="Назад к теме: Урон & Потери" href="<?=$this->config->item('base_url')?>game/informations/20/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Урон & Потери</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Поле битвы" href="/game/informations/22/">Поле битвы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Поле битвы" href="<?=$this->config->item('base_url')?>game/informations/22/">Поле битвы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -782,9 +782,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Лечение" href="/game/informations/21/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Лечение</a>                    </td>
+                    <a title="Назад к теме: Лечение" href="<?=$this->config->item('base_url')?>game/informations/21/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Лечение</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Стены" href="/game/informations/23/">Стены<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Стены" href="<?=$this->config->item('base_url')?>game/informations/23/">Стены<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -800,9 +800,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Поле битвы" href="/game/informations/22/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Поле битвы</a>                    </td>
+                    <a title="Назад к теме: Поле битвы" href="<?=$this->config->item('base_url')?>game/informations/22/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Поле битвы</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Мораль" href="/game/informations/24/">Мораль<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Мораль" href="<?=$this->config->item('base_url')?>game/informations/24/">Мораль<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -828,9 +828,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Стены" href="/game/informations/23/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Стены</a>                    </td>
+                    <a title="Назад к теме: Стены" href="<?=$this->config->item('base_url')?>game/informations/23/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Стены</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Подразделы" href="/game/informations/25/">Подразделы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Подразделы" href="<?=$this->config->item('base_url')?>game/informations/25/">Подразделы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -862,9 +862,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Мораль" href="/game/informations/24/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Мораль</a>                    </td>
+                    <a title="Назад к теме: Мораль" href="<?=$this->config->item('base_url')?>game/informations/24/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Мораль</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Морские сражения" href="/game/informations/26/">Морские сражения<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Морские сражения" href="<?=$this->config->item('base_url')?>game/informations/26/">Морские сражения<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -880,9 +880,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Подразделы" href="/game/informations/25/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Подразделы</a>                    </td>
+                    <a title="Назад к теме: Подразделы" href="<?=$this->config->item('base_url')?>game/informations/25/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Подразделы</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Искусство войны" href="/game/informations/27/">Искусство войны<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Искусство войны" href="<?=$this->config->item('base_url')?>game/informations/27/">Искусство войны<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -904,9 +904,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Морские сражения" href="/game/informations/26/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Морские сражения</a>                    </td>
+                    <a title="Назад к теме: Морские сражения" href="<?=$this->config->item('base_url')?>game/informations/26/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Морские сражения</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Типы подразделений" href="/game/informations/28/">Типы подразделений<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Типы подразделений" href="<?=$this->config->item('base_url')?>game/informations/28/">Типы подразделений<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -933,9 +933,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Искусство войны" href="/game/informations/27/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Искусство войны</a>                    </td>
+                    <a title="Назад к теме: Искусство войны" href="<?=$this->config->item('base_url')?>game/informations/27/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Искусство войны</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Поле битвы" href="/game/informations/29/">Поле битвы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Поле битвы" href="<?=$this->config->item('base_url')?>game/informations/29/">Поле битвы<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1021,9 +1021,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Типы подразделений" href="/game/informations/28/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Типы подразделений</a>                    </td>
+                    <a title="Назад к теме: Типы подразделений" href="<?=$this->config->item('base_url')?>game/informations/28/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Типы подразделений</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Урон & Потери" href="/game/informations/30/">Урон & Потери<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Урон & Потери" href="<?=$this->config->item('base_url')?>game/informations/30/">Урон & Потери<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1039,9 +1039,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Поле битвы" href="/game/informations/29/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Поле битвы</a>                    </td>
+                    <a title="Назад к теме: Поле битвы" href="<?=$this->config->item('base_url')?>game/informations/29/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Поле битвы</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Мораль" href="/game/informations/31/">Мораль<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Мораль" href="<?=$this->config->item('base_url')?>game/informations/31/">Мораль<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1057,9 +1057,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Урон & Потери" href="/game/informations/30/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Урон & Потери</a>                    </td>
+                    <a title="Назад к теме: Урон & Потери" href="<?=$this->config->item('base_url')?>game/informations/30/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Урон & Потери</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Советы и указания" href="/game/informations/32/">Советы и указания<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Советы и указания" href="<?=$this->config->item('base_url')?>game/informations/32/">Советы и указания<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1075,9 +1075,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Мораль" href="/game/informations/31/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Мораль</a>                    </td>
+                    <a title="Назад к теме: Мораль" href="<?=$this->config->item('base_url')?>game/informations/31/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Мораль</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Морские сражения" href="/game/informations/33/">Морские сражения<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Морские сражения" href="<?=$this->config->item('base_url')?>game/informations/33/">Морские сражения<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1093,9 +1093,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Советы и указания" href="/game/informations/32/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Советы и указания</a>                    </td>
+                    <a title="Назад к теме: Советы и указания" href="<?=$this->config->item('base_url')?>game/informations/32/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Советы и указания</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Оккупация" href="/game/informations/34/">Оккупация<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Оккупация" href="<?=$this->config->item('base_url')?>game/informations/34/">Оккупация<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1116,9 +1116,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Морские сражения" href="/game/informations/33/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Морские сражения</a>                    </td>
+                    <a title="Назад к теме: Морские сражения" href="<?=$this->config->item('base_url')?>game/informations/33/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Морские сражения</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Шпионаж" href="/game/informations/35/">Шпионаж<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Шпионаж" href="<?=$this->config->item('base_url')?>game/informations/35/">Шпионаж<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1154,9 +1154,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Оккупация" href="/game/informations/34/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Оккупация</a>                    </td>
+                    <a title="Назад к теме: Оккупация" href="<?=$this->config->item('base_url')?>game/informations/34/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Оккупация</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Альянсы и договоры" href="/game/informations/36/">Альянсы и договоры<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Альянсы и договоры" href="<?=$this->config->item('base_url')?>game/informations/36/">Альянсы и договоры<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1172,9 +1172,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Шпионаж" href="/game/informations/35/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Шпионаж</a>                    </td>
+                    <a title="Назад к теме: Шпионаж" href="<?=$this->config->item('base_url')?>game/informations/35/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Шпионаж</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Договор" href="/game/informations/37/">Договор<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Договор" href="<?=$this->config->item('base_url')?>game/informations/37/">Договор<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1190,9 +1190,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Альянсы и договоры" href="/game/informations/36/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы и договоры</a>                    </td>
+                    <a title="Назад к теме: Альянсы и договоры" href="<?=$this->config->item('base_url')?>game/informations/36/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы и договоры</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Альянсы: Создание и воины" href="/game/informations/38/">Альянсы: Создание и воины<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Альянсы: Создание и воины" href="<?=$this->config->item('base_url')?>game/informations/38/">Альянсы: Создание и воины<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1208,9 +1208,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Договор" href="/game/informations/37/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Договор</a>                    </td>
+                    <a title="Назад к теме: Договор" href="<?=$this->config->item('base_url')?>game/informations/37/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Договор</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Альянсы: Предводитель и Советник" href="/game/informations/39/">Альянсы: Предводитель и Советник<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Альянсы: Предводитель и Советник" href="<?=$this->config->item('base_url')?>game/informations/39/">Альянсы: Предводитель и Советник<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1241,9 +1241,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Альянсы: Создание и воины" href="/game/informations/38/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы: Создание и воины</a>                    </td>
+                    <a title="Назад к теме: Альянсы: Создание и воины" href="<?=$this->config->item('base_url')?>game/informations/38/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы: Создание и воины</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Альянсы: Генерал и дипломат" href="/game/informations/40/">Альянсы: Генерал и дипломат<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Альянсы: Генерал и дипломат" href="<?=$this->config->item('base_url')?>game/informations/40/">Альянсы: Генерал и дипломат<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1272,9 +1272,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Альянсы: Предводитель и Советник" href="/game/informations/39/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы: Предводитель и Советник</a>                    </td>
+                    <a title="Назад к теме: Альянсы: Предводитель и Советник" href="<?=$this->config->item('base_url')?>game/informations/39/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы: Предводитель и Советник</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Религия" href="/game/informations/41/">Религия<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Религия" href="<?=$this->config->item('base_url')?>game/informations/41/">Религия<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1290,9 +1290,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Альянсы: Генерал и дипломат" href="/game/informations/40/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы: Генерал и дипломат</a>                    </td>
+                    <a title="Назад к теме: Альянсы: Генерал и дипломат" href="<?=$this->config->item('base_url')?>game/informations/40/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Альянсы: Генерал и дипломат</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Храмы & Священники" href="/game/informations/42/">Храмы & Священники<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Храмы & Священники" href="<?=$this->config->item('base_url')?>game/informations/42/">Храмы & Священники<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1308,9 +1308,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Религия" href="/game/informations/41/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Религия</a>                    </td>
+                    <a title="Назад к теме: Религия" href="<?=$this->config->item('base_url')?>game/informations/41/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Религия</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Алтарь" href="/game/informations/43/">Алтарь<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Алтарь" href="<?=$this->config->item('base_url')?>game/informations/43/">Алтарь<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1326,9 +1326,9 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Храмы & Священники" href="/game/informations/42/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Храмы & Священники</a>                    </td>
+                    <a title="Назад к теме: Храмы & Священники" href="<?=$this->config->item('base_url')?>game/informations/42/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Храмы & Священники</a>                    </td>
                     <td width="50%" align="right">
-                    <a title="К теме: Чудеса" href="/game/informations/44/">Чудеса<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
+                    <a title="К теме: Чудеса" href="<?=$this->config->item('base_url')?>game/informations/44/">Чудеса<img align="middle" name="next" onMouseover="next.src='<?=$this->config->item('style_url')?>skin/layout/next-hover.gif';" onMouseout="next.src='<?=$this->config->item('style_url')?>skin/layout/next.gif';" src="<?=$this->config->item('style_url')?>skin/layout/next.gif"></a>                    </td>
                 </tr>
             </table>
         </div>
@@ -1344,7 +1344,7 @@
             <table cellpadding="0" cellspacing="0" width="100%">
                 <tr>
                     <td width="50%" align="left">
-                    <a title="Назад к теме: Алтарь" href="/game/informations/43/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Алтарь</a>                    </td>
+                    <a title="Назад к теме: Алтарь" href="<?=$this->config->item('base_url')?>game/informations/43/"><img align="middle" name="prev" onMouseover="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev-hover.gif';" onMouseout="prev.src='<?=$this->config->item('style_url')?>skin/layout/prev.gif';" src="<?=$this->config->item('style_url')?>skin/layout/prev.gif">Алтарь</a>                    </td>
                     <td width="50%" align="right">
                                         </td>
                 </tr>

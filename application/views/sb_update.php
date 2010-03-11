@@ -4,7 +4,7 @@ $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$pos
 
 <div id="buildingUpgrade" class="dynamic">
     <h3 class="header">Улучшить
-        <a class="help" href="/game/buildingDetail/0/" title="Помощь">
+        <a class="help" href="<?=$this->config->item('base_url')?>game/buildingDetail/0/" title="Помощь">
             <span class="textLabel">Нужна помощь?</span>
         </a>
     </h3>
@@ -33,10 +33,10 @@ $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$pos
         </ul>
         <ul class="actions">
             <li class="upgrade">
-                <a href="/actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel">Улучшение</span></a>
+                <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel">Улучшение</span></a>
             </li>
             <li class="downgrade">
-                <a href="/actions/demolitions/<?=$position?>/" title="Понизить уровень"><span class="textLabel">Снести</span></a>
+                <a href="<?=$this->config->item('base_url')?>actions/demolitions/<?=$position?>/" title="Понизить уровень"><span class="textLabel">Снести</span></a>
             </li>
 	</ul>
     </div>

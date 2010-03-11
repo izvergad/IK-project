@@ -49,7 +49,7 @@
 						}, 2, " ", "", true, true);
 					tmpCnt.subscribe("finished", function() {
 						setTimeout(function() {
-							location.href="/game/townHall/<?=$position?>/";
+							location.href="<?=$this->config->item('base_url')?>game/townHall/<?=$position?>/";
 							},2000);
 						});
 					});
@@ -62,7 +62,7 @@
     
     <div id="CityOverview" class="contentBox">
         <h3 class="header"><?=$city_type?> "<?=$this->Town_Model->name?>"
-            <a href="/game/renameCity/" title="Переименовать город">Переименовать</a>
+            <a href="<?=$this->config->item('base_url')?>game/renameCity/" title="Переименовать город">Переименовать</a>
         </h3>
 
         <div class="content">

@@ -5,7 +5,7 @@
             <li class="name"><span class="textLabel">Имя: </span><?=$this->Town_Model->name?></li>
             <li class="citylevel"><span class="textLabel">Размер: </span><?=$this->Town_Model->buildings[0]['level']?></li>
             <div class="centerButton">
-                <a href="/game/military/" class="button">Войска в городе</a>
+                <a href="<?=$this->config->item('base_url')?>game/military/" class="button">Войска в городе</a>
             </div>
         </ul>
     </div>
@@ -18,7 +18,7 @@
         <img width="203" height="85" src="<?=$this->config->item('style_url')?>skin/research/area_economy.jpg">
         <p>Чтобы воспользоваться очередью на строительство Вам нужен Премиум-аккаунт.</p>
         <div class="centerButton">
-            <a href="/game/premium/" class="button">Икариам ПЛЮС</a>
+            <a href="<?=$this->config->item('base_url')?>game/premium/" class="button">Икариам ПЛЮС</a>
         </div>
     </div>
     <div class="footer"></div>

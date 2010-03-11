@@ -1,9 +1,9 @@
 <div id="register">
-    	<img class="bild1" src="/design/bild1.jpg" width="173" height="85" />
-        <img class="bild2" src="/design/bild2.jpg" width="173" height="85" />
+    	<img class="bild1" src="<?=$this->config->item('base_url')?>design/bild1.jpg" width="173" height="85" />
+        <img class="bild2" src="<?=$this->config->item('base_url')?>design/bild2.jpg" width="173" height="85" />
         <h1>Добро пожаловать в мир Икариам</h1>
         <p class="desc">Для начала игры необходимо ввести имя, пароль и адрес e-mail и принять Основные Положения.</p>
-        <form name="registerForm" action="#" method="post">
+        <form name="registerForm" action="<?=$this->config->item('base_url')?>" method="post">
             <input type="hidden" name="function" value="createAvatar">
             <p class="desc">
     	        <table cellpadding="3" cellspacing="0" id="logindata">

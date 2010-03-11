@@ -17,9 +17,21 @@ class Game extends Controller
         }
         else
         {
-            $this->load->model('Town_Model');
-            $this->Town_Model->Town_Load($this->session->userdata('town'));
+            // Загружаем пользователя
+            $this->User_Model->Load_User($this->session->userdata('id'));
+            // Смена города
+            if (isset($_POST['cityId']) and isset($this->Data_Model->temp_towns_db[$_POST['cityId']]) and $_POST['cityId'] > 0)
+            {
+                
+                $this->User_Model->town = ($_POST['cityId'] > 0) ? intval($_POST['cityId']) : $this->User_Model->town;
+            }
+
             $this->load->model('Update_Model');
+
+            $this->load->model('Town_Model');
+            $this->Town_Model->Town_Load($this->User_Model->town);
+
+            
             $this->load->model('Tutorials_Model');
             $this->load->model('SideBoxes_Model');
             $this->load->model('View_Model');
@@ -75,7 +87,7 @@ class Game extends Controller
     {
         if ($id == 0)
         {
-            $id = $this->Town_Model->island;
+            $id = $this->Town_Model->island->id;
         }
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($id);
@@ -90,7 +102,7 @@ class Game extends Controller
     {
         if ($id == 0)
         {
-            $id = $this->Town_Model->island;
+            $id = $this->Town_Model->island->id;
         }
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($id);
@@ -121,6 +133,11 @@ class Game extends Controller
     function informations($id = 6)
     {
         $this->show('informations', $id);
+    }
+
+    function academy($position = 0)
+    {
+        $this->show('academy', $position);
     }
 
     /**

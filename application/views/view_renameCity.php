@@ -1,7 +1,7 @@
 <div id="mainview">
     <h1 style="text-align:center">Ратуша</h1>
 
-    <form action="/actions/rename/"  method="POST">
+    <form action="<?=$this->config->item('base_url')?>actions/rename/"  method="POST">
         <div id="renameCity" class="contentBox01h">
             <h3 class="header">Переименовать город</h3>
             <div class="content">

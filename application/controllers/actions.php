@@ -8,6 +8,15 @@ class Actions extends Controller
     function Actions()
     {
         parent::Controller();
+        if (!$this->session->userdata('login'))
+        {
+            $this->User_Model->Error('Ваша сессия истекла, войдите снова!');
+        }
+        else
+        {
+            // Загружаем пользователя
+            $this->User_Model->Load_User($this->session->userdata('id'));
+        }
     }
 
     /**
@@ -34,13 +43,13 @@ class Actions extends Controller
     {
         $position = intval($position);
         $this->load->model('Town_Model');
-        $this->Town_Model->Town_Load($this->session->userdata('town'));
+        $this->Town_Model->Town_Load($this->User_Model->town);
         if ($this->Town_Model->buildings[$position] != false){
             $this->build($position, $this->Town_Model->buildings[$position]['type'], $this->Data_Model->building_class_by_type($this->Town_Model->buildings[$position]['type']));
         }
         else
         {
-            redirect('/game/', 'refresh');
+            redirect($this->config->item('base_url').'game/', 'refresh');
         }
     }
 
@@ -50,7 +59,7 @@ class Actions extends Controller
      */
     function demolition($position)
     {
-        redirect('/game/', 'refresh');
+        redirect($this->config->item('base_url').'game/', 'refresh');
     }
 
     /**
@@ -69,7 +78,7 @@ class Actions extends Controller
         $id = intval($id);
         $position = intval($position);
         $this->load->model('Town_Model');
-        $this->Town_Model->Town_Load($this->session->userdata('town'));
+        $this->Town_Model->Town_Load($this->User_Model->town);
         $class = $this->Data_Model->building_class_by_type($id);
         // Заглушка build_text пока не будет готова очередь потроек
         if ($class != 'buildingGround' and $this->Town_Model->build_text == '' and ($this->Town_Model->buildings[$position]['type'] == 0 or $this->Town_Model->buildings[$position]['type'] == $id))
@@ -115,7 +124,7 @@ class Actions extends Controller
             }
         }
         // Переход на страницу игры
-        if ($redirect) { redirect('/game/'.$redirect.'/', 'refresh'); }
+        if ($redirect) { redirect($this->config->item('base_url').'game/'.$redirect.'/', 'refresh'); }
     }
 
     /**
@@ -124,14 +133,14 @@ class Actions extends Controller
     function rename()
     {
         $this->load->model('Town_Model');
-        $this->Town_Model->Town_Load($this->session->userdata('town'));
+        $this->Town_Model->Town_Load($this->User_Model->town);
         if (isset($_POST['name']) and strip_tags($_POST['name']) != '')
         {
            $this->db->set('name', strip_tags($_POST['name']));
            $this->db->where(array('id' => $this->Town_Model->id));
            $this->db->update($this->session->userdata('universe').'_towns');
         }
-        redirect('/game/townHall/', 'refresh');
+        redirect($this->config->item('base_url').'game/townHall/', 'refresh');
     }
 
     /**
@@ -147,13 +156,11 @@ class Actions extends Controller
             $this->tutorials('next');
         }
         $this->load->model('Town_Model');
-        $this->Town_Model->Town_Load($this->session->userdata('town'));
+        $this->Town_Model->Town_Load($this->User_Model->town);
         if (isset($_POST['rw']) and $this->Town_Model->peoples['free'] >= $_POST['rw'])
         {
-            $query = $this->db->get_where($this->session->userdata('universe').'_islands', array('id' => $this->Town_Model->id));
-            $island = $query->row();
-            $level = intval(substr($island->resource_levels, 0, 1));
-            $cost = $this->Data_Model->island_cost(0, $level-1);
+            $level = $this->Town_Model->island->wood_level;
+            $cost = $this->Data_Model->island_cost(0, $level);
             if ($cost['workers'] >= $_POST['rw'])
             {
                 $all = $this->Town_Model->peoples['workers'] + $this->Town_Model->peoples['free'];
@@ -165,7 +172,7 @@ class Actions extends Controller
                 $this->db->update($this->session->userdata('universe').'_towns');
             }
         }
-        redirect('/game/'.$type.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
     }
 
 }
