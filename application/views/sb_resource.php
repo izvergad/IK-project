@@ -1,6 +1,7 @@
 <?
 $cost = $this->Data_Model->island_cost(0,$this->Island_Model->levels[0]);
 $need_wood = $cost['wood'] - $this->Island_Model->resources[0];
+$need_wood = ($need_wood < 0) ? 0 : $need_wood;
 ?>
 
 <div id="resUpgrade" class="dynamic">

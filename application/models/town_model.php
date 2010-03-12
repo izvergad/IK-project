@@ -28,6 +28,8 @@ class Town_Model extends Model
     var $plus = array();
     var $good = 0;
 
+    var $workers_wood = 0;
+    
     var $last_update = 0;
 
     function Town_Model()
@@ -141,7 +143,8 @@ class Town_Model extends Model
             $this->plus['capital'] = 0;
             $this->plus['research'] = 0;
             $this->good = ($this->plus['base'] + $this->plus['capital']) - ($this->minus['peoples']);
-
+            
+            $this->workers_wood = $town->workers_wood;
         }
     }
 

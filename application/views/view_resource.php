@@ -59,41 +59,35 @@ $max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
             <table cellpadding="0" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>Игрок
-                            <a href="?view=resource&type=resource&id=5135&sortBy=name&order=asc" class="unicode">&uArr;</a>
-                            <a href="?view=resource&type=resource&id=5135&sortBy=name&order=desc" class="unicode">&dArr;</a>
-                        </th>
+                        <th>Игрок                        </th>
                         <th>Город                    </th>
                         <th>Уровень                    </th>
                         <th>Работников                    </th>
-                        <th>Пожертвовано
-                            <a href="?view=resource&type=resource&id=5135&sortBy=donation&order=asc" class="unicode">&uArr;</a>
-                            <a href="?view=resource&type=resource&id=5135&sortBy=donation&order=desc" class="unicode">&dArr;</a>
-                        </th>
+                        <th>Пожертвовано                        </th>
                         <th>Действия</th>
                     </tr>
                 </thead>
                 <tbody>
+                    
+<? for ($i = 0; $i <= 15; $i++){?>
+<?if (isset($this->Island_Model->towns[$i])){?>
+    <?if($this->User_Model->id != $this->Island_Model->users[$i]->id){?>
+    <tr class="alt avatar ">
+    <?}else{?>
+    <tr class="alt own avatar ">
+    <?}?>
+        <td class="ownerName"><?=$this->Island_Model->users[$i]->login?></td>
+        <td class="cityName"><?=$this->Island_Model->towns[$i]->name?></td>
+        <td class="cityLevel">Уровень <?=$this->Island_Model->towns[$i]->pos0_level?></td>
+        <td class="cityWorkers"><?=$this->Island_Model->towns[$i]->workers?> Работников</td>
+        <td class="ownerDonation"><?=$this->Island_Model->towns[$i]->workers_wood?> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" width="25" height="20" alt="Стройматериалы" /></td>
+        <?if($this->User_Model->id != $this->Island_Model->users[$i]->id){?>
+        <td class="actions"><a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->towns[$i]->user?>/"><img src="<?=$this->config->item('style_url')?>skin/interface/icon_message_write.gif" alt="Создать сообщение" /></a></td>
+        <?}?>
+    </tr>
+<?}?>
+<?}?>
 
-<tr class="alt avatar ">
-<td class="ownerName">Glimmer</td>
-<td class="cityName">Тушино</td>
-<td class="cityLevel">Уровень 4</td>
-<td class="cityWorkers">158 Работников</td>
-<td class="ownerDonation">182 <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" width="25" height="20" alt="Стройматериалы" /></td>
-<td class="actions"><a href="/index.php?view=sendIKMessage&receiverId=39195"><img src="<?=$this->config->item('style_url')?>skin/interface/icon_message_write.gif" alt="Создать сообщение" /></a></td>
-</tr>
-
-<tr class="alt own avatar ">
-<td class="ownerName">nexus2009</td>
-<td class="cityName">Полис</td>
-<td class="cityLevel">Уровень 1</td>
-<td class="cityWorkers">0 Работников</td>
-<td class="ownerDonation">0 <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" width="25" height="20" alt="Стройматериалы" /></td>
-<td class="actions">&nbsp;</td>
-</tr>
-
-            
                 </tbody>
             </table>
         </div>

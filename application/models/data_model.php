@@ -567,6 +567,19 @@ class Data_Model extends Model
             }
     }
 
+    function get_position($type = 0, $buildings = array())
+    {
+        $return = 0;
+        for ($i = 0; $i <= 14; $i++)
+        {
+            if ($buildings[$i]['type'] == $type)
+            {
+                $return = $i;
+            }
+        }
+        return $return;
+    }
+
 }
 
 /* End of file data_model.php */

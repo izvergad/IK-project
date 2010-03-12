@@ -17,7 +17,7 @@
         <div class="nextLevel"><span class="textLabel">след. уровень </span><?=$this->Town_Model->buildings[$position]['level']+1?></div>
         <div class="progressBar">
             <div class="bar" id="upgradeProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div>
-            <a class="cancelUpgrade" href="/actions/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
+            <a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>actions/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
         </div>
 
                                 <script type="text/javascript">
@@ -93,8 +93,8 @@
                         <span title="Упадок: ситуация в данный момент">0%</span>
                     </span>
                 </li>
-                <li class="happiness happiness_happy">
-                    <span class="textLabel">Уровень довольства жизнью: </span>счастье
+                <li class="happiness happiness_<?=$this->Data_Model->good_class_by_count($this->Town_Model->good)?>">
+                    <span class="textLabel">Уровень довольства жизнью: </span><?=$this->Data_Model->good_name_by_count($this->Town_Model->good)?>
                 </li>
             </ul>
             

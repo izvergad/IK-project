@@ -20,7 +20,7 @@ for ($i = 0; $i <= 14; $i++)
 
         <li id="position<?=$i?>" class="<?=$this->Data_Model->building_class_by_type($this->Town_Model->build_line[0]['type'])?>">
             <div class="constructionSite"></div>
-            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($this->Town_Model->build_line[0]['type'])?>/" title="<?=$this->Data_Model->building_name_by_type($this->Town_Model->build_line[0]['type'])?> Уровень <?=$level?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($this->Town_Model->build_line[0]['type'])?> Уровень <?=$level?> (В процессе строительства)</span></a>
+            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($this->Town_Model->build_line[0]['type'])?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($this->Town_Model->build_line[0]['type'])?> Уровень <?=$level?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($this->Town_Model->build_line[0]['type'])?> Уровень <?=$level?> (В процессе строительства)</span></a>
             <div class="timetofinish"><span class="before"></span><span class="textLabel">Время до завершения: </span><span id="cityCountdown"><?=format_time($ostalos)?></span><span class="after"></span></div>
 
         <script type="text/javascript">

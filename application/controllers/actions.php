@@ -175,6 +175,29 @@ class Actions extends Controller
         redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
     }
 
+    
+    function resources($id = 0)
+    {
+        $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->User_Model->town);
+        
+        $count = isset($_POST['donation']) ? floor($_POST['donation']) : 0;
+        if($this->Town_Model->resources['wood'] >= $count and $count > 0 and $this->Town_Model->island->id == $id)
+        {
+            $this->Town_Model->workers_wood = $this->Town_Model->workers_wood + $count;
+            $this->Town_Model->resources['wood'] = $this->Town_Model->resources['wood'] - $count;
+            //$this->Island_Model->island->wood_count = $this->Island_Model->island->wood_count + $count;
+            // Обновляем город
+            $this->db->set('workers_wood', $this->Town_Model->workers_wood);
+            $this->db->set('wood', $this->Town_Model->resources['wood']);
+            $this->db->where(array('id' => $this->Town_Model->id));
+            $this->db->update($this->session->userdata('universe').'_towns');
+            // Обновляем остров
+            $this->db->query('UPDATE `'.$this->session->userdata('universe').'_islands'.'` SET `wood_count`=`wood_count`+'.$count.' WHERE `id`="'.$id.'"');
+        }
+        redirect($this->config->item('base_url').'game/resource/'.$id.'/', 'refresh');
+    }
+
 }
 
 /* End of file actions.php */

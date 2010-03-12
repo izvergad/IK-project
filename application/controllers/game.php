@@ -137,6 +137,7 @@ class Game extends Controller
 
     function academy($position = 0)
     {
+        $position = ($position == 0) ? $this->Data_Model->get_position(3, $this->Town_Model->buildings) : $position;
         $this->show('academy', $position);
     }
 
