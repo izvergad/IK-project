@@ -499,6 +499,14 @@ function switchNoteDisplay() {
         }
         noteLayer.style.display = "block";
    }
+    if (avatarNotes instanceof Notes) {
+        setCookie( 'ikariam_notes_x', Dom.get("resizablepanel_c").style.left, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_y', Dom.get("resizablepanel_c").style.top, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_width', Dom.get("resizablepanel").style.width, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_height', Dom.get("resizablepanel").style.height, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_message', document.getElementById("message").value, '9999', '/', '', '' );
+        avatarNotes.save();
+    }
 }
 if (getCookie('notes') == 1) {
     switchNoteDisplay();
