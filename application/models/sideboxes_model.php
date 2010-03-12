@@ -26,6 +26,8 @@ class SideBoxes_Model extends Model
             case 'island': 
             case 'resource':
             case 'renameCity':
+            case 'premium':
+            case 'premiumPayment':
                 $this->load->view('sb_'.$location);
             break;
             default: break;

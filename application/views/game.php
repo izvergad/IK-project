@@ -493,6 +493,8 @@ function switchNoteDisplay() {
     } else {
         if (noteLayer.innerHTML == "") { // nur AjaxRequest starten, wenn Notizen noch nicht geladen sind
             ajaxRequest('<?=$this->config->item('base_url')?>game/avatarNotes/', updateNoteLayer);
+
+            ///setCookie('message', Dom.get("message").text);
             document.cookie = 'notes=1;';
         }
         noteLayer.style.display = "block";
@@ -546,10 +548,11 @@ function updateNoteLayer(responseText) {
 }
 window.onunload = function() {
     if (avatarNotes instanceof Notes) {
-        setCookie( 'ikariam_notes_x', Dom.get("resizablepanel_c").style.left, '9999', '', '', '' );
-        setCookie( 'ikariam_notes_y', Dom.get("resizablepanel_c").style.top, '9999', '', '', '' );
-        setCookie( 'ikariam_notes_width', Dom.get("resizablepanel").style.width, '9999', '', '', '' );
-        setCookie( 'ikariam_notes_height', Dom.get("resizablepanel").style.height, '9999', '', '', '' );
+        setCookie( 'ikariam_notes_x', Dom.get("resizablepanel_c").style.left, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_y', Dom.get("resizablepanel_c").style.top, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_width', Dom.get("resizablepanel").style.width, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_height', Dom.get("resizablepanel").style.height, '9999', '/', '', '' );
+        setCookie( 'ikariam_notes_message', document.getElementById("message").value, '9999', '/', '', '' );
         avatarNotes.save();
     }
 }
@@ -562,7 +565,7 @@ function setCookie(name, value, expires, path, domain, secure)
         expires = expires * 1000 * 60 * 60 * 24;
     }
     var expires_date = new Date( today.getTime() + (expires) );
-    document.cookie = name + "=" +escape( value ) + ((expires) ? ";expires=" + expires_date.toGMTString() : "" ) + ((path) ? ";path=" + path : "" ) + ((domain) ? ";domain=" + domain : "" ) + ((secure) ? ";secure" : "" );
+    document.cookie = name + "=" + value + ((expires) ? ";expires=" + expires_date.toGMTString() : "" ) + ((path) ? ";path=" + path : "" ) + ((domain) ? ";domain=" + domain : "" ) + ((secure) ? ";secure" : "" );
 }
 function getCookie ( check_name, def_val ) {
     var a_all_cookies = document.cookie.split( ';' );

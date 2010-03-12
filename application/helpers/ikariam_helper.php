@@ -19,5 +19,6 @@
         return $return;
     }
 
+
 /* End of file ikariam_helper.php */
 /* Location: ./system/application/helpers/ikariam_helper.php */

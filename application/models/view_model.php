@@ -27,6 +27,8 @@ class View_Model extends Model
             case 'renameCity':
             case 'resource':
             case 'townHall':
+            case 'premium':
+            case 'premiumPayment':
                 $this->load->view('view_'.$location, array('position' => $position));
             break;
             default: $this->not_found(); break;

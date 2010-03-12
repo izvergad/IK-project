@@ -135,10 +135,36 @@ class Game extends Controller
         $this->show('informations', $id);
     }
 
+    /**
+     * Академия
+     * @param <int> $position
+     */
     function academy($position = 0)
     {
         $position = ($position == 0) ? $this->Data_Model->get_position(3, $this->Town_Model->buildings) : $position;
         $this->show('academy', $position);
+    }
+
+    /**
+     * Премиум-возможности
+     */
+    function premium()
+    {
+        $this->show('premium', 0);
+    }
+
+    /**
+     * Получение амброзии
+     */
+    function premiumPayment()
+    {
+        $this->show('premiumPayment', 0);
+    }
+
+    function avatarNotes()
+    {
+        $this->load->helper('cookie');
+        $this->load->view('avatarNotes');
     }
 
     /**
