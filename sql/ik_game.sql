@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50024
 File Encoding         : 65001
 
-Date: 2010-03-11 22:12:23
+Date: 2010-03-13 22:04:12
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,6 +29,8 @@ CREATE TABLE `alpha_islands` (
   `trade_level` int(11) NOT NULL default '1',
   `wood_count` int(11) NOT NULL default '0',
   `trade_count` int(11) NOT NULL default '0',
+  `wood_start` int(11) NOT NULL default '0',
+  `trade_start` int(11) NOT NULL default '0',
   `city0` int(11) NOT NULL default '0',
   `city1` int(11) NOT NULL default '0',
   `city2` int(11) NOT NULL default '0',
@@ -51,7 +53,7 @@ CREATE TABLE `alpha_islands` (
 -- ----------------------------
 -- Records of alpha_islands
 -- ----------------------------
-INSERT INTO `alpha_islands` VALUES ('1', 'Остров', '1', '2', '1', '3', '2', '2', '0', '0', '0', '1', '0', '2', '0', '3', '0', '0', '0', '0', '4', '0', '0', '0', '0', '0');
+INSERT INTO `alpha_islands` VALUES ('1', 'Остров', '1', '2', '1', '3', '2', '2', '1', '0', '1268375246', '0', '0', '1', '0', '2', '0', '3', '0', '0', '0', '0', '4', '0', '0', '0', '0', '0');
 
 -- ----------------------------
 -- Table structure for `alpha_towns`
@@ -102,6 +104,8 @@ CREATE TABLE `alpha_towns` (
   `build_start` int(11) NOT NULL default '0',
   `peoples` varchar(255) character set utf8 NOT NULL default '40',
   `workers` varchar(255) character set utf8 NOT NULL default '0',
+  `scientists` varchar(255) collate latin1_general_ci NOT NULL default '0',
+  `workers_wood` int(11) NOT NULL default '0',
   `actions` varchar(255) character set utf8 NOT NULL default '3',
   PRIMARY KEY  (`id`,`user`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
@@ -109,10 +113,10 @@ CREATE TABLE `alpha_towns` (
 -- ----------------------------
 -- Records of alpha_towns
 -- ----------------------------
-INSERT INTO `alpha_towns` VALUES ('1', '1', '1', '1268334628', 'Аместрис', '4402.88499994', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '22', '38', '3');
-INSERT INTO `alpha_towns` VALUES ('2', '1', '1', '1268334628', 'Дзержинск', '20.7422222212', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '49.0962063234', '0', '3');
-INSERT INTO `alpha_towns` VALUES ('3', '2', '1', '1268332295', 'Полис', '160', '0', '0', '0', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '41.5822234216', '0', '3');
-INSERT INTO `alpha_towns` VALUES ('4', '2', '1', '1268332295', 'Полис', '160', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '41.5822234216', '0', '3');
+INSERT INTO `alpha_towns` VALUES ('1', '1', '1', '1268506964', 'Аместрис', '5113.9872228', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3', '3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '6', '38', '16', '993', '3');
+INSERT INTO `alpha_towns` VALUES ('2', '1', '1', '1268506964', 'Дзержинск', '20.7422222212', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '60', '0', '0', '0', '3');
+INSERT INTO `alpha_towns` VALUES ('3', '2', '1', '1268332295', 'Полис', '160', '0', '0', '0', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '41.5822234216', '0', '0', '0', '3');
+INSERT INTO `alpha_towns` VALUES ('4', '2', '1', '1268332295', 'Полис', '160', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '41.5822234216', '0', '0', '0', '3');
 
 -- ----------------------------
 -- Table structure for `alpha_users`
@@ -128,11 +132,18 @@ CREATE TABLE `alpha_users` (
   `gold` varchar(255) character set utf8 NOT NULL default '100',
   `ambrosy` int(11) NOT NULL default '0',
   `tutorial` int(11) NOT NULL default '0',
+  `premium_account` int(11) NOT NULL default '0',
+  `premium_wood` int(11) NOT NULL default '0',
+  `premium_marble` int(11) NOT NULL default '0',
+  `premium_sulfur` int(11) NOT NULL default '0',
+  `premium_crystal` int(11) NOT NULL default '0',
+  `premium_wine` int(11) NOT NULL default '0',
+  `premium_capacity` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`,`login`)
 ) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
 -- Records of alpha_users
 -- ----------------------------
-INSERT INTO `alpha_users` VALUES ('1', 'Player', '12345', '1268334628', '1', '1', '107236.853549', '25', '7');
-INSERT INTO `alpha_users` VALUES ('2', 'Player2', '12345', '1268332295', '3', '3', '472.498291388', '0', '0');
+INSERT INTO `alpha_users` VALUES ('1', 'Player', '12345', '1268506964', '1', '1', '117114.237974', '25', '7', '0', '0', '0', '0', '0', '0', '0');
+INSERT INTO `alpha_users` VALUES ('2', 'Player2', '12345', '1268332295', '3', '3', '472.498291388', '0', '0', '0', '0', '0', '0', '0', '0', '0');
