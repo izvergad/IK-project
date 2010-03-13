@@ -10,6 +10,7 @@
                         <a href="<?=$this->config->item('base_url')?>main/register/" title="Давай! Нажми меня!">Играть бесплатно сейчас!</a>
                     </div>
                     <form id="loginForm" name="loginForm" action="<?=$this->config->item('base_url')?>" method="post">
+                        <input name="action" type="hidden" value="login">
                         <div id="formz">
                             <table cellpadding="0" cellspacing="0" id="logindata">
                                 <tr>

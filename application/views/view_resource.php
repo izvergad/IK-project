@@ -1,8 +1,8 @@
 <?
-$cost = $this->Data_Model->island_cost(0, $this->Island_Model->levels[0]-1);
-$peoples = floor($this->Town_Model->peoples['free']);
-$all = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['workers'];
-$max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
+    $cost = $this->Data_Model->island_cost(0, $this->Island_Model->levels[0]-1);
+    $peoples = floor($this->Town_Model->peoples['free']);
+    $all = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['workers'];
+    $max = ($cost['workers'] < $all) ? $cost['workers'] : $all;
 ?>
 
 <div id="mainview">
@@ -19,7 +19,7 @@ $max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
                 <ul>
                     <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens"><?=$peoples?></span></li>
                     <li class="workers"><span class="textLabel">Работников: </span><span class="value" id="valueWorkers"><?=floor($this->Town_Model->peoples['workers'])?></span></li>
-                    <li class="gain" title="Производство:0" alt="Производство:0">
+                    <li class="gain" title="Производство:<?=floor($this->Town_Model->peoples['workers'])?>" alt="Производство:<?=floor($this->Town_Model->peoples['workers'])?>">
                         <span class="textLabel">Вместимость: </span>
                         <div id="gainPoints">
                             <div id="resiconcontainer">
@@ -32,7 +32,7 @@ $max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
                     </li>
                     <li class="costs">
                         <span class="textLabel">Доход города: </span>
-                        <span id="valueWorkCosts" class="negative"><?=floor($this->Town_Model->peoples['free']*3)?></span>
+                        <span id="valueWorkCosts" class="negative"><?=floor($this->Town_Model->saldo)?></span>
                         <img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif" title="Золото" alt="Золото">
                         <span class="timeUnit"> в час</span>
                     </li>
@@ -131,7 +131,7 @@ $max = ($cost['workers'] >= $all) ? $all : $cost['workers'];
         slider.subscribe("valueChange", function() {
             var startCitizens = <?=floor($this->Town_Model->peoples['free'])?>;
             var startResourceWorkers = <?=floor($this->Town_Model->peoples['workers'])?>;
-            var startIncomePerTimeUnit = <?=floor($this->Town_Model->peoples['free']*3)?>;
+            var startIncomePerTimeUnit = <?=floor($this->Town_Model->saldo)?>;
             this.flagSliderMoved = 1;
             valueWorkers.innerHTML = locaNumberFormat(slider.actualValue);
             valueCitizens.innerHTML = locaNumberFormat(startCitizens+startResourceWorkers - slider.actualValue);

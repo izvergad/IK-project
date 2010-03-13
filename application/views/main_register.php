@@ -4,7 +4,7 @@
         <h1>Добро пожаловать в мир Икариам</h1>
         <p class="desc">Для начала игры необходимо ввести имя, пароль и адрес e-mail и принять Основные Положения.</p>
         <form name="registerForm" action="<?=$this->config->item('base_url')?>" method="post">
-            <input type="hidden" name="function" value="createAvatar">
+            <input name="action" type="hidden" value="createAvatar">
             <p class="desc">
     	        <table cellpadding="3" cellspacing="0" id="logindata">
                     <tr>

@@ -29,8 +29,8 @@ class Town_Model extends Model
     var $good = 0;
 
     var $workers_wood = 0;
-    
     var $last_update = 0;
+    var $saldo = 0;
 
     function Town_Model()
     {
@@ -127,7 +127,7 @@ class Town_Model extends Model
             $this->peoples['free'] = $town->peoples;
             $this->peoples['workers'] = $town->workers;
             $this->peoples['special'] = 0;
-            $this->peoples['research'] = 0;
+            $this->peoples['research'] = $town->scientists;
             $this->peoples['templer'] = 0;
             $this->peoples['max'] = $this->Data_Model->peoples_by_level($this->level);
             $this->peoples['all'] = $this->peoples['free'] + $this->peoples['workers'] + $this->peoples['special'] + $this->peoples['research'] + $this->peoples['templer'];
@@ -143,8 +143,11 @@ class Town_Model extends Model
             $this->plus['capital'] = 0;
             $this->plus['research'] = 0;
             $this->good = ($this->plus['base'] + $this->plus['capital']) - ($this->minus['peoples']);
-            
+            // Сделано пожертвований
             $this->workers_wood = $town->workers_wood;
+            // Каждый житель дает 3 золота
+            $this->saldo = $this->peoples['free']*3;
+            $this->saldo = $this->saldo - $this->peoples['research']*6;
         }
     }
 

@@ -11,6 +11,7 @@ class Game extends Controller
     function Game()
     {
         parent::Controller();
+        $this->load->model('User_Model');
         if (!$this->session->userdata('login'))
         {
             $this->User_Model->Error('Ваша сессия истекла, войдите снова!');

@@ -91,14 +91,15 @@ class Update_Model extends Model
                $good = 196 - $this->CI->Update_User->towns[$i]->peoples;
                // Прирост жителей
                $workers = $this->CI->Update_User->towns[$i]->workers;
-               $max_peoples = $this->Data_Model->peoples_by_level($this->CI->Update_User->towns[$i]->pos0_level) - $workers;
+               $scientists = $this->CI->Update_User->towns[$i]->scientists;
+               $max_peoples = $this->Data_Model->peoples_by_level($this->CI->Update_User->towns[$i]->pos0_level) - $workers - $scientists;
                $this->CI->Update_User->towns[$i]->peoples = $this->CI->Update_User->towns[$i]->peoples + ((($good/50)/3600)*$elapsed);
                if ($this->CI->Update_User->towns[$i]->peoples < 0){ $this->CI->Update_User->towns[$i]->peoples = 0; }
                if ($this->CI->Update_User->towns[$i]->peoples > $max_peoples){ $this->CI->Update_User->towns[$i]->peoples = $max_peoples; }
 
                $this->db->set('peoples', $this->CI->Update_User->towns[$i]->peoples);
                // Прирост золота
-               $this->CI->Update_User->gold = $this->CI->Update_User->gold + ((($this->CI->Update_User->towns[$i]->peoples*3)/3600)*$elapsed);
+               $this->CI->Update_User->gold = $this->CI->Update_User->gold + (((($this->CI->Update_User->towns[$i]->peoples*3) - ($this->CI->Update_User->towns[$i]->scientists*6))/3600)*$elapsed);
                // Прирост дерева
                $this->CI->Update_User->towns[$i]->wood = $this->CI->Update_User->towns[$i]->wood + (($this->CI->Update_User->towns[$i]->workers/3600)*$elapsed);
                $this->db->set('wood', $this->CI->Update_User->towns[$i]->wood);

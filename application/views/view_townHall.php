@@ -79,9 +79,10 @@
                 </li>
                 <li class="actions"><span class="textLabel">Баллы действия: </span>3/3</li>
    <?
-    $saldo = $this->Town_Model->peoples['free']*3
+    $saldo = $this->Town_Model->saldo;
+    $incomegold =  ($saldo > 0) ? 'positive' : 'negative' ;
    ?>
-                <li class="incomegold incomegold_positive">
+                <li class="incomegold incomegold_<?=$incomegold?>">
                     <span class="textLabel">Сальдо золота: </span>
                     <span class="value"><?=number_format($saldo)?></span>
                 </li>
@@ -135,7 +136,7 @@
                     </span> 
                     <span class="production">
                         <span class="textLabel">Производство </span>
-                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"> +0
+                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"> +<?=$this->Town_Model->peoples['workers']?>
                     </span>
                 </div>
 								
@@ -157,7 +158,7 @@
                     </span> 
                     <span class="production">
                         <span class="textLabel">Производство </span>
-                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_research.gif" alt="Баллы науки"> +0
+                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_research.gif" alt="Баллы науки"> +<?=$this->Town_Model->peoples['research']?>
                     </span>
                 </div>
 								

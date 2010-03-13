@@ -68,24 +68,31 @@
     </div>
 <?}?>
 
-    <form id="setScientists" action="/action/scientists/" method="POST">
+<?
+$max_scientists = $this->Data_Model->scientists_by_level($this->Town_Model->buildings[$position]['level']);
+$peoples = floor($this->Town_Model->peoples['free']);
+$all = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['research'];
+$max = ($max_scientists < $all) ? $max_scientists : $all;
+?>
+
+    <form id="setScientists" action="<?=$this->config->item('base_url')?>actions/workers/academy/<?=$position?>/" method="POST">
         <div class="contentBox01h">
             <h3 class="header"><span class="textLabel">Назначить рабочих</span></h3>
             <div class="content">
                 <ul>
-                    <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens">20</span></li>
-                    <li class="scientists"><span class="textLabel">Ученые: </span><span class="value" id="valueWorkers">0</span></li>
+                    <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens"><?=$peoples?></span></li>
+                    <li class="scientists"><span class="textLabel">Ученые: </span><span class="value" id="valueWorkers"><?=floor($this->Town_Model->peoples['research'])?></span></li>
                     <li class="gain">
                         <span class="textLabel">Научные достижения: </span>
                         <div id="gainPoints">
-                            <img id="lightbulb" src="skin/layout/bulb-on.gif" width="14" height="21">
+                            <img id="lightbulb" src="<?=$this->config->item('style_url')?>skin/layout/bulb-on.gif" width="14" height="21">
                         </div>
                         <div style="position:absolute; top:22px; left:145px;">
-                            <span id="valueResearch" class="positive overcharged">+0</span>
+                            <span id="valueResearch" class="positive overcharged">+<?=floor($this->Town_Model->peoples['research'])?></span>
                             <span class="timeUnit">в час</span>
                         </div>
                     </li>
-                    <li class="costs"><span class="textLabel">Доход города: </span><span id="valueWorkCosts" class="negative">60</span> <img src="skin/resources/icon_gold.gif" title="Золото" alt="Золото" /><span class="timeUnit"> в час</span></li>
+                    <li class="costs"><span class="textLabel">Доход города: </span><span id="valueWorkCosts" class="negative"><?=floor($this->Town_Model->saldo)?></span> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif" title="Золото" alt="Золото" /><span class="timeUnit"> в час</span></li>
                 </ul>
                 <div id="overchargeMsg" class="status nooc ocready oced">Перегрузка!</div>
                 <div class="slider" id="sliderbg">
@@ -94,7 +101,7 @@
                     <div id="sliderthumb"></div>
                 </div>
                 <a class="setMin" href="#reset" onClick="sliders['default'].setActualValue(0); return false;" title="Нет ученых"><span class="textLabel">мин.</span></a>
-                <a class="setMax" href="#max" onClick="sliders['default'].setActualValue(8); return false;" title="макс. кол-во ученых"><span class="textLabel">макс.</span></a>
+                <a class="setMax" href="#max" onClick="sliders['default'].setActualValue(<?=$max?>); return false;" title="макс. кол-во ученых"><span class="textLabel">макс.</span></a>
                 <input type="hidden" name="cityId" value="83402">
                 <input autocomplete="off" id="inputScientists" name="s" class="textfield" type="text" maxlength="4">
                 <div class="centerButton">
@@ -120,9 +127,9 @@
 	create_slider({
       id : "default",
         dir : 'ltr',
-        maxValue : 8,
+        maxValue : <?=$max?>,
         overcharge : 0,
-        iniValue : 0,
+        iniValue : <?=$this->Town_Model->peoples['research']?>,
         bg : "sliderbg",
         thumb : "sliderthumb",
         topConstraint: -10,
@@ -144,9 +151,9 @@ Event.onDOMReady(function() {
     slider.subscribe("valueChange", function() {
         resIconDisplay.setIcons(Math.floor(slider.actualValue*1));
 
-        var startCitizens = 20;
-        var startScientists = 0;
-        var startIncomePerTimeUnit = 60;
+        var startCitizens = <?=$peoples?>;
+        var startScientists = <?=$this->Town_Model->peoples['research']?>;
+        var startIncomePerTimeUnit = <?=floor($this->Town_Model->saldo)?>;
         flagSliderMoved = 1;
 
         //res.setIcons(Math.round(slider.actualValue/(1+0.05*slider.actualValue)));

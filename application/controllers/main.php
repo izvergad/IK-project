@@ -14,7 +14,18 @@ class Main extends Controller {
          */
 	function index()
 	{
-                $this->User_Model->User_Login();
+            if (isset($_POST['action']))
+            {
+                if ($_POST['action'] == 'login')
+                {
+                    $this->load->model('User_Model');
+                    $this->User_Model->User_Login();
+                }
+                if ($_POST['action'] == 'createAvatar')
+                {
+                    $this->CreateAvatar();
+                }
+            }
                 $page = $this->load->view('main_index', null, true);
 		$this->load->view('main',array('page' => $page));
 	}
@@ -48,6 +59,11 @@ class Main extends Controller {
                 $error = $this->session->userdata('error');
                 $page = $this->load->view('main_error', array('error' => $error), true);
 		$this->load->view('main',array('page' => $page));
+        }
+
+        function CreateAvatar()
+        {
+            
         }
 }
 

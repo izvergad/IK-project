@@ -8,6 +8,7 @@ class Actions extends Controller
     function Actions()
     {
         parent::Controller();
+        $this->load->model('User_Model');
         if (!$this->session->userdata('login'))
         {
             $this->User_Model->Error('Ваша сессия истекла, войдите снова!');
@@ -151,7 +152,7 @@ class Actions extends Controller
     function workers($type = 'resource', $id = 0)
     {
         // Обучение - найм рабочих на лесопилку
-        if ($this->User_Model->tutorial == 2)
+        if ($type == 'resource' and $this->User_Model->tutorial == 2)
         {
             $this->tutorials('next');
         }
@@ -172,10 +173,23 @@ class Actions extends Controller
                 $this->db->update($this->session->userdata('universe').'_towns');
             }
         }
+        if (isset($_POST['s']) and $this->Town_Model->peoples['free'] >= $_POST['s'] and $id > 0)
+        {
+            $max_scientists = $this->Data_Model->scientists_by_level($this->Town_Model->buildings[$id]['level']);
+            if ($max_scientists >= $_POST['s'])
+            {
+                $all = $this->Town_Model->peoples['research'] + $this->Town_Model->peoples['free'];
+                $this->Town_Model->peoples['research'] = intval($_POST['s']);
+                $this->Town_Model->peoples['free'] = $all - intval($_POST['s']);
+                $this->db->set('scientists', $this->Town_Model->peoples['research']);
+                $this->db->set('peoples', $this->Town_Model->peoples['free']);
+                $this->db->where(array('id' => $this->Town_Model->id));
+                $this->db->update($this->session->userdata('universe').'_towns');
+            }
+        }
         redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
     }
 
-    
     function resources($id = 0)
     {
         $this->load->model('Town_Model');
