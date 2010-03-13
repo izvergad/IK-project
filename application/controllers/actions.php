@@ -158,33 +158,39 @@ class Actions extends Controller
         }
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
-        if (isset($_POST['rw']) and $this->Town_Model->peoples['free'] >= $_POST['rw'])
+        if (isset($_POST['rw']))
         {
             $level = $this->Town_Model->island->wood_level;
             $cost = $this->Data_Model->island_cost(0, $level);
             if ($cost['workers'] >= $_POST['rw'])
             {
                 $all = $this->Town_Model->peoples['workers'] + $this->Town_Model->peoples['free'];
-                $this->Town_Model->peoples['workers'] = intval($_POST['rw']);
-                $this->Town_Model->peoples['free'] = $all - intval($_POST['rw']);
-                $this->db->set('workers', $this->Town_Model->peoples['workers']);
-                $this->db->set('peoples', $this->Town_Model->peoples['free']);
-                $this->db->where(array('id' => $this->Town_Model->id));
-                $this->db->update($this->session->userdata('universe').'_towns');
+                if ($all >= $_POST['rw'])
+                {
+                    $this->Town_Model->peoples['workers'] = intval($_POST['rw']);
+                    $this->Town_Model->peoples['free'] = $all - intval($_POST['rw']);
+                    $this->db->set('workers', $this->Town_Model->peoples['workers']);
+                    $this->db->set('peoples', $this->Town_Model->peoples['free']);
+                    $this->db->where(array('id' => $this->Town_Model->id));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                }
             }
         }
-        if (isset($_POST['s']) and $this->Town_Model->peoples['free'] >= $_POST['s'] and $id > 0)
+        if (isset($_POST['s']) and $id > 0)
         {
             $max_scientists = $this->Data_Model->scientists_by_level($this->Town_Model->buildings[$id]['level']);
             if ($max_scientists >= $_POST['s'])
             {
                 $all = $this->Town_Model->peoples['research'] + $this->Town_Model->peoples['free'];
-                $this->Town_Model->peoples['research'] = intval($_POST['s']);
-                $this->Town_Model->peoples['free'] = $all - intval($_POST['s']);
-                $this->db->set('scientists', $this->Town_Model->peoples['research']);
-                $this->db->set('peoples', $this->Town_Model->peoples['free']);
-                $this->db->where(array('id' => $this->Town_Model->id));
-                $this->db->update($this->session->userdata('universe').'_towns');
+                if ($all >= $_POST['s'] )
+                {
+                    $this->Town_Model->peoples['research'] = intval($_POST['s']);
+                    $this->Town_Model->peoples['free'] = $all - intval($_POST['s']);
+                    $this->db->set('scientists', $this->Town_Model->peoples['research']);
+                    $this->db->set('peoples', $this->Town_Model->peoples['free']);
+                    $this->db->where(array('id' => $this->Town_Model->id));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                }
             }
         }
         redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
