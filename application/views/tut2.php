@@ -127,7 +127,7 @@ var counter = 0;
 <?if($location == 'city'){?>
 var startY = 340;
 var startX = 460;
-<?}elseif($location == 'buildingGround'){?>
+<?}elseif($location == 'buildingGround' and $position == 9){?>
 var startY = 365;
 var startX = 785;
 <?}else{?>

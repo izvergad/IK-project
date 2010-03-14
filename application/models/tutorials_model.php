@@ -32,6 +32,9 @@ class Tutorials_Model extends Model
             // Постройка казарм
             case 8: $this->load->view('tut4',array('location' => $location, 'active' => true)); break;
             case 9: $this->load->view('tut4',array('location' => $location, 'active' => false)); break;
+            // Найм копейщиков
+            case 10: $this->load->view('tut5',array('location' => $location, 'active' => true)); break;
+            case 11: $this->load->view('tut5',array('location' => $location, 'active' => false)); break;
 
         }
     }

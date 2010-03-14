@@ -24,14 +24,19 @@ class Actions extends Controller
      * Обучение: Переход к следующему обучению
      * @param <string> $action
      */
-    function tutorials($action)
+    function tutorials($action, $id = 0)
     {
+        $id = intval($id);
         switch($action)
         {
             // следующий этап обучения
             case 'next':
                 $this->User_Model->tutorial = $this->User_Model->tutorial + 1;
                 $this->db->query('UPDATE `'.$this->session->userdata('universe').'_users'.'` SET `tutorial`=`tutorial`+1 WHERE `id`="'.$this->session->userdata('id').'"');
+            break;
+            case 'set':
+                $this->User_Model->tutorial = $id;
+                $this->db->query('UPDATE `'.$this->session->userdata('universe').'_users'.'` SET `tutorial`='.$id.' WHERE `id`="'.$this->session->userdata('id').'"');
             break;
         }
     }
@@ -71,13 +76,9 @@ class Actions extends Controller
      */
     function build($position, $id, $redirect = 'city')
     {
-        // Обучение - постройка академии
-        if ($id == 3 and $this->User_Model->tutorial == 4)
-        {
-            $this->tutorials('next');
-        }
         $id = intval($id);
         $position = intval($position);
+        $redirect = strip_tags($redirect);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         $class = $this->Data_Model->building_class_by_type($id);
@@ -122,6 +123,17 @@ class Actions extends Controller
                 $this->db->where(array('id' => $this->Town_Model->id));
                 $this->db->update($this->session->userdata('universe').'_towns');
                 // Здание добавлено в очередь
+                // Обновляем обучения если есть
+                        if ($id == 3 and $this->User_Model->tutorial <= 4)
+                        {
+                            // Построили академию
+                            $this->tutorials('set', 5);
+                        }
+                        if ($id == 5 and $this->User_Model->tutorial <= 9)
+                        {
+                            // Построили казарму
+                            $this->tutorials('set', 10);
+                        }
             }
         }
         // Переход на страницу игры
@@ -152,9 +164,13 @@ class Actions extends Controller
     function workers($type = 'resource', $id = 0)
     {
         // Обучение - найм рабочих на лесопилку
-        if (($type == 'resource' and $this->User_Model->tutorial == 2) or ($type == 'academy' and $this->User_Model->tutorial == 7))
+        if ($type == 'resource' and $this->User_Model->tutorial <= 2)
         {
-            $this->tutorials('next');
+            $this->tutorials('set', 3);
+        }    
+        if ($type == 'academy' and $this->User_Model->tutorial <= 7)
+        {
+            $this->tutorials('set', 8);
         }
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
@@ -204,7 +220,7 @@ class Actions extends Controller
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         
-        $count = isset($_POST['donation']) ? floor($_POST['donation']) : 0;
+        $count = isset($_POST['donation']) ? intval($_POST['donation']) : 0;
         if($this->Town_Model->resources['wood'] >= $count and $count > 0 and $this->Town_Model->island->id == $id)
         {
             $this->Town_Model->workers_wood = $this->Town_Model->workers_wood + $count;
@@ -223,6 +239,8 @@ class Actions extends Controller
 
     function doResearch($way = 0, $id = 0)
     {
+        $way = intval($way);
+        $id = intval($id);
         if($way > 0 and $way <= 4)
         {
             $parametr = 'res'.$way.'_'.$id;

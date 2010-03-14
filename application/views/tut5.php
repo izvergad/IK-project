@@ -1,5 +1,6 @@
-<?if ($location == 'city'){$class = 'cityAdvisor';}else{$class = 'invisible';}?>
+<?if ($location == 'city'){$class = 'militaryAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
+<?$position = ($position > 0) ? $position : $this->Data_Model->get_position(5, $this->Town_Model->buildings)?>
 
 <style>
 #tutorialAdvisor {
@@ -111,7 +112,11 @@
     <h3>Обучение</h3>
     <a href="javascript:;" id="tutorialAdvisorCloseLink"></a>
     <div class="content">
-    <p>Отлично! Теперь ученые умы проникнут в ваш город! Но теперь необходимо сосредоточиться на обороне города. <b>Постройте казармы</b>, кликнув мышью на красном флаге, выберите казармы в строительном меню.</p>
+    <p>Здравствуйте,<br />
+<br>
+Меня зовут Аякс. Я могу рассказать вам обо всех передвижениях флота, которые знаю, а также об идущих и завершенных сражениях. В этом нет ничего страшного для вас, так как боги непрерывно наблюдают за вами с <a href="<?=$this->config->item('base_url')?>game/informations/11/"> небес </a>, защищая вашу империю от посягательств.<br />
+<br>
+Но чтобы быть готовыми к будущим событиям, я рекомендую вам ознакомиться с базовыми особенностями ведения боевых действий. Первое, что вам необходимо сделать, это <b>нанять несколько бойцов</b>. Для того, чтобы это сделать, надо зайти в казармы и начать обучение солдат. Затем нажмите на желтый флажок в вашем городе, чтобы построить <b>городскую стену</b>.</p>
 
         <div class="centerButton"><a href="javascript:;" id="okButton" class="button">ОК</a></div>
     <div class="footer"></div>
@@ -122,11 +127,56 @@
 
 var counter = 0;
 <?if($location == 'city'){?>
-var startY = 430;
-var startX = 560;
-<?}elseif($location == 'buildingGround' and $position == 5){?>
-var startY = 365;
-var startX = 785;
+<?switch($position){?>
+<?case 3:?>
+var startX = 220+617;
+var startY = 153+260;
+<?break;?>
+<?case 4:?>
+var startX = 220+485;
+var startY = 153+258;
+<?break;?>
+<?case 5:?>
+var startX = 220+323;
+var startY = 153+283;
+<?break;?>
+<?case 6:?>
+var startX = 220+136;
+var startY = 153+262;
+<?break;?>
+<?case 7:?>
+var startX = 220+11;
+var startY = 153+226;
+<?break;?>
+<?case 8:?>
+var startX = 220+84;
+var startY = 153+144;
+<?break;?>
+<?case 9:?>
+var startX = 220+225;
+var startY = 153+187;
+<?break;?>
+<?case 10:?>
+var startX = 220+466;
+var startY = 153+141;
+<?break;?>
+<?case 11:?>
+var startX = 220+580;
+var startY = 153+114;
+<?break;?>
+<?case 12:?>
+var startX = 220+373;
+var startY = 153+65;
+<?break;?>
+<?case 13:?>
+var startX = 220+253;
+var startY = 153+82;
+<?break;?>
+<?default:?>
+var startX = 220+225;
+var startY = 153+187;
+<?break;?>
+<?}?>
 <?}else{?>
 var startY = 70;
 var startX = 480;
@@ -136,7 +186,7 @@ var startX = 480;
 var defaultClass = "<?=$class?>" ;
 
 Dom.get("advisorImage").onmouseover = function() {
-    Dom.get("advisorImage").className = "cityAdvisor lighten";
+    Dom.get("advisorImage").className = "militaryAdvisor lighten";
 };
 Dom.get("advisorImage").onmouseout = function() {
     Dom.get("advisorImage").className = defaultClass;
@@ -164,8 +214,8 @@ function Tutorial() {
         Dom.get("tutorialAdvisorLink").onclick = function() {
             that.showMessage();
             that.goToNextState();
-            defaultClass = "cityAdvisor";
-            Dom.get("advisorImage").className = "cityAdvisor";
+            defaultClass = "militaryAdvisor";
+            Dom.get("advisorImage").className = "militaryAdvisor";
         }
     }
 

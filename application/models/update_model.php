@@ -51,10 +51,15 @@ class Update_Model extends Model
                    $cost = $this->Data_Model->building_cost($buildings[$ochered]['type'], $level);
                     if (($this->CI->Update_User->towns[$i]->build_start + $cost['time']) <= time())
                     {
-                        // Обучение - найм рабочих на лесопилку
-                        if ($buildings[$ochered]['type'] == 3 and $this->CI->Update_User->tutorial == 5)
+                        // Обучение - постройка академии
+                        if ($buildings[$ochered]['type'] == 3 and $this->CI->Update_User->tutorial <= 5)
                         {
-                            $this->CI->Update_User->tutorial = $this->CI->Update_User->tutorial + 1;
+                            $this->CI->Update_User->tutorial = 6;
+                        }
+                        // Обучение - постройка казармы
+                        if ($buildings[$ochered]['type'] == 5 and $this->CI->Update_User->tutorial <= 9)
+                        {
+                            $this->CI->Update_User->tutorial = 10;
                         }
 
                         // Строим здание
