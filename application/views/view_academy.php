@@ -73,6 +73,7 @@ $max_scientists = $this->Data_Model->scientists_by_level($this->Town_Model->buil
 $peoples = floor($this->Town_Model->peoples['free']);
 $all = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['research'];
 $max = ($max_scientists < $all) ? $max_scientists : $all;
+$max = floor($max);
 ?>
 
     <form id="setScientists" action="<?=$this->config->item('base_url')?>actions/workers/academy/<?=$position?>/" method="POST">
@@ -115,9 +116,9 @@ $max = ($max_scientists < $all) ? $max_scientists : $all;
     <div id="goToResearch" class="contentBox01h">
         <h3 class="header">Исследования</h3>
         <div class="centerButton">
-            <img alt=" " src="skin/resources/icon_research.gif" class="iconResearch" /> Баллы науки: 0
+            <img alt=" " src="<?=$this->config->item('style_url')?>skin/resources/icon_research.gif" class="iconResearch"> Баллы науки: <?=floor($this->User_Model->research->points)?>
         </div>
-        <div class="centerButton"><a class="button" href="?view=researchAdvisor&oldView=academy">Советник по исследованиям</a></div>
+        <div class="centerButton"><a class="button" href="<?=$this->config->item('base_url')?>game/researchAdvisor/">Советник по исследованиям</a></div>
         <div class="footer"></div>
     </div>
 </div>

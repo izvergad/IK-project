@@ -3,6 +3,7 @@
     $peoples = floor($this->Town_Model->peoples['free']);
     $all = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['workers'];
     $max = ($cost['workers'] < $all) ? $cost['workers'] : $all;
+    $max = floor($max);
 ?>
 
 <div id="mainview">
@@ -99,7 +100,7 @@
     create_slider({
         dir : 'ltr',
         id : "default",
-        maxValue : <?=$cost['workers']?>,
+        maxValue : <?=floor($max)?>,
         overcharge : 0,
         iniValue : <?=floor($this->Town_Model->peoples['workers'])?>,
         bg : "sliderbg",

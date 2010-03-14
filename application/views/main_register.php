@@ -4,13 +4,13 @@
         <h1>Добро пожаловать в мир Икариам</h1>
         <p class="desc">Для начала игры необходимо ввести имя, пароль и адрес e-mail и принять Основные Положения.</p>
         <form name="registerForm" action="<?=$this->config->item('base_url')?>" method="post">
-            <input name="action" type="hidden" value="createAvatar">
+            <input name="action" type="hidden" value="register">
             <p class="desc">
     	        <table cellpadding="3" cellspacing="0" id="logindata">
                     <tr>
                         <td><label for="welt" class="labelwelt">Мир</label></td>
                     	<td>
-                            <select id="universe" class="uni" size="1" onchange="getServerNotice(this.value, 'infotext');">
+                            <select id="universe" name="universe" class="uni" size="1" onchange="getServerNotice(this.value, 'infotext');">
                                 <option value="alpha" >Alpha</option>
                             </select>
                         </td>

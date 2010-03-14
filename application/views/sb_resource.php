@@ -17,7 +17,7 @@
 <?if($this->Island_Model->island->wood_start > 0){?>
 
     <div class="content">
-                        
+
         <img src="<?=$this->config->item('style_url')?>skin/resources/img_wood.jpg" alt="">
         <div class="isUpgrading">В процессе!</div>
         <div class="buildingLevel"><span class="textLabel">Уровень: </span><?=$this->Island_Model->island->wood_level?></div>

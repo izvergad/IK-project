@@ -20,14 +20,18 @@ class Tutorials_Model extends Model
         {
             // Приветствие
             case 0: $this->load->view('tut0',array('location' => $location)); break;
-            // Посетите лесопилку
+            // Найм рабочих
             case 1: $this->load->view('tut1',array('location' => $location, 'active' => true)); break;
             case 2: $this->load->view('tut1',array('location' => $location, 'active' => false)); break;
-            // Постройте академию
+            // Постройка академии
             case 3: $this->load->view('tut2',array('location' => $location, 'active' => true)); break;
             case 4: $this->load->view('tut2',array('location' => $location, 'active' => false)); break;
+            // Найм ученых
             case 6: $this->load->view('tut3',array('location' => $location, 'active' => true)); break;
             case 7: $this->load->view('tut3',array('location' => $location, 'active' => false)); break;
+            // Постройка казарм
+            case 8: $this->load->view('tut4',array('location' => $location, 'active' => true)); break;
+            case 9: $this->load->view('tut4',array('location' => $location, 'active' => false)); break;
 
         }
     }

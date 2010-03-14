@@ -15,6 +15,9 @@ class User_Model extends Model
     var $towns = array();
     var $islands = array();
 
+    var $research = array();
+    var $scientists = 0;
+    
     /**
      * Инициализация
      */
@@ -71,10 +74,13 @@ class User_Model extends Model
     {
         if ($id > 0)
         {
-
             // Загружаем пользователя из Базы
             $this->Data_Model->Load_User($id);
             $user =& $this->Data_Model->temp_users_db[$id];
+            // Загружаем исследования
+            $this->Data_Model->Load_Research($id);
+            $this->research =& $this->Data_Model->temp_research_db[$id];
+            // Загружаем остальное
             if (isset($user))
             {
                 $this->id = $user->id;
@@ -90,6 +96,7 @@ class User_Model extends Model
                 {
                     $this->towns[] = $row;
                     $this->Data_Model->temp_towns_db[$row->id] = $row;
+                    $this->scientists = $this->scientists + $row->scientists;
                     // Загружаем остров из базы
                     $this->Data_Model->Load_Island($row->island);
                     $this->islands[$row->island] =& $this->Data_Model->temp_islands_db[$row->island];

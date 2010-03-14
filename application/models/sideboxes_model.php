@@ -19,6 +19,7 @@ class SideBoxes_Model extends Model
         switch($location)
         {
             case 'buildingGround': break;
+            case 'researchDetail':
             case 'informations': $this->load->view('sb_'.$location, array('id' => $position)); break;
             case 'academy':
             case 'townHall': $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $position));
@@ -28,6 +29,7 @@ class SideBoxes_Model extends Model
             case 'renameCity':
             case 'premium':
             case 'premiumPayment':
+            case 'researchAdvisor':
                 $this->load->view('sb_'.$location);
             break;
             default: break;

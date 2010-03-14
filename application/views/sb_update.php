@@ -1,5 +1,6 @@
 <?
-$cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level']);
+if ($position > 0){
+    $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level']);
 ?>
 
 <div id="buildingUpgrade" class="dynamic">
@@ -42,3 +43,4 @@ $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$pos
     </div>
     <div class="footer"></div>
 </div>
+<?}?>

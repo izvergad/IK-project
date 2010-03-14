@@ -96,12 +96,12 @@
                     </ul>
 <?}?>
             </li>
-                    <li><a title="Узнать больше о Исследования..." href="?view=researchDetail&researchId=1010">Исследования</a>
-                    <li><a title="Узнать больше о Войсковые части..." href="?view=unitdescription&unitId=301">Войсковые части</a></li>
-                    <li><a title="Узнать больше о Корабли..." href="?view=shipdescription&shipId=210">Корабли</a></li>
-                    <li><a title="Узнать больше о Здания..." href="?view=buildingDetail&buildingId=4">Здания</a></li>
+                    <li><a title="Узнать больше о Исследования..." href="<?=$this->config->item('base_url')?>game/researchDetail/">Исследования</a></li>
+                    <li><a title="Узнать больше о Войсковые части..." href="<?=$this->config->item('base_url')?>game/unitDescription/">Войсковые части</a></li>
+                    <li><a title="Узнать больше о Корабли..." href="<?=$this->config->item('base_url')?>game/shipDescription/">Корабли</a></li>
+                    <li><a title="Узнать больше о Здания..." href="<?=$this->config->item('base_url')?>game/buildingDetail/">Здания</a></li>
 
-            <li><a title="Узнать больше о Чудеса..." href="?view=wonderDetail&wonderId=1">Чудеса</a></li>
+            <li><a title="Узнать больше о Чудеса..." href="<?=$this->config->item('base_url')?>game/wonderDetail/">Чудеса</a></li>
 
 
 

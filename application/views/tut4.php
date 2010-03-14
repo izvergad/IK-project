@@ -1,6 +1,6 @@
-<?if ($location == 'city'){$class = 'researchAdvisor';}else{$class = 'invisible';}?>
+<?if ($location == 'city'){$class = 'cityAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
-<?$position = ($position > 0) ? $position : $this->Data_Model->get_position(3, $this->Town_Model->buildings)?>
+<?//$position = ($position > 0) ? $position : $this->Data_Model->get_position(3, $this->Town_Model->buildings)?>
 
 <style>
 #tutorialAdvisor {
@@ -112,10 +112,7 @@
     <h3>Обучение</h3>
     <a href="javascript:;" id="tutorialAdvisorCloseLink"></a>
     <div class="content">
-    <p>Привет,<br />
-меня зовут Лизиас и я буду представлять научно-технический прогресс вашей империи. В мои обязанности входит информировать вас о текущем статусе наших исследований.<br>
-<br>
-Если вы посетите нашу фантастическую академию, вы не встретите там очень умных людей, но вы можете дать людям возможность <b>начать исследование</b>. После того, как ученые соберут необходимую информацию об исследовании, моя фотография подсветится желтым цветом. Мы можете найти подробное описание каждого исследования в библиотеке академии.</p>
+    <p>Отлично! Теперь ученые умы проникнут в ваш город! Но теперь необходимо сосредоточиться на обороне города. <b>Постройте казармы</b>, кликнув мышью на красном флаге, выберите казармы в строительном меню.</p>
 
         <div class="centerButton"><a href="javascript:;" id="okButton" class="button">ОК</a></div>
     <div class="footer"></div>
@@ -125,69 +122,14 @@
 <script language="javascript">
 
 var counter = 0;
-<?if($location == 'city'){?>
-<?switch($position){?>
-<?case 3:?>
-var startX = 220+617;
-var startY = 153+260;
-<?break;?>
-<?case 4:?>
-var startX = 220+485;
-var startY = 153+258;
-<?break;?>
-<?case 5:?>
-var startX = 220+323;
-var startY = 153+283;
-<?break;?>
-<?case 6:?>
-var startX = 220+136;
-var startY = 153+262;
-<?break;?>
-<?case 7:?>
-var startX = 220+11;
-var startY = 153+226;
-<?break;?>
-<?case 8:?>
-var startX = 220+84;
-var startY = 153+144;
-<?break;?>
-<?case 9:?>
-var startX = 220+225;
-var startY = 153+187;
-<?break;?>
-<?case 10:?>
-var startX = 220+466;
-var startY = 153+141;
-<?break;?>
-<?case 11:?>
-var startX = 220+580;
-var startY = 153+114;
-<?break;?>
-<?case 12:?>
-var startX = 220+373;
-var startY = 153+65;
-<?break;?>
-<?case 13:?>
-var startX = 220+253;
-var startY = 153+82;
-<?break;?>
-<?default:?>
-var startX = 220+225;
-var startY = 153+187;
-<?break;?>
-<?}?>
-<?}elseif($location == 'academy'){?>
-var startY = 420;
-var startX = 570;
-<?}else{?>
-    var startY = 70;
-    var startX = 480;
-<?}?>
+var startY = 430;
+var startX = 560;
+
 
 var defaultClass = "<?=$class?>" ;
 
 Dom.get("advisorImage").onmouseover = function() {
-    Dom.get("advisorImage").className = "researchAdvisor lighten";
+    Dom.get("advisorImage").className = "cityAdvisor lighten";
 };
 Dom.get("advisorImage").onmouseout = function() {
     Dom.get("advisorImage").className = defaultClass;
@@ -215,8 +157,8 @@ function Tutorial() {
         Dom.get("tutorialAdvisorLink").onclick = function() {
             that.showMessage();
             that.goToNextState();
-            defaultClass = "researchAdvisor";
-            Dom.get("advisorImage").className = "researchAdvisor";
+            defaultClass = "cityAdvisor";
+            Dom.get("advisorImage").className = "cityAdvisor";
         }
     }
 
@@ -299,12 +241,8 @@ Event.onDOMReady(function() {
     MyTutorial.showMessageAndGoToNextState();
     MyTutorial.animateArrowOnClose();
 <?}else{?>
-    <?    if ($location == 'academy'){?>
-    MyTutorial.animateArrowOnResView();
-    <?    }else{?>
     MyTutorial.animateArrow();
-    <?    }?>
 <?}?>
 });
 
-</script> 
+</script>

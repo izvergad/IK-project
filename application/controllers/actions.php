@@ -152,12 +152,13 @@ class Actions extends Controller
     function workers($type = 'resource', $id = 0)
     {
         // Обучение - найм рабочих на лесопилку
-        if ($type == 'resource' and $this->User_Model->tutorial == 2)
+        if (($type == 'resource' and $this->User_Model->tutorial == 2) or ($type == 'academy' and $this->User_Model->tutorial == 7))
         {
             $this->tutorials('next');
         }
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
+
         if (isset($_POST['rw']))
         {
             $level = $this->Town_Model->island->wood_level;
@@ -176,7 +177,8 @@ class Actions extends Controller
                 }
             }
         }
-        if (isset($_POST['s']) and $id > 0)
+
+        if (isset($_POST['s']) and $id > 0 and $this->Town_Model->already_build[3])
         {
             $max_scientists = $this->Data_Model->scientists_by_level($this->Town_Model->buildings[$id]['level']);
             if ($max_scientists >= $_POST['s'])
@@ -193,6 +195,7 @@ class Actions extends Controller
                 }
             }
         }
+        
         redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
     }
 
@@ -216,6 +219,25 @@ class Actions extends Controller
             $this->db->query('UPDATE `'.$this->session->userdata('universe').'_islands'.'` SET `wood_count`=`wood_count`+'.$count.' WHERE `id`="'.$id.'"');
         }
         redirect($this->config->item('base_url').'game/resource/'.$id.'/', 'refresh');
+    }
+
+    function doResearch($way = 0, $id = 0)
+    {
+        if($way > 0 and $way <= 4)
+        {
+            $parametr = 'res'.$way.'_'.$id;
+            $data = $this->Data_Model->get_research($way,$id,$this->User_Model->research);
+            if ($this->User_Model->research->points >= $data['points'])
+            {
+                $this->User_Model->research->points = $this->User_Model->research->points - $data['points'];
+                $this->User_Model->research->$parametr = $this->User_Model->research->$parametr + 1;
+                $this->db->set('points', $this->User_Model->research->points);
+                $this->db->set($parametr, $this->User_Model->research->$parametr);
+                $this->db->where(array('user' => $this->User_Model->id));
+                $this->db->update($this->session->userdata('universe').'_research');
+            }
+        }
+        redirect($this->config->item('base_url').'game/researchAdvisor/', 'refresh');
     }
 
 }

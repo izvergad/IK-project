@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50024
 File Encoding         : 65001
 
-Date: 2010-03-13 22:04:12
+Date: 2010-03-14 15:21:11
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -53,7 +53,80 @@ CREATE TABLE `alpha_islands` (
 -- ----------------------------
 -- Records of alpha_islands
 -- ----------------------------
-INSERT INTO `alpha_islands` VALUES ('1', 'Остров', '1', '2', '1', '3', '2', '2', '1', '0', '1268375246', '0', '0', '1', '0', '2', '0', '3', '0', '0', '0', '0', '4', '0', '0', '0', '0', '0');
+INSERT INTO `alpha_islands` VALUES ('1', 'Остров', '1', '2', '1', '3', '3', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
+
+-- ----------------------------
+-- Table structure for `alpha_research`
+-- ----------------------------
+DROP TABLE IF EXISTS `alpha_research`;
+CREATE TABLE `alpha_research` (
+  `user` int(11) NOT NULL,
+  `points` varchar(255) collate latin1_general_ci NOT NULL default '0',
+  `res1_1` int(11) NOT NULL,
+  `res1_2` int(11) NOT NULL,
+  `res1_3` int(11) NOT NULL,
+  `res1_4` int(11) NOT NULL,
+  `res1_5` int(11) NOT NULL,
+  `res1_6` int(11) NOT NULL,
+  `res1_7` int(11) NOT NULL,
+  `res1_8` int(11) NOT NULL,
+  `res1_9` int(11) NOT NULL,
+  `res1_10` int(11) NOT NULL,
+  `res1_11` int(11) NOT NULL,
+  `res1_12` int(11) NOT NULL,
+  `res1_13` int(11) NOT NULL,
+  `res1_14` int(11) NOT NULL,
+  `res2_1` int(11) NOT NULL,
+  `res2_2` int(11) NOT NULL,
+  `res2_3` int(11) NOT NULL,
+  `res2_4` int(11) NOT NULL,
+  `res2_5` int(11) NOT NULL,
+  `res2_6` int(11) NOT NULL,
+  `res2_7` int(11) NOT NULL,
+  `res2_8` int(11) NOT NULL,
+  `res2_9` int(11) NOT NULL,
+  `res2_10` int(11) NOT NULL,
+  `res2_11` int(11) NOT NULL,
+  `res2_12` int(11) NOT NULL,
+  `res2_13` int(11) NOT NULL,
+  `res2_14` int(11) NOT NULL,
+  `res2_15` int(11) NOT NULL,
+  `res3_1` int(11) NOT NULL,
+  `res3_2` int(11) NOT NULL,
+  `res3_3` int(11) NOT NULL,
+  `res3_4` int(11) NOT NULL,
+  `res3_5` int(11) NOT NULL,
+  `res3_6` int(11) NOT NULL,
+  `res3_7` int(11) NOT NULL,
+  `res3_8` int(11) NOT NULL,
+  `res3_9` int(11) NOT NULL,
+  `res3_10` int(11) NOT NULL,
+  `res3_11` int(11) NOT NULL,
+  `res3_12` int(11) NOT NULL,
+  `res3_13` int(11) NOT NULL,
+  `res3_14` int(11) NOT NULL,
+  `res3_15` int(11) NOT NULL,
+  `res3_16` int(11) NOT NULL,
+  `res4_1` int(11) NOT NULL,
+  `res4_2` int(11) NOT NULL,
+  `res4_3` int(11) NOT NULL,
+  `res4_4` int(11) NOT NULL,
+  `res4_5` int(11) NOT NULL,
+  `res4_6` int(11) NOT NULL,
+  `res4_7` int(11) NOT NULL,
+  `res4_8` int(11) NOT NULL,
+  `res4_9` int(11) NOT NULL,
+  `res4_10` int(11) NOT NULL,
+  `res4_11` int(11) NOT NULL,
+  `res4_12` int(11) NOT NULL,
+  `res4_13` int(11) NOT NULL,
+  `res4_14` int(11) NOT NULL,
+  PRIMARY KEY  (`user`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_research
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_towns`
@@ -108,15 +181,11 @@ CREATE TABLE `alpha_towns` (
   `workers_wood` int(11) NOT NULL default '0',
   `actions` varchar(255) character set utf8 NOT NULL default '3',
   PRIMARY KEY  (`id`,`user`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
 -- Records of alpha_towns
 -- ----------------------------
-INSERT INTO `alpha_towns` VALUES ('1', '1', '1', '1268506964', 'Аместрис', '5113.9872228', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3', '3', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '6', '38', '16', '993', '3');
-INSERT INTO `alpha_towns` VALUES ('2', '1', '1', '1268506964', 'Дзержинск', '20.7422222212', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '3', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '60', '0', '0', '0', '3');
-INSERT INTO `alpha_towns` VALUES ('3', '2', '1', '1268332295', 'Полис', '160', '0', '0', '0', '0', '1', '2', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '41.5822234216', '0', '0', '0', '3');
-INSERT INTO `alpha_towns` VALUES ('4', '2', '1', '1268332295', 'Полис', '160', '0', '0', '0', '0', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '', '0', '41.5822234216', '0', '0', '0', '3');
 
 -- ----------------------------
 -- Table structure for `alpha_users`
@@ -140,10 +209,8 @@ CREATE TABLE `alpha_users` (
   `premium_wine` int(11) NOT NULL default '0',
   `premium_capacity` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`,`login`)
-) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
 -- Records of alpha_users
 -- ----------------------------
-INSERT INTO `alpha_users` VALUES ('1', 'Player', '12345', '1268506964', '1', '1', '117114.237974', '25', '7', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `alpha_users` VALUES ('2', 'Player2', '12345', '1268332295', '3', '3', '472.498291388', '0', '0', '0', '0', '0', '0', '0', '0', '0');

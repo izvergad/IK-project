@@ -289,7 +289,7 @@
             </a>
         </li>
 	<li id="advResearch">
-            <a href="<?=$this->config->item('base_url')?>game/advisors/research/" title="Научный обзор" class="normal">
+            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="normal">
                 <span class="textLabel">Исследования</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">

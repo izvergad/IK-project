@@ -142,7 +142,9 @@ class Game extends Controller
      */
     function academy($position = 0)
     {
-        $position = ($position == 0) ? $this->Data_Model->get_position(3, $this->Town_Model->buildings) : $position;
+        $position = $this->Data_Model->get_position(3, $this->Town_Model->buildings);
+        //$position = ($this->Town_Model->buildings[$position]['type'] == 0 and $this->Town_Model->build_line[0]['type'] == 3) ? $this->Town_Model->build_line[0]['position'] : $position;
+        //echo $position; die();
         $this->show('academy', $position);
     }
 
@@ -162,10 +164,34 @@ class Game extends Controller
         $this->show('premiumPayment', 0);
     }
 
+    /**
+     * Заметки
+     */
     function avatarNotes()
     {
         $this->load->helper('cookie');
         $this->load->view('avatarNotes');
+    }
+
+    /**
+     * Советник по исследованиям
+     */
+    function researchAdvisor()
+    {
+        $this->show('researchAdvisor', 0);
+    }
+
+    /**
+     * Информация по исследованиям
+     * @param <int> $way
+     * @param <int> $id
+     */
+    function researchDetail($way = 1, $id = 1)
+    {
+        if ($way == 2){$id = $id + 14;}
+        if ($way == 3){$id = $id + 14+15;}
+        if ($way == 4){$id = $id + 14+15+16;}
+        $this->show('researchDetail', $id);
     }
 
     /**

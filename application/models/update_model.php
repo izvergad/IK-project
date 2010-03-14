@@ -103,6 +103,9 @@ class Update_Model extends Model
                // Прирост дерева
                $this->CI->Update_User->towns[$i]->wood = $this->CI->Update_User->towns[$i]->wood + (($this->CI->Update_User->towns[$i]->workers/3600)*$elapsed);
                $this->db->set('wood', $this->CI->Update_User->towns[$i]->wood);
+               // Баллы науки
+               $this->CI->Update_User->research->points = $this->CI->Update_User->research->points + (($this->CI->Update_User->towns[$i]->scientists/3600)*$elapsed);
+               
 
                $this->db->where(array('id' => $this->CI->Update_User->towns[$i]->id));
                $this->db->update($this->session->userdata('universe').'_towns');
@@ -152,9 +155,12 @@ class Update_Model extends Model
            $this->db->set('gold', $this->CI->Update_User->gold);
            //  Обучение
            $this->db->set('tutorial', $this->CI->Update_User->tutorial);
-
            $this->db->where(array('id' => $id));
            $this->db->update($this->session->userdata('universe').'_users');
+           // Обновляем баллы науки
+           $this->db->set('points', $this->CI->Update_User->research->points);
+           $this->db->where(array('user' => $id));
+           $this->db->update($this->session->userdata('universe').'_research');
 
        }
     }

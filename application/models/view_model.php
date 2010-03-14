@@ -29,6 +29,8 @@ class View_Model extends Model
             case 'townHall':
             case 'premium':
             case 'premiumPayment':
+            case 'researchAdvisor':
+            case 'researchDetail':
                 $this->load->view('view_'.$location, array('position' => $position));
             break;
             default: $this->not_found(); break;
