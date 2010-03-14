@@ -241,6 +241,8 @@ class Actions extends Controller
     {
         $way = intval($way);
         $id = intval($id);
+        $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->User_Model->town);
         if($way > 0 and $way <= 4)
         {
             $parametr = 'res'.$way.'_'.$id;
@@ -253,6 +255,22 @@ class Actions extends Controller
                 $this->db->set($parametr, $this->User_Model->research->$parametr);
                 $this->db->where(array('user' => $this->User_Model->id));
                 $this->db->update($this->session->userdata('universe').'_research');
+                // Благосостояние
+                if($way == 2 and $id == 3)
+                {
+                    $this->Town_Model->resources['wood'] = $this->Town_Model->resources['wood'] + 130;
+                    $this->Town_Model->resources['marble'] = $this->Town_Model->resources['marble'] + 130;
+                    $this->Town_Model->resources['wine'] = $this->Town_Model->resources['wine'] + 130;
+                    $this->Town_Model->resources['crystal'] = $this->Town_Model->resources['crystal'] + 130;
+                    $this->Town_Model->resources['sulfur'] = $this->Town_Model->resources['sulfur'] + 130;
+                    $this->db->set('wood', $this->Town_Model->resources['wood']);
+                    $this->db->set('marble', $this->Town_Model->resources['marble']);
+                    $this->db->set('wine', $this->Town_Model->resources['wine']);
+                    $this->db->set('crystal', $this->Town_Model->resources['crystal']);
+                    $this->db->set('sulfur', $this->Town_Model->resources['sulfur']);
+                    $this->db->where(array('id' => $this->Town_Model->id));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                }
             }
         }
         redirect($this->config->item('base_url').'game/researchAdvisor/', 'refresh');

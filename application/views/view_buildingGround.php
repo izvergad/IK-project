@@ -16,6 +16,30 @@
 <?if (($i != 4 and $i != 2) and ($position == 1 or $position ==2)){ continue; }?>
 <?if (($i == 4 or $i == 2 or $i == 7) and ($position >2 and $position < 14)){ continue; }?>
 
+<?
+    if (($i == 4 and $this->User_Model->research->res4_1 == 0) or
+        ($i == 6 and $this->User_Model->research->res2_1 == 0) or
+        ($i == 8 and $this->User_Model->research->res2_4 == 0) or
+        ($i == 9 and $this->User_Model->research->res3_7 == 0) or
+        ($i == 10 and $this->User_Model->research->res1_4 == 0) or
+        ($i == 11 and $this->User_Model->research->res1_5 == 0) or
+        ($i == 12 and $this->User_Model->research->res2_3 == 0) or
+        ($i == 13 and $this->User_Model->research->res3_6 == 0) or
+        ($i == 14 and $this->User_Model->research->res3_3 == 0) or
+        ($i == 15 and $this->User_Model->research->res1_4 == 0) or
+        ($i == 16 and $this->User_Model->research->res2_5 == 0) or
+        ($i == 17 and $this->User_Model->research->res2_5 == 0) or
+        ($i == 18 and $this->User_Model->research->res2_5 == 0) or
+        ($i == 19 and $this->User_Model->research->res2_5 == 0) or
+        ($i == 20 and $this->User_Model->research->res2_5 == 0) or
+        ($i == 21 and $this->User_Model->research->res1_1 == 0) or
+        ($i == 22 and $this->User_Model->research->res2_7 == 0) or
+        ($i == 23 and $this->User_Model->research->res3_9 == 0) or
+        ($i == 24 and $this->User_Model->research->res2_12 == 0) or
+        ($i == 25 and $this->User_Model->research->res4_10 == 0) or
+        ($i == 26 and $this->User_Model->research->res3_4 == 0)){ continue; }
+?>
+
 <?$building_id=$i?>
 <?$cost = $this->Data_Model->building_cost($building_id,0)?>
 

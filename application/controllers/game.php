@@ -149,6 +149,16 @@ class Game extends Controller
     }
 
     /**
+     * Казармы
+     * @param <int> $position
+     */
+    function barracks($position = 0)
+    {
+        $position = $this->Data_Model->get_position(5, $this->Town_Model->buildings);
+        $this->show('barracks', $position);
+    }
+
+    /**
      * Премиум-возможности
      */
     function premium()

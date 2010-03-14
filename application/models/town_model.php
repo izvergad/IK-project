@@ -151,6 +151,18 @@ class Town_Model extends Model
             // Каждый житель дает 3 золота
             $this->saldo = $this->peoples['free']*3;
             $this->saldo = $this->saldo - $this->peoples['research']*6;
+            // Исследования
+            if ($this->User_Model->research->res3_1 > 0 and $this->is_capital)
+            {
+                $this->peoples['max'] = $this->peoples['max'] + 50;
+                $this->good = $this->good + 50;
+            }
+            if ($this->User_Model->research->res2_14 > 0 and $this->is_capital)
+            {
+                $this->peoples['max'] = $this->peoples['max'] + 200;
+                $this->good = $this->good + 200;
+            }
+
         }
     }
 

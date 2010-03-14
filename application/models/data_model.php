@@ -102,6 +102,123 @@ class Data_Model extends Model
     }
 
     /**
+     * Название юнита по типу
+     * @param <int> $type
+     * @return <string>
+     */
+    function army_name_by_type($type)
+    {
+        switch($type)
+        {
+            case 1: return 'Гоплит'; break;
+            case 2: return 'Паровой гигант'; break;
+            case 3: return 'Копейщик'; break;
+            case 4: return 'Мечник'; break;
+            case 5: return 'Пращник'; break;
+            case 6: return 'Лучник'; break;
+            case 7: return 'Стрелок'; break;
+            case 8: return 'Таран'; break;
+            case 9: return 'Катапульта'; break;
+            case 10: return 'Мортира'; break;
+            case 11: return 'Гирокоптер'; break;
+            case 12: return 'Бомбардировщик'; break;
+            case 13: return 'Повар'; break;
+            case 14: return 'Доктор'; break;
+            case 15: return 'Варвар с топором'; break;
+        }
+    }
+
+    /**
+     * Описание юнита по типу
+     * @param <int> $type
+     * @return <string>
+     */
+    function army_desc_by_type($type)
+    {
+        switch($type)
+        {
+            case 1: return 'Гоплиты - тяжелобронированные копейщики. Они составляют сердце греческой армии. В боевом режиме "Фаланга" - они представляют собой устрашающую стену копий и щитов.'; break;
+            case 2: return 'Эти крепкие, как сталь, гиганты уже одним своим видом вселяют ужас в самых стойких солдат неприятеля. Один такой монстр способен справиться с десятками обычных солдат. Камни, стрелы и мечи не причиняют ему вреда.'; break;
+            case 3: return 'Копейщики призываются из сельских жителей и имеют примитивную броню и легкое копье в качестве оружия. Они не способны противостоять профессиональной армии.'; break;
+            case 4: return 'Мечники обычно слабо защищены и дерутся без щитов, чтобы сохранить подвижность. Так они могут обходить фаланги, чтобы атаковать их со стороны.'; break;
+            case 5: return 'Пращники очень эффективны на поле боя: их навыки могут часто пригодиться во время сражений, а их содержание не требует специального вооружения и поэтому дешево.'; break;
+            case 6: return 'Луки - популярное охотничье оружие. Не составляет труда найти среди жителей лучников и обучить их военной науке.'; break;
+            case 7: return 'Стрелок попадает без промаха в любую цель. Только одна шеренга может стрелять, пока остальные перезаряжаются.'; break;
+            case 8: return 'Перед мощным тараном задрожат даже самые прочные и надежные городские стены! Кроме высокой разрушительной силы, в этой боевой машине имеется также место для укрытия солдат от стрел, камней и прочих неприятностей.'; break;
+            case 9: return 'Выстрел катапульты вносит страх в ряды противника! Катапульты могут разрушать каменные стены, но почти бесполезны в обороне.'; break;
+            case 10: return 'Мортиры стреляют разрывными снарядами по стенам осажденного города. Ни одно строение не может противостоять им. Боеприпасы к мортирам трудно достать, поэтому необходимо хорошо целиться, чтобы не расходовать их впустую.'; break;
+            case 11: return 'Эта летающая машина надежна и не зависит от направления ветра. Мы можем атаковать трусливых врагов в небесах.'; break;
+            case 12: return 'Наши изобретатели открыли, что солнце такое горячее потому, что оно притягивает теплый воздух. Поэтому шар, наполненный горячим воздухом, поднимается к солнцу, и наши солдаты могут кидать бомбы сверху на врагов.'; break;
+            case 13: return 'Повара точно знают, как поднять боевой дух солдат - стаканом хорошего вина и миской горячей похлебки. Сытый, отдохнувший солдат - нелегкий противник в бою.'; break;
+            case 14: return 'Доктора помогают раненым солдатам во время боя. Удаляют стрелы, перевязывают раны и прикладывают лед к головам пострадавших от камней, пущенных из пращи.'; break;
+            case 15: return 'Основными военными частями варваров являются воины, которые бросаются сквозь битву с громкими криками, сеящие хаос на своем пути. Однако они не способны пробиться сквозь стройные ряды Греческих Фаланг со своей примитивной броней.'; break;
+        }
+    }
+
+    /**
+     * Класс юнита по типу
+     * @param <int> $type
+     * @return <string>
+     */
+    function army_class_by_type($type)
+    {
+        switch($type)
+        {
+            case 1: return 'phalanx'; break;
+            case 2: return 'steamgiant'; break;
+            case 3: return 'spearman'; break;
+            case 4: return 'swordsman'; break;
+            case 5: return 'slinger'; break;
+            case 6: return 'archer'; break;
+            case 7: return 'marksman'; break;
+            case 8: return 'ram'; break;
+            case 9: return 'catapult'; break;
+            case 10: return 'mortar'; break;
+            case 11: return 'gyrocopter'; break;
+            case 12: return 'bombardier'; break;
+            case 13: return 'cook'; break;
+            case 14: return 'medic'; break;
+            case 15: return 'varvar'; break;
+        }
+    }
+
+    /**
+     * Цены на армию
+     * @param <int> $type
+     * @return <array>
+     */
+    function army_cost_by_type($type)
+    {
+        $type = $type-1;
+
+        $peoples = '1 2 1 1 1 1 1 5 5 5 3 5 1 1';
+        $wood = '40 130 30 30 20 30 50 220 260 300 25 40 50 50';
+        $sulfur = '30 180 0 30 0 25 150 0 300 1250 100 250 0 0';
+        $wine = '0 0 0 0 0 0 0 0 0 0 0 0 250 0';
+        $crystal = '0 0 0 0 0 0 0 0 0 0 0 0 0 450';
+        $gold = '3 12 1 4 2 4 3 15 25 30 15 45 10 20';
+        $time = '0 0 0 0 0 0 0 0 0 0 0 0 0 0';
+        
+        $peoples_array = explode(' ', $peoples) ;
+        $wood_array = explode(' ', $wood) ;
+        $sulfur_array = explode(' ', $sulfur) ;
+        $wine_array = explode(' ', $wine) ;
+        $crystal_array = explode(' ', $crystal) ;
+        $gold_array = explode(' ', $gold) ;
+        $time_array = explode(' ', $time) ;
+        
+        $return['peoples'] = ($peoples_array[$type] > 0) ? $peoples_array[$type] : 0;
+        $return['wood'] = ($wood_array[$type] > 0) ? $wood_array[$type] : 0;
+        $return['sulfur'] = ($sulfur_array[$type] > 0) ? $sulfur_array[$type] : 0;
+        $return['wine'] = ($wine_array[$type] > 0) ? $wine_array[$type] : 0;
+        $return['crystal'] = ($crystal_array[$type] > 0) ? $crystal_array[$type] : 0;
+        $return['gold'] = ($gold_array[$type] > 0) ? $gold_array[$type] : 0;
+        $return['time'] = ($time_array[$type] > 0) ? $time_array[$type] : 0;
+
+        return $return;
+    }
+
+    /**
      * Имя здания по типу
      * @param <int> $type
      * @return <string>

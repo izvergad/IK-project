@@ -5,7 +5,7 @@ if ($position >= 0){
 
 <div id="buildingUpgrade" class="dynamic">
     <h3 class="header">Улучшить
-        <a class="help" href="<?=$this->config->item('base_url')?>game/buildingDetail/0/" title="Помощь">
+        <a class="help" href="<?=$this->config->item('base_url')?>game/buildingDetail/<?=$this->Town_Model->buildings[$position]['type']?>/" title="Помощь">
             <span class="textLabel">Нужна помощь?</span>
         </a>
     </h3>

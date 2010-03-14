@@ -31,6 +31,7 @@ class View_Model extends Model
             case 'premiumPayment':
             case 'researchAdvisor':
             case 'researchDetail':
+            case 'barracks':
                 $this->load->view('view_'.$location, array('position' => $position));
             break;
             default: $this->not_found(); break;

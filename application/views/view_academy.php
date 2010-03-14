@@ -12,6 +12,7 @@
     $ostalos = $end_date - time();
     $one_percent = ($cost['time']/100);
     $percent = 100 - floor($ostalos/$one_percent);
+
 ?>
 
     <div id="upgradeInProgress">
@@ -74,6 +75,16 @@ $peoples = floor($this->Town_Model->peoples['free']);
 $all = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['research'];
 $max = ($max_scientists < $all) ? $max_scientists : $all;
 $max = floor($max);
+
+$plus_research = 1;
+if ($this->User_Model->research->res3_2 > 0){$plus_research = $plus_research + 0.02;}
+if ($this->User_Model->research->res3_5 > 0){$plus_research = $plus_research + 0.04;}
+if ($this->User_Model->research->res3_11 > 0){$plus_research = $plus_research + 0.08;}
+if ($this->User_Model->research->res3_16 > 0){$plus_research = $plus_research + (0.02*$this->User_Model->research->res3_16);}
+$add_research = $this->Town_Model->peoples['research'] * $plus_research;
+
+$gold_need = ($this->User_Model->research->res3_13 > 0) ? 6 : 9;
+
 ?>
 
     <form id="setScientists" action="<?=$this->config->item('base_url')?>actions/workers/academy/<?=$position?>/" method="POST">
@@ -89,7 +100,7 @@ $max = floor($max);
                             <img id="lightbulb" src="<?=$this->config->item('style_url')?>skin/layout/bulb-on.gif" width="14" height="21">
                         </div>
                         <div style="position:absolute; top:22px; left:145px;">
-                            <span id="valueResearch" class="positive overcharged">+<?=floor($this->Town_Model->peoples['research'])?></span>
+                            <span id="valueResearch" class="positive overcharged">+<?=floor($add_research)?></span>
                             <span class="timeUnit">в час</span>
                         </div>
                     </li>
@@ -160,9 +171,9 @@ Event.onDOMReady(function() {
         //res.setIcons(Math.round(slider.actualValue/(1+0.05*slider.actualValue)));
         Dom.get("valueWorkers").innerHTML = locaNumberFormat(slider.actualValue);
         Dom.get("valueCitizens").innerHTML = locaNumberFormat(startCitizens+startScientists - slider.actualValue);
-        var valRes = 1*slider.actualValue;
+        var valRes = <?=$plus_research?>*slider.actualValue;
         Dom.get("valueResearch").innerHTML = '+' + Math.floor(valRes);
-        Dom.get("valueWorkCosts").innerHTML = startIncomePerTimeUnit  - 9*(slider.actualValue-startSlider);
+        Dom.get("valueWorkCosts").innerHTML = startIncomePerTimeUnit  - <?=$gold_need?>*(slider.actualValue-startSlider);
     });
 
     var flagSliderMoved =0;

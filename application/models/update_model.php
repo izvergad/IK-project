@@ -94,24 +94,46 @@ class Update_Model extends Model
                }
                // Счастье
                $good = 196 - $this->CI->Update_User->towns[$i]->peoples;
+               // Колодец - +50 счастья в столице
+               if ($this->CI->Update_User->research->res3_1 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 50; }
+               // Утопия - +200 счастья в столице
+               if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 200; }
+
                // Прирост жителей
                $workers = $this->CI->Update_User->towns[$i]->workers;
                $scientists = $this->CI->Update_User->towns[$i]->scientists;
-               $max_peoples = $this->Data_Model->peoples_by_level($this->CI->Update_User->towns[$i]->pos0_level) - $workers - $scientists;
+               $max = $this->Data_Model->peoples_by_level($this->CI->Update_User->towns[$i]->pos0_level);
+               // Колодец - +50 жилых мест в столице
+               if ($this->CI->Update_User->research->res3_1 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $max = $max + 50; }
+               // Утопия - +200 жилых мест в столице
+               if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $max = $max + 200; }
+               $max_peoples = $max - $workers - $scientists;
                $this->CI->Update_User->towns[$i]->peoples = $this->CI->Update_User->towns[$i]->peoples + ((($good/50)/3600)*$elapsed);
                if ($this->CI->Update_User->towns[$i]->peoples < 0){ $this->CI->Update_User->towns[$i]->peoples = 0; }
                if ($this->CI->Update_User->towns[$i]->peoples > $max_peoples){ $this->CI->Update_User->towns[$i]->peoples = $max_peoples; }
 
                $this->db->set('peoples', $this->CI->Update_User->towns[$i]->peoples);
+               // Почтовые трубы - на 3 золота меньше за ученых
+               $scientists_gold_need = ($this->CI->Update_User->research->res3_13 > 0) ? 3 : 6 ;
                // Прирост золота
-               $this->CI->Update_User->gold = $this->CI->Update_User->gold + (((($this->CI->Update_User->towns[$i]->peoples*3) - ($this->CI->Update_User->towns[$i]->scientists*6))/3600)*$elapsed);
+               $this->CI->Update_User->gold = $this->CI->Update_User->gold + (((($this->CI->Update_User->towns[$i]->peoples*3) - ($this->CI->Update_User->towns[$i]->scientists*$scientists_gold_need))/3600)*$elapsed);
                // Прирост дерева
                $this->CI->Update_User->towns[$i]->wood = $this->CI->Update_User->towns[$i]->wood + (($this->CI->Update_User->towns[$i]->workers/3600)*$elapsed);
                $this->db->set('wood', $this->CI->Update_User->towns[$i]->wood);
+               // Увеличение баллов за исследования
+               $plus_research = 1;
+               // Бумага - на 2% больше баллов
+               if ($this->CI->Update_User->research->res3_2 > 0){$plus_research = $plus_research + 0.02;}
+               // Чернила - на 4% больше баллов
+               if ($this->CI->Update_User->research->res3_5 > 0){$plus_research = $plus_research + 0.04;}
+               // Механическая ручка - на 8% больше баллов
+               if ($this->CI->Update_User->research->res3_11 > 0){$plus_research = $plus_research + 0.08;}
+               // Будущее Науки - на 2% больше баллов за уровень
+               if ($this->CI->Update_User->research->res3_16 > 0){$plus_research = $plus_research + (0.02*$this->CI->Update_User->research->res3_16);}
                // Баллы науки
-               $this->CI->Update_User->research->points = $this->CI->Update_User->research->points + (($this->CI->Update_User->towns[$i]->scientists/3600)*$elapsed);
+               $add_points = $this->CI->Update_User->towns[$i]->scientists * $plus_research;
+               $this->CI->Update_User->research->points = $this->CI->Update_User->research->points + (($add_points/3600)*$elapsed);
                
-
                $this->db->where(array('id' => $this->CI->Update_User->towns[$i]->id));
                $this->db->update($this->session->userdata('universe').'_towns');
 
