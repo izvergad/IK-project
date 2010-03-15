@@ -1,5 +1,5 @@
 <?
-    for($i = 1; $i <= 14; $i++)
+    for($i = 1; $i < 14; $i++)
     {
         $parametr = 'res1_'.$i;
         if ($this->User_Model->research->$parametr == 0)
@@ -8,7 +8,11 @@
             break;
         }
     }
-    for($i = 1; $i <= 15; $i++)
+    if ($this->User_Model->research->res1_14 > 0)
+    {
+        $ways[1] = $this->Data_Model->get_research(1,14,$this->User_Model->research);
+    }
+    for($i = 1; $i < 15; $i++)
     {
         $parametr = 'res2_'.$i;
         if ($this->User_Model->research->$parametr == 0)
@@ -17,7 +21,11 @@
             break;
         }
     }
-    for($i = 1; $i <= 16; $i++)
+    if ($this->User_Model->research->res2_15 > 0)
+    {
+        $ways[2] = $this->Data_Model->get_research(2,15,$this->User_Model->research);
+    }
+    for($i = 1; $i < 16; $i++)
     {
         $parametr = 'res3_'.$i;
         if ($this->User_Model->research->$parametr == 0)
@@ -26,7 +34,11 @@
             break;
         }
     }
-    for($i = 1; $i <= 14; $i++)
+    if ($this->User_Model->research->res3_16 > 0)
+    {
+        $ways[3] = $this->Data_Model->get_research(3,16,$this->User_Model->research);
+    }
+    for($i = 1; $i < 14; $i++)
     {
         $parametr = 'res4_'.$i;
         if ($this->User_Model->research->$parametr == 0)
@@ -34,6 +46,10 @@
             $ways[4] = $this->Data_Model->get_research(4,$i,$this->User_Model->research);
             break;
         }
+    }
+    if ($this->User_Model->research->res4_14 > 0)
+    {
+        $ways[4] = $this->Data_Model->get_research(4,14,$this->User_Model->research);
     }
 
 
@@ -110,7 +126,7 @@
                         <div class="costs">
                             <h5>Стоимость:</h5>
                             <ul class="resources">
-                                <li class="researchPoints"><?=$ways[$way]['points']?></li>
+                                <li class="researchPoints"><?=number_format($ways[$way]['points'])?></li>
                             </ul>
                         </div>
 <?}else{?>
@@ -122,7 +138,7 @@
                         <div class="costs">		
                             <h5>Стоимость:</h5>		
                             <ul class="resources">		
-                                <li class="researchPoints"><?=$ways[$way]['points']?></li>
+                                <li class="researchPoints"><?=number_format($ways[$way]['points'])?></li>
                             </ul>			
                         </div>
 <?}?>

@@ -1162,6 +1162,26 @@ class Data_Model extends Model
         return $return;
     }
 
+    /**
+     * Название чуда по типу
+     * @param <int> $type
+     * @return <string>
+     */
+    function get_wonder_by_type($type)
+    {
+        switch($type)
+        {
+            case 1: return 'Кузница Гефеста'; break;
+            case 2: return 'Святая Роща Аида'; break;
+            case 3: return 'Сады Деметры'; break;
+            case 4: return 'Храм Афины'; break;
+            case 5: return 'Храм Гермеса'; break;
+            case 6: return 'Крепость Ареса'; break;
+            case 7: return 'Храм Посейдона'; break;
+            case 8: return 'Колосс'; break;
+        }
+    }
+
 }
 
 /* End of file data_model.php */

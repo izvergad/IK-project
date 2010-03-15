@@ -31,6 +31,7 @@ class SideBoxes_Model extends Model
             case 'premium':
             case 'premiumPayment':
             case 'researchAdvisor':
+            case 'worldmap_iso':
                 $this->load->view('sb_'.$location);
             break;
             default: break;

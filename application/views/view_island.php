@@ -73,11 +73,13 @@
                 <span class="textLabel"><?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?></span>
             </a>
         </li>
-        <li id="wonder" class="wonder5">
-            <a href="<?=$this->config->item('base_url')?>game/wonder/<?=$this->Island_Model->island->id?>/" title="Храм Гермеса">
-                <span class="textLabel">Храм Гермеса</span>
+<?if($this->Island_Model->island->wonder > 0){?>
+        <li id="wonder" class="wonder<?=$this->Island_Model->island->wonder?>">
+            <a href="<?=$this->config->item('base_url')?>game/wonder/<?=$this->Island_Model->island->id?>/" title="<?=$this->Data_Model->get_wonder_by_type($this->Island_Model->island->wonder)?>">
+                <span class="textLabel"><?=$this->Data_Model->get_wonder_by_type($this->Island_Model->island->wonder)?></span>
             </a>
         </li>
+<?}?>
         <li class="forum"><a title="Форум" href="<?=$this->config->item('base_url')?>game/islandBoard/<?=$this->Island_Model->island->id?>/">
                 <span class="textLabel">Форум</span>
             </a>

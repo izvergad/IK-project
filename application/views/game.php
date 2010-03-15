@@ -188,7 +188,7 @@
             </li>
     
             <li class="viewWorldmap">
-                <a href="<?=$this->config->item('base_url')?>game/world/" tabindex="4" title="Центрировать выбранный город на карте мира">
+                <a href="<?=$this->config->item('base_url')?>game/worldmap_iso/" tabindex="4" title="Центрировать выбранный город на карте мира">
                     <span class="textLabel">Мир</span>
                 </a>
             </li>

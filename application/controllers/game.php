@@ -205,6 +205,19 @@ class Game extends Controller
     }
 
     /**
+     * Карта мира
+     * @param <int> $x
+     * @param <int> $y
+     */
+    function worldmap_iso($x = 0, $y = 0)
+    {
+        $id = $this->Town_Model->island->id;
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($id);
+        $this->show('worldmap_iso', 0);
+    }
+
+    /**
      * Функция отображения страниц
      * @param <string> $location
      * @param <int> $position

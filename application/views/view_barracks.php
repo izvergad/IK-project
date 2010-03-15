@@ -2,11 +2,73 @@
 <?$level = isset($this->Town_Model->buildings[$position]['level']) ? $this->Town_Model->buildings[$position]['level'] : 0?>
 
 <div id="mainview">
+
+<?if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $position){?>
+    <div class="buildingDescription">
+        <h1 style="text-align:center">Казарма</h1>
+<?
+    $level = ($this->Town_Model->buildings[$position] != false ) ? $this->Town_Model->buildings[$position]['level'] : 0;
+    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level);
+    $end_date = $this->Town_Model->build_start + $cost['time'];
+    $ostalos = $end_date - time();
+    $one_percent = ($cost['time']/100);
+    $percent = 100 - floor($ostalos/$one_percent);
+
+?>
+
+    <div id="upgradeInProgress">
+        <div class="isUpgrading">В процессе улучшения!</div>
+        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$this->Town_Model->buildings[$position]['level']?></div>
+        <div class="nextLevel"><span class="textLabel">след. уровень </span><?=$this->Town_Model->buildings[$position]['level']+1?></div>
+        <div class="progressBar">
+            <div class="bar" id="upgradeProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div>
+            <a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>actions/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
+        </div>
+
+                                <script type="text/javascript">
+				Event.onDOMReady(function() {
+					var tmppbar = getProgressBar({
+						startdate: <?=$this->Town_Model->build_start?>,
+						enddate: <?=$end_date?>,
+						currentdate: <?=time()?>,
+						bar: "upgradeProgress"
+						});
+					tmppbar.subscribe("update", function(){
+						this.barEl.title=this.progress+"%";
+						});
+					tmppbar.subscribe("finished", function(){
+						this.barEl.title="100%";
+						});
+				});
+				</script>
+
+
+        <div class="time" id="upgradeCountDown"><?=format_time($ostalos)?></div>
+
+                                <script type="text/javascript">
+				Event.onDOMReady(function() {
+					var tmpCnt = getCountdown({
+						enddate: <?=$end_date?>,
+						currentdate: <?=time()?>,
+						el: "upgradeCountDown"
+						}, 2, " ", "", true, true);
+					tmpCnt.subscribe("finished", function() {
+						setTimeout(function() {
+							location.href="<?=$this->config->item('base_url')?>game/barracks/<?=$position?>/";
+							},2000);
+						});
+					});
+				</script>
+
+    </div>
+    </div>
+<?}else{?>
     <div class="buildingDescription">
         <h1>Казарма</h1>
         <p>В казарме буйная молодёжь проходит хорошую школу и превращается в смелых бойцов. Ваши солдаты умеют обращаться с мечами, копьями и катапультами, а также в состоянии самостоятельно управлять мощными боевыми машинами.
             По мере улучшения казармы появляется возможность найма новых видов войск и увеличивается скорость их обучения.</p>
     </div>
+<?}?>
 
     <form id="buildForm"  action="<?=$this->config->item('base_url')?>actions/army/" method="POST">
         <input type=hidden name="action" value="buildUnits">
@@ -93,7 +155,13 @@
 
                             <a class="setMin" href="#reset" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(0); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
                             <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="Рекрутировать максимум"><span class="textLabel">макс.</span></a>
-			</div>		
+			</div>
+
+<?if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $position){?>
+                        <div class="forminput">
+                            Здание в процессе улучшения!
+                        </div>
+<?}else{?>
                         <div class="forminput">
                             <input class="textfield" id="textfield_<?=$this->Data_Model->army_class_by_type($i)?>" type="text" name="<?=$i?>"  value="0" size="4" maxlength="4">
                             <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="Рекрутировать максимум">
@@ -101,6 +169,8 @@
                             </a>
                             <input class="button" type=submit value="нанять!">
                         </div>
+<?}?>
+
                         <div class="costs">
                             <h5>Стоимость:</h5>
                             <ul class="resources">
