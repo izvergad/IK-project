@@ -1,3 +1,4 @@
+<?$position = $param1?>
 <div id="mainview">
     <h1 style="text-align:center">Ратуша</h1>
 

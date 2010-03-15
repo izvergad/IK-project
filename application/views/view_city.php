@@ -1,3 +1,4 @@
+<?$position = $param1?>
 <div id="mainview" class="phase<?=$this->Town_Model->level?>"> 
     <ul id="locations">
 <?

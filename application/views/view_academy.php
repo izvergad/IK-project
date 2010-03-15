@@ -1,4 +1,6 @@
+<?$position = $param1?>
 <?if ($position > 0){?>
+}
 
 <div id="mainview">
 

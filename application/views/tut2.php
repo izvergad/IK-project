@@ -1,3 +1,4 @@
+<?$position = $param1?>
 <?if ($location == 'city'){$class = 'cityAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
 

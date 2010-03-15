@@ -1,3 +1,4 @@
+<?$position = $param1?>
 <?switch($position){?>
 <?case 1:?>
 <div id="mainview">

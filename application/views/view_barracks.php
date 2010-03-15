@@ -1,4 +1,6 @@
+<?$position = $param1?>
 <?if($position > 0){?>
+}
 <?$level = isset($this->Town_Model->buildings[$position]['level']) ? $this->Town_Model->buildings[$position]['level'] : 0?>
 
 <div id="mainview">

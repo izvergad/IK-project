@@ -15,10 +15,11 @@ class View_Model extends Model
      * @param <string> $location
      * @param <int> $position
      */
-    function show($location = 'city', $position)
+    function show($location = 'city', $param1, $param2)
     {
         switch($location)
         {
+            case 'worldmap_iso': $this->load->view('view_'.$location, array('x' => $param1, 'y' => $param2)); break;
             case 'academy':
             case 'buildingGround':
             case 'city':
@@ -32,8 +33,7 @@ class View_Model extends Model
             case 'researchAdvisor':
             case 'researchDetail':
             case 'barracks':
-            case 'worldmap_iso':
-                $this->load->view('view_'.$location, array('position' => $position));
+                $this->load->view('view_'.$location, array('position' => $param1));
             break;
             default: $this->not_found(); break;
         }

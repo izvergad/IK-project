@@ -1,3 +1,5 @@
+<?$x = $param1?>
+<?$y = $param2?>
 <div id="mainview" style="overflow:visible;z-index:30">
 
 	<div id="annotationBox" style="display:none;">
@@ -1033,9 +1035,9 @@
 </div>
 
 <script>
-    var map = new Map(<?=$this->Island_Model->island->x?>, <?=$this->Island_Model->island->y?>);
+    var map = new Map(<?=$x?>, <?=$y?>);
     map.handleMapData('');
     map.drawMap();
-    map.getMapData(<?=$this->Island_Model->island->x?>, <?=$this->Island_Model->island->y?>)
+    map.getMapData(<?=$x?>, <?=$y?>)
 </script>
  

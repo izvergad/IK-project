@@ -53,7 +53,7 @@ class Game extends Controller
      */
     function index()
     {
-        $this->show('city',0);
+        $this->show('city');
     }
 
     /**
@@ -124,7 +124,7 @@ class Game extends Controller
      */
     function renameCity()
     {
-        $this->show('renameCity', 0);
+        $this->show('renameCity');
     }
 
     /**
@@ -163,7 +163,7 @@ class Game extends Controller
      */
     function premium()
     {
-        $this->show('premium', 0);
+        $this->show('premium');
     }
 
     /**
@@ -171,7 +171,7 @@ class Game extends Controller
      */
     function premiumPayment()
     {
-        $this->show('premiumPayment', 0);
+        $this->show('premiumPayment');
     }
 
     /**
@@ -188,7 +188,7 @@ class Game extends Controller
      */
     function researchAdvisor()
     {
-        $this->show('researchAdvisor', 0);
+        $this->show('researchAdvisor');
     }
 
     /**
@@ -214,7 +214,9 @@ class Game extends Controller
         $id = $this->Town_Model->island->id;
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($id);
-        $this->show('worldmap_iso', 0);
+        $x = ($x == 0) ? $this->Island_Model->island->x : $x ;
+        $y = ($y == 0) ? $this->Island_Model->island->y : $y ;
+        $this->show('worldmap_iso', $x, $y);
     }
 
     /**
@@ -222,10 +224,10 @@ class Game extends Controller
      * @param <string> $location
      * @param <int> $position
      */
-    function show($location, $position)
+    function show($location, $param1 = 0, $param2 = 0)
     {
         $bread = $this->load->view('bread_'.$location, null, true);
-        $this->load->view('game',array('location' => $location, 'bread' => $bread, 'position' => $position));
+        $this->load->view('game',array('location' => $location, 'bread' => $bread, 'param1' => $param1, 'param2' => $param2));
     }
 }
 

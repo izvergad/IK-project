@@ -163,8 +163,8 @@
                     </div>
                     <div id="avatarNotes"></div>
                     <?=$bread?>
-                    <?=$this->SideBoxes_Model->show($location, $position)?>
-                    <?=$this->View_Model->show($location, $position)?>
+                    <?=$this->SideBoxes_Model->show($location, $param1, $param2)?>
+                    <?=$this->View_Model->show($location, $param1, $param2)?>
 
 <div id="cityNav">
     <form id="changeCityForm" action="<?=$this->config->item('base_url')?>game/city/" method="POST">

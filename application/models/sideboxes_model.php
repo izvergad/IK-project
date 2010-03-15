@@ -14,16 +14,17 @@ class SideBoxes_Model extends Model
      * Выбирает какие функции для каких страниц
      * @param <string> $location
      */
-    function show($location = 'city', $position = 0)
+    function show($location = 'city', $param1, $param2)
     {
         switch($location)
         {
+            case 'worldmap_iso': $this->load->view('sb_'.$location, array('x' => $param1, 'y' => $param2)); break;
             case 'buildingGround': break;
             case 'researchDetail':
-            case 'informations': $this->load->view('sb_'.$location, array('id' => $position)); break;
+            case 'informations': $this->load->view('sb_'.$location, array('id' => $param1)); break;
             case 'academy':
             case 'barracks':
-            case 'townHall': $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $position));
+            case 'townHall': $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island': 
             case 'resource':
@@ -31,7 +32,6 @@ class SideBoxes_Model extends Model
             case 'premium':
             case 'premiumPayment':
             case 'researchAdvisor':
-            case 'worldmap_iso':
                 $this->load->view('sb_'.$location);
             break;
             default: break;

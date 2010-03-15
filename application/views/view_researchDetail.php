@@ -1,4 +1,5 @@
 <?
+    $position = $param1;
     if($position <= 14){$way = 1; $id = $position;}
     if($position > 14 and $position <= 29 ){$way = 2; $id = $position - 14;}
     if($position > 29 and $position <= 45 ){$way = 3; $id = $position - 14 - 15;}
