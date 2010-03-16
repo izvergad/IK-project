@@ -1036,8 +1036,7 @@
 
 <script>
     var map = new Map(<?=$x?>, <?=$y?>);
-    map.handleMapData('');
+    map.getMapData(<?=$x?>, <?=$y?>);
     map.drawMap();
-    map.getMapData(<?=$x?>, <?=$y?>)
 </script>
  

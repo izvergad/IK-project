@@ -64,23 +64,29 @@
     <h3>Достопримечательности на острове <?=$this->Island_Model->island->name?></h3>
     <ul id="islandfeatures">
         <li class="<?=$this->Data_Model->resource_class_by_type(0)?> level<?=$this->Island_Model->levels[0]?>">
-            <a href="<?=$this->config->item('base_url')?>game/resource/<?=$this->Island_Model->island->id?>/" title="<?=$this->Data_Model->island_building_by_resource(0)?> <?=$this->Island_Model->levels[0]?>">
+<?$link_wood = ($this->Island_Model->island->id == $this->Town_Model->island->id) ? $this->config->item('base_url').'game/resource/'.$this->Island_Model->island->id.'/' : '#'?>
+<?$link_trade = ($this->Island_Model->island->id == $this->Town_Model->island->id) ? $this->config->item('base_url').'game/tradegood/'.$this->Island_Model->island->id.'/' : '#'?>
+<?$link_wonder = ($this->Island_Model->island->id == $this->Town_Model->island->id) ? $this->config->item('base_url').'game/wonder/'.$this->Island_Model->island->id.'/' : '#'?>
+<?$link_forum = ($this->Island_Model->island->id == $this->Town_Model->island->id) ? $this->config->item('base_url').'game/islandBoard/'.$this->Island_Model->island->id.'/' : '#'?>
+
+            <a href="<?=$link_wood?>" title="<?=$this->Data_Model->island_building_by_resource(0)?> <?=$this->Island_Model->levels[0]?>">
                 <span class="textLabel"><?=$this->Data_Model->island_building_by_resource(0)?></span>
             </a>
+
         </li>
         <li id="tradegood"  class="<?=$this->Data_Model->resource_class_by_type($this->Island_Model->island->trade_resource)?> level<?=$this->Island_Model->levels[1]?>">
-            <a href="<?=$this->config->item('base_url')?>game/noluxury/<?=$this->Island_Model->island->id?>/" title="<?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?> <?=$this->Island_Model->levels[1]?>">
+            <a href="<?=$link_trade?>" title="<?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?> <?=$this->Island_Model->levels[1]?>">
                 <span class="textLabel"><?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?></span>
             </a>
         </li>
 <?if($this->Island_Model->island->wonder > 0){?>
         <li id="wonder" class="wonder<?=$this->Island_Model->island->wonder?>">
-            <a href="<?=$this->config->item('base_url')?>game/wonder/<?=$this->Island_Model->island->id?>/" title="<?=$this->Data_Model->get_wonder_by_type($this->Island_Model->island->wonder)?>">
+            <a href="<?=$link_wonder?>" title="<?=$this->Data_Model->get_wonder_by_type($this->Island_Model->island->wonder)?>">
                 <span class="textLabel"><?=$this->Data_Model->get_wonder_by_type($this->Island_Model->island->wonder)?></span>
             </a>
         </li>
 <?}?>
-        <li class="forum"><a title="Форум" href="<?=$this->config->item('base_url')?>game/islandBoard/<?=$this->Island_Model->island->id?>/">
+        <li class="forum"><a title="Форум" href="<?=$link_forum?>">
                 <span class="textLabel">Форум</span>
             </a>
         </li>
