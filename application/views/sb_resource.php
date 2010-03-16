@@ -5,6 +5,7 @@
     $need_wood = $cost['wood'] - $this->Island_Model->resources[0];
     $need_wood = ($need_wood < 0) ? 0 : $need_wood;
     $upgraded = ($this->Island_Model->island->wood_start > 0) ? 'upgrading' : '';
+    $max = ($this->Town_Model->resources['wood'] > $need_wood) ? $need_wood : floor($this->Town_Model->resources['wood']);
 ?>
 
 <div id="resUpgrade" class="dynamic <?=$upgraded?>">
@@ -81,7 +82,7 @@
                 <input type="hidden" name="action" value="IslandScreen">
                 <input type="hidden" name="function" value="donate">
                 <input id="donateWood" name="donation" type="text" autocomplete="off" class="textfield">
-                <a href="#setmax" title="Пожертвовать макс." onClick="Dom.get('donateWood').value=<?=floor($this->Town_Model->resources['wood'])?>;">max</a>
+                <a href="#setmax" title="Пожертвовать макс." onClick="Dom.get('donateWood').value=<?=$max?>;">max</a>
                 <div class="centerButton">
                     <input type="submit" class="button" value="Улучшить">
                 </div>

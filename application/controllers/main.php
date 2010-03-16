@@ -63,7 +63,7 @@ class Main extends Controller {
 
         function CreateAvatar()
         {
-            if (isset($_POST['universe']) and isset($_POST['name']) and isset($_POST['password']) and $_POST['universe'] == 'alpha')
+            if (isset($_POST['universe']) and isset($_POST['name']) and $_POST['name'] != '' and isset($_POST['password']) and $_POST['password'] != '' and $_POST['universe'] == 'alpha')
             {
                 $login = strip_tags($_POST['name']);
                 $password = strip_tags($_POST['password']);
