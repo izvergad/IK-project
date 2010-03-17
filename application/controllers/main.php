@@ -75,7 +75,7 @@ class Main extends Controller {
                     // Добавляем данные игрока
                     $user_data = array(
                        'login' => $login,
-                       'password' => $password,
+                       'password' => md5($password),
                        'last_visit' => time()
                     );
                     $this->db->insert($_POST['universe'].'_users', $user_data);

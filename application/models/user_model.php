@@ -35,7 +35,7 @@ class User_Model extends Model
         if (isset($_POST['name']) & isset($_POST['password']))
         {
             
-            $query = $this->db->get_where($_POST['universe'].'_users', array('login' => $_POST['name'], 'password' => $_POST['password']));
+            $query = $this->db->get_where($_POST['universe'].'_users', array('login' => $_POST['name'], 'password' => md5($_POST['password'])));
             if ($query->num_rows() > 0)
             {
                 $user = $query->row();
@@ -44,7 +44,7 @@ class User_Model extends Model
                 $data['id'] = $user->id;
                 $data['universe'] = $_POST['universe'];
                 $data['login'] = $_POST['name'];
-                $data['password'] = $_POST['password'];
+                $data['password'] = md5($_POST['password']);
 
                 $this->session->set_userdata($data);
                 redirect('/game/', 'refresh');
