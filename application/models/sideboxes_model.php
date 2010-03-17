@@ -18,6 +18,7 @@ class SideBoxes_Model extends Model
     {
         switch($location)
         {
+            case 'demolition': $this->load->view('sb_'.$location, array('position' => $param1)); break;
             case 'worldmap_iso': $this->load->view('sb_'.$location, array('x' => $param1, 'y' => $param2)); break;
             case 'buildingGround': break;
             case 'researchDetail':

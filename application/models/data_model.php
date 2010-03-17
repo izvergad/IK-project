@@ -560,6 +560,7 @@ class Data_Model extends Model
      */
     function building_cost($id = 1, $level = 0)
     {
+        if ($level < 0){ $level = 0; }
         $wood = ''; $wine = ''; $marble = ''; $crystal = ''; $sulfur = ''; $time = ''; $max_level = 0;
         switch($id)
         {

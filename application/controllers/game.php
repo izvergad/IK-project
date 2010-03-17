@@ -219,6 +219,11 @@ class Game extends Controller
         $this->show('worldmap_iso', $x, $y);
     }
 
+    function demolition($position = 0)
+    {
+        $this->show('demolition', $position);
+    }
+
     /**
      * Функция отображения страниц
      * @param <string> $location
@@ -226,7 +231,7 @@ class Game extends Controller
      */
     function show($location, $param1 = 0, $param2 = 0)
     {
-        $bread = $this->load->view('bread_'.$location, null, true);
+        $bread = $this->load->view('bread_'.$location, array('position' => $param1), true);
         $this->load->view('game',array('location' => $location, 'bread' => $bread, 'param1' => $param1, 'param2' => $param2));
     }
 }

@@ -61,7 +61,6 @@ class Update_Model extends Model
                         {
                             $this->CI->Update_User->tutorial = 10;
                         }
-
                         // Строим здание
                         $this->CI->Update_User->towns[$i]->$pos_text = $this->CI->Update_User->towns[$i]->$pos_text + 1;
                         $this->CI->Update_User->towns[$i]->$type_text = $buildings[$ochered]['type'];

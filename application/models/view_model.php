@@ -33,6 +33,7 @@ class View_Model extends Model
             case 'researchAdvisor':
             case 'researchDetail':
             case 'barracks':
+            case 'demolition':
                 $this->load->view('view_'.$location, array('position' => $param1));
             break;
             default: $this->not_found(); break;

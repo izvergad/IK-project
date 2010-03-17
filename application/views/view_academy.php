@@ -23,7 +23,7 @@
         <div class="nextLevel"><span class="textLabel">след. уровень </span><?=$this->Town_Model->buildings[$position]['level']+1?></div>
         <div class="progressBar">
             <div class="bar" id="upgradeProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div>
-            <a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>actions/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
+            <a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>game/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
         </div>
 
                                 <script type="text/javascript">
