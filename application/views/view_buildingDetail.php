@@ -56,8 +56,8 @@
                 </tr>
 
 <?for ($i = $level; $i <= $level + 15; $i++){?>
-<?$cost = $this->Data_Model->building_cost($id,$i)?>
 <?if ($cost['max_level'] >= $i) {?>
+<?$cost = $this->Data_Model->building_cost($id,$i)?>
                 <tr >
                     <td class="level"><?=$i?></td>
 <?if ($wood) {?>
