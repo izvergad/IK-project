@@ -1,7 +1,6 @@
 <?$position = $param1?>
 <?if ($location == 'city'){$class = 'militaryAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
-<?$position = ($position > 0) ? $position : $this->Data_Model->get_position(5, $this->Town_Model->buildings)?>
 
 <style>
 #tutorialAdvisor {
@@ -128,59 +127,11 @@
 
 var counter = 0;
 <?if($location == 'city'){?>
-<?switch($position){?>
-<?case 3:?>
-var startX = 220+617;
-var startY = 153+260;
-<?break;?>
-<?case 4:?>
-var startX = 220+485;
-var startY = 153+258;
-<?break;?>
-<?case 5:?>
-var startX = 220+323;
-var startY = 153+283;
-<?break;?>
-<?case 6:?>
-var startX = 220+136;
-var startY = 153+262;
-<?break;?>
-<?case 7:?>
-var startX = 220+11;
-var startY = 153+226;
-<?break;?>
-<?case 8:?>
-var startX = 220+84;
-var startY = 153+144;
-<?break;?>
-<?case 9:?>
-var startX = 220+225;
-var startY = 153+187;
-<?break;?>
-<?case 10:?>
-var startX = 220+466;
-var startY = 153+141;
-<?break;?>
-<?case 11:?>
-var startX = 220+580;
-var startY = 153+114;
-<?break;?>
-<?case 12:?>
-var startX = 220+373;
-var startY = 153+65;
-<?break;?>
-<?case 13:?>
-var startX = 220+253;
-var startY = 153+82;
-<?break;?>
-<?default:?>
-var startX = 220+225;
-var startY = 153+187;
-<?break;?>
-<?}?>
-<?}elseif($location == 'barracks'){?>
-var startY = 370;
-var startX = 790;
+var startY = 160;
+var startX = 740;
+<?}elseif($location == 'buildingGround' and $position == 14){?>
+var startY = 365;
+var startX = 785;
 <?}else{?>
 var startY = 70;
 var startX = 480;

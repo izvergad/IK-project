@@ -24,6 +24,7 @@ class View_Model extends Model
             case 'buildingGround':
             case 'city':
             case 'informations':
+            case 'buildingDetail':
             case 'island':
             case 'renameCity':
             case 'resource':
@@ -34,6 +35,7 @@ class View_Model extends Model
             case 'researchDetail':
             case 'barracks':
             case 'demolition':
+            case 'armyGarrisonEdit':
                 $this->load->view('view_'.$location, array('position' => $param1));
             break;
             default: $this->not_found(); break;

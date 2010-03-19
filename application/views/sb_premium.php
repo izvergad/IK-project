@@ -29,7 +29,7 @@
   <div class="content">
     <a href="<?=$this->config->item('base_url')?>game/city/" title="Назад в город">
       <span class="textLabel">&lt;&lt; Назад в город</span>
-        </a>
+    </a>
     </div>
   <div class="footer"></div>
 </div> 

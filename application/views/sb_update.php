@@ -11,7 +11,9 @@ if ($position >= 0){
     </h3>
     <div class="content">
         <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$this->Town_Model->buildings[$position]['level']?></div>
+
         <h4>Необходим уровень <?=$this->Town_Model->buildings[$position]['level']+1?>:</h4>
+
         <ul class="resources">
 <?if($cost['wood'] > 0){?>
             <li class="wood" title="Стройматериалы"><span class="textLabel">Стройматериалы: </span><?=number_format($cost['wood'])?></li>

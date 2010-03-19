@@ -1,7 +1,6 @@
 <?$position = $param1?>
-<?if ($location == 'city'){$class = 'militaryAdvisor';}else{$class = 'invisible';}?>
+<?if ($location == 'city'){$class = 'diplomacyAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
-<?$position = ($position > 0) ? $position : $this->Data_Model->get_position(5, $this->Town_Model->buildings)?>
 
 <style>
 #tutorialAdvisor {
@@ -114,10 +113,11 @@
     <a href="javascript:;" id="tutorialAdvisorCloseLink"></a>
     <div class="content">
     <p>Здравствуйте,<br />
+меня зовут Иссус. Я буду информировать вас обо всех событиях, происходящих с другими цивилизациями.<br>
 <br>
-Меня зовут Аякс. Я могу рассказать вам обо всех передвижениях флота, которые знаю, а также об идущих и завершенных сражениях. В этом нет ничего страшного для вас, так как боги непрерывно наблюдают за вами с <a href="<?=$this->config->item('base_url')?>game/informations/11/"> небес </a>, защищая вашу империю от посягательств.<br />
+На данном этапе, я бы порекомендовал вам построить <b>торговый порт</b>. Чтобы это сделать, щелкните на один из синих флажков. Затем вы можете зайти в торговый порт и приобрести там торговый корабль. Торговые корабли необходимы для транспортировки товаров в другие города, а также для грабежей ресурсов.<br />
 <br>
-Но чтобы быть готовыми к будущим событиям, я рекомендую вам ознакомиться с базовыми особенностями ведения боевых действий. Первое, что вам необходимо сделать, это <b>нанять несколько бойцов</b>. Для того, чтобы это сделать, надо зайти в казармы и начать обучение солдат. Затем нажмите на желтый флажок в вашем городе, чтобы построить <b>городскую стену</b>.</p>
+Чтобы транспортировать товары и солдат, используйте кнопку 'Мир'. Выберите остров и затем выберите город назначения. Если у вас возникают проблемы по навигации по миру, я рекомендую вам посетить Икипедию, особенно страницу о <a href="<?=$this->config->item('base_url')?>game/informations/12/"> Навигации </a>, где вы найдете ответы на ваши вопросы.</p>
 
         <div class="centerButton"><a href="javascript:;" id="okButton" class="button">ОК</a></div>
     <div class="footer"></div>
@@ -128,59 +128,11 @@
 
 var counter = 0;
 <?if($location == 'city'){?>
-<?switch($position){?>
-<?case 3:?>
-var startX = 220+617;
-var startY = 153+260;
-<?break;?>
-<?case 4:?>
-var startX = 220+485;
-var startY = 153+258;
-<?break;?>
-<?case 5:?>
-var startX = 220+323;
-var startY = 153+283;
-<?break;?>
-<?case 6:?>
-var startX = 220+136;
-var startY = 153+262;
-<?break;?>
-<?case 7:?>
-var startX = 220+11;
-var startY = 153+226;
-<?break;?>
-<?case 8:?>
-var startX = 220+84;
-var startY = 153+144;
-<?break;?>
-<?case 9:?>
-var startX = 220+225;
-var startY = 153+187;
-<?break;?>
-<?case 10:?>
-var startX = 220+466;
-var startY = 153+141;
-<?break;?>
-<?case 11:?>
-var startX = 220+580;
-var startY = 153+114;
-<?break;?>
-<?case 12:?>
-var startX = 220+373;
-var startY = 153+65;
-<?break;?>
-<?case 13:?>
-var startX = 220+253;
-var startY = 153+82;
-<?break;?>
-<?default:?>
-var startX = 220+225;
-var startY = 153+187;
-<?break;?>
-<?}?>
-<?}elseif($location == 'barracks'){?>
-var startY = 370;
-var startX = 790;
+var startY = 500;
+var startX = 460;
+<?}elseif($location == 'buildingGround' and $position == 1){?>
+var startY = 365;
+var startX = 785;
 <?}else{?>
 var startY = 70;
 var startX = 480;
@@ -190,7 +142,7 @@ var startX = 480;
 var defaultClass = "<?=$class?>" ;
 
 Dom.get("advisorImage").onmouseover = function() {
-    Dom.get("advisorImage").className = "militaryAdvisor lighten";
+    Dom.get("advisorImage").className = "diplomacyAdvisor lighten";
 };
 Dom.get("advisorImage").onmouseout = function() {
     Dom.get("advisorImage").className = defaultClass;
@@ -218,8 +170,8 @@ function Tutorial() {
         Dom.get("tutorialAdvisorLink").onclick = function() {
             that.showMessage();
             that.goToNextState();
-            defaultClass = "militaryAdvisor";
-            Dom.get("advisorImage").className = "militaryAdvisor";
+            defaultClass = "diplomacyAdvisor";
+            Dom.get("advisorImage").className = "diplomacyAdvisor";
         }
     }
 

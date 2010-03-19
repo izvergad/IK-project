@@ -241,24 +241,25 @@
                 <span class="textLabel">Вместимость Стройматериалы:</span><?=number_format($this->Town_Model->capacity['wood'])?>
             </div>
 	</li>
-	<li class="wine disabled">
+<?$disabled = ($this->User_Model->research->res2_3 == 0) ? 'disabled' : ''?>
+	<li class="wine <?=$disabled?>">
             <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=number_format($this->Town_Model->resources['wine'])?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Виноград:</span><?=number_format($this->Town_Model->capacity['wine'])?>
             </div>
 	</li>
-	<li class="marble disabled">
+	<li class="marble <?=$disabled?>">
             <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=number_format($this->Town_Model->resources['marble'])?></span>
             <div class="tooltip"><span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Town_Model->capacity['marble'])?>
             </div>
 	</li>
-	<li class="glass disabled">
+	<li class="glass <?=$disabled?>">
             <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=number_format($this->Town_Model->resources['crystal'])?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Town_Model->capacity['crystal'])?>
             </div>
 	</li>
-	<li class="sulfur disabled">
+	<li class="sulfur <?=$disabled?>">
             <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=number_format($this->Town_Model->resources['sulfur'])?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Town_Model->capacity['sulfur'])?>
@@ -468,21 +469,29 @@ function updateServerTime() {
 function jsTitleTag(nextETA) {
     this.nextETA = nextETA;
     var thisObj = this;
-    var cnt = new Timer(nextETA, 1265893414, 1);
+    var cnt = new Timer(nextETA, <?=time()?>, 1);
     cnt.subscribe("update", function() {
         var timeargs = this.enddate - Math.floor(this.currenttime/1000) *1000;
         var title = "Икариам - ";
         if (timeargs != "")
-            title += getTimestring(timeargs, 3, undefined, undefined, undefined, true) + " - ";
-        title += "Мир Альфа";
+            title += getTimestring(timeargs, 3, undefined, undefined, undefined, true);
         top.document.title = title;
     })
     cnt.subscribe("finished", function() {
-        top.document.title = "Икариам" + " - Мир Альфа";
+        top.document.title = "Икариам";
     });
     cnt.startTimer();
     return cnt;
 }
+
+<?if($this->Town_Model->build_start > 0){
+    $level = ($this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']] != false ) ? $this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']]['level'] : 0;
+    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level);
+    $end_date = $this->Town_Model->build_start + $cost['time'];
+?>
+titleTag = new jsTitleTag(<?=$end_date?>)
+<?}?>
+
 var avatarNotes = null;
 function switchNoteDisplay() {
     document.cookie = 'notes=0; expires=Thu, 01-Jan-70 00:00:01 GMT;';

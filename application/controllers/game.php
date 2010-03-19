@@ -224,6 +224,16 @@ class Game extends Controller
         $this->show('demolition', $position);
     }
 
+    function buildingDetail($id = 1)
+    {
+        $this->show('buildingDetail', $id);
+    }
+
+    function armyGarrisonEdit()
+    {
+        $this->show('armyGarrisonEdit');
+    }
+
     /**
      * Функция отображения страниц
      * @param <string> $location

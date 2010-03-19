@@ -21,11 +21,21 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">10&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy" rowspan="2">
+<?if($this->User_Model->ambrosy >= 10){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/account/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 10 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
                 <tr>
+<?if($this->User_Model->premium_account > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_account-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
             </table>
 
@@ -45,12 +55,22 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">10&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy"  rowspan="2">
+<?if($this->User_Model->ambrosy >= 10){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/wood/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 10 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
 
                 <tr>
+<?if($this->User_Model->premium_wood > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_wood-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
 
                 <tr style="background-image:url(<?=$this->config->item('style_url')?>skin/premium/table_border_2.gif); background-repeat:no-repeat; background-position:center;">
@@ -65,12 +85,22 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">8&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy"  rowspan="2">
+<?if($this->User_Model->ambrosy >= 8){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/marble/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 8 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
 
                 <tr>
+<?if($this->User_Model->premium_marble > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_marble-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
 
                 <tr style="background-image:url(<?=$this->config->item('style_url')?>skin/premium/table_border_2.gif); background-repeat:no-repeat; background-position:center;">
@@ -85,12 +115,22 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">3&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy"  rowspan="2">
+<?if($this->User_Model->ambrosy >= 3){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/sulfur/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 3 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
 
                 <tr>
+<?if($this->User_Model->premium_sulfur > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_sulfur-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
 
                 <tr style="background-image:url(<?=$this->config->item('style_url')?>skin/premium/table_border_2.gif); background-repeat:no-repeat; background-position:center;">
@@ -105,12 +145,22 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">5&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy"  rowspan="2">
+<?if($this->User_Model->ambrosy >= 5){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/crystal/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 5 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
 
                 <tr>
+<?if($this->User_Model->premium_crystal > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_crystal-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
 
                 <tr style="background-image:url(<?=$this->config->item('style_url')?>skin/premium/table_border_2.gif); background-repeat:no-repeat; background-position:center;">
@@ -125,12 +175,22 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">3&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy"  rowspan="2">
+<?if($this->User_Model->ambrosy >= 3){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/wine/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 3 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
 
                 <tr>
+<?if($this->User_Model->premium_wine > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_wine-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
 
                 <tr style="background-image:url(<?=$this->config->item('style_url')?>skin/premium/table_border_2.gif); background-repeat:no-repeat; background-position:center;">
@@ -145,12 +205,22 @@
                     <td class="duration">7&nbsp;д.</td>
                     <td class="cost">14&nbsp;<img src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif" width="24" height="20" alt="Амброзия" /></td>
                     <td class="buy"  rowspan="2">
+<?if($this->User_Model->ambrosy >= 14){?>
+        <div class="centerButton">
+            <a href="<?=$this->config->item('base_url')?>actions/premium/capacity/" class="button" title="Купить">Купить</a>
+        </div>
+<?}else{?>
                       <a class="notenough" href="<?=$this->config->item('base_url')?>game/premiumPayment/">Не хватает 14 ед. амброзии!<br><span class="buyNow">Купить!</span></a>
+<?}?>
                     </td>
                 </tr>
 
                 <tr>
+<?if($this->User_Model->premium_capacity > 0){?>
+                    <td class="active" colspan="3"><br>Осталось <?=premium_time($this->User_Model->premium_capacity-time())?></td>
+<?}else{?>
                     <td class="inactive" colspan="3">Не активен</td>
+<?}?>
                 </tr>
 
             </table>

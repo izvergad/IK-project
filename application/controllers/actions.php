@@ -21,6 +21,16 @@ class Actions extends Controller
     }
 
     /**
+     * Переход на страницу ошибок
+     * @param <string> $error
+     */
+    function Error($error = '')
+    {
+                $this->session->set_userdata(array('error' => $error));
+                redirect('/game/error/', 'refresh');
+    }
+    
+    /**
      * Обучение: Переход к следующему обучению
      * @param <string> $action
      */
@@ -120,8 +130,8 @@ class Actions extends Controller
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         $class = $this->Data_Model->building_class_by_type($id);
-        // Заглушка build_text пока не будет готова очередь потроек
-        if ($class != 'buildingGround' and $this->Town_Model->build_text == '' and ($this->Town_Model->buildings[$position]['type'] == 0 or $this->Town_Model->buildings[$position]['type'] == $id))
+
+        if ($class != 'buildingGround' and ($id != 13 or $this->User_Model->research->res2_13 > 0) and ($this->Town_Model->buildings[$position]['type'] == 0 or $this->Town_Model->buildings[$position]['type'] == $id))
         {
             $level = ($this->Town_Model->buildings[$position] != false ) ? $this->Town_Model->buildings[$position]['level'] : 0;
             // Получаем цены
@@ -135,12 +145,15 @@ class Actions extends Controller
             // Если остаток приемлемый
             if ($wood >= 0 and $wine >= 0 and $marble >= 0 and $crystal >= 0 and $sulfur >= 0)
             {
-                // Обновляем ресурсы в базе и в модели
-                $this->db->set('wood', $wood); $this->Town_Model->resources['wood'] = $wood;
-                $this->db->set('wine', $wine); $this->Town_Model->resources['wine'] = $wine;
-                $this->db->set('marble', $marble); $this->Town_Model->resources['marble'] = $marble;
-                $this->db->set('crystal', $crystal); $this->Town_Model->resources['crystal'] = $crystal;
-                $this->db->set('sulfur', $sulfur); $this->Town_Model->resources['sulfur'] = $sulfur;
+                if ($this->Town_Model->build_text == '')
+                {
+                    // Обновляем ресурсы в базе и в модели
+                    $this->db->set('wood', $wood); $this->Town_Model->resources['wood'] = $wood;
+                    $this->db->set('wine', $wine); $this->Town_Model->resources['wine'] = $wine;
+                    $this->db->set('marble', $marble); $this->Town_Model->resources['marble'] = $marble;
+                    $this->db->set('crystal', $crystal); $this->Town_Model->resources['crystal'] = $crystal;
+                    $this->db->set('sulfur', $sulfur); $this->Town_Model->resources['sulfur'] = $sulfur;
+                }
                 // Строка текста прямо как в базе
                 if ($this->Town_Model->build_text != '')
                 {
@@ -167,11 +180,27 @@ class Actions extends Controller
                             // Построили академию
                             $this->tutorials('set', 5);
                         }
-                        if ($id == 5 and $this->User_Model->tutorial <= 9)
+                        if ($id == 5 and $this->User_Model->tutorial <= 8)
                         {
                             // Построили казарму
-                            $this->tutorials('set', 10);
+                            $this->tutorials('set', 9);
                         }
+                        if ($id == 7 and $this->User_Model->tutorial <= 12)
+                        {
+                            // Построили стену
+                            $this->tutorials('set', 13);
+                        }
+                        if ($id == 2 and $this->User_Model->tutorial <= 13)
+                        {
+                            // Построили порт
+                            $this->tutorials('set', 14);
+                        }
+                        if ($level > 0 and  $this->User_Model->tutorial <= 15)
+                        {
+                            // Апгрейдили здание
+                            $this->tutorials('set', 16);
+                        }
+
             }
         }
         // Переход на страницу игры
@@ -206,9 +235,9 @@ class Actions extends Controller
         {
             $this->tutorials('set', 3);
         }    
-        if ($type == 'academy' and $this->User_Model->tutorial <= 7)
+        if ($type == 'academy' and $this->User_Model->tutorial <= 6)
         {
-            $this->tutorials('set', 8);
+            $this->tutorials('set', 7);
         }
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
@@ -353,6 +382,159 @@ class Actions extends Controller
         }
         $data .= '}}';
         echo $data;
+    }
+
+    function army($id = 0)
+    {
+        $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->User_Model->town);
+        $position = $this->Data_Model->get_position(5, $this->Town_Model->buildings);
+        if ($this->Town_Model->army_line == '' and $position > 0 and $position == $id)
+        {
+            $all_cost['wood'] = 0;
+            $all_cost['wine'] = 0;
+            $all_cost['crystal'] = 0;
+            $all_cost['sulfur'] = 0;
+            $all_cost['peoples'] = 0;
+            //$all_cost['gold'] = 0;
+            $army_line = $this->User_Model->armys[$this->Town_Model->id]->army_line;
+            $army_start = ($this->User_Model->armys[$this->Town_Model->id]->army_start > 0) ? $this->User_Model->armys[$this->Town_Model->id]->army_start : time();
+            // Обрабатываем данные
+            for ($i = 1; $i <= 14; $i++)
+            {
+                $class = $this->Data_Model->army_class_by_type($i);
+                $$class = (isset($_POST[$i])) ? intval($_POST[$i]) : 0 ;
+                $cost = $this->Data_Model->army_cost_by_type($i);
+                $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
+                $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
+                $all_cost['crystal'] = $all_cost['crystal'] + $cost['crystal']*$$class;
+                $all_cost['sulfur'] = $all_cost['sulfur'] + $cost['sulfur']*$$class;
+                $all_cost['peoples'] = $all_cost['peoples'] + $cost['peoples']*$$class;
+                //$all_cost['gold'] = $all_cost['gold'] + $cost['gold']*$$class;
+                if ($$class > 0)
+                {
+                    if ($army_line != '')
+                    {
+                        $army_line .= ';';
+                    }
+                    $army_line .= $i.','.$$class;
+                }
+            }
+            // Вычисляем остаток
+            $wood = $this->Town_Model->resources['wood'] - $all_cost['wood'];
+            $wine = $this->Town_Model->resources['wine'] - $all_cost['wine'];
+            $crystal = $this->Town_Model->resources['crystal'] - $all_cost['crystal'];
+            $sulfur = $this->Town_Model->resources['sulfur'] - $all_cost['sulfur'];
+            $peoples = $this->Town_Model->peoples['free'] - $all_cost['peoples'];
+            //$gold = $this->User_Model->gold - $all_cost['gold'];
+            // Если хватает ресурсов
+            if ($wood >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0 and $peoples >= 0/* and $gold >= 0*/)
+            {
+                // обновляем город
+                    $this->db->set('wood', $wood);
+                    $this->db->set('wine', $wine);
+                    $this->db->set('crystal', $crystal);
+                    $this->db->set('sulfur', $sulfur);
+                    $this->db->set('peoples', $peoples);
+                    $this->db->where(array('id' => $this->Town_Model->id));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                // обновляем армию
+                    $this->db->set('army_line', $army_line);
+                    $this->db->set('army_start', $army_start);
+                    $this->db->where(array('city' => $this->Town_Model->id));
+                    $this->db->update($this->session->userdata('universe').'_army');
+                // обновляем пользователя
+                //    $this->db->set('gold', $gold);
+                //    $this->db->where(array('id' => $this->User_Model->id));
+                //    $this->db->update($this->session->userdata('universe').'_users');
+                // Обучение - найм рабочих на лесопилку
+                if ($this->User_Model->tutorial <= 10)
+                {
+                    $this->tutorials('set', 11);
+                }
+            }
+        }
+        redirect($this->config->item('base_url').'game/barracks/'.$id.'/', 'refresh');
+    }
+
+    function armyEdit($type = '')
+    {
+        $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->User_Model->town);
+        $peoples_army = 0;
+        for ($i = 1; $i <= 14; $i++)
+        {
+                $class = $this->Data_Model->army_class_by_type($i);
+                $$class = (isset($_POST[$i])) ? intval($_POST[$i]) : 0 ;
+                $cost = $this->Data_Model->army_cost_by_type($i);
+                if ($this->User_Model->armys[$this->Town_Model->id]->$class >= $$class)
+                {
+                    $peoples_army = $peoples_army + ($$class*$cost['peoples']);
+                    $this->User_Model->armys[$this->Town_Model->id]->$class = $this->User_Model->armys[$this->Town_Model->id]->$class - $$class;
+                }
+                $this->db->set($class, $this->User_Model->armys[$this->Town_Model->id]->$class);
+        }
+        $this->db->where(array('city' => $this->Town_Model->id));
+        $this->db->update($this->session->userdata('universe').'_army');
+        $this->Town_Model->peoples['free'] = $this->Town_Model->peoples['free'] + $peoples_army;
+        // Обновляем жителей
+        $this->db->set('peoples', $this->Town_Model->peoples['free']);
+        $this->db->where(array('id' => $this->Town_Model->id));
+        $this->db->update($this->session->userdata('universe').'_towns');
+        redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
+    }
+
+    function abortUnits($position = 0)
+    {
+        if($this->User_Model->armys[$this->User_Model->town]->army_line != '')
+        {
+                // обновляем армию
+                $this->db->set('army_line', '');
+                $this->db->set('army_start', 0);
+                $this->db->where(array('city' => $this->User_Model->town));
+                $this->db->update($this->session->userdata('universe').'_army');
+        }
+        redirect($this->config->item('base_url').'game/barracks/'.$position.'/', 'refresh');
+    }
+
+    function abortBuildings($town = 0)
+    {
+        $id = -1;
+        for ($i = 0; $i < SizeOf($this->User_Model->towns); $i++)
+        {
+            if ($this->User_Model->towns[$i]->id == $town) { $id = $i; }
+        }
+        if($id >= 0 and $this->User_Model->towns[$id]->build_line != '')
+        {
+                // обновляем армию
+                $this->db->set('build_line', '');
+                $this->db->set('build_start', 0);
+                $this->db->where(array('id' => $this->User_Model->town));
+                $this->db->update($this->session->userdata('universe').'_towns');
+        }
+        redirect($this->config->item('base_url').'game/city/'.$town.'/', 'refresh');
+    }
+
+    function premium($type = '')
+    {
+        $cost = $this->Data_Model->premium_cost($type);
+        if ($this->User_Model->ambrosy >= $cost)
+        {
+            switch($type)
+            {
+                case 'account': $this->db->set('premium_account', time()+604800); break;
+                case 'wood': $this->db->set('premium_wood', time()+604800); break;
+                case 'wine': $this->db->set('premium_wine', time()+604800); break;
+                case 'marble': $this->db->set('premium_marble', time()+604800); break;
+                case 'crystal': $this->db->set('premium_crystal', time()+604800); break;
+                case 'sulfur': $this->db->set('premium_sulfur', time()+604800); break;
+                case 'capacity': $this->db->set('premium_capacity', time()+604800); break;
+            }
+            $this->db->set('ambrosy', $this->User_Model->ambrosy - $cost);
+            $this->db->where(array('id' => $this->User_Model->id));
+            $this->db->update($this->session->userdata('universe').'_users');
+        }
+        redirect($this->config->item('base_url').'game/premium/', 'refresh');
     }
 
 }

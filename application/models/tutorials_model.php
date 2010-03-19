@@ -27,14 +27,22 @@ class Tutorials_Model extends Model
             case 3: $this->load->view('tut2',array('location' => $location, 'active' => true)); break;
             case 4: $this->load->view('tut2',array('location' => $location, 'active' => false)); break;
             // Найм ученых
-            case 6: $this->load->view('tut3',array('location' => $location, 'active' => true)); break;
-            case 7: $this->load->view('tut3',array('location' => $location, 'active' => false)); break;
+            case 5: $this->load->view('tut3',array('location' => $location, 'active' => true)); break;
+            case 6: $this->load->view('tut3',array('location' => $location, 'active' => false)); break;
             // Постройка казарм
-            case 8: $this->load->view('tut4',array('location' => $location, 'active' => true)); break;
-            case 9: $this->load->view('tut4',array('location' => $location, 'active' => false)); break;
+            case 7: $this->load->view('tut4',array('location' => $location, 'active' => true)); break;
+            case 8: $this->load->view('tut4',array('location' => $location, 'active' => false)); break;
             // Найм копейщиков
-            case 10: $this->load->view('tut5',array('location' => $location, 'active' => true)); break;
-            case 11: $this->load->view('tut5',array('location' => $location, 'active' => false)); break;
+            case 9: $this->load->view('tut5',array('location' => $location, 'active' => true)); break;
+            case 10: $this->load->view('tut5',array('location' => $location, 'active' => false)); break;
+            // Постройка стены
+            case 11: $this->load->view('tut6',array('location' => $location, 'active' => false)); break;
+            // Постройка порта
+            case 12: $this->load->view('tut7',array('location' => $location, 'active' => true)); break;
+            case 13: $this->load->view('tut7',array('location' => $location, 'active' => false)); break;
+            // Апгрейд здания
+            case 14: $this->load->view('tut8',array('location' => $location, 'active' => true)); break;
+            case 15: $this->load->view('tut8',array('location' => $location, 'active' => false)); break;
 
         }
     }

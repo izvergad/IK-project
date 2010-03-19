@@ -107,6 +107,11 @@ class Main extends Controller {
                             // Находим город в базе
                             $query = $this->db->get_where($_POST['universe'].'_towns', array('user' => $user->id));
                             $town = $query->row();
+                            // Добавляем армию
+                            $army_data = array(
+                                'city' => $town->id
+                            );
+                            $this->db->insert($_POST['universe'].'_army', $army_data);
                             // Обновляем город в остров
                             $this->db->set('city'.$position, $town->id);
                             $this->db->where(array('id' => $island->id));

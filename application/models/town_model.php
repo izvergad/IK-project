@@ -22,6 +22,10 @@ class Town_Model extends Model
     var $build_start = 0;
     var $already_build = array();
 
+    var $army_line = array();
+    var $army_text = '';
+    var $army_start = 0;
+
     var $garrison_limit = 0;
 
     var $minus = array();
@@ -61,11 +65,11 @@ class Town_Model extends Model
             $this->is_capital = ($user->capital == $this->id) ? true : false;
             
             // Загружаем ресурсы
-            $this->resources['wood'] = $town->wood;
-            $this->resources['wine'] = $town->wine;
-            $this->resources['marble'] = $town->marble;
-            $this->resources['crystal'] = $town->crystal;
-            $this->resources['sulfur'] = $town->sulfur;
+            $this->resources['wood'] = ($town->wood != '') ? $town->wood : 0;
+            $this->resources['wine'] = ($town->wine != '') ? $town->wine : 0;
+            $this->resources['marble'] = ($town->marble != '') ? $town->marble : 0;
+            $this->resources['crystal'] = ($town->crystal != '') ? $town->crystal : 0;
+            $this->resources['sulfur'] = ($town->sulfur != '') ? $town->sulfur : 0;
             // Устанавливаем вместимость
             $this->capacity['wood'] = $this->config->item('standart_capacity');
             $this->capacity['wine'] = $this->config->item('standart_capacity');
@@ -162,7 +166,11 @@ class Town_Model extends Model
                 $this->peoples['max'] = $this->peoples['max'] + 200;
                 $this->good = $this->good + 200;
             }
-
+            // Очередь армии
+            $this->army_text = $this->User_Model->armys[$town->id]->army_line;
+            $this->army_line = $this->Data_Model->load_army_line($this->army_text);
+            $this->army_start = $this->User_Model->armys[$town->id]->army_start;
+            
         }
     }
 

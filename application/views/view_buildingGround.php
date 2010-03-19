@@ -51,11 +51,31 @@
                         <p><?=$this->Data_Model->building_desc_by_type($building_id)?></p>
                     </div>
                     <hr>
+<?if ($this->Town_Model->resources['wood'] < $cost['wood'] or
+        $this->Town_Model->resources['wine'] < $cost['wine'] or
+        $this->Town_Model->resources['marble'] < $cost['marble'] or
+        $this->Town_Model->resources['crystal'] < $cost['crystal'] or
+      $this->Town_Model->resources['sulfur'] < $cost['sulfur']){?>
+ <p class="cannotbuild">Недостаточно ресурсов!</p>
+ <?}else{?>
+<?if($this->Town_Model->build_text == ''){?>
                     <div class="centerButton">
                         <a class="button build" style="padding-left:3px;padding-right:3px;" href="<?=$this->config->item('base_url')?>actions/build/<?=$position?>/<?=$building_id?>/">
                             <span class="textLabel">Построить</span>
                         </a>
                     </div>
+<?}else{?>
+<?if($this->User_Model->premium_account > 0){?>
+                    <div class="centerButton">
+                        <a class="button build" style="padding-left:3px;padding-right:3px;" href="<?=$this->config->item('base_url')?>actions/build/<?=$position?>/<?=$building_id?>/">
+                            <span class="textLabel">В очередь</span>
+                        </a>
+                    </div>
+<?}else{?>
+    <p class="cannotbuild">Уже имеется строящееся или улучшаемое здание. (<a href="<?=$this->config->item('base_url')?>game/premiumDetails/">Поместить в очередь на постройку?</a>)</p>
+<?}?>
+<?}?>
+<?}?>
                     <div class="costs">
                         <h5>Стоимость:</h5>
                         <ul class="resources">

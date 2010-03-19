@@ -1,7 +1,6 @@
 <?$position = $param1?>
-<?if ($location == 'city'){$class = 'militaryAdvisor';}else{$class = 'invisible';}?>
+<?if ($location == 'city'){$class = 'cityAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
-<?$position = ($position > 0) ? $position : $this->Data_Model->get_position(5, $this->Town_Model->buildings)?>
 
 <style>
 #tutorialAdvisor {
@@ -113,11 +112,9 @@
     <h3>Обучение</h3>
     <a href="javascript:;" id="tutorialAdvisorCloseLink"></a>
     <div class="content">
-    <p>Здравствуйте,<br />
+    <p>Важно не просто построить новые здания, а еще и развивать их. Для этого войдите в одно из зданий и нажмите на кнопку <b>поднять</b>..<br>
 <br>
-Меня зовут Аякс. Я могу рассказать вам обо всех передвижениях флота, которые знаю, а также об идущих и завершенных сражениях. В этом нет ничего страшного для вас, так как боги непрерывно наблюдают за вами с <a href="<?=$this->config->item('base_url')?>game/informations/11/"> небес </a>, защищая вашу империю от посягательств.<br />
-<br>
-Но чтобы быть готовыми к будущим событиям, я рекомендую вам ознакомиться с базовыми особенностями ведения боевых действий. Первое, что вам необходимо сделать, это <b>нанять несколько бойцов</b>. Для того, чтобы это сделать, надо зайти в казармы и начать обучение солдат. Затем нажмите на желтый флажок в вашем городе, чтобы построить <b>городскую стену</b>.</p>
+И не стоит забывать: Вы можете улучшать только одно здание единовременно. Важно еще, что вы принимаете участие в улучшении лесопилки, ресурсного карьера и алтаря. Эти островные конструкции используются всеми игроками в равной мере и, следовательно, должны улучшаться всеми игроками. Если не принимать в этом участия, вы можете оскорбить других игроков.</p>
 
         <div class="centerButton"><a href="javascript:;" id="okButton" class="button">ОК</a></div>
     <div class="footer"></div>
@@ -125,6 +122,12 @@
 </div>
 
 <script language="javascript">
+<?
+    $position = $this->Data_Model->get_position(3, $this->Town_Model->buildings);
+    if ($position == 0){ $position = $this->Data_Model->get_position(5, $this->Town_Model->buildings);}
+    if ($position == 0){ $position = $this->Data_Model->get_position(7, $this->Town_Model->buildings);}
+    if ($position == 0){ $position = $this->Data_Model->get_position(2, $this->Town_Model->buildings);}
+?>
 
 var counter = 0;
 <?if($location == 'city'){?>
@@ -178,9 +181,9 @@ var startX = 220+225;
 var startY = 153+187;
 <?break;?>
 <?}?>
-<?}elseif($location == 'barracks'){?>
-var startY = 370;
-var startX = 790;
+<?}elseif($location == 'townHall' or $location == 'academy' or $location == 'barracks' or $location == 'port'){?>
+var startY = 200;
+var startX = 7;
 <?}else{?>
 var startY = 70;
 var startX = 480;
@@ -190,7 +193,7 @@ var startX = 480;
 var defaultClass = "<?=$class?>" ;
 
 Dom.get("advisorImage").onmouseover = function() {
-    Dom.get("advisorImage").className = "militaryAdvisor lighten";
+    Dom.get("advisorImage").className = "cityAdvisor lighten";
 };
 Dom.get("advisorImage").onmouseout = function() {
     Dom.get("advisorImage").className = defaultClass;
@@ -218,8 +221,8 @@ function Tutorial() {
         Dom.get("tutorialAdvisorLink").onclick = function() {
             that.showMessage();
             that.goToNextState();
-            defaultClass = "militaryAdvisor";
-            Dom.get("advisorImage").className = "militaryAdvisor";
+            defaultClass = "cityAdvisor";
+            Dom.get("advisorImage").className = "cityAdvisor";
         }
     }
 

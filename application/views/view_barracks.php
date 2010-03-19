@@ -72,7 +72,7 @@
     </div>
 <?}?>
 
-    <form id="buildForm"  action="<?=$this->config->item('base_url')?>actions/army/" method="POST">
+    <form id="buildForm"  action="<?=$this->config->item('base_url')?>actions/army/<?=$position?>/" method="POST">
         <input type=hidden name="action" value="buildUnits">
         <div class="contentBox01h">
             <h3 class="header">Нанять войска</h3>
@@ -82,20 +82,20 @@
 
 <?for($i = 1; $i <= 14; $i++){?>
 <?
-    if (($i == 1 and $level >= 4 and $this->User_Model->research->res4_3 > 0) or
-        ($i == 2 and $level >= 12 and $this->User_Model->research->res4_12 > 0) or
-        ($i == 3 and $level >= 1) or
-        ($i == 4 and $level >= 6 and $this->User_Model->research->res4_3 > 0) or
-        ($i == 5 and $level >= 2) or
-        ($i == 6 and $level >= 7 and $this->User_Model->research->res4_6 > 0) or
-        ($i == 7 and $level >= 13 and $this->User_Model->research->res4_11 > 0) or
-        ($i == 8 and $level >= 3 and $this->User_Model->research->res4_4 > 0) or
-        ($i == 9 and $level >= 8 and $this->User_Model->research->res4_7 > 0) or
-        ($i == 10 and $level >= 14 and $this->User_Model->research->res4_13 > 0) or
-        ($i == 11 and $level >= 10 and $this->User_Model->research->res3_12 > 0) or
-        ($i == 12 and $level >= 11 and $this->User_Model->research->res3_15 > 0) or
-        ($i == 13 and $level >= 5 and $this->User_Model->research->res2_9 > 0) or
-        ($i == 14 and $level >= 9 and $this->User_Model->research->res3_8 > 0)){
+    if (($i == 1 and $this->User_Model->research->res4_3 > 0) or // 4
+        ($i == 2 and $this->User_Model->research->res4_12 > 0) or // 12
+        ($i == 3) or // 1
+        ($i == 4 and $this->User_Model->research->res4_3 > 0) or // 6
+        ($i == 5) or // 2
+        ($i == 6 and $this->User_Model->research->res4_6 > 0) or // 7
+        ($i == 7 and $this->User_Model->research->res4_11 > 0) or // 13
+        ($i == 8 and $this->User_Model->research->res4_4 > 0) or // 3
+        ($i == 9 and $this->User_Model->research->res4_7 > 0) or // 8
+        ($i == 10 and $this->User_Model->research->res4_13 > 0) or // 14
+        ($i == 11 and $this->User_Model->research->res3_12 > 0) or // 10
+        ($i == 12 and $this->User_Model->research->res3_15 > 0) or // 11
+        ($i == 13 and $this->User_Model->research->res2_9 > 0) or // 5
+        ($i == 14 and $this->User_Model->research->res3_8 > 0)){ // 9
 ?>
 <?
     $max_wood = 0;
@@ -105,6 +105,7 @@
     $max_peoples = 0;
     
     $cost = $this->Data_Model->army_cost_by_type($i);
+    $class = $this->Data_Model->army_class_by_type($i);
     if ($cost['wood'] > 0){ $max_wood = floor($this->Town_Model->resources['wood']/$cost['wood']);}
     if ($cost['sulfur'] > 0){ $max_sulfur = floor($this->Town_Model->resources['sulfur']/$cost['sulfur']); }
     if ($cost['wine'] > 0){ $max_wine = floor($this->Town_Model->resources['wine']/$cost['wine']); }
@@ -122,35 +123,35 @@
 
 
 
-                    <li class="unit <?=$this->Data_Model->army_class_by_type($i)?>">
+                    <li class="unit <?=$class?>">
                         <div class="unitinfo">
                             <h4><?=$this->Data_Model->army_name_by_type($i)?></h4>
                             <a title="К описанию <?=$this->Data_Model->army_name_by_type($i)?>" href="<?=$this->config->item('base_url')?>game/unitDescription/<?=$i?>">
-                                <img src="<?=$this->config->item('style_url')?>skin/characters/military/120x100/<?=$this->Data_Model->army_class_by_type($i)?>_r_120x100.gif">
+                                <img src="<?=$this->config->item('style_url')?>skin/characters/military/120x100/<?=$class?>_r_120x100.gif">
                             </a>
-                            <div class="unitcount"><span class="textLabel">Доступно: </span>0</div>
+                            <div class="unitcount"><span class="textLabel">Доступно: </span><?=$this->User_Model->armys[$this->Town_Model->id]->$class?></div>
                             <p><?=$this->Data_Model->army_desc_by_type($i)?></p>
                         </div>
-                        <label for="textfield_<?=$this->Data_Model->army_class_by_type($i)?>">Нанять <?=$this->Data_Model->army_name_by_type($i)?></label>
+                        <label for="textfield_<?=$class?>">Нанять <?=$this->Data_Model->army_name_by_type($i)?></label>
                         <div class="sliderinput">
-                            <div class="sliderbg" id="sliderbg_<?=$this->Data_Model->army_class_by_type($i)?>">
-                                <div class="actualValue" id="actualValue_<?=$this->Data_Model->army_class_by_type($i)?>"></div>
-                                <div class="sliderthumb" id="sliderthumb_<?=$this->Data_Model->army_class_by_type($i)?>"></div>
+                            <div class="sliderbg" id="sliderbg_<?=$class?>">
+                                <div class="actualValue" id="actualValue_<?=$class?>"></div>
+                                <div class="sliderthumb" id="sliderthumb_<?=$class?>"></div>
                             </div>
 
 <script type="text/javascript">
     create_slider({
         dir : 'ltr',
-        id : "slider_<?=$this->Data_Model->army_class_by_type($i)?>",
+        id : "slider_<?=$class?>",
         maxValue : <?=$max?>,
         overcharge : 0,
         iniValue : 0,
-        bg : "sliderbg_<?=$this->Data_Model->army_class_by_type($i)?>",
-        thumb : "sliderthumb_<?=$this->Data_Model->army_class_by_type($i)?>",
+        bg : "sliderbg_<?=$class?>",
+        thumb : "sliderthumb_<?=$class?>",
         topConstraint: -10,
         bottomConstraint: 326,
-        bg_value : "actualValue_<?=$this->Data_Model->army_class_by_type($i)?>",
-        textfield:"textfield_<?=$this->Data_Model->army_class_by_type($i)?>"
+        bg_value : "actualValue_<?=$class?>",
+        textfield:"textfield_<?=$class?>"
     });
     var slider = sliders["default"];
 </script>

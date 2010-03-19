@@ -13,10 +13,19 @@ class User_Model extends Model
     var $town = 0;
 
     var $towns = array();
+    var $armys = array();
     var $islands = array();
 
     var $research = array();
     var $scientists = 0;
+
+    var $premium_account = 0;
+    var $premium_wood = 0;
+    var $premium_wine = 0;
+    var $premium_marble = 0;
+    var $premium_crystal = 0;
+    var $premium_sulfur = 0;
+    var $premium_capacity = 0;
     
     /**
      * Инициализация
@@ -60,7 +69,7 @@ class User_Model extends Model
      * Переход на страницу ошибок
      * @param <string> $error
      */
-    function Error($error)
+    function Error($error = '')
     {
                 $this->session->set_userdata(array('error' => $error));
                 redirect('/main/error/', 'refresh');
@@ -86,6 +95,14 @@ class User_Model extends Model
                 $this->id = $user->id;
                 $this->gold = $user->gold;
                 $this->ambrosy = $user->ambrosy;
+                $this->premium_account = $user->premium_account;
+                $this->premium_wood = $user->premium_wood;
+                $this->premium_wine = $user->premium_wine;
+                $this->premium_marble = $user->premium_marble;
+                $this->premium_crystal = $user->premium_crystal;
+                $this->premium_sulfur = $user->premium_sulfur;
+                $this->premium_capacity = $user->premium_capacity;
+
                 $this->tutorial = $user->tutorial;
                 $this->capital = $user->capital;
                 $this->last_visit = $user->last_visit;
@@ -100,6 +117,9 @@ class User_Model extends Model
                     // Загружаем остров из базы
                     $this->Data_Model->Load_Island($row->island);
                     $this->islands[$row->island] =& $this->Data_Model->temp_islands_db[$row->island];
+                    // Загружаем армию
+                    $this->Data_Model->Load_Army($row->id);
+                    $this->armys[$row->id] =& $this->Data_Model->temp_army_db[$row->id];
                 }
             }
         }

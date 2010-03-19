@@ -22,6 +22,7 @@ class SideBoxes_Model extends Model
             case 'worldmap_iso': $this->load->view('sb_'.$location, array('x' => $param1, 'y' => $param2)); break;
             case 'buildingGround': break;
             case 'researchDetail':
+            case 'buildingDetail':
             case 'informations': $this->load->view('sb_'.$location, array('id' => $param1)); break;
             case 'academy':
             case 'barracks':
@@ -33,6 +34,7 @@ class SideBoxes_Model extends Model
             case 'premium':
             case 'premiumPayment':
             case 'researchAdvisor':
+            case 'armyGarrisonEdit':
                 $this->load->view('sb_'.$location);
             break;
             default: break;

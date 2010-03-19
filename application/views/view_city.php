@@ -40,7 +40,7 @@ for ($i = 0; $i <= 14; $i++)
 
 <?}else{?>
         <li id="position<?=$i?>" class="<?=$this->Data_Model->building_class_by_type($class)?> <?if ($level == 0){?><?=$sub_class?><?}?>">
-<?if ($i == 13) {?>
+<?if ($i == 13 and $this->User_Model->research->res2_13 == 0) {?>
             <div></div>
             <a href="#" title="Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!"><span class="textLabel">Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!</span></a>
 <?}else{?>

@@ -38,66 +38,13 @@ class Update_Model extends Model
            {
                $elapsed = time() - $this->CI->Update_User->towns[$i]->last_update;
                $this->db->set('last_update', time());
-               // Строим здания в городах
-               if ($this->CI->Update_User->towns[$i]->build_line != '')
-               {
-                   $ochered = 0;
-                   // Если вообще что нибудь строится
-                   // Загружаем очередь построек
-                   $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
-                   $pos_text = 'pos'.$buildings[$ochered]['position'].'_level';
-                   $type_text = 'pos'.$buildings[$ochered]['position'].'_type';
-                   $level = $this->CI->Update_User->towns[$i]->$pos_text;
-                   $cost = $this->Data_Model->building_cost($buildings[$ochered]['type'], $level);
-                    if (($this->CI->Update_User->towns[$i]->build_start + $cost['time']) <= time())
-                    {
-                        // Обучение - постройка академии
-                        if ($buildings[$ochered]['type'] == 3 and $this->CI->Update_User->tutorial <= 5)
-                        {
-                            $this->CI->Update_User->tutorial = 6;
-                        }
-                        // Обучение - постройка казармы
-                        if ($buildings[$ochered]['type'] == 5 and $this->CI->Update_User->tutorial <= 9)
-                        {
-                            $this->CI->Update_User->tutorial = 10;
-                        }
-                        // Строим здание
-                        $this->CI->Update_User->towns[$i]->$pos_text = $this->CI->Update_User->towns[$i]->$pos_text + 1;
-                        $this->CI->Update_User->towns[$i]->$type_text = $buildings[$ochered]['type'];
-                        // Если есть очередь
-                        if (sizeof($buildings) > 1)
-                        {
-                            $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 3);
-                            $this->CI->Update_User->towns[$i]->build_start = $this->CI->Update_User->towns[$i]->build_start + $cost['time'];
-                            // Нужно ли????
-                            $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
-                        }
-                        else
-                        {
-                            $this->CI->Update_User->towns[$i]->build_line = '';
-                            $this->CI->Update_User->towns[$i]->build_start = 0;
-                            $buildings = array();
-                        }
-                        // Обновляем в базу
-                        for ($a = 0; $a <= 14; $a++)
-                        {
-                            $level_text = 'pos'.$a.'_level';
-                            $type_text = 'pos'.$a.'_type';
-                            $this->db->set($type_text, $this->CI->Update_User->towns[$i]->$type_text);
-                            $this->db->set($level_text, $this->CI->Update_User->towns[$i]->$level_text);
-                        }
-                        $this->db->set('build_line', $this->CI->Update_User->towns[$i]->build_line);
-                        $this->db->set('build_start', $this->CI->Update_User->towns[$i]->build_start);
-
-                    }
-               }
+               
                // Счастье
                $good = 196 - $this->CI->Update_User->towns[$i]->peoples;
                // Колодец - +50 счастья в столице
                if ($this->CI->Update_User->research->res3_1 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 50; }
                // Утопия - +200 счастья в столице
                if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 200; }
-
                // Прирост жителей
                $workers = $this->CI->Update_User->towns[$i]->workers;
                $scientists = $this->CI->Update_User->towns[$i]->scientists;
@@ -110,15 +57,12 @@ class Update_Model extends Model
                $this->CI->Update_User->towns[$i]->peoples = $this->CI->Update_User->towns[$i]->peoples + ((($good/50)/3600)*$elapsed);
                if ($this->CI->Update_User->towns[$i]->peoples < 0){ $this->CI->Update_User->towns[$i]->peoples = 0; }
                if ($this->CI->Update_User->towns[$i]->peoples > $max_peoples){ $this->CI->Update_User->towns[$i]->peoples = $max_peoples; }
-
-               $this->db->set('peoples', $this->CI->Update_User->towns[$i]->peoples);
                // Почтовые трубы - на 3 золота меньше за ученых
                $scientists_gold_need = ($this->CI->Update_User->research->res3_13 > 0) ? 3 : 6 ;
                // Прирост золота
                $this->CI->Update_User->gold = $this->CI->Update_User->gold + (((($this->CI->Update_User->towns[$i]->peoples*3) - ($this->CI->Update_User->towns[$i]->scientists*$scientists_gold_need))/3600)*$elapsed);
                // Прирост дерева
                $this->CI->Update_User->towns[$i]->wood = $this->CI->Update_User->towns[$i]->wood + (($this->CI->Update_User->towns[$i]->workers/3600)*$elapsed);
-               $this->db->set('wood', $this->CI->Update_User->towns[$i]->wood);
                // Увеличение баллов за исследования
                $plus_research = 1;
                // Бумага - на 2% больше баллов
@@ -132,9 +76,148 @@ class Update_Model extends Model
                // Баллы науки
                $add_points = $this->CI->Update_User->towns[$i]->scientists * $plus_research;
                $this->CI->Update_User->research->points = $this->CI->Update_User->research->points + (($add_points/3600)*$elapsed);
-               
+
+               // Строим здания в городах
+               if ($this->CI->Update_User->towns[$i]->build_line != '')
+               {
+                   
+                   // Если вообще что нибудь строится
+                   // Загружаем очередь построек
+                   $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
+                   $o = 0;
+                   $step = 0;
+                   
+                   while (SizeOf($buildings) > 0)
+                   {
+                       $pos_text = 'pos'.$buildings[$o]['position'].'_level';
+                       $type_text = 'pos'.$buildings[$o]['position'].'_type';
+                       $level = $this->CI->Update_User->towns[$i]->$pos_text;
+                       $cost = $this->Data_Model->building_cost($buildings[$o]['type'], $level);
+                       // Стоимость постройки
+                       $wood = $this->CI->Update_User->towns[$i]->wood - $cost['wood'];
+                       $wine = $this->CI->Update_User->towns[$i]->wine - $cost['wine'];
+                       $marble = $this->CI->Update_User->towns[$i]->marble - $cost['marble'];
+                       $crystal = $this->CI->Update_User->towns[$i]->crystal - $cost['crystal'];
+                       $sulfur = $this->CI->Update_User->towns[$i]->sulfur - $cost['sulfur'];
+
+                       if (($this->CI->Update_User->towns[$i]->build_start + $cost['time']) <= time())
+                       {
+                           if ($step == 0 or ($step > 0 and $wood >= 0 and $marble >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0))
+                           {
+                                if (SizeOf($buildings) > 0)
+                                {
+                                    $this->CI->Update_User->towns[$i]->wood = $wood;
+                                    $this->CI->Update_User->towns[$i]->wine = $wine;
+                                    $this->CI->Update_User->towns[$i]->marble = $marble;
+                                    $this->CI->Update_User->towns[$i]->crystal = $crystal;
+                                    $this->CI->Update_User->towns[$i]->sulfur = $sulfur;
+                                }
+                                    // Строим здание
+                                    $this->CI->Update_User->towns[$i]->$pos_text = $this->CI->Update_User->towns[$i]->$pos_text + 1;
+                                    $this->CI->Update_User->towns[$i]->$type_text = $buildings[$o]['type'];
+                                    
+                                    // Если есть очередь
+                                    if (SizeOf($buildings) > 1)
+                                    {
+                                        $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
+                                        $this->CI->Update_User->towns[$i]->build_start = $this->CI->Update_User->towns[$i]->build_start + $cost['time'];
+                                        // Нужно ли????
+                                        $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
+                                    }
+                                    else
+                                    {
+                                        $this->CI->Update_User->towns[$i]->build_line = '';
+                                        $this->CI->Update_User->towns[$i]->build_start = 0;
+                                        $buildings = array();
+                                    }
+                           }
+                           else
+                           {
+                               $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
+                           }
+
+                       }
+                       else
+                       {
+                           $while_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
+                           $buildings = $this->Data_Model->load_build_line($while_line);
+                           break;
+                       }
+                       $while_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
+                       $buildings = $this->Data_Model->load_build_line($while_line);
+                       $step = $step + 1;
+                   }
+                        
+                        // Обновляем постройки в базу
+                        for ($a = 0; $a <= 14; $a++)
+                        {
+                            $level_text = 'pos'.$a.'_level';
+                            $type_text = 'pos'.$a.'_type';
+                            $this->db->set($type_text, $this->CI->Update_User->towns[$i]->$type_text);
+                            $this->db->set($level_text, $this->CI->Update_User->towns[$i]->$level_text);
+                        }
+                        $this->db->set('build_line', $this->CI->Update_User->towns[$i]->build_line);
+                        $this->db->set('build_start', $this->CI->Update_User->towns[$i]->build_start);
+               }
+               $this->db->set('peoples', $this->CI->Update_User->towns[$i]->peoples);
+               $this->db->set('wood', $this->CI->Update_User->towns[$i]->wood);
+               $this->db->set('wine', $this->CI->Update_User->towns[$i]->wine);
+               $this->db->set('marble', $this->CI->Update_User->towns[$i]->marble);
+               $this->db->set('crystal', $this->CI->Update_User->towns[$i]->crystal);
+               $this->db->set('sulfur', $this->CI->Update_User->towns[$i]->sulfur);
+
                $this->db->where(array('id' => $this->CI->Update_User->towns[$i]->id));
                $this->db->update($this->session->userdata('universe').'_towns');
+
+               // Строим армию в городах
+               if ($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line != '')
+               {
+                   // Если вообще что нибудь строится
+                   // Загружаем очередь армии
+                   $army_line = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line;
+                   $army = $this->Data_Model->load_army_line($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line);
+                   $army_start = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_start;
+
+                   while (SizeOf($army) > 0)
+                   {
+                       $cost = $this->Data_Model->army_cost_by_type($army[0]['type']);
+                       $ELAPSED_ARMY = time() - $army_start;
+                       $count = floor($ELAPSED_ARMY/$cost['time']);
+                       $class = $this->Data_Model->army_class_by_type($army[0]['type']);
+                       if ($count >= $army[0]['count'])
+                       {
+                           $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $army[0]['count'];
+                           $army_line = substr($army_line, 4);
+                           $army = $this->Data_Model->load_army_line($army_line);
+                           $army_start = $army_start + ($army[0]['count']*$cost['time']);
+                       }
+                       else
+                       {
+                           $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $count;
+                           $army[0]['count'] = $army[0]['count'] - $count;
+                           $army_line = substr($army_line, 4);
+                           $army_line = ($army_line != '') ? $army[0]['type'].','.$army[0]['count'].';'.$army_line : $army[0]['type'].','.$army[0]['count'] ;
+                           $army_start = $army_start + ($count*$cost['time']);
+                           break;
+                       }
+                       if ($army_line == ''){ $army_start = 0; }
+                       if ($army_line == 0){ $army_line = ''; }
+                   }
+                   // Обновляем армию в базу
+                        for ($a = 1; $a <= 14; $a++)
+                        {
+                            $class = $this->Data_Model->army_class_by_type($a);
+                            $this->db->set($class, $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class);
+                        }
+                        $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line = $army_line;
+                        $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_start = $army_start;
+
+                        $this->db->set('army_line', $army_line);
+                        $this->db->set('army_start', $army_start);
+                        $this->db->where(array('city' => $this->CI->Update_User->towns[$i]->id));
+                        $this->db->update($this->session->userdata('universe').'_army');
+               }
+
 
            }
            
@@ -170,6 +253,7 @@ class Update_Model extends Model
                        }
                    }
            }
+
            // Последнее посещение
            $this->db->set('last_visit', time());
            // Если текущий игрок обновляем город
@@ -179,6 +263,21 @@ class Update_Model extends Model
            }
            // Обновляем золото
            $this->db->set('gold', $this->CI->Update_User->gold);
+           // Обновляем премиумы
+           if ($this->CI->Update_User->premium_account < time()){ $this->CI->Update_User->premium_account = 0; }
+           if ($this->CI->Update_User->premium_wood < time()){ $this->CI->Update_User->premium_wood = 0; }
+           if ($this->CI->Update_User->premium_wine < time()){ $this->CI->Update_User->premium_wine = 0; }
+           if ($this->CI->Update_User->premium_marble < time()){ $this->CI->Update_User->premium_marble = 0; }
+           if ($this->CI->Update_User->premium_crystal < time()){ $this->CI->Update_User->premium_crystal = 0; }
+           if ($this->CI->Update_User->premium_sulfur < time()){ $this->CI->Update_User->premium_sulfur = 0; }
+           if ($this->CI->Update_User->premium_capacity < time()){ $this->CI->Update_User->premium_capacity = 0; }
+           $this->db->set('premium_account', $this->CI->Update_User->premium_account);
+           $this->db->set('premium_wood', $this->CI->Update_User->premium_wood);
+           $this->db->set('premium_wine', $this->CI->Update_User->premium_wine);
+           $this->db->set('premium_marble', $this->CI->Update_User->premium_marble);
+           $this->db->set('premium_crystal', $this->CI->Update_User->premium_crystal);
+           $this->db->set('premium_sulfur', $this->CI->Update_User->premium_sulfur);
+           $this->db->set('premium_capacity', $this->CI->Update_User->premium_capacity);
            //  Обучение
            $this->db->set('tutorial', $this->CI->Update_User->tutorial);
            $this->db->where(array('id' => $id));

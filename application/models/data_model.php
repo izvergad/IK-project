@@ -9,6 +9,7 @@ class Data_Model extends Model
     var $temp_islands_db = array();
     var $temp_users_db = array();
     var $temp_research_db = array();
+    var $temp_army_db = array();
 
     function Data_Model()
     {
@@ -80,6 +81,23 @@ class Data_Model extends Model
                 $return = $query->row();
                 // Отправляем в темп
                 $this->temp_research_db[$id] = $return;
+            }
+        }
+    }
+
+    /**
+     * Получаем армию из базы
+     */
+    function Load_Army($id = 0)
+    {
+        if ($id > 0)
+        {
+            if (!isset($temp_army_db[$id]))
+            {
+                $query = $this->db->get_where($this->session->userdata('universe').'_army', array('city' => $id));
+                $return = $query->row();
+                // Отправляем в темп
+                $this->temp_army_db[$id] = $return;
             }
         }
     }
@@ -197,7 +215,7 @@ class Data_Model extends Model
         $wine = '0 0 0 0 0 0 0 0 0 0 0 0 250 0';
         $crystal = '0 0 0 0 0 0 0 0 0 0 0 0 0 450';
         $gold = '3 12 1 4 2 4 3 15 25 30 15 45 10 20';
-        $time = '0 0 0 0 0 0 0 0 0 0 0 0 0 0';
+        $time = '300 900 300 814 600 850 631 1383 2068 2040 1197 2700 929 2293';
         
         $peoples_array = explode(' ', $peoples) ;
         $wood_array = explode(' ', $wood) ;
@@ -713,6 +731,29 @@ class Data_Model extends Model
             }
     }
 
+    /**
+     * Очередь армии
+     * @param <string> $text
+     */
+    function load_army_line($text)
+    {
+            if ($text != '')
+            {
+                $army_line = explode(";", $text);
+                for ($i = 0; $i < count($army_line); $i++)
+                {
+                    if ($army_line[$i] != '')
+                    {
+                        $temp_data = explode(",", $army_line[$i]);
+                        $army_line[$i] = array();
+                        $army_line[$i]['type'] = $temp_data[0];
+                        $army_line[$i]['count'] = $temp_data[1];
+                    }
+                }
+                return $army_line;
+            }
+    }
+
     function get_position($type = 0, $buildings = array())
     {
         $return = 0;
@@ -1180,6 +1221,20 @@ class Data_Model extends Model
             case 6: return 'Крепость Ареса'; break;
             case 7: return 'Храм Посейдона'; break;
             case 8: return 'Колосс'; break;
+        }
+    }
+
+    function premium_cost($type = '')
+    {
+        switch($type)
+        {
+            case 'account':return 10;break;
+            case 'wood':return 10;break;
+            case 'wine':return 3;break;
+            case 'marble':return 8;break;
+            case 'crystal':return 5;break;
+            case 'sulfur':return 3;break;
+            case 'capacity':return 14;break;
         }
     }
 
