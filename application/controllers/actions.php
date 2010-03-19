@@ -78,7 +78,7 @@ class Actions extends Controller
         $position = intval($position);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
-        if (($position == 0 and $this->Town_Model->buildings[$position]['level'] > 1) or $position > 0)
+        if ((($position == 0 and $this->Town_Model->buildings[$position]['level'] > 1) or $this->Town_Model->build_line[0]['type'] == 1) or $position > 0)
         {
             $level = $this->Town_Model->buildings[$position]['level'];
             // Получаем цены
@@ -88,27 +88,63 @@ class Actions extends Controller
             }
             else
             {
-                $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level']-1);
+                $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level']-2);
                 $level = ($level > 0) ? $level - 1 : $level;
             }
-
+            $wood = $this->Town_Model->resources['wood'] + ($cost['wood']*0.9);
+            $wine = $this->Town_Model->resources['wine'] + ($cost['wine']*0.9);
+            $marble = $this->Town_Model->resources['marble'] + ($cost['marble']*0.9);
+            $crystal = $this->Town_Model->resources['crystal'] + ($cost['crystal']*0.9);
+            $sulfur = $this->Town_Model->resources['sulfur'] + ($cost['sulfur']*0.9);
             // Заносим данные в базу
             if (sizeof($this->Town_Model->build_line) > 1)
             {
-                $this->db->set('build_line', substr($this->Town_Model->build_text, 3));
+                $build_line = substr($this->Town_Model->build_text, 4);
+                $build_start = $this->Town_Model->build_start;
             }
             else
             {
-                $this->db->set('build_line', '');
-                $this->db->set('build_start', 0);
+                $build_line = '';
+                $build_start = 0;
             }
+            if ($build_line != '')
+            {
+                $do = true;
+                while ($do)
+                {
+                    // вычитаем стоимость след. здания
+                    $buildings = $this->Data_Model->load_build_line($build_line);
+                    $type = $this->Town_Model->buildings[$buildings[0]['position']]['type'];
+                    $level = $this->Town_Model->buildings[$buildings[0]['position']]['level'];
+                    $cost = $this->Data_Model->building_cost($type, $level);
+                    if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
+                    {
+                        $wood = $wood - $cost['wood'];
+                        $wine = $wine - $cost['wine'];
+                        $marble = $marble - $cost['marble'];
+                        $crystal = $crystal - $cost['crystal'];
+                        $sulfur = $sulfur - $cost['sulfur'];
+                        $do = false;
+                        break;
+                    }
+                    else
+                    {
+                        $build_line = substr($build_line, 4);
+                    }
+                }
+            }
+
+            if ($build_line == ''){ $build_start = 0; }
+
+            $this->db->set('build_line', $build_line);
+            $this->db->set('build_start', $build_start);
             $this->db->set('pos'.$position.'_level', $level);
             $this->db->set('pos'.$position.'_type', $this->Town_Model->buildings[$position]['type']);
-            $this->db->set('wood', $this->Town_Model->resources['wood'] + ($cost['wood']*0.9));
-            $this->db->set('wine', $this->Town_Model->resources['wine'] + ($cost['wine']*0.9));
-            $this->db->set('marble', $this->Town_Model->resources['marble'] + ($cost['marble']*0.9));
-            $this->db->set('crystal', $this->Town_Model->resources['crystal'] + ($cost['crystal']*0.9));
-            $this->db->set('sulfur', $this->Town_Model->resources['sulfur'] + ($cost['sulfur']*0.9));
+            $this->db->set('wood', $wood);
+            $this->db->set('wine', $wine);
+            $this->db->set('marble', $marble);
+            $this->db->set('crystal', $crystal);
+            $this->db->set('sulfur', $sulfur);
             $this->db->where(array('id' => $this->Town_Model->id));
             $this->db->update($this->session->userdata('universe').'_towns');
         }

@@ -25,7 +25,7 @@ if ($position >= 0){
             <li class="marble" title="Мрамор"><span class="textLabel">Мрамор: </span><?=number_format($cost['marble'])?></li>
 <?}?>
 <?if($cost['crystal'] > 0){?>
-            <li class="crystal" title="Хрусталь"><span class="textLabel">Хрусталь: </span><?=number_format($cost['crystal'])?></li>
+            <li class="glass" title="Хрусталь"><span class="textLabel">Хрусталь: </span><?=number_format($cost['crystal'])?></li>
 <?}?>
 <?if($cost['sulfur'] > 0){?>
             <li class="sulfur" title="Сера"><span class="textLabel">Сера: </span><?=number_format($cost['sulfur'])?></li>
