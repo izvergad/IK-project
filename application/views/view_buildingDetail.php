@@ -1,4 +1,5 @@
 <?$id = $param1?>
+<?if($id > 0 and $id <= 26){?>
 <div id="mainview">
     <div class="buildingDescription">
         <h1>Описание здания</h1>
@@ -94,4 +95,5 @@
         </div>
         <div class="footer"></div>
     </div>
-</div> 
+</div>
+<?}?>

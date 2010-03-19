@@ -43,6 +43,9 @@ class Tutorials_Model extends Model
             // Апгрейд здания
             case 14: $this->load->view('tut8',array('location' => $location, 'active' => true)); break;
             case 15: $this->load->view('tut8',array('location' => $location, 'active' => false)); break;
+            // Нападение на варваров
+            case 16: $this->load->view('tut9',array('location' => $location, 'active' => true)); break;
+            case 17: $this->load->view('tut9',array('location' => $location, 'active' => false)); break;
 
         }
     }
