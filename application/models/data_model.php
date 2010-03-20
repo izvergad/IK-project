@@ -196,7 +196,7 @@ class Data_Model extends Model
             case 12: return 'bombardier'; break;
             case 13: return 'cook'; break;
             case 14: return 'medic'; break;
-            case 15: return 'varvar'; break;
+            case 15: return 'barbarian'; break;
         }
     }
 

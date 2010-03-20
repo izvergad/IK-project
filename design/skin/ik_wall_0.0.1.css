@@ -1,0 +1,60 @@
+#wall
+.buildingDescription{background:url(layout/stadtmauer_icon.gif) no-repeat right 10px}
+#wall #container #mainview
+.contentBox01{margin:10px
+0px 10px 10px}
+#wall #container #mainview
+.border1{border:1px
+solid #f3ddb2;padding:1px}
+#wall #container #mainview
+.border2{border:1px
+solid #e4b873}
+#wall #container #mainview .bg-wall{background:url(layout/bg-wall.jpg) no-repeat;width:649px;height:231px}
+#wall #container #mainview
+.buildingDescription{background-repeat:no-repeat;height:130px}
+#wall #mainview #wall-info{width:645px;margin:3px
+auto}
+#wall #mainview #wall-info th,
+#wall #mainview #wall-info
+td{height:23px;line-height:23px;text-align:center;font-weight:bold;border:3px
+solid #fdf7dd}
+#wall #mainview #wall-info
+th{background-color:#fbe5bb;color:#612d04}
+#wall #mainview #wall-info
+td{background-color:#fefced;color:#7d0d0b}
+#wall #container
+#resUpgrade{color:#580404}
+#wall #container #resUpgrade
+img{display:block;margin:6px
+auto}
+#wall #container #resUpgrade
+.buildingLevel{text-align:center;font:bold 36px Arial, Helvetica, sans-serif;height:70px}
+#wall #container #resUpgrade .buildingLevel
+.textLabel{display:block;font:normal 12px Arial, Helvetica, sans-serif}
+#wall #container #resUpgrade
+h4{font-weight:normal;text-align:center;margin:6px
+0px;padding:4px;background-color:#fffbdb}
+#wall #container #resUpgrade
+.resources{margin:0
+0 0 30px}
+#wall #container #resUpgrade
+#donateForm{border:1px
+solid #fffbdb;border-bottom-color:#dfcea2;border-right-color:#dfcea2;background-color:#fcf1d2;margin:10px
+8px}
+#wall #resUpgrade
+#donate{text-align:center}
+#wall #container #resUpgrade #donate
+label{display:block;text-align:center;margin:2px
+0px;padding:4px
+2px}
+#wall #container #resUpgrade #donate
+input.textfield{width:120px;text-align:center;vertical-align:middle}
+#wall #container #resUpgrade #donate
+a{margin-left:4px;padding:0px
+4px;line-height:26px;font-weight:bold;text-decoration:none}
+#wall #container #resUpgrade #donate a:hover{text-decoration:underline}
+#wall #container #mainview
+.content{}
+#wall
+.bgWall{background:url(layout/wall675.jpg) no-repeat;width:674px;height:231px;margin:0
+auto}

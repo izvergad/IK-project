@@ -8,11 +8,11 @@
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
         <title>Икариам</title>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
-        <link href="<?=$this->config->item('style_url')?>skin/ik_common_0.3.2.css" rel="stylesheet" type="text/css" media="screen">
-        <link href="<?=$this->config->item('style_url')?>skin/ik_<?=$location?>_0.3.2.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="<?=$this->config->item('style_url')?>skin/ik_common_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
+        <link href="<?=$this->config->item('style_url')?>skin/ik_<?=$location?>_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
 
 
-		<script type="text/javascript" src="<?=$this->config->item('style_url')?>js/complete-0.3.2.js"></script>
+		<script type="text/javascript" src="<?=$this->config->item('script_url')?>js/complete-<?=$this->config->item('script_version')?>.js"></script>
                 <script type="text/javascript">
 		/* <![CDATA[ */
 		var Event = YAHOO.util.Event,
@@ -368,7 +368,7 @@
                     </li>
                     <li class="version">
                         <a href="<?=$this->config->item('base_url')?>game/version/" title="Версия игры">
-                            <span class="textLabel">v.0.0.1</span>
+                            <span class="textLabel">v.<?=$this->config->item('game_version')?></span>
                         </a>
                     </li>
                     <li class="serverTime">

@@ -1,0 +1,44 @@
+#finances
+.buildingDescription{}
+#finances
+#balance{width:585px;margin:10px;border-collapse:collapse}
+#finances #balance th,
+#finances #balance
+td{}
+#finances #container #mainview table#balance
+td{vertical-align:top;padding-right:60px;text-align:right}
+#finances #container #mainview table#balance
+td.sigma{text-align:left;padding:4px
+10px}
+#finances #container #mainview table#balance td.result,
+#finances #container #mainview table#balance
+td.calc{text-align:left}
+#finances #container #mainview table#balance td.result td,
+#finances #container #mainview table#balance td.calc
+td{padding:1px
+3px}
+#finances #container #mainview table#balance td.calc
+td.value{text-align:right}
+#finances #container #mainview table#balance td.calc td.desc,
+#finances table#sum
+td.desc{font-weight:bold}
+#finances #sum td.exp,
+#finances #container #mainview table#balance td.calc
+td.exp{background-color:#ff9090}
+#finances #sum td.rev,
+#finances #container #mainview table#balance td.calc
+td.rev{background-color:#90ff90}
+#finances #sum td.res,
+#finances #container #mainview table#balance td.calc
+td.res{border-top:1px solid #000;font-weight:bold}
+#finances #container #mainview table#balance
+td.result{font-weight:bold;height:24px;padding:4px;background-color:#FAEAC6;text-align:center}
+#finances table#sum
+td{text-align:left}
+#finances table #sum
+td.value{text-align:right}
+#finances #container #mainview table#balance
+td.city{text-align:left;padding:4px
+10px}
+#finances #container #mainview table#balance tr.result
+td{border-top:1px dotted #c49873}
