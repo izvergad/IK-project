@@ -36,7 +36,7 @@ class Actions extends Controller
      */
     function tutorials($action, $id = 0)
     {
-        $id = intval($id);
+        $id = floor($id);
         switch($action)
         {
             // следующий этап обучения
@@ -57,7 +57,7 @@ class Actions extends Controller
      */
     function upgrade($position)
     {
-        $position = intval($position);
+        $position = floor($position);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         if ($this->Town_Model->buildings[$position] != false){
@@ -75,7 +75,7 @@ class Actions extends Controller
      */
     function demolition($position)
     {
-        $position = intval($position);
+        $position = floor($position);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         if ((($position == 0 and $this->Town_Model->buildings[$position]['level'] > 1) or $this->Town_Model->build_line[0]['type'] == 1) or $position > 0)
@@ -160,8 +160,8 @@ class Actions extends Controller
      */
     function build($position, $id, $redirect = 'city')
     {
-        $id = intval($id);
-        $position = intval($position);
+        $id = floor($id);
+        $position = floor($position);
         $redirect = strip_tags($redirect);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
@@ -291,8 +291,8 @@ class Actions extends Controller
                 $all = $this->Town_Model->peoples['workers'] + $this->Town_Model->peoples['free'];
                 if ($all >= $_POST['rw'])
                 {
-                    $this->Town_Model->peoples['workers'] = intval($_POST['rw']);
-                    $this->Town_Model->peoples['free'] = $all - intval($_POST['rw']);
+                    $this->Town_Model->peoples['workers'] = floor($_POST['rw']);
+                    $this->Town_Model->peoples['free'] = $all - floor($_POST['rw']);
                     $this->db->set('workers', $this->Town_Model->peoples['workers']);
                     $this->db->set('peoples', $this->Town_Model->peoples['free']);
                     $this->db->where(array('id' => $this->Town_Model->id));
@@ -309,8 +309,8 @@ class Actions extends Controller
                 $all = $this->Town_Model->peoples['research'] + $this->Town_Model->peoples['free'];
                 if ($all >= $_POST['s'] )
                 {
-                    $this->Town_Model->peoples['research'] = intval($_POST['s']);
-                    $this->Town_Model->peoples['free'] = $all - intval($_POST['s']);
+                    $this->Town_Model->peoples['research'] = floor($_POST['s']);
+                    $this->Town_Model->peoples['free'] = $all - floor($_POST['s']);
                     $this->db->set('scientists', $this->Town_Model->peoples['research']);
                     $this->db->set('peoples', $this->Town_Model->peoples['free']);
                     $this->db->where(array('id' => $this->Town_Model->id));
@@ -327,7 +327,7 @@ class Actions extends Controller
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         
-        $count = isset($_POST['donation']) ? intval($_POST['donation']) : 0;
+        $count = isset($_POST['donation']) ? floor($_POST['donation']) : 0;
         if($this->Town_Model->resources['wood'] >= $count and $count > 0 and $this->Town_Model->island->id == $id)
         {
             // Обновляем город
@@ -343,8 +343,8 @@ class Actions extends Controller
 
     function doResearch($way = 0, $id = 0)
     {
-        $way = intval($way);
-        $id = intval($id);
+        $way = floor($way);
+        $id = floor($id);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         if($way > 0 and $way <= 4)
@@ -380,8 +380,8 @@ class Actions extends Controller
      */
     function getJSONIsland($x = 0, $y = 0)
     {
-        $x = intval($x);
-        $y = intval($y);
+        $x = floor($x);
+        $y = floor($y);
 
         echo '{"request":{"x":'.$x.',"y":'.$y.'},"data":[]}';
     }
@@ -395,12 +395,8 @@ class Actions extends Controller
      */
     function getJSONArea($xmin = 0, $xmax = 15, $ymin = 0, $ymax = 15)
     {
-        $xmin = intval($xmin);
-        $xmax = intval($xmin);
-        $ymin = intval($xmin);
-        $ymax = intval($xmin);
-        
         $data = '{"request":{"x_min":'.$xmin.',"x_max":'.$xmax.',"y_min":'.$ymin.',"y_max":'.$ymax.'},"data":{';
+
         for ($i = $xmin; $i <= $xmax; $i++)
         {
             $query_x = $this->db->query('SELECT * FROM '.$this->session->userdata('universe').'_islands WHERE x='.$i.' and y>'.$ymin.' and y<'.$ymax);
@@ -445,7 +441,7 @@ class Actions extends Controller
                 for ($i = 1; $i <= 14; $i++)
                 {
                     $class = $this->Data_Model->army_class_by_type($i);
-                    $$class = (isset($_POST[$i])) ? intval($_POST[$i]) : 0 ;
+                    $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
                     $cost = $this->Data_Model->army_cost_by_type($i);
                     $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
                     $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
@@ -508,7 +504,7 @@ class Actions extends Controller
         for ($i = 1; $i <= 14; $i++)
         {
                 $class = $this->Data_Model->army_class_by_type($i);
-                $$class = (isset($_POST[$i])) ? intval($_POST[$i]) : 0 ;
+                $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
                 $cost = $this->Data_Model->army_cost_by_type($i);
                 if ($this->User_Model->armys[$this->Town_Model->id]->$class >= $$class)
                 {

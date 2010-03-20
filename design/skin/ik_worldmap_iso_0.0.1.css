@@ -1,5 +1,11 @@
 #worldmap_iso #container .dynamic table#islandInfos
 a{color:#542c0f;font-size:11px;font-weight:bold}
+#worldmap_iso #container
+#mapShortcutInput{background-image:url(layout/bg_mapnav_coord.jpg);background-repeat:repeat;height:28px;padding-top:3px;position:relative;padding-left:18px}
+#worldmap_iso .citySpecialSelect
+.dropbutton{background-position:0px -25px;padding-left:8px;height:25px;line-height:25px;cursor:default}
+#worldmap_iso
+.islandShortInfo{vertical-align:center;width:50%}
 #worldmap_iso #container #navigation
 .content{margin-top:0px;margin-bottom:0px}
 #worldmap_iso #container #navigation
