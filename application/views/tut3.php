@@ -2,6 +2,7 @@
 <?if ($location == 'city'){$class = 'researchAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
 <?$position = ($position > 0) ? $position : $this->Data_Model->get_position(3, $this->Town_Model->buildings)?>
+<?if ($this->Town_Model->buildings[$position]['level'] > 0){?>
 
 <style>
 #tutorialAdvisor {
@@ -308,4 +309,5 @@ Event.onDOMReady(function() {
 <?}?>
 });
 
-</script> 
+</script>
+<?}?>

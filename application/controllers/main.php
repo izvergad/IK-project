@@ -126,6 +126,16 @@ class Main extends Controller {
                             $this->db->set('capital', $town->id);
                             $this->db->where(array('id' => $user->id));
                             $this->db->update($_POST['universe'].'_users');
+
+                            // Заходим в игру
+                            $data = array();
+                            $data['id'] = $user->id;
+                            $data['universe'] = $_POST['universe'];
+                            $data['login'] = $user->login;
+                            $data['password'] = md5($user->password);
+
+                            $this->session->set_userdata($data);
+                            redirect('/game/', 'refresh');
                         }
                         else
                         {

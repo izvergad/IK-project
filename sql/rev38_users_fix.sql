@@ -1,0 +1,1 @@
+ALTER TABLE alpha_islands ADD COLUMN   `wonder` int(11) NOT NULL default '0' AFTER `trade_resource`;
