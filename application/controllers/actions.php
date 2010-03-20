@@ -96,48 +96,54 @@ class Actions extends Controller
             $marble = $this->Town_Model->resources['marble'] + ($cost['marble']*0.9);
             $crystal = $this->Town_Model->resources['crystal'] + ($cost['crystal']*0.9);
             $sulfur = $this->Town_Model->resources['sulfur'] + ($cost['sulfur']*0.9);
-            // Заносим данные в базу
-            if (sizeof($this->Town_Model->build_line) > 1)
+
+            if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['type'] == $this->Town_Model->buildings[$position]['type'])
             {
-                $build_line = substr($this->Town_Model->build_text, 4);
-                $build_start = $this->Town_Model->build_start;
-            }
-            else
-            {
-                $build_line = '';
-                $build_start = 0;
-            }
-            if ($build_line != '')
-            {
-                $do = true;
-                while ($do)
+                // Заносим данные в базу
+                if (sizeof($this->Town_Model->build_line) > 1)
                 {
-                    // вычитаем стоимость след. здания
-                    $buildings = $this->Data_Model->load_build_line($build_line);
-                    $type = $this->Town_Model->buildings[$buildings[0]['position']]['type'];
-                    $level = $this->Town_Model->buildings[$buildings[0]['position']]['level'];
-                    $cost = $this->Data_Model->building_cost($type, $level);
-                    if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
+                    $build_line = substr($this->Town_Model->build_text, 4);
+                    $build_start = $this->Town_Model->build_start;
+                }
+                else
+                {
+                    $build_line = '';
+                    $build_start = 0;
+                }
+
+                if ($build_line != '')
+                {
+                    $do = true;
+                    while ($do)
                     {
-                        $wood = $wood - $cost['wood'];
-                        $wine = $wine - $cost['wine'];
-                        $marble = $marble - $cost['marble'];
-                        $crystal = $crystal - $cost['crystal'];
-                        $sulfur = $sulfur - $cost['sulfur'];
-                        $do = false;
-                        break;
-                    }
-                    else
-                    {
-                        $build_line = substr($build_line, 4);
+                        // вычитаем стоимость след. здания
+                        $buildings = $this->Data_Model->load_build_line($build_line);
+                        $type = $this->Town_Model->buildings[$buildings[0]['position']]['type'];
+                        $level = $this->Town_Model->buildings[$buildings[0]['position']]['level'];
+                        $cost = $this->Data_Model->building_cost($type, $level);
+                        if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
+                        {
+                            $wood = $wood - $cost['wood'];
+                            $wine = $wine - $cost['wine'];
+                            $marble = $marble - $cost['marble'];
+                            $crystal = $crystal - $cost['crystal'];
+                            $sulfur = $sulfur - $cost['sulfur'];
+                            $do = false;
+                            break;
+                        }
+                        else
+                        {
+                            $build_line = substr($build_line, 4);
+                        }
                     }
                 }
-            }
 
-            if ($build_line == ''){ $build_start = 0; }
+                if ($build_line == ''){ $build_start = 0; }
+                $this->db->set('build_line', $build_line);
+                $this->db->set('build_start', $build_start);
+            }
             if ($level <= 0){ $this->Town_Model->buildings[$position]['type'] = 0; }
-            $this->db->set('build_line', $build_line);
-            $this->db->set('build_start', $build_start);
+            
             $this->db->set('pos'.$position.'_level', $level);
             $this->db->set('pos'.$position.'_type', $this->Town_Model->buildings[$position]['type']);
             $this->db->set('wood', $wood);
@@ -235,7 +241,7 @@ class Actions extends Controller
                             // Построили порт
                             $this->tutorials('set', 14);
                         }
-                        if ($level > 0 and  $this->User_Model->tutorial <= 15)
+                        if ($level > 0 and  $this->User_Model->tutorial == 15)
                         {
                             // Апгрейдили здание
                             $this->tutorials('set', 16);
