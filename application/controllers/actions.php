@@ -166,8 +166,12 @@ class Actions extends Controller
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         $class = $this->Data_Model->building_class_by_type($id);
-
-        if ($class != 'buildingGround' and ($id != 5 or ($id == 5 and $this->Town_Model->army_line == '')) and ($id != 13 or $this->User_Model->research->res2_13 > 0) and ($this->Town_Model->buildings[$position]['type'] == 0 or $this->Town_Model->buildings[$position]['type'] == $id))
+        $already_position = $this->Data_Model->get_position($id, $this->Town_Model->buildings);
+        if (($already_position == 0 or $already_position == $position) and 
+            $class != 'buildingGround' and
+            ($id != 5 or ($id == 5 and $this->Town_Model->army_line == '')) and
+            ($id != 13 or $this->User_Model->research->res2_13 > 0) and
+            ($this->Town_Model->buildings[$position]['type'] == 0 or $this->Town_Model->buildings[$position]['type'] == $id))
         {
             $level = ($this->Town_Model->buildings[$position] != false ) ? $this->Town_Model->buildings[$position]['level'] : 0;
             // Получаем цены

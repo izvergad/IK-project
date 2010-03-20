@@ -5,7 +5,7 @@
 #academy
 .bulbsOn{background:url(layout/bulb-on.gif) repeat-x;height:21px;z-index:6}
 #academy
-.buildingDescription{height:150px}
+.buildingDescription{height:auto}
 #academy
 #researchFocus.dynamic{text-align:center}
 #academy #researchFocus.dynamic
@@ -21,13 +21,13 @@ ul{height:50px;background-image:url(layout/assignworkers_bg_stats.gif)}
 #academy #mainview #setScientists
 .citizens{position:absolute;top:16px;left:12px;width:100px;height:120px;background:url(characters/y100_citizen_faceright.gif) no-repeat 30px 16px}
 #academy #mainview #setScientists .citizens
-.value{position:absolute;top:123px;left:14px;width:72px;height:24px;background-image:url(interface/bg_count.gif);line-height:24px;text-align:center}
+.value{position:absolute;top:123px;left:14px;width:72px;height:24px;background-image:url(interface/bg_count.gif);line-height:24px;text-align:center;font-size:12px;color:#612D04}
 #academy #mainview #setScientists .citizens
 .textLabel{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 #academy #mainview #setScientists
 .scientists{position:absolute;top:16px;left:538px;width:100px;height:120px;background:url(characters/y100_scientist_faceleft.gif) no-repeat 11px 16px}
 #academy #mainview #setScientists .scientists
-.value{position:absolute;top:123px;left:14px;width:72px;height:24px;background-image:url(img/resource/bg_count.gif);line-height:24px;text-align:center}
+.value{position:absolute;top:123px;left:14px;width:72px;height:24px;background-image:url(img/resource/bg_count.gif);line-height:24px;text-align:center;font-size:12px;color:#612D04}
 #academy #mainview #setScientists .scientists
 .textLabel{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 #academy #mainview #setScientists
