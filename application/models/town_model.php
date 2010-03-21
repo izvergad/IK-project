@@ -125,10 +125,15 @@ class Town_Model extends Model
             // Загружаем список текущих построек
             $this->build_text = $town->build_line;
             $this->build_line = $this->Data_Model->load_build_line($town->build_line);
-            if (sizeof($this->build_line) > 0 and $this->buildings[$this->build_line[0]['position']]['type'] == 0)
+            for ($i = 0; $i < sizeof($this->build_line); $i++)
             {
-                $this->buildings[$this->build_line[0]['position']]['type'] = $this->build_line[0]['type'];
+                if ($this->buildings[$this->build_line[$i]['position']]['type'] == 0)
+                {
+                    $this->buildings[$this->build_line[$i]['position']]['type'] = $this->build_line[$i]['type'];
+                    $this->already_build[$this->build_line[$i]['type']] = true;
+                }
             }
+            
             $this->build_start = $town->build_start;
             // Население
             $this->peoples['free'] = $town->peoples;

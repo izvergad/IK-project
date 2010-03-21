@@ -102,12 +102,12 @@
             
 <?
 // Строим полосу жителей по процентам
-    $all_px = 680;   // всего пикселей
+    $all_px = 620;   // всего пикселей
     $min_px = 60;    // минимальный размер
     $ostalos_px = $all_px - (60*5); // осталось
     $one_px = $ostalos_px/100;
     $all_plus = $this->Town_Model->peoples['all'];
-    $free_px = floor((($this->Town_Model->peoples['free']/$all_plus)*100)*$one_px);
+    $free_px = floor((($this->Town_Model->peoples['free']/$all_plus)*100)*$one_px+60);
     $workers_px = floor((($this->Town_Model->peoples['workers']/$all_plus)*100)*$one_px+60);
     $special_px = floor((($this->Town_Model->peoples['special']/$all_plus)*100)*$one_px+60);
     $research_px = floor((($this->Town_Model->peoples['research']/$all_plus)*100)*$one_px+60);

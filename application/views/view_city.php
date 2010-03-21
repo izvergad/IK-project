@@ -8,7 +8,7 @@ for ($i = 0; $i <= 14; $i++)
     $level = $this->Town_Model->buildings[$i]['level'];
     $sub_class = ($i > 0) & ($i < 3) ? 'shore' : 'land';
     $sub_class = ($i == 14) ? 'wall' : $sub_class;
-    $image = ($level == 0) ? 'flag' : 'buildingimg';
+    $image = ($level == 0 and $this->Town_Model->buildings[$i]['type'] == 0) ? 'flag' : 'buildingimg';
 ?>
 
 <?if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $i){?>
@@ -39,13 +39,13 @@ for ($i = 0; $i <= 14; $i++)
         </script>
 
 <?}else{?>
-        <li id="position<?=$i?>" class="<?=$this->Data_Model->building_class_by_type($class)?> <?if ($level == 0){?><?=$sub_class?><?}?>">
+        <li id="position<?=$i?>" class="<?=$this->Data_Model->building_class_by_type($class)?> <?if ($level == 0 and $this->Town_Model->buildings[$i]['type'] == 0){?><?=$sub_class?><?}?>">
 <?if ($i == 13 and $this->User_Model->research->res2_13 == 0) {?>
             <div></div>
             <a href="#" title="Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!"><span class="textLabel">Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!</span></a>
 <?}else{?>
             <div class="<?=$image?>"></div>
-            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> <?if ($level > 0){?>Уровень <?=$level?><?}?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type(1)?>  <?if ($level > 0){?>Уровень <?=$level?><?}?></span></a>
+            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> Уровень <?=$level?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($class)?>  Уровень <?=$level?></span></a>
 <?}?>
         </li>
 <?}?>

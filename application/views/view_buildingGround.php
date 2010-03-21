@@ -10,9 +10,11 @@
         <div class="content">
             <ul id="buildings">
 
+<?$buildings_count = 0?>
+
 <?for ($i = 2; $i <= 26; $i++){?>
 <?if ($this->Town_Model->already_build[$i] == false){?>
-                
+
 <?if ($i != 7 and $position == 14){ continue; }?>
 <?if (($i != 4 and $i != 2) and ($position == 1 or $position ==2)){ continue; }?>
 <?if (($i == 4 or $i == 2 or $i == 7) and ($position >2 and $position < 14)){ continue; }?>
@@ -41,6 +43,7 @@
         ($i == 26 and $this->User_Model->research->res3_4 == 0)){ continue; }
 ?>
 
+<?$buildings_count++?>
 <?$building_id=$i?>
 <?$cost = $this->Data_Model->building_cost($building_id,0)?>
 
@@ -114,9 +117,11 @@
 
 <?}?>
 <?}?>
-
-			
             </ul>
+<?if($buildings_count == 0){?>
+<div><br><center><p>Невозможно построить новые здания.</p></center></div>
+<?}?>
+
         </div>
         <div class="footer"></div>
     </div>

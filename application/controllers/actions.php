@@ -94,6 +94,14 @@ class Actions extends Controller
                 $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level']-1);
                 $level = ($level > 0) ? $level - 1 : $level;
             }
+            //Если это академия обнуляем ученых
+            if ($this->Town_Model->buildings[$position]['type'] == 3 and $level == 0)
+            {
+                $this->Town_Model->peoples['free'] = $this->Town_Model->peoples['free'] + $this->Town_Model->peoples['research'];
+                $this->Town_Model->peoples['research'] = 0;
+                $this->db->set('peoples', $this->Town_Model->peoples['free']);
+                $this->db->set('scientists', $this->Town_Model->peoples['research']);
+            }
             // Добавляем 90% ресурсов
             $wood = $this->Town_Model->resources['wood'] + ($cost['wood']*0.9);
             $wine = $this->Town_Model->resources['wine'] + ($cost['wine']*0.9);
@@ -123,8 +131,8 @@ class Actions extends Controller
                         // Стоимость след. здания
                         $buildings = $this->Data_Model->load_build_line($build_line);
                         $type = $this->Town_Model->buildings[$buildings[0]['position']]['type'];
-                        $level = $this->Town_Model->buildings[$buildings[0]['position']]['level'];
-                        $cost = $this->Data_Model->building_cost($type, $level);
+                        $next_level = $this->Town_Model->buildings[$buildings[0]['position']]['level'];
+                        $cost = $this->Data_Model->building_cost($type, $next_level);
                         // Если хватает ресурсов
                         if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
                         {
@@ -182,7 +190,6 @@ class Actions extends Controller
         $this->Town_Model->Town_Load($this->User_Model->town);
         $class = $this->Data_Model->building_class_by_type($id);
         $already_position = $this->Data_Model->get_position($id, $this->Town_Model->buildings);
-        
         if (($already_position == 0 or $already_position == $position) and 
             $class != 'buildingGround' and
             ($id != 5 or ($id == 5 and $this->Town_Model->army_line == '')) and
@@ -253,7 +260,7 @@ class Actions extends Controller
                             // Построили порт
                             $this->tutorials('set', 14);
                         }
-                        if ($level > 0 and  $this->User_Model->tutorial == 15)
+                        if ($level > 0 and  $this->User_Model->tutorial <= 15)
                         {
                             // Апгрейдили здание
                             $this->tutorials('set', 16);

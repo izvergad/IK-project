@@ -242,24 +242,24 @@
             </div>
 	</li>
 <?$disabled = ($this->User_Model->research->res2_3 == 0) ? 'disabled' : ''?>
-	<li class="wine <?=$disabled?>">
+	<li class="wine <?if($this->Town_Model->resources['wine']==0){?><?=$disabled?><?}?>">
             <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=number_format($this->Town_Model->resources['wine'])?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Виноград:</span><?=number_format($this->Town_Model->capacity['wine'])?>
             </div>
 	</li>
-	<li class="marble <?=$disabled?>">
+	<li class="marble <?if($this->Town_Model->resources['marble']==0){?><?=$disabled?><?}?>">
             <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=number_format($this->Town_Model->resources['marble'])?></span>
             <div class="tooltip"><span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Town_Model->capacity['marble'])?>
             </div>
 	</li>
-	<li class="glass <?=$disabled?>">
+	<li class="glass <?if($this->Town_Model->resources['crystal']==0){?><?=$disabled?><?}?>">
             <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=number_format($this->Town_Model->resources['crystal'])?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Town_Model->capacity['crystal'])?>
             </div>
 	</li>
-	<li class="sulfur <?=$disabled?>">
+	<li class="sulfur <?if($this->Town_Model->resources['sulfur']==0){?><?=$disabled?><?}?>">
             <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=number_format($this->Town_Model->resources['sulfur'])?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Town_Model->capacity['sulfur'])?>

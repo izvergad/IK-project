@@ -61,8 +61,8 @@
     <ul>
 <?for($i = 1; $i < SizeOf($this->Town_Model->build_line); $i++){?>
 <?
-        $level = ($this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']] != false ) ? $this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']]['level'] : 0;
-        $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level);
+        $level = ($this->Town_Model->buildings[$this->Town_Model->build_line[$i]['position']] != false ) ? $this->Town_Model->buildings[$this->Town_Model->build_line[$i]['position']]['level'] : 0;
+        $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[$i]['type'], $level);
         $end_date = $this->Town_Model->build_start + $cost['time'];
         $ostalos = $end_date - time();
         if ($ostalos < 0){ $ostalos = 0; }
