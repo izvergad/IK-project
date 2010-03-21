@@ -74,9 +74,9 @@
     </li>
 <?}?>
     </ul>
-    <div style="text-align:center; padding: 10px 0 10px 0;">
+<!--    <div style="text-align:center; padding: 10px 0 10px 0;">
         <a class="button" href="javascript:myConfirm('Вы уверены что хотите отменить строительство? Все вложенные ресурсы будут потеряны.','<?=$this->config->item('base_url')?>actions/abortBuildings/<?=$this->Town_Model->id?>/');">Отменить</a>
-    </div>
+    </div>-->
 <?}?>
 <?}else{?>
         <img width="203" height="85" src="<?=$this->config->item('style_url')?>skin/research/area_economy.jpg">
