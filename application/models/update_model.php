@@ -102,7 +102,7 @@ class Update_Model extends Model
                        // Если время строить
                        if (($this->CI->Update_User->towns[$i]->build_start + $cost['time']) <= time())
                        {
-                           if ($step == 0 or ($step > 0 and $wood >= 0 and $marble >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0))
+                           if (($step == 0 or $step > 0) and ($wood >= 0 and $marble >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0))
                            {
                                 // Если не первое здание в очереди
                                 if ($step > 0)
