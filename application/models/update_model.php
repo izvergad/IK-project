@@ -80,15 +80,15 @@ class Update_Model extends Model
                // Строим здания в городах
                if ($this->CI->Update_User->towns[$i]->build_line != '')
                {
-                   // Если вообще что нибудь строится
-                   // Загружаем очередь построек
+                   // Псевдо постройки
                    $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
-                   $step = 0;
+                   // Псевдо очередь
                    $while_line = $this->CI->Update_User->towns[$i]->build_line;
-
+                   // Счетчик цикла
+                   $step = 0;
                    while (SizeOf($buildings) > 0)
                    {
-
+                       // Переменные
                        $pos_text = 'pos'.$buildings[0]['position'].'_level';
                        $type_text = 'pos'.$buildings[0]['position'].'_type';
                        $level = $this->CI->Update_User->towns[$i]->$pos_text;
@@ -99,12 +99,13 @@ class Update_Model extends Model
                        $marble = $this->CI->Update_User->towns[$i]->marble - $cost['marble'];
                        $crystal = $this->CI->Update_User->towns[$i]->crystal - $cost['crystal'];
                        $sulfur = $this->CI->Update_User->towns[$i]->sulfur - $cost['sulfur'];
-                       
+                       // Если время строить
                        if (($this->CI->Update_User->towns[$i]->build_start + $cost['time']) <= time())
                        {
                            if ($step == 0 or ($step > 0 and $wood >= 0 and $marble >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0))
                            {
-                                if (SizeOf($buildings) > 0 and $step > 0)
+                                // Если не первое здание в очереди
+                                if ($step > 0)
                                 {
                                     $this->CI->Update_User->towns[$i]->wood = $wood;
                                     $this->CI->Update_User->towns[$i]->wine = $wine;
@@ -112,20 +113,22 @@ class Update_Model extends Model
                                     $this->CI->Update_User->towns[$i]->crystal = $crystal;
                                     $this->CI->Update_User->towns[$i]->sulfur = $sulfur;
                                 }
+                                    // Увеличиваем уровень
                                     $this->CI->Update_User->towns[$i]->$pos_text = $this->CI->Update_User->towns[$i]->$pos_text + 1;
                                     $this->CI->Update_User->towns[$i]->$type_text = $buildings[0]['type'];
-                                    
                                     // Если есть очередь
                                     if (SizeOf($buildings) > 1)
                                     {
+                                        // уменьшаем настоящую очередь
                                         $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
                                         $this->CI->Update_User->towns[$i]->build_start = $this->CI->Update_User->towns[$i]->build_start + $cost['time'];
-                                        // Нужно ли????
+                                        // и псевдо очередь
                                         $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
                                         $while_line = substr($while_line, 4);
                                     }
                                     else
                                     {
+                                        // Обнуляем очередь
                                         $this->CI->Update_User->towns[$i]->build_line = '';
                                         $this->CI->Update_User->towns[$i]->build_start = 0;
                                         $buildings = array();
@@ -134,34 +137,40 @@ class Update_Model extends Model
                            }
                            else
                            {
+                               // Если ресурсов не хватает уменьшаем настоящую и псевдо очереди
                                $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
                                $while_line = substr($while_line, 4);
                            }
                        }
                        else
                        {
+                           // Если еще не время строить уменьшаем псевдо очередь построек
                            $while_line = substr($while_line, 4);
                            $buildings = $this->Data_Model->load_build_line($while_line);
                            break;
                        }
-                       //$while_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
+                       // Снова загружаем псевдо постройки
                        $buildings = $this->Data_Model->load_build_line($while_line);
+                       // Счетчик цикла
                        $step = $step + 1;
                    }
-                   
                         // Обновляем постройки в базу
                         for ($a = 0; $a <= 14; $a++)
                         {
                             $level_text = 'pos'.$a.'_level';
                             $type_text = 'pos'.$a.'_type';
+                            // Пишем в БД постройку
                             $this->db->set($type_text, $this->CI->Update_User->towns[$i]->$type_text);
                             $this->db->set($level_text, $this->CI->Update_User->towns[$i]->$level_text);
                         }
+                        // Проверка данных, чтобы не писать в БД лишнего
                         if ($this->CI->Update_User->towns[$i]->build_line == 0){ $this->CI->Update_User->towns[$i]->build_line = ''; }
                         if ($this->CI->Update_User->towns[$i]->build_line == ''){ $this->CI->Update_User->towns[$i]->build_start = 0; }
+                        // Пишем в БД очередь
                         $this->db->set('build_line', $this->CI->Update_User->towns[$i]->build_line);
                         $this->db->set('build_start', $this->CI->Update_User->towns[$i]->build_start);
                }
+               // Обновляем в БД ресурсы города
                $this->db->set('peoples', $this->CI->Update_User->towns[$i]->peoples);
                $this->db->set('wood', $this->CI->Update_User->towns[$i]->wood);
                $this->db->set('wine', $this->CI->Update_User->towns[$i]->wine);
@@ -175,7 +184,6 @@ class Update_Model extends Model
                // Строим армию в городах
                if ($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line != '')
                {
-                   // Если вообще что нибудь строится
                    // Загружаем очередь армии
                    $army_line = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line;
                    $army = $this->Data_Model->load_army_line($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line);
@@ -183,12 +191,15 @@ class Update_Model extends Model
 
                    while (SizeOf($army) > 0)
                    {
+                       // Переменные
                        $cost = $this->Data_Model->army_cost_by_type($army[0]['type']);
                        $ELAPSED_ARMY = time() - $army_start;
                        $count = floor($ELAPSED_ARMY/$cost['time']);
                        $class = $this->Data_Model->army_class_by_type($army[0]['type']);
+                       // Если построен хотя бы один
                        if ($count >= $army[0]['count'])
                        {
+                           // Если построены все
                            $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $army[0]['count'];
                            $army_line = substr($army_line, 4);
                            $army = $this->Data_Model->load_army_line($army_line);
@@ -196,6 +207,7 @@ class Update_Model extends Model
                        }
                        else
                        {
+                           // Если построена часть
                            $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $count;
                            $army[0]['count'] = $army[0]['count'] - $count;
                            $army_line = substr($army_line, 4);
@@ -203,24 +215,25 @@ class Update_Model extends Model
                            $army_start = $army_start + ($count*$cost['time']);
                            break;
                        }
+                       // Проверка данных, чтобы не писать в БД лишнего
                        if ($army_line == ''){ $army_start = 0; }
                        if ($army_line == 0){ $army_line = ''; }
                    }
-                   // Обновляем армию в базу
+                        // Обновляем армию в базу
                         for ($a = 1; $a <= 14; $a++)
                         {
                             $class = $this->Data_Model->army_class_by_type($a);
                             $this->db->set($class, $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class);
                         }
+                        // Обновляем очередь армии
                         $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line = $army_line;
                         $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_start = $army_start;
-
                         $this->db->set('army_line', $army_line);
                         $this->db->set('army_start', $army_start);
+                        
                         $this->db->where(array('city' => $this->CI->Update_User->towns[$i]->id));
                         $this->db->update($this->session->userdata('universe').'_army');
                }
-
 
            }
            

@@ -16,5 +16,7 @@ $config['script_version'] = $config['game_version']; // URL сервера со 
  * Игровые настройки
  */
 $config['standart_capacity'] = 1500; // Стандартная вместимость
+$config['town_queue_size'] = 3;      // Длина очереди построек
+$config['army_queue_size'] = 3;      // Длина очереди армии
 
 ?>
