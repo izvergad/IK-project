@@ -173,6 +173,7 @@ class Actions extends Controller
         $this->Town_Model->Town_Load($this->User_Model->town);
         $class = $this->Data_Model->building_class_by_type($id);
         $already_position = $this->Data_Model->get_position($id, $this->Town_Model->buildings);
+        
         if (($already_position == 0 or $already_position == $position) and 
             $class != 'buildingGround' and
             ($id != 5 or ($id == 5 and $this->Town_Model->army_line == '')) and
@@ -188,6 +189,7 @@ class Actions extends Controller
             $marble = $this->Town_Model->resources['marble'] - $cost['marble'];
             $crystal = $this->Town_Model->resources['crystal'] - $cost['crystal'];
             $sulfur = $this->Town_Model->resources['sulfur'] - $cost['sulfur'];
+
             // Если остаток приемлемый
             if ($wood >= 0 and $wine >= 0 and $marble >= 0 and $crystal >= 0 and $sulfur >= 0)
             {
