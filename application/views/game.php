@@ -167,7 +167,7 @@
                     <?=$this->View_Model->show($location, $param1, $param2)?>
 
 <div id="cityNav">
-    <form id="changeCityForm" action="<?=$this->config->item('base_url')?>game/city/" method="POST">
+    <form id="changeCityForm" action="<?=$this->config->item('base_url')?>game/<?=$location?>/" method="POST">
         <fieldset style="display: none;">
             <input type="hidden" name="action" value="header">
             <input type="hidden" name="function" value="changeCurrentCity">
@@ -274,7 +274,7 @@
     <h3>Обзоры</h3>
     <ul>
         <li id="advCities">
-            <a href="<?=$this->config->item('base_url')?>game/advisors/trade/" title="Обзор городов и финансов" class="normal">
+            <a href="<?=$this->config->item('base_url')?>game/tradeAdvisor/" title="Обзор городов и финансов" class="normal<?if($this->User_Model->new_town_messages > 0){?>active<?}?>">
                 <span class="textLabel">Города</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">

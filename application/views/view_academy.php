@@ -1,6 +1,10 @@
 <?$position = $param1?>
-<?if ($position > 0){?>
-}
+<?if ($position == 0 and $location != 'townHall')
+  {
+    $this->User_Model->Game_Error('Академия еще не построена!');
+  }
+?>
+
 
 <div id="mainview">
 
@@ -187,4 +191,3 @@ Event.onDOMReady(function() {
     });
 </script>
 
-<?}//position?>

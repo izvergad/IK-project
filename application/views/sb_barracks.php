@@ -1,3 +1,9 @@
+<?if ($position == 0 and $location != 'townHall')
+  {
+    $this->User_Model->Game_Error('Казарма еще не построена!');
+  }
+?>
+
 <div class="dynamic" id="reportInboxLeft">
     <h3 class="header"></h3>
     <div class="content">

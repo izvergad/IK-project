@@ -23,7 +23,6 @@ class Game extends Controller
             // Смена города
             if (isset($_POST['cityId']) and isset($this->Data_Model->temp_towns_db[$_POST['cityId']]) and $_POST['cityId'] > 0)
             {
-                
                 $this->User_Model->town = ($_POST['cityId'] > 0) ? intval($_POST['cityId']) : $this->User_Model->town;
             }
 
@@ -36,6 +35,8 @@ class Game extends Controller
             $this->load->model('Tutorials_Model');
             $this->load->model('SideBoxes_Model');
             $this->load->model('View_Model');
+            // Загружаем сообщения
+            $this->User_Model->Load_Town_Messages();
         }
     }
 
@@ -59,8 +60,18 @@ class Game extends Controller
     /**
      * Страница города
      */
-    function city()
+    function city($id = 0)
     {
+        if ($id > 0 and $id != $this->Town_Model)
+        {
+            // Меняем город
+            $this->User_Model->town = $id;
+            $this->Town_Model->Town_Load($this->User_Model->town);
+            // Пишем в базу
+            $this->db->set('town', $this->User_Model->town);
+            $this->db->where(array('id' => $this->User_Model->id));
+            $this->db->update($this->session->userdata('universe').'_users');
+        }
         $this->index();
     }
 
@@ -219,21 +230,42 @@ class Game extends Controller
         $this->show('worldmap_iso', $x, $y);
     }
 
+    /**
+     * Подтверждление сноса
+     * @param <int> $position
+     */
     function demolition($position = 0)
     {
         $this->show('demolition', $position);
     }
 
+    /**
+     * Информация о здании
+     * @param <int> $id
+     */
     function buildingDetail($id = 1)
     {
         $this->show('buildingDetail', $id);
     }
 
+    /**
+     * Роспуск войск
+     */
     function armyGarrisonEdit()
     {
         $this->show('armyGarrisonEdit');
     }
 
+    function tradeAdvisor()
+    {
+        $this->show('tradeAdvisor');
+    }
+
+    function error()
+    {
+        $this->show('error');
+    }
+    
     /**
      * Функция отображения страниц
      * @param <string> $location

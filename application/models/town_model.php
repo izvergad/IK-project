@@ -175,7 +175,7 @@ class Town_Model extends Model
             $this->army_text = $this->User_Model->armys[$town->id]->army_line;
             $this->army_line = $this->Data_Model->load_army_line($this->army_text);
             $this->army_start = $this->User_Model->armys[$town->id]->army_start;
-            
+
         }
     }
 

@@ -1,5 +1,5 @@
 <?
-if ($position >= 0){
+if ($position > 0 or ($position == 0 and $location == 'townHall')){
     $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level']);
 ?>
 

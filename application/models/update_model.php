@@ -31,6 +31,7 @@ class Update_Model extends Model
        // Получаем данные игрока
        $this->CI->load->model('User_Model','Update_User');
        $this->CI->Update_User->Load_User($id);
+       $town_messages = array();
        if(isset($id) and ($this->CI->Update_User->id > 0))
        {
            // Пробегаемся по городам
@@ -116,6 +117,16 @@ class Update_Model extends Model
                                     // Увеличиваем уровень
                                     $this->CI->Update_User->towns[$i]->$pos_text = $this->CI->Update_User->towns[$i]->$pos_text + 1;
                                     $this->CI->Update_User->towns[$i]->$type_text = $buildings[0]['type'];
+                                    // Отправляем сообщение
+                                    //$message = ($this->CI->Update_User->towns[$i]->$pos_text == 1) ? 'Строительство "<a href="'.$this->config->item('base_url').'game/'.$this->Data_Model->building_class_by_type($buildings[0]['type']).'/'.$buildings[0]['position'].'/">'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'</a>" завершено!' : 'Уровень здания "<a href="'.$this->config->item('base_url').'game/'.$this->Data_Model->building_class_by_type($buildings[0]['type']).'/'.$buildings[0]['position'].'/">'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'</a>" увеличен до '.$this->CI->Update_User->towns[$i]->$pos_text.'!';
+                                    $message = ($this->CI->Update_User->towns[$i]->$pos_text == 1) ? 'Строительство "'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'" завершено!' : 'Уровень здания "'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'" увеличен до '.$this->CI->Update_User->towns[$i]->$pos_text.'!';
+                                    $town_message = array(
+                                        'user' => $this->CI->Update_User->id,
+                                        'town' => $sulfur = $this->CI->Update_User->towns[$i]->id,
+                                        'date' => $this->CI->Update_User->towns[$i]->build_start + $cost['time'],
+                                        'text' => $message
+                                    );
+                                    $town_messages[] = $town_message;
                                     // Если есть очередь
                                     if (SizeOf($buildings) > 1)
                                     {
@@ -302,7 +313,12 @@ class Update_Model extends Model
            $this->db->set('points', $this->CI->Update_User->research->points);
            $this->db->where(array('user' => $id));
            $this->db->update($this->session->userdata('universe').'_research');
-
+           // Отправляем сообщения
+           if (SizeOf($town_messages) > 0)
+               foreach($town_messages as $message_data)
+               {
+                    $this->db->insert($this->session->userdata('universe').'_town_messages', $message_data);
+               }
        }
     }
 

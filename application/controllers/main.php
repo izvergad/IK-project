@@ -56,7 +56,7 @@ class Main extends Controller {
          */
         function error()
         {
-                $error = $this->session->userdata('error');
+                $error = $this->session->flashdata('error');
                 $page = $this->load->view('main_error', array('error' => $error), true);
 		$this->load->view('main',array('page' => $page));
         }
@@ -140,19 +140,19 @@ class Main extends Controller {
                         else
                         {
                             $this->db->query('DELETE FROM '.$_POST['universe'].'_users where `id`="'.$user->id.'"');
-                            $this->session->set_userdata(array('error' => 'В мире '.$_POST['universe'].' нет мест для заселения!'));
+                            $this->session->set_flashdata(array('error' => 'В мире '.$_POST['universe'].' нет мест для заселения!'));
                             redirect('/main/error/', 'refresh');
                         }
                         
                     }else{
                         $this->db->query('DELETE FROM '.$_POST['universe'].'_users where `id`="'.$user->id.'"');
-                        $this->session->set_userdata(array('error' => 'В мире '.$_POST['universe'].' нет мест для заселения!'));
+                        $this->session->set_flashdata(array('error' => 'В мире '.$_POST['universe'].' нет мест для заселения!'));
                         redirect('/main/error/', 'refresh');
                     }
                 }
                 else
                 {
-                    $this->session->set_userdata(array('error' => 'Игрок с таким именем уже существует!'));
+                    $this->session->set_flashdata(array('error' => 'Игрок с таким именем уже существует!'));
                     redirect('/main/error/', 'refresh');
                 }
 

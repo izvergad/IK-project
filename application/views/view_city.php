@@ -45,7 +45,7 @@ for ($i = 0; $i <= 14; $i++)
             <a href="#" title="Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!"><span class="textLabel">Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!</span></a>
 <?}else{?>
             <div class="<?=$image?>"></div>
-            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> Уровень <?=$level?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($class)?>  Уровень <?=$level?></span></a>
+            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> <?if($this->Town_Model->buildings[$i]['type'] > 0){?>Уровень <?=$level?><?}?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($class)?>  <?if($this->Town_Model->buildings[$i]['type'] > 0){?>Уровень <?=$level?><?}?></span></a>
 <?}?>
         </li>
 <?}?>

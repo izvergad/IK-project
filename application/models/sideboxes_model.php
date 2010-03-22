@@ -34,6 +34,7 @@ class SideBoxes_Model extends Model
             case 'premium':
             case 'premiumPayment':
             case 'researchAdvisor':
+            case 'tradeAdvisor':
             case 'armyGarrisonEdit':
                 $this->load->view('sb_'.$location);
             break;

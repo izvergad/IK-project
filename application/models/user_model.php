@@ -26,7 +26,9 @@ class User_Model extends Model
     var $premium_crystal = 0;
     var $premium_sulfur = 0;
     var $premium_capacity = 0;
-    
+
+    var $town_messages = array();
+    var $new_town_messages = 0;
     /**
      * Инициализация
      */
@@ -71,8 +73,14 @@ class User_Model extends Model
      */
     function Error($error = '')
     {
-                $this->session->set_userdata(array('error' => $error));
+                $this->session->set_flashdata(array('error' => $error));
                 redirect('/main/error/', 'refresh');
+    }
+
+    function Game_Error($error = '')
+    {
+        $this->session->set_flashdata(array('game_error' => $error));
+        redirect('/game/error/', 'refresh');
     }
 
     /**
@@ -121,6 +129,21 @@ class User_Model extends Model
                     $this->Data_Model->Load_Army($row->id);
                     $this->armys[$row->id] =& $this->Data_Model->temp_army_db[$row->id];
                 }
+            }
+        }
+    }
+
+    function Load_Town_Messages()
+    {
+        // Загрузка сообщений
+        $this->db->order_by("date", "desc");
+        $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('user' => $this->id));
+        if ($town_messages->num_rows() > 0)
+        {
+            foreach ($town_messages->result() as $row)
+            {
+                $this->town_messages[] = $row;
+                if ($row->checked == 0){ $this->new_town_messages++; }
             }
         }
     }
