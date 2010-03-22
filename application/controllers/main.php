@@ -23,6 +23,11 @@ class Main extends Controller {
                 }
                 if ($_POST['action'] == 'register')
                 {
+                    $this->load->library('email');
+
+                    $config['mailtype'] = 'html';               // Тип письма text или html
+                    $this->email->initialize($config);
+                    
                     $this->CreateAvatar();
                 }
             }
@@ -63,7 +68,7 @@ class Main extends Controller {
 
         function CreateAvatar()
         {
-            if (isset($_POST['universe']) and isset($_POST['name']) and $_POST['name'] != '' and isset($_POST['password']) and $_POST['password'] != '' and $_POST['universe'] == 'alpha')
+            if (isset($_POST['universe']) and isset($_POST['name']) and $_POST['name'] != '' and isset($_POST['password']) and $_POST['password'] != '' and isset($_POST['email']) and $_POST['universe'] == 'alpha')
             {
                 $login = strip_tags($_POST['name']);
                 $password = strip_tags($_POST['password']);
@@ -127,13 +132,37 @@ class Main extends Controller {
                             $this->db->where(array('id' => $user->id));
                             $this->db->update($_POST['universe'].'_users');
 
-                            // Заходим в игру
+                            // Пишем сессию
                             $data = array();
                             $data['id'] = $user->id;
                             $data['universe'] = $_POST['universe'];
                             $data['login'] = $user->login;
                             $data['password'] = md5($user->password);
 
+                            //Отправляем письмо
+                            if ($this->config->item('game_email'))
+                            {
+                                $key = '';
+                                $message = '
+                                    <html>
+                                    <body>
+                                     <p>Привет '.$user->login.', <br>
+                                     <br>Вы решили создать империю в мире Икариам '.$_POST['universe'].'!<br>
+                                     <br>Нажмите на ссылку, чтобы подтвердить Ваш аккаунт:<br>
+                                     <br><a href="'.$this->config->item('base_url').'main/validate/'.$key.'/" target="_blank">'.$this->config->item('base_url').'main/validate/'.$key.'</a><br>
+                                     <br>Ваша информация для доступа:
+                                     <br>Имя игрока: '.$_POST['name'].'<br>Пароль: '.$_POST['password'].'
+                                     <br>Сервер: '.$_POST['universe'].'<br>
+                                     <br>Если Вам понадобится помощь, то Вы сможете найти ее на форуме Икариам ('.$this->config->item('forum_url').').<br><br>Удачи в игре,<br>Ваша команда Икариам.</p>
+                                    </body>
+                                    </html>';
+                                $this->email->from($this->config->item('email_from'), 'Гермес');
+                                $this->email->to($_POST['email']);
+
+                                $this->email->subject($user->login.', Добро пожаловать в Икариам!');
+                                $this->email->message($message);
+                                $this->email->send();
+                            }
                             $this->session->set_userdata($data);
                             redirect('/game/', 'refresh');
                         }

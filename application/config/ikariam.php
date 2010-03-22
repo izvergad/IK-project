@@ -11,6 +11,13 @@ $config['style_url'] = 'http://127.0.0.1/design/'; // URL сервера со с
 $config['style_version'] = $config['game_version']; // URL сервера со скином
 $config['script_url'] = 'http://127.0.0.1/design/'; // URL сервера со скриптом
 $config['script_version'] = $config['game_version']; // URL сервера со скриптом
+$config['forum_url'] = 'http://127.0.0.1/forum/'; // URL сервера со скриптом
+
+/**
+ * Настройки безопасности
+ */
+$config['game_email'] = true;               // Разрешение на отправку писем (Настройте SMTP)
+$config['email_from'] = 'hermes@game.ru';   // Разрешение на отправку писем (Настройте SMTP)
 
 /**
  * Игровые настройки
