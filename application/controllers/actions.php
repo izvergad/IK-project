@@ -152,7 +152,7 @@ class Actions extends Controller
                     }
                 }
                 // Проверка данных, чтобы не писать в БД лишнего
-                if ($build_line == 0){ $build_line = ''; }
+                if (is_int($build_line)){ $build_line = ''; }
                 if ($build_line == ''){ $build_start = 0; }
                 // Пишем в БД
                 $this->db->set('build_line', $build_line);
