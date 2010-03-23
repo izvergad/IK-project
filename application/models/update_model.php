@@ -118,10 +118,10 @@ class Update_Model extends Model
                                     // Увеличиваем уровень
                                     $this->CI->Update_User->towns[$i]->$pos_text = $this->CI->Update_User->towns[$i]->$pos_text + 1;
                                     $this->CI->Update_User->towns[$i]->$type_text = $buildings[0]['type'];
-
+                                    
                                     // пишем в БД
-                                    $this->db->set($type_text, $this->CI->Update_User->towns[$i]->$pos_text);
-                                    $this->db->set($level_text, $this->CI->Update_User->towns[$i]->$type_text);
+                                    $this->db->set($pos_text, $this->CI->Update_User->towns[$i]->$pos_text);
+                                    $this->db->set($type_text, $this->CI->Update_User->towns[$i]->$type_text);
                                     // Отправляем сообщение
                                     //$message = ($this->CI->Update_User->towns[$i]->$pos_text == 1) ? 'Строительство "<a href="'.$this->config->item('base_url').'game/'.$this->Data_Model->building_class_by_type($buildings[0]['type']).'/'.$buildings[0]['position'].'/">'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'</a>" завершено!' : 'Уровень здания "<a href="'.$this->config->item('base_url').'game/'.$this->Data_Model->building_class_by_type($buildings[0]['type']).'/'.$buildings[0]['position'].'/">'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'</a>" увеличен до '.$this->CI->Update_User->towns[$i]->$pos_text.'!';
                                     $message = ($this->CI->Update_User->towns[$i]->$pos_text == 1) ? 'Строительство "'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'" завершено!' : 'Уровень здания "'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'" увеличен до '.$this->CI->Update_User->towns[$i]->$pos_text.'!';
@@ -161,8 +161,8 @@ class Update_Model extends Model
                        else
                        {
                            // Если еще не время строить уменьшаем псевдо очередь построек
-                           //$while_line = substr($while_line, 4);
-                           //$buildings = $this->Data_Model->load_build_line($while_line);
+                           $while_line = substr($while_line, 4);
+                           $buildings = $this->Data_Model->load_build_line($while_line);
                            break;
                        }
                        // Снова загружаем псевдо постройки
