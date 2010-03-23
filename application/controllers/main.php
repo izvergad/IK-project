@@ -24,7 +24,8 @@ class Main extends Controller {
                 if ($_POST['action'] == 'register')
                 {
                     $this->load->library('email');
-
+                    $this->load->helper('email');
+                    
                     $config['mailtype'] = 'html';               // Тип письма text или html
                     $this->email->initialize($config);
                     
@@ -68,7 +69,7 @@ class Main extends Controller {
 
         function CreateAvatar()
         {
-            if (isset($_POST['universe']) and isset($_POST['name']) and $_POST['name'] != '' and isset($_POST['password']) and $_POST['password'] != '' and isset($_POST['email']) and $_POST['universe'] == 'alpha')
+            if (isset($_POST['universe']) and isset($_POST['name']) and $_POST['name'] != '' and isset($_POST['password']) and $_POST['password'] != '' and isset($_POST['email']) and valid_email($_POST['email']) and isset($_POST['agb']) and $_POST['agb'] and $_POST['universe'] == 'alpha')
             {
                 $login = strip_tags($_POST['name']);
                 $password = strip_tags($_POST['password']);
@@ -77,11 +78,13 @@ class Main extends Controller {
                 // Если такого игркоа нету
                 if ($query->num_rows == 0)
                 {
+                    $key = random_key(30);
                     // Добавляем данные игрока
                     $user_data = array(
                        'login' => $login,
                        'password' => md5($password),
-                       'last_visit' => time()
+                       'last_visit' => time(),
+                       'register_key' => $key
                     );
                     $this->db->insert($_POST['universe'].'_users', $user_data);
                     // Находим игрока в базе
@@ -142,14 +145,13 @@ class Main extends Controller {
                             //Отправляем письмо
                             if ($this->config->item('game_email'))
                             {
-                                $key = '';
                                 $message = '
                                     <html>
                                     <body>
                                      <p>Привет '.$user->login.', <br>
                                      <br>Вы решили создать империю в мире Икариам '.$_POST['universe'].'!<br>
                                      <br>Нажмите на ссылку, чтобы подтвердить Ваш аккаунт:<br>
-                                     <br><a href="'.$this->config->item('base_url').'main/validate/'.$key.'/" target="_blank">'.$this->config->item('base_url').'main/validate/'.$key.'</a><br>
+                                     <br><a href="'.$this->config->item('base_url').'main/validate/'.$_POST['universe'].'/'.$key.'/" target="_blank">'.$this->config->item('base_url').'main/validate/'.$_POST['universe'].'/'.$key.'</a><br>
                                      <br>Ваша информация для доступа:
                                      <br>Имя игрока: '.$_POST['name'].'<br>Пароль: '.$_POST['password'].'
                                      <br>Сервер: '.$_POST['universe'].'<br>
@@ -185,6 +187,43 @@ class Main extends Controller {
                     redirect('/main/error/', 'refresh');
                 }
 
+            }
+        }
+
+        /**
+         * Активация аккуанта
+         * @param <string> $universe
+         * @param <string> $key
+         */
+        function validate($universe = '', $key = '')
+        {
+            if ($universe == 'alpha')
+            {
+                $query = $this->db->get_where($universe.'_users', array('register_key' => $key, 'register_complete' => 0));
+                if ($query->num_rows() == 1)
+                {
+                    $user = $query->row();
+                    $this->db->set('register_complete', time());
+                    $this->db->where(array('register_key' => $key, 'register_complete' => 0));
+                    $this->db->update($universe.'_users');
+                    
+                    $data = array();
+                    $data['id'] = $user->id;
+                    $data['universe'] = $universe;
+                    $data['login'] = $user->login;
+                    $data['password'] = md5($user->password);
+                    $this->session->set_userdata($data);
+                    redirect('/game/', 'refresh');
+                }
+                else
+                {
+                    $this->session->set_flashdata(array('error' => 'Неверный ключ активации!'));
+                    redirect('/main/error/', 'refresh');
+                }
+            }
+            else
+            {
+                redirect('/', 'refresh');
             }
         }
 }
