@@ -171,7 +171,7 @@ class Update_Model extends Model
                        $step = $step + 1;
                    }
                         // Проверка данных, чтобы не писать в БД лишнего
-                        if (is_int($this->CI->Update_User->towns[$i]->build_line)){ $this->CI->Update_User->towns[$i]->build_line = ''; }
+                        if (strlen($this->CI->Update_User->towns[$i]->build_line) < 3){ $this->CI->Update_User->towns[$i]->build_line = ''; }
                         if ($this->CI->Update_User->towns[$i]->build_line == ''){ $this->CI->Update_User->towns[$i]->build_start = 0; }
                         // Пишем в БД очередь
                         $this->db->set('build_line', $this->CI->Update_User->towns[$i]->build_line);
