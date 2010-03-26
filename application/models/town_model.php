@@ -26,6 +26,10 @@ class Town_Model extends Model
     var $army_text = '';
     var $army_start = 0;
 
+    var $ships_line = array();
+    var $ships_text = '';
+    var $ships_start = 0;
+
     var $garrison_limit = 0;
 
     var $minus = array();
@@ -175,6 +179,10 @@ class Town_Model extends Model
             $this->army_text = $this->User_Model->armys[$town->id]->army_line;
             $this->army_line = $this->Data_Model->load_army_line($this->army_text);
             $this->army_start = $this->User_Model->armys[$town->id]->army_start;
+            // Очередь флота
+            $this->ships_text = $this->User_Model->armys[$town->id]->ships_line;
+            $this->ships_line = $this->Data_Model->load_army_line($this->ships_text);
+            $this->ships_start = $this->User_Model->armys[$town->id]->ships_start;
 
         }
     }

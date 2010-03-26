@@ -114,7 +114,7 @@ class Actions extends Controller
                 // Убираем здание из очереди
                 if (sizeof($this->Town_Model->build_line) > 1)
                 {
-                    $build_line = substr($this->Town_Model->build_text, 4);
+                    $build_line = ($this->Town_Model->build_line[0]['type'] < 10) ? substr($this->Town_Model->build_text, 4) : substr($this->Town_Model->build_text, 5);
                     $build_start = $this->Town_Model->build_start;
                 }
                 else
@@ -147,7 +147,7 @@ class Actions extends Controller
                         else
                         {
                             // Если не хватает уменьшаем очередь
-                            $build_line = substr($build_line, 4);
+                            $build_line = ($this->Town_Model->build_line[0]['type'] < 10) ? substr($build_line, 4) : substr($build_line, 5);
                         }
                     }
                 }
@@ -507,11 +507,7 @@ class Actions extends Controller
                         $this->db->set('army_start', $army_start);
                         $this->db->where(array('city' => $this->Town_Model->id));
                         $this->db->update($this->session->userdata('universe').'_army');
-                    // обновляем пользователя
-                    //    $this->db->set('gold', $gold);
-                    //    $this->db->where(array('id' => $this->User_Model->id));
-                    //    $this->db->update($this->session->userdata('universe').'_users');
-                    // Обучение - найм рабочих на лесопилку
+                    // Обучение - найм копейщиков
                     if ($this->User_Model->tutorial <= 10)
                     {
                         $this->tutorials('set', 11);
@@ -522,12 +518,80 @@ class Actions extends Controller
         redirect($this->config->item('base_url').'game/barracks/'.$id.'/', 'refresh');
     }
 
+    function fleet($id = 0)
+    {
+        $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->User_Model->town);
+        $position = $this->Data_Model->get_position(4, $this->Town_Model->buildings);
+        if (($this->Town_Model->build_text == '' or $this->Town_Model->build_line[0]['type'] != 4) and
+           (strlen($this->User_Model->armys[$this->Town_Model->id]->ships_line) <= $this->config->item('army_queue_size')*4) )
+        {
+            if ($position > 0 and $position == $id)
+            {
+                $all_cost['wood'] = 0;
+                $all_cost['wine'] = 0;
+                $all_cost['crystal'] = 0;
+                $all_cost['sulfur'] = 0;
+                $all_cost['peoples'] = 0;
+                //$all_cost['gold'] = 0;
+                $army_line = $this->User_Model->armys[$this->Town_Model->id]->ships_line;
+                $army_start = ($this->User_Model->armys[$this->Town_Model->id]->ships_start > 0) ? $this->User_Model->armys[$this->Town_Model->id]->ships_start : time();
+                // Обрабатываем данные
+                for ($i = 16; $i <= 22; $i++)
+                {
+                    $class = $this->Data_Model->army_class_by_type($i);
+                    $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
+                    $cost = $this->Data_Model->army_cost_by_type($i);
+                    $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
+                    $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
+                    $all_cost['crystal'] = $all_cost['crystal'] + $cost['crystal']*$$class;
+                    $all_cost['sulfur'] = $all_cost['sulfur'] + $cost['sulfur']*$$class;
+                    $all_cost['peoples'] = $all_cost['peoples'] + $cost['peoples']*$$class;
+                    //$all_cost['gold'] = $all_cost['gold'] + $cost['gold']*$$class;
+                    if ($$class > 0)
+                    {
+                        if ($army_line != '')
+                        {
+                            $army_line .= ';';
+                        }
+                        $army_line .= $i.','.$$class;
+                    }
+                }
+                // Вычисляем остаток
+                $wood = $this->Town_Model->resources['wood'] - $all_cost['wood'];
+                $wine = $this->Town_Model->resources['wine'] - $all_cost['wine'];
+                $crystal = $this->Town_Model->resources['crystal'] - $all_cost['crystal'];
+                $sulfur = $this->Town_Model->resources['sulfur'] - $all_cost['sulfur'];
+                $peoples = $this->Town_Model->peoples['free'] - $all_cost['peoples'];
+                //$gold = $this->User_Model->gold - $all_cost['gold'];
+                // Если хватает ресурсов
+                if ($wood >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0 and $peoples >= 0/* and $gold >= 0*/)
+                {
+                    // обновляем город
+                        $this->db->set('wood', $wood);
+                        $this->db->set('wine', $wine);
+                        $this->db->set('crystal', $crystal);
+                        $this->db->set('sulfur', $sulfur);
+                        $this->db->set('peoples', $peoples);
+                        $this->db->where(array('id' => $this->Town_Model->id));
+                        $this->db->update($this->session->userdata('universe').'_towns');
+                    // обновляем армию
+                        $this->db->set('ships_line', $army_line);
+                        $this->db->set('ships_start', $army_start);
+                        $this->db->where(array('city' => $this->Town_Model->id));
+                        $this->db->update($this->session->userdata('universe').'_army');
+                }
+            }
+        }
+        redirect($this->config->item('base_url').'game/shipyard/'.$id.'/', 'refresh');
+    }
+
     function armyEdit($type = '')
     {
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
         $peoples_army = 0;
-        for ($i = 1; $i <= 14; $i++)
+        for ($i = 1; $i <= 22; $i++)
         {
                 $class = $this->Data_Model->army_class_by_type($i);
                 $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
@@ -560,6 +624,19 @@ class Actions extends Controller
                 $this->db->update($this->session->userdata('universe').'_army');
         }
         redirect($this->config->item('base_url').'game/barracks/'.$position.'/', 'refresh');
+    }
+
+    function abortShips($position = 0)
+    {
+        if($this->User_Model->armys[$this->User_Model->town]->ships_line != '')
+        {
+                // обновляем армию
+                $this->db->set('ships_line', '');
+                $this->db->set('ships_start', 0);
+                $this->db->where(array('city' => $this->User_Model->town));
+                $this->db->update($this->session->userdata('universe').'_army');
+        }
+        redirect($this->config->item('base_url').'game/shipyard/'.$position.'/', 'refresh');
     }
 
     function abortBuildings($town = 0)

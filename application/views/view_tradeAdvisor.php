@@ -33,7 +33,7 @@
 <?$message_id = 0?>
 <?foreach($this->User_Model->town_messages as $message){?>
                     <tr class="<?if (($message_id % 2) == 0){?>alt<?}else{?>empty<?}?>">
-                        <td class="empty"></td>
+                        <td class="<?if ($message->checked == 0){?>wichtig<?}else{?>empty<?}?>"></td>
                         <td class="city"></td>
                         <td style="white-space:nowrap;">
                             <a title="Перейти в город <?=$this->Data_Model->temp_towns_db[$message->town]->name?>" href="/game/city/<?=$message->town?>/"><?=$this->Data_Model->temp_towns_db[$message->town]->name?></a>

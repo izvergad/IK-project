@@ -26,6 +26,7 @@ class SideBoxes_Model extends Model
             case 'informations': $this->load->view('sb_'.$location, array('id' => $param1)); break;
             case 'academy':
             case 'barracks':
+            case 'shipyard':
             case 'townHall': $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island': 
@@ -36,6 +37,7 @@ class SideBoxes_Model extends Model
             case 'researchAdvisor':
             case 'tradeAdvisor':
             case 'armyGarrisonEdit':
+            case 'fleetGarrisonEdit':
                 $this->load->view('sb_'.$location);
             break;
             default: break;

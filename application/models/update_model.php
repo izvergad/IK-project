@@ -136,11 +136,12 @@ class Update_Model extends Model
                                     if (SizeOf($buildings) > 1)
                                     {
                                         // уменьшаем настоящую очередь
-                                        $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
+
+                                        $this->CI->Update_User->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->Update_User->towns[$i]->build_line, 4) : substr($this->CI->Update_User->towns[$i]->build_line, 5);
                                         $this->CI->Update_User->towns[$i]->build_start = $this->CI->Update_User->towns[$i]->build_start + $cost['time'];
                                         // и псевдо очередь
                                         $buildings = $this->Data_Model->load_build_line($this->CI->Update_User->towns[$i]->build_line);
-                                        $while_line = substr($while_line, 4);
+                                        $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 4) : substr($while_line, 5);
                                     }
                                     else
                                     {
@@ -154,14 +155,14 @@ class Update_Model extends Model
                            else
                            {
                                // Если ресурсов не хватает уменьшаем настоящую и псевдо очереди
-                               $this->CI->Update_User->towns[$i]->build_line = substr($this->CI->Update_User->towns[$i]->build_line, 4);
-                               $while_line = substr($while_line, 4);
+                               $this->CI->Update_User->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->Update_User->towns[$i]->build_line, 4) : substr($this->CI->Update_User->towns[$i]->build_line, 5);
+                               $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 4) : substr($while_line, 5);
                            }
                        }
                        else
                        {
                            // Если еще не время строить уменьшаем псевдо очередь построек
-                           $while_line = substr($while_line, 4);
+                           $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 4) : substr($while_line, 5);
                            $buildings = $this->Data_Model->load_build_line($while_line);
                            break;
                        }
@@ -189,61 +190,81 @@ class Update_Model extends Model
                $this->db->update($this->session->userdata('universe').'_towns');
 
                // Строим армию в городах
-               if ($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line != '')
+               for ($army_type = 0; $army_type < 2; $army_type++)
                {
-                   // Загружаем очередь армии
-                   $army_line = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line;
-                   $army = $this->Data_Model->load_army_line($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line);
-                   $army_start = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_start;
+                   $army_type_line = ($army_type == 0) ? 'army_line' : 'ships_line';
+                   $army_type_start = ($army_type == 0) ? 'army_start' : 'ships_start';
 
-                   while (SizeOf($army) > 0)
+                   if ($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$army_type_line != '')
                    {
-                       // Переменные
-                       $cost = $this->Data_Model->army_cost_by_type($army[0]['type']);
-                       $ELAPSED_ARMY = time() - $army_start;
-                       $count = floor($ELAPSED_ARMY/$cost['time']);
-                       $class = $this->Data_Model->army_class_by_type($army[0]['type']);
-                       // Если построен хотя бы один
-                       if ($count >= $army[0]['count'])
-                       {
-                           // Если построены все
-                           $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $army[0]['count'];
-                           $army_line = substr($army_line, 4);
-                           $army = $this->Data_Model->load_army_line($army_line);
-                           $army_start = $army_start + ($army[0]['count']*$cost['time']);
-                       }
-                       else
-                       {
-                           // Если построена часть
-                           $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $count;
-                           $army[0]['count'] = $army[0]['count'] - $count;
-                           $army_line = substr($army_line, 4);
-                           $army_line = ($army_line != '') ? $army[0]['type'].','.$army[0]['count'].';'.$army_line : $army[0]['type'].','.$army[0]['count'] ;
-                           $army_start = $army_start + ($count*$cost['time']);
-                           break;
-                       }
-                       // Проверка данных, чтобы не писать в БД лишнего
-                       if ($army_line == ''){ $army_start = 0; }
-                       if ($army_line == 0){ $army_line = ''; }
-                   }
-                        // Обновляем армию в базу
-                        for ($a = 1; $a <= 14; $a++)
-                        {
-                            $class = $this->Data_Model->army_class_by_type($a);
-                            $this->db->set($class, $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class);
-                        }
-                        // Обновляем очередь армии
-                        $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_line = $army_line;
-                        $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->army_start = $army_start;
-                        $this->db->set('army_line', $army_line);
-                        $this->db->set('army_start', $army_start);
-                        
-                        $this->db->where(array('city' => $this->CI->Update_User->towns[$i]->id));
-                        $this->db->update($this->session->userdata('universe').'_army');
-               }
+                       // Загружаем очередь армии
+                       $army_line = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$army_type_line;
+                       $army = $this->Data_Model->load_army_line($this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$army_type_line);
+                       $army_start = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$army_type_start;
 
+                       while (SizeOf($army) > 0)
+                       {
+                           
+                           // Переменные
+                           $cost = $this->Data_Model->army_cost_by_type($army[0]['type']);
+                           $ELAPSED_ARMY = time() - $army_start;
+                           $count = floor($ELAPSED_ARMY/$cost['time']);
+                           $class = $this->Data_Model->army_class_by_type($army[0]['type']);
+                           // Если построен хотя бы один
+                           if ($count >= $army[0]['count'])
+                           {
+                               // Если построены все
+                               $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $army[0]['count'];
+                               $army_line = ($army[0]['type'] < 10) ? substr($army_line, 4) : substr($army_line, 5);
+                               $army = $this->Data_Model->load_army_line($army_line);
+                               $army_start = $army_start + ($army[0]['count']*$cost['time']);
+                           }
+                           else
+                           {
+                               // Если построена часть
+                               $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class = $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class + $count;
+                               $army[0]['count'] = $army[0]['count'] - $count;
+                               $army_line = ($army[0]['type'] < 10) ? substr($army_line, 4) : substr($army_line, 5);
+                               $army_line = ($army_line != '') ? $army[0]['type'].','.$army[0]['count'].';'.$army_line : $army[0]['type'].','.$army[0]['count'] ;
+                               $army_start = $army_start + ($count*$cost['time']);
+                               break;
+                           }
+                           // Проверка данных, чтобы не писать в БД лишнего
+                           if ($army_line == ''){ $army_start = 0; }
+                           if ($army_line == 0){ $army_line = ''; }
+                       }
+                            // Обновляем армию в базу
+                            for ($a = 1; $a <= 14; $a++)
+                            {
+                                $class = $this->Data_Model->army_class_by_type($a);
+                                $this->db->set($class, $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class);
+                            }
+                            // Обновляем армию в базу
+                            for ($a = 16; $a <= 22; $a++)
+                            {
+                                $class = $this->Data_Model->army_class_by_type($a);
+                                $this->db->set($class, $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class);
+                            }
+                            // Обновляем очередь армии
+                            $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$army_type_line = $army_line;
+                            $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$army_type_start = $army_start;
+                            $this->db->set($army_type_line, $army_line);
+                            $this->db->set($army_type_start, $army_start);
+
+                            $this->db->where(array('city' => $this->CI->Update_User->towns[$i]->id));
+                            $this->db->update($this->session->userdata('universe').'_army');
+                   }
+               }
+               // Вычисляем золото за армию
+               $ARMY_GOLD = 0;
+               for ($a = 1; $a <= 22; $a ++)
+               {
+                   $class = $this->Data_Model->army_class_by_type($a);
+                   $cost = $this->Data_Model->army_cost_by_type($a);
+                   $ARMY_GOLD = $ARMY_GOLD + ((($cost['gold'] * $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class)/3600)*$elapsed);
+               }
+               $this->CI->Update_User->gold = $this->CI->Update_User->gold - $ARMY_GOLD;
            }
-           
            // Пробегаемся по островам
            foreach ($this->CI->Update_User->islands as $island)
            {
@@ -285,6 +306,7 @@ class Update_Model extends Model
                $this->db->set('town', $this->User_Model->town);
            }
            // Обновляем золото
+           if ($this->CI->Update_User->gold < 0) { $this->CI->Update_User->gold = 0; }
            $this->db->set('gold', $this->CI->Update_User->gold);
            // Обновляем премиумы
            if ($this->CI->Update_User->premium_account < time()){ $this->CI->Update_User->premium_account = 0; }

@@ -1,0 +1,11 @@
+ALTER TABLE `alpha_army` CHANGE COLUMN `varvar` `barbarian`  int(11) NOT NULL AFTER `medic`;
+ALTER TABLE alpha_army ADD COLUMN `ships_line` varchar(255) character set utf8 NOT NULL AFTER `army_start`;
+ALTER TABLE alpha_army ADD COLUMN `ships_start` int(11) NOT NULL AFTER `ships_line`;
+ALTER TABLE alpha_army ADD COLUMN `ship_ram` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_flamethrower` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_steamboat` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_ballista` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_catapult` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_mortar` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_submarine` int(11) NOT NULL;
+ALTER TABLE alpha_army ADD COLUMN `ship_transport` int(11) NOT NULL;

@@ -169,6 +169,12 @@ class Game extends Controller
         $this->show('barracks', $position);
     }
 
+    function shipyard($position = 0)
+    {
+        $position = $this->Data_Model->get_position(4, $this->Town_Model->buildings);
+        $this->show('shipyard', $position);
+    }
+
     /**
      * Премиум-возможности
      */
@@ -254,6 +260,11 @@ class Game extends Controller
     function armyGarrisonEdit()
     {
         $this->show('armyGarrisonEdit');
+    }
+
+    function fleetGarrisonEdit()
+    {
+        $this->show('fleetGarrisonEdit');
     }
 
     function tradeAdvisor()
