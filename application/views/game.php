@@ -430,7 +430,7 @@ var woodCounter = getResourceCounter({
 	interval: 2000,
 	available: <?=$this->Town_Model->resources['wood']?>,
 	limit: [0, <?=$this->Town_Model->capacity['wood']?>],
-	production: <?=$this->Town_Model->peoples['workers']/1800?>,
+	production: <?=$this->Town_Model->peoples['workers']/3600?>,
 	valueElem: "value_wood"
 	});
 if(woodCounter) {
@@ -444,7 +444,7 @@ var tradegoodCounter = getResourceCounter({
 	interval: 2000,
 	available: <?=$this->Town_Model->resources[$this->Data_Model->resource_class_by_type($this->Town_Model->island->trade_resource)]?>,
 	limit: [0, <?=$this->Town_Model->capacity[$this->Data_Model->resource_class_by_type($this->Town_Model->island->trade_resource)]?>],
-	production: <?=$this->Town_Model->peoples['special']/1800?>,
+	production: <?=$this->Town_Model->peoples['special']/3600?>,
 		valueElem: "value_<?=$this->Data_Model->resource_class_by_type($this->Town_Model->island->trade_resource)?>"
 	});
 if(tradegoodCounter) {

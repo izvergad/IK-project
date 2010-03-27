@@ -60,7 +60,7 @@ class Game extends Controller
     /**
      * Страница города
      */
-    function city($id = 0)
+    function city($id = 0, $relocation = 'city', $reposition = 0)
     {
         if ($id > 0 and $id != $this->Town_Model)
         {
@@ -71,6 +71,10 @@ class Game extends Controller
             $this->db->set('town', $this->User_Model->town);
             $this->db->where(array('id' => $this->User_Model->id));
             $this->db->update($this->session->userdata('universe').'_users');
+        }
+        if ($relocation != 'city')
+        {
+            redirect('/game/'.$relocation.'/'.$reposition.'/', 'refresh');
         }
         $this->index();
     }
@@ -292,6 +296,12 @@ class Game extends Controller
     function cityMilitary($type = 'army')
     {
         $this->show('cityMilitary', $type);
+    }
+
+    function warehouse($position = 0)
+    {
+        //$position = $this->Data_Model->get_position(6, $this->Town_Model->buildings);
+        $this->show('warehouse', $position);
     }
     
     /**

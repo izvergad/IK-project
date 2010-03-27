@@ -42,6 +42,7 @@ class View_Model extends Model
             case 'error':
             case 'fleetGarrisonEdit':
             case 'cityMilitary':
+            case 'warehouse':
                 $this->load->view('view_'.$location, array('position' => $param1));
             break;
             default: $this->not_found(); break;

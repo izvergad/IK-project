@@ -1,6 +1,10 @@
 <?$position = $param1?>
-<?if($position > 0){?>
-}
+<?if ($position == 0 and $location != 'townHall')
+  {
+    $this->User_Model->Game_Error('Казарма еще не построена!');
+  }
+?>
+
 <?$level = isset($this->Town_Model->buildings[$position]['level']) ? $this->Town_Model->buildings[$position]['level'] : 0?>
 
 <div id="mainview">
@@ -210,4 +214,3 @@
 		</div>
 		</form> <!-- End buildForm -->
 	</div>
-<?}?>
