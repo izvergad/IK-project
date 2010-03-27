@@ -148,7 +148,20 @@
                     </span>       
                     <span class="production">
                         <span class="textLabel">Производство </span>
-                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif">+0
+<?switch($this->Town_Model->island->trade_resource){?>
+<?case 1:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif">
+<?break;?>
+<?case 2:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif">
+<?break;?>
+<?case 3:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif">
+<?break;?>
+<?case 4:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif">
+<?break;?>
+<?}?>+<?=$this->Town_Model->peoples['special']?>
                     </span> 
                 </div>
 								

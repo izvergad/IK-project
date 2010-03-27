@@ -121,6 +121,17 @@ class Game extends Controller
         $this->show('resource', $id);
     }
 
+    function tradegood($id = 0)
+    {
+        if ($id == 0)
+        {
+            $id = $this->Town_Model->island->id;
+        }
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($id);
+        $this->show('tradegood', $id);
+    }
+
     /**
      * Ратуша
      * @param <int> $position
@@ -275,6 +286,11 @@ class Game extends Controller
     function error()
     {
         $this->show('error');
+    }
+
+    function cityMilitary($type = 'army')
+    {
+        $this->show('cityMilitary', $type);
     }
     
     /**

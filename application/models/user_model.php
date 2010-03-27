@@ -137,15 +137,20 @@ class User_Model extends Model
     {
         // Загрузка сообщений
         $this->db->order_by("date", "desc");
-        $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('user' => $this->id));
-        if ($town_messages->num_rows() > 0)
+        $where_array = array();
+        for ($i = 0; $i < SizeOf($this->towns); $i++)
         {
-            foreach ($town_messages->result() as $row)
+            $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('town' => $this->towns[$i]->id));
+            if ($town_messages->num_rows() > 0)
             {
-                $this->town_messages[] = $row;
-                if ($row->checked == 0){ $this->new_town_messages++; }
+                foreach ($town_messages->result() as $row)
+                {
+                    $this->town_messages[] = $row;
+                    if ($row->checked == 0){ $this->new_town_messages++; }
+                }
             }
         }
+        rsort($this->town_messages);
     }
 }
 

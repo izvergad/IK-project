@@ -5,7 +5,7 @@
             <li class="name"><span class="textLabel">Имя: </span><?=$this->Town_Model->name?></li>
             <li class="citylevel"><span class="textLabel">Размер: </span><?=$this->Town_Model->buildings[0]['level']?></li>
             <div class="centerButton">
-                <a href="<?=$this->config->item('base_url')?>game/military/" class="button">Войска в городе</a>
+                <a href="<?=$this->config->item('base_url')?>game/cityMilitary/" class="button">Войска в городе</a>
             </div>
         </ul>
     </div>

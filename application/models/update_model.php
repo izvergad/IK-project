@@ -48,13 +48,14 @@ class Update_Model extends Model
                if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 200; }
                // Прирост жителей
                $workers = $this->CI->Update_User->towns[$i]->workers;
+               $tradegood = $this->CI->Update_User->towns[$i]->tradegood;
                $scientists = $this->CI->Update_User->towns[$i]->scientists;
                $max = $this->Data_Model->peoples_by_level($this->CI->Update_User->towns[$i]->pos0_level);
                // Колодец - +50 жилых мест в столице
                if ($this->CI->Update_User->research->res3_1 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $max = $max + 50; }
                // Утопия - +200 жилых мест в столице
                if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $max = $max + 200; }
-               $max_peoples = $max - $workers - $scientists;
+               $max_peoples = $max - $workers - $scientists - $tradegood;
                $this->CI->Update_User->towns[$i]->peoples = $this->CI->Update_User->towns[$i]->peoples + ((($good/50)/3600)*$elapsed);
                if ($this->CI->Update_User->towns[$i]->peoples < 0){ $this->CI->Update_User->towns[$i]->peoples = 0; }
                if ($this->CI->Update_User->towns[$i]->peoples > $max_peoples){ $this->CI->Update_User->towns[$i]->peoples = $max_peoples; }
@@ -64,6 +65,18 @@ class Update_Model extends Model
                $this->CI->Update_User->gold = $this->CI->Update_User->gold + (((($this->CI->Update_User->towns[$i]->peoples*3) - ($this->CI->Update_User->towns[$i]->scientists*$scientists_gold_need))/3600)*$elapsed);
                // Прирост дерева
                $this->CI->Update_User->towns[$i]->wood = $this->CI->Update_User->towns[$i]->wood + (($this->CI->Update_User->towns[$i]->workers/3600)*$elapsed);
+               // Прирост другого ресурса
+               switch($this->CI->Update_User->islands[$this->CI->Update_User->towns[$i]->island]->trade_resource)
+               {
+                   case 1:$this->CI->Update_User->towns[$i]->wine = $this->CI->Update_User->towns[$i]->wine + (($this->CI->Update_User->towns[$i]->tradegood/3600)*$elapsed);
+                   break;
+                   case 2:$this->CI->Update_User->towns[$i]->marble = $this->CI->Update_User->towns[$i]->marble + (($this->CI->Update_User->towns[$i]->tradegood/3600)*$elapsed);
+                   break;
+                   case 3:$this->CI->Update_User->towns[$i]->crystal = $this->CI->Update_User->towns[$i]->crystal + (($this->CI->Update_User->towns[$i]->tradegood/3600)*$elapsed);
+                   break;
+                   case 4:$this->CI->Update_User->towns[$i]->sulfur = $this->CI->Update_User->towns[$i]->sulfur + (($this->CI->Update_User->towns[$i]->tradegood/3600)*$elapsed);
+                   break;
+               }
                // Увеличение баллов за исследования
                $plus_research = 1;
                // Бумага - на 2% больше баллов
@@ -268,19 +281,25 @@ class Update_Model extends Model
            // Пробегаемся по островам
            foreach ($this->CI->Update_User->islands as $island)
            {
+               for ($is = 0; $is < 2; $is++)
+               {
+                   $res_level = ($is == 0) ? 'wood_level' : 'trade_level';
+                   $res_count = ($is == 0) ? 'wood_count' : 'trade_count';
+                   $res_start = ($is == 0) ? 'wood_start' : 'trade_start';
+
                    // Цены для улучшения леса
-                   $cost = $this->Data_Model->island_cost(0,$island->wood_level);
-                   $need_wood = $cost['wood'] - $island->wood_count;
+                   $cost = $this->Data_Model->island_cost($is,$island->$res_level);
+                   $need_wood = $cost['wood'] - $island->$res_count;
                    $need_wood = ($need_wood < 0) ? 0 : $need_wood;
-                   if ($island->wood_start > 0)
+                   if ($island->$res_start > 0)
                    {
-                       $elapsed_wood = time() - $island->wood_start;
+                       $elapsed_wood = time() - $island->$res_start;
                        if ($elapsed_wood >= $cost['time'])
                        {
-                           $this->CI->Update_User->islands[$island->id]->wood_level = $island->wood_level + 1;
-                           $this->CI->Update_User->islands[$island->id]->wood_start = 0;
-                           $this->db->set('wood_level', $this->CI->Update_User->islands[$island->id]->wood_level);
-                           $this->db->set('wood_start', 0);
+                           $this->CI->Update_User->islands[$island->id]->$res_level = $island->$res_level + 1;
+                           $this->CI->Update_User->islands[$island->id]->$res_start = 0;
+                           $this->db->set($res_level, $this->CI->Update_User->islands[$island->id]->$res_level);
+                           $this->db->set($res_start, 0);
                            $this->db->where(array('id' => $this->CI->Update_User->islands[$island->id]->id));
                            $this->db->update($this->session->userdata('universe').'_islands');
                        }
@@ -288,14 +307,15 @@ class Update_Model extends Model
                        // Если дерева достаточно
                        if ($need_wood == 0)
                        {
-                           $this->CI->Update_User->islands[$island->id]->wood_start = time();
-                           $this->CI->Update_User->islands[$island->id]->wood_count = $island->wood_count - $cost['wood'];
-                           $this->db->set('wood_start', $this->CI->Update_User->islands[$island->id]->wood_start);
-                           $this->db->set('wood_count', $this->CI->Update_User->islands[$island->id]->wood_count);
+                           $this->CI->Update_User->islands[$island->id]->$res_start = time();
+                           $this->CI->Update_User->islands[$island->id]->$res_count = $island->$res_count - $cost['wood'];
+                           $this->db->set($res_start, $this->CI->Update_User->islands[$island->id]->$res_start);
+                           $this->db->set($res_count, $this->CI->Update_User->islands[$island->id]->$res_count);
                            $this->db->where(array('id' => $this->CI->Update_User->islands[$island->id]->id));
                            $this->db->update($this->session->userdata('universe').'_islands');
                        }
                    }
+               }
            }
 
            // Последнее посещение

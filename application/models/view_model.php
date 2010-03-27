@@ -28,6 +28,7 @@ class View_Model extends Model
             case 'island':
             case 'renameCity':
             case 'resource':
+            case 'tradegood':
             case 'townHall':
             case 'premium':
             case 'premiumPayment':
@@ -40,6 +41,7 @@ class View_Model extends Model
             case 'tradeAdvisor':
             case 'error':
             case 'fleetGarrisonEdit':
+            case 'cityMilitary':
                 $this->load->view('view_'.$location, array('position' => $param1));
             break;
             default: $this->not_found(); break;

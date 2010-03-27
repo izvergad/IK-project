@@ -1,34 +1,46 @@
 <?
-    $cost = $this->Data_Model->island_cost(0,$this->Island_Model->levels[0]);
-    $end_time = $this->Island_Model->island->wood_start + $cost['time'];
+    $cost = $this->Data_Model->island_cost($this->Island_Model->island->trade_resource,$this->Island_Model->levels[1]);
+    $end_time = $this->Island_Model->island->trade_start + $cost['time'];
     $ostalos = $end_time - time();
-    $need_wood = $cost['wood'] - $this->Island_Model->resources[0];
+    $need_wood = $cost['wood'] - $this->Island_Model->resources[1];
     $need_wood = ($need_wood < 0) ? 0 : $need_wood;
-    $upgraded = ($this->Island_Model->island->wood_start > 0) ? 'upgrading' : '';
+    $upgraded = ($this->Island_Model->island->trade_start > 0) ? 'upgrading' : '';
     $max = ($this->Town_Model->resources['wood'] > $need_wood) ? $need_wood : floor($this->Town_Model->resources['wood']);
 ?>
 
 <div id="resUpgrade" class="dynamic <?=$upgraded?>">
-    <h3 class="header">Лесопилка
+    <h3 class="header"><?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?>
         <a class="help" href="<?=$this->config->item('base_url')?>game/informations/6/" title="Помощь">
             <span class="textLabel">Нужна помощь?</span>
         </a>
     </h3>
 
-<?if($this->Island_Model->island->wood_start > 0){?>
+<?if($this->Island_Model->island->trade_start > 0){?>
 
     <div class="content">
-
-        <img src="<?=$this->config->item('style_url')?>skin/resources/img_wood.jpg" alt="">
+<?switch($this->Island_Model->island->trade_resource){?>
+<?case 1:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_wine.jpg" alt="">
+<?break;?>
+<?case 2:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_marble.jpg" alt="">
+<?break;?>
+<?case 3:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_glass.jpg" alt="">
+<?break;?>
+<?case 4:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_sulfur.jpg" alt="">
+<?break;?>
+<?}?>
         <div class="isUpgrading">В процессе!</div>
-        <div class="buildingLevel"><span class="textLabel">Уровень: </span><?=$this->Island_Model->island->wood_level?></div>
-        <div class="nextLevel"><span class="textLabel">след. уровень: </span><?=$this->Island_Model->island->wood_level+1?></div>
+        <div class="buildingLevel"><span class="textLabel">Уровень: </span><?=$this->Island_Model->island->trade_level?></div>
+        <div class="nextLevel"><span class="textLabel">след. уровень: </span><?=$this->Island_Model->island->trade_level+1?></div>
         <div class="progressBar"><div class="bar" id="upgradeProgress" title="0%" style="width:0%;"></div></div>
 
                        <script type="text/javascript">
                             Event.onDOMReady(function() {
                                 var tmppbar = getProgressBar({
-                                    startdate: <?=$this->Island_Model->island->wood_start?>,
+                                    startdate: <?=$this->Island_Model->island->trade_start?>,
                                     enddate: <?=$end_time?>,
                                     currentdate: <?=time()?>,
                                     bar: "upgradeProgress"
@@ -59,9 +71,22 @@
     </div>
 <?}else{?>
     <div class="content">
-        <img src="<?=$this->config->item('style_url')?>skin/resources/img_wood.jpg" alt="">
+<?switch($this->Island_Model->island->trade_resource){?>
+<?case 1:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_wine.jpg" alt="">
+<?break;?>
+<?case 2:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_marble.jpg" alt="">
+<?break;?>
+<?case 3:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_glass.jpg" alt="">
+<?break;?>
+<?case 4:?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/img_sulfur.jpg" alt="">
+<?break;?>
+<?}?>
         <div class="buildingLevel">
-            <span class="textLabel">Уровень: </span><?=$this->Island_Model->island->wood_level?>
+            <span class="textLabel">Уровень: </span><?=$this->Island_Model->island->trade_level?>
         </div>
         <h4>Необходимо для след. уровня:</h4>
         <ul class="resources">
@@ -70,11 +95,11 @@
         <h4>В наличии:</h4>
         <div>
             <ul class="resources">
-                <li class="wood"><span class="textLabel">Стройматериалы: </span><?=number_format($this->Island_Model->resources[0])?></li>
+                <li class="wood"><span class="textLabel">Стройматериалы: </span><?=number_format($this->Island_Model->resources[1])?></li>
             </ul>
         </div>
 
-        <form id="donateForm" action="<?=$this->config->item('base_url')?>actions/resources/resource/<?=$this->Island_Model->island->id?>/"  method="POST">
+        <form id="donateForm" action="<?=$this->config->item('base_url')?>actions/resources/tradegood/<?=$this->Island_Model->island->id?>/"  method="POST">
             <div id="donate">
                 <label for="donateWood">Пожертвовать:</label>
                 <input type="hidden" name="id" value="<?=$this->Island_Model->island->id?>">
@@ -92,4 +117,4 @@
     </div>
 <?}?>
     <div class="footer"></div>
-</div> 
+</div>

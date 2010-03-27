@@ -24,13 +24,17 @@ class SideBoxes_Model extends Model
             case 'researchDetail':
             case 'buildingDetail':
             case 'informations': $this->load->view('sb_'.$location, array('id' => $param1)); break;
+            case 'cityMilitary':
+                $this->load->view('sb_cityMilitary', array('type' => $param1)); break;
             case 'academy':
             case 'barracks':
             case 'shipyard':
-            case 'townHall': $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
+            case 'townHall': 
+                $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island': 
             case 'resource':
+            case 'tradegood':
             case 'renameCity':
             case 'premium':
             case 'premiumPayment':

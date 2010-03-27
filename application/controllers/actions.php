@@ -325,6 +325,25 @@ class Actions extends Controller
                 }
             }
         }
+        // Рабочие 2
+        if (isset($_POST['tw']))
+        {
+            $level = $this->Town_Model->island->wood_level;
+            $cost = $this->Data_Model->island_cost(1, $level);
+            if ($cost['workers'] >= $_POST['tw'])
+            {
+                $all = $this->Town_Model->peoples['special'] + $this->Town_Model->peoples['free'];
+                if ($all >= $_POST['tw'])
+                {
+                    $this->Town_Model->peoples['special'] = floor($_POST['tw']);
+                    $this->Town_Model->peoples['free'] = $all - floor($_POST['tw']);
+                    $this->db->set('tradegood', $this->Town_Model->peoples['special']);
+                    $this->db->set('peoples', $this->Town_Model->peoples['free']);
+                    $this->db->where(array('id' => $this->Town_Model->id));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                }
+            }
+        }
         // Ученые
         if (isset($_POST['s']) and $id > 0 and $this->Town_Model->already_build[3])
         {
@@ -347,7 +366,7 @@ class Actions extends Controller
         redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
     }
 
-    function resources($id = 0)
+    function resources($type = 'resource', $id = 0)
     {
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
@@ -356,14 +375,28 @@ class Actions extends Controller
         if($this->Town_Model->resources['wood'] >= $count and $count > 0 and $this->Town_Model->island->id == $id)
         {
             // Обновляем город
-            $this->db->set('workers_wood', $this->Town_Model->workers_wood + $count);
+            if ($type == 'resource')
+            {
+                $this->db->set('workers_wood', $this->Town_Model->workers_wood + $count);
+            }
+            else
+            {
+                $this->db->set('tradegood_wood', $this->Town_Model->tradegood_wood + $count);
+            }
             $this->db->set('wood', $this->Town_Model->resources['wood'] - $count);
             $this->db->where(array('id' => $this->Town_Model->id));
             $this->db->update($this->session->userdata('universe').'_towns');
             // Обновляем остров
-            $this->db->query('UPDATE `'.$this->session->userdata('universe').'_islands'.'` SET `wood_count`=`wood_count`+'.$count.' WHERE `id`="'.$id.'"');
+            if ($type == 'resource')
+            {
+                $this->db->query('UPDATE `'.$this->session->userdata('universe').'_islands'.'` SET `wood_count`=`wood_count`+'.$count.' WHERE `id`="'.$id.'"');
+            }
+            else
+            {
+                $this->db->query('UPDATE `'.$this->session->userdata('universe').'_islands'.'` SET `trade_count`=`trade_count`+'.$count.' WHERE `id`="'.$id.'"');
+            }
         }
-        redirect($this->config->item('base_url').'game/resource/'.$id.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/'.$type.'/'.$id.'/', 'refresh');
     }
 
     function doResearch($way = 0, $id = 0)

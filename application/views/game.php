@@ -236,31 +236,31 @@
             <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=number_format($this->Town_Model->actions)?></span>
 	</li>
 	<li class="wood">
-            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class=""><?=number_format($this->Town_Model->resources['wood'])?></span>
+            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class=""><?=number_format(floor($this->Town_Model->resources['wood']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Стройматериалы:</span><?=number_format($this->Town_Model->capacity['wood'])?>
             </div>
 	</li>
 <?$disabled = ($this->User_Model->research->res2_3 == 0) ? 'disabled' : ''?>
 	<li class="wine <?if($this->Town_Model->resources['wine']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=number_format($this->Town_Model->resources['wine'])?></span>
+            <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=number_format(floor($this->Town_Model->resources['wine']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Виноград:</span><?=number_format($this->Town_Model->capacity['wine'])?>
             </div>
 	</li>
 	<li class="marble <?if($this->Town_Model->resources['marble']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=number_format($this->Town_Model->resources['marble'])?></span>
+            <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=number_format(floor($this->Town_Model->resources['marble']))?></span>
             <div class="tooltip"><span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Town_Model->capacity['marble'])?>
             </div>
 	</li>
 	<li class="glass <?if($this->Town_Model->resources['crystal']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=number_format($this->Town_Model->resources['crystal'])?></span>
+            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=number_format(floor($this->Town_Model->resources['crystal']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Town_Model->capacity['crystal'])?>
             </div>
 	</li>
 	<li class="sulfur <?if($this->Town_Model->resources['sulfur']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=number_format($this->Town_Model->resources['sulfur'])?></span>
+            <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=number_format(floor($this->Town_Model->resources['sulfur']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Town_Model->capacity['sulfur'])?>
             </div>
@@ -430,7 +430,7 @@ var woodCounter = getResourceCounter({
 	interval: 2000,
 	available: <?=$this->Town_Model->resources['wood']?>,
 	limit: [0, <?=$this->Town_Model->capacity['wood']?>],
-	production: 0,
+	production: <?=$this->Town_Model->peoples['workers']/1800?>,
 	valueElem: "value_wood"
 	});
 if(woodCounter) {
@@ -438,21 +438,21 @@ if(woodCounter) {
 		IKARIAM.currentCity.resources.wood = woodCounter.currentRes;
 		});
 	}
-/*
+
 var tradegoodCounter = getResourceCounter({
-	startdate: 1265893414,
+	startdate: <?=time()?>,
 	interval: 2000,
-	available: 0,
-	limit: [0, 1500],
-	production: 0,
-		valueElem: "value_marble"
+	available: <?=$this->Town_Model->resources[$this->Data_Model->resource_class_by_type($this->Town_Model->island->trade_resource)]?>,
+	limit: [0, <?=$this->Town_Model->capacity[$this->Data_Model->resource_class_by_type($this->Town_Model->island->trade_resource)]?>],
+	production: <?=$this->Town_Model->peoples['special']/1800?>,
+		valueElem: "value_<?=$this->Data_Model->resource_class_by_type($this->Town_Model->island->trade_resource)?>"
 	});
 if(tradegoodCounter) {
 	tradegoodCounter.subscribe("update", function() {
 		IKARIAM.currentCity.resources.marble = tradegoodCounter.currentRes;
 		});
 	}
-*/
+
 var localTime = new Date();
 var startServerTime = localTime.getTime() - (3600000) - localTime.getTimezoneOffset()*60*1000; // GMT+1+Sommerzeit - offset
 var obj_ServerTime = 0;

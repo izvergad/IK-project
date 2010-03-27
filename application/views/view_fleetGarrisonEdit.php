@@ -4,13 +4,14 @@
 <div id="mainview">
     <div class="buildingDescription">
         <h1>Инспектировать гарнизон</h1>
-        <p>Распустить войска</p>
+        <p>Здесь Вы можете распустить войска, которые Вам больше не нужны.</p>
     </div>
     <form id="fireForm"  action="<?=$this->config->item('base_url')?>actions/armyEdit/shipyard/" method="post">
         <div class="contentBox01h">
 
-            <h3 class="header">Роспуск войск</h3>
+            <h3 class="header">Роспуск кораблей</h3>
             <div class="content">
+                <br>
                 <ul id="units">
 <?for($i = 16; $i <= 22; $i++){?>
 <?$class = $this->Data_Model->army_class_by_type($i)?>
@@ -69,7 +70,7 @@
 
 <?}?>
 <?}?>
-
+                <br><br>
                 </ul>
             </div>
             <div class="footer"></div>
