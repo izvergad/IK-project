@@ -13,7 +13,7 @@
 <?$buildings_count = 0?>
 
 <?for ($i = 2; $i <= 26; $i++){?>
-<?if ($this->Town_Model->already_build[$i] == false){?>
+<?if ($this->Town_Model->already_build[$i] == false or $i == 6){?>
 
 <?if ($i != 7 and $position == 14){ continue; }?>
 <?if (($i != 4 and $i != 2) and ($position == 1 or $position ==2)){ continue; }?>

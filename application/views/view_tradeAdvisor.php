@@ -1,3 +1,16 @@
+<?
+        $config['base_url'] = $this->config->item('base_url').'game/tradeAdvisor/';
+        $config['total_rows'] = SizeOf($this->User_Model->town_messages);
+        $config['per_page'] = '10';
+        $config['num_links'] = 3;
+        $config['next_link'] = '<img src="'.$this->config->item('style_url').'skin/img/resource/btn_max.gif" title="След. 10">';
+        $config['last_link'] = '<img src="'.$this->config->item('style_url').'skin/img/resource/btn_max.gif" title="В Конец">';
+        $config['prev_link'] = '<img src="'.$this->config->item('style_url').'skin/img/resource/btn_min.gif" title="Пред. 10">';
+        $config['first_link'] = '<img src="'.$this->config->item('style_url').'skin/img/resource/btn_min.gif" title="В Начало">';
+        $this->pagination->initialize($config);
+        $msg_id = $param1;
+?>
+
 <div id="mainview">
     <div class="buildingDescription">
         <h1>Мэр</h1>
@@ -32,6 +45,7 @@
 
 <?$message_id = 0?>
 <?foreach($this->User_Model->town_messages as $message){?>
+<?if($message_id >= $msg_id and $message_id < ($msg_id + $config['total_rows']) ){?>
                     <tr class="<?if (($message_id % 2) == 0){?>alt<?}else{?>empty<?}?>">
                         <td class="<?if ($message->checked == 0){?>wichtig<?}else{?>empty<?}?>"></td>
                         <td class="city"></td>
@@ -42,11 +56,25 @@
                         <td class="subject"><?=$message->text?></td>
                         <td class="empty"></td>
                     </tr>
+<?}?>
 <?$message_id++?>
 <?}?>
-
+                    <tr class="pgnt">
+                        <td class="empty"></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="i" class="paginator">
+                            <!--<div class="text" title="Berichte 1-10">1-10</div>-->
+                            <?=$this->pagination->create_links()?>
+                            <!--<div class="next"><a href="?view=tradeAdvisor&offset=10&lastRead=16286162" title="след. 10..."><img src="skin/img/resource/btn_max.gif"/></a></div>-->
+                        </td>
+                        <td></td>
+                        <td class="empty"></td>
+                    </tr>
+                    
                 </tbody>
             </table>
+
         </div>
         <div class="footer"></div>
     </div>

@@ -278,9 +278,10 @@ class Game extends Controller
         $this->show('fleetGarrisonEdit');
     }
 
-    function tradeAdvisor()
+    function tradeAdvisor($message_id = 0)
     {
-        $this->show('tradeAdvisor');
+        $this->load->library('pagination');
+        $this->show('tradeAdvisor', $message_id);
     }
 
     function error()

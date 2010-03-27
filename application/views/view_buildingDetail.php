@@ -17,6 +17,7 @@
     $level = 0;
     $position = $this->Data_Model->get_position($id, $this->Town_Model->buildings);
     if ($this->Town_Model->buildings[$position]['level'] > 0) { $level = $this->Town_Model->buildings[$position]['level']; }
+    if ($position == 0 and $id > 1) { $level = 0; }
     $cost = $this->Data_Model->building_cost($id,$level);
     $cost_max = $this->Data_Model->building_cost($id,$cost['max_level']);
     $wood = ($cost_max['wood'] > 0) ? true : false;
@@ -59,7 +60,7 @@
 <?if ($cost['max_level'] >= $i) {?>
 <?$cost = $this->Data_Model->building_cost($id,$i)?>
                 <tr >
-                    <td class="level"><?=$i?></td>
+                    <td class="level"><?=$i+1?></td>
 <?if ($wood) {?>
                     <td class="costs"><?=number_format($cost['wood'])?></td>
 <?}?>
