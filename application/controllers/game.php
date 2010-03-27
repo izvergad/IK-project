@@ -62,7 +62,7 @@ class Game extends Controller
      */
     function city($id = 0, $relocation = 'city', $reposition = 0)
     {
-        if ($id > 0 and $id != $this->Town_Model)
+        if ($id > 0 and $id != $this->Town_Model->id and isset($this->Data_Model->temp_towns_db[$id]) and $this->Data_Model->temp_towns_db[$id]->user == $this->User_Model->id)
         {
             // Меняем город
             $this->User_Model->town = $id;

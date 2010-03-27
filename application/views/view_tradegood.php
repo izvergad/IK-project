@@ -1,3 +1,20 @@
+<?if ($this->User_Model->research->res2_3 == 0){?>
+<div id="mainview">
+
+<?if($this->Island_Model->island->trade_resource == 1){?>
+    <div class="buildingDescription"  style="background:url(skin/img/island/resource_wine.gif) no-repeat right 10px; min-height:180px;">
+<?}elseif($this->Island_Model->island->trade_resource == 2){?>
+    <div class="buildingDescription"  style="background:url(skin/img/island/resource_marble.gif) no-repeat right 10px; min-height:180px;">
+<?}elseif($this->Island_Model->island->trade_resource == 3){?>
+    <div class="buildingDescription"  style="background:url(skin/img/island/resource_glass.gif) no-repeat right 10px; min-height:180px;">
+<?}elseif($this->Island_Model->island->trade_resource == 4){?>
+    <div class="buildingDescription"  style="background:url(skin/img/island/resource_sulfur.gif) no-repeat right 10px; min-height:180px;">
+<?}?>
+        <h1><?=$this->Data_Model->island_building_by_resource($this->Island_Model->island->trade_resource)?></h1>
+        <p>Для добычи этого ресурса вам необходимо исследовать Благосостояние!</p>
+    </div>
+</div>
+<?}else{?>
 <?
     $cost = $this->Data_Model->island_cost($this->Island_Model->island->trade_resource, $this->Island_Model->levels[1]-1);
     $peoples = floor($this->Town_Model->peoples['free']);
@@ -159,3 +176,4 @@
         });
     });
 </script>
+<?}?>

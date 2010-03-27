@@ -1,3 +1,4 @@
+<?if ($this->User_Model->research->res2_3 > 0){?>
 <?
     $cost = $this->Data_Model->island_cost($this->Island_Model->island->trade_resource,$this->Island_Model->levels[1]);
     $end_time = $this->Island_Model->island->trade_start + $cost['time'];
@@ -118,3 +119,14 @@
 <?}?>
     <div class="footer"></div>
 </div>
+<?}else{?>
+<div id="backTo" class="dynamic">
+    <h3 class="header"></h3>
+    <div class="content">
+        <a href="<?=$this->config->item('base_url')?>game/island/" title="Назад к острову">
+            <img src="<?=$this->config->item('style_url')?>skin/img/action_back.gif" width="160" height="100">
+            <span class="textLabel">&lt;&lt; Назад к острову</span></a>
+    </div>
+    <div class="footer"></div>
+</div>
+<?}?>

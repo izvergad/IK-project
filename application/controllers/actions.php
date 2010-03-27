@@ -269,7 +269,21 @@ class Actions extends Controller
             }
         }
         // Переход на страницу игры
-        if ($redirect) { redirect($this->config->item('base_url').'game/'.$redirect.'/'.$position.'/', 'refresh'); }
+        if ($redirect == 'city')
+        {
+
+        }
+        if ($redirect)
+        {
+            if ($redirect == 'warehouse')
+            {
+                redirect($this->config->item('base_url').'game/'.$redirect.'/'.$position.'/', 'refresh'); 
+            }
+            else
+            {
+                redirect($this->config->item('base_url').'game/'.$redirect.'/', 'refresh'); 
+            }
+        }
     }
 
     /**
