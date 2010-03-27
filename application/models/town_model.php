@@ -78,11 +78,18 @@ class Town_Model extends Model
             $this->resources['crystal'] = ($town->crystal != '') ? $town->crystal : 0;
             $this->resources['sulfur'] = ($town->sulfur != '') ? $town->sulfur : 0;
             // Устанавливаем вместимость
-            $this->capacity['wood'] = $this->config->item('standart_capacity');
-            $this->capacity['wine'] = $this->config->item('standart_capacity');
-            $this->capacity['marble'] = $this->config->item('standart_capacity');
-            $this->capacity['crystal'] = $this->config->item('standart_capacity');
-            $this->capacity['sulfur'] = $this->config->item('standart_capacity');
+            $capacity = $this->config->item('standart_capacity');
+            for ($i = 3; $i <= 13; $i++)
+            {
+                $pos_type = 'pos'.$i.'_type';
+                $pos_level = 'pos'.$i.'_level';
+                if ($town->$pos_type == 6){$capacity = $capacity + ($town->$pos_level*8000);}
+            }
+            $this->capacity['wood'] = $capacity;
+            $this->capacity['wine'] = $capacity;
+            $this->capacity['marble'] = $capacity;
+            $this->capacity['crystal'] = $capacity;
+            $this->capacity['sulfur'] = $capacity;
             // Название города
             $this->name = $town->name;
             // Счетчик

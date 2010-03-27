@@ -236,31 +236,31 @@
             <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=number_format($this->Town_Model->actions)?></span>
 	</li>
 	<li class="wood">
-            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class=""><?=number_format(floor($this->Town_Model->resources['wood']))?></span>
+            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class="<?if(($this->Town_Model->resources['wood']*1.25) > $this->Town_Model->capacity['wood']){?><?if($this->Town_Model->resources['wood'] >= $this->Town_Model->capacity['wood']){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Town_Model->resources['wood']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Стройматериалы:</span><?=number_format($this->Town_Model->capacity['wood'])?>
             </div>
 	</li>
 <?$disabled = ($this->User_Model->research->res2_3 == 0) ? 'disabled' : ''?>
 	<li class="wine <?if($this->Town_Model->resources['wine']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Виноград:</span><span id="value_wine" class=""><?=number_format(floor($this->Town_Model->resources['wine']))?></span>
+            <span class="textLabel">Виноград:</span><span id="value_wine" class="<?if(($this->Town_Model->resources['wine']*1.25) > $this->Town_Model->capacity['wine']){?><?if($this->Town_Model->resources['wine'] >= $this->Town_Model->capacity['wine']){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Town_Model->resources['wine']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Виноград:</span><?=number_format($this->Town_Model->capacity['wine'])?>
             </div>
 	</li>
 	<li class="marble <?if($this->Town_Model->resources['marble']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Мрамор:</span><span id="value_marble" class=""><?=number_format(floor($this->Town_Model->resources['marble']))?></span>
+            <span class="textLabel">Мрамор:</span><span id="value_marble" class="<?if(($this->Town_Model->resources['marble']*1.25) > $this->Town_Model->capacity['marble']){?><?if($this->Town_Model->resources['marble'] >= $this->Town_Model->capacity['marble']){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Town_Model->resources['marble']))?></span>
             <div class="tooltip"><span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Town_Model->capacity['marble'])?>
             </div>
 	</li>
 	<li class="glass <?if($this->Town_Model->resources['crystal']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class=""><?=number_format(floor($this->Town_Model->resources['crystal']))?></span>
+            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class="<?if(($this->Town_Model->resources['crystal']*1.25) > $this->Town_Model->capacity['crystal']){?><?if($this->Town_Model->resources['crystal'] >= $this->Town_Model->capacity['crystal']){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Town_Model->resources['crystal']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Town_Model->capacity['crystal'])?>
             </div>
 	</li>
 	<li class="sulfur <?if($this->Town_Model->resources['sulfur']==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Сера:</span><span id="value_sulfur" class=""><?=number_format(floor($this->Town_Model->resources['sulfur']))?></span>
+            <span class="textLabel">Сера:</span><span id="value_sulfur" class="<?if(($this->Town_Model->resources['sulfur']*1.25) > $this->Town_Model->capacity['sulfur']){?><?if($this->Town_Model->resources['sulfur'] >= $this->Town_Model->capacity['sulfur']){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Town_Model->resources['sulfur']))?></span>
             <div class="tooltip">
                 <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Town_Model->capacity['sulfur'])?>
             </div>

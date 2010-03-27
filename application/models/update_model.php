@@ -63,6 +63,14 @@ class Update_Model extends Model
                $scientists_gold_need = ($this->CI->Update_User->research->res3_13 > 0) ? 3 : 6 ;
                // Прирост золота
                $this->CI->Update_User->gold = $this->CI->Update_User->gold + (((($this->CI->Update_User->towns[$i]->peoples*3) - ($this->CI->Update_User->towns[$i]->scientists*$scientists_gold_need))/3600)*$elapsed);
+               // Вместимость
+               $capacity = 1500;
+               for ($b = 3; $b <= 13; $b++)
+               {
+                   $pos_type = 'pos'.$b.'_type';
+                   $pos_level = 'pos'.$b.'_level';
+                   if ($this->CI->Update_User->towns[$i]->$pos_type == 6){$capacity = $capacity + ($this->CI->Update_User->towns[$i]->$pos_level*8000);}
+               }
                // Прирост дерева
                $this->CI->Update_User->towns[$i]->wood = $this->CI->Update_User->towns[$i]->wood + (($this->CI->Update_User->towns[$i]->workers/3600)*$elapsed);
                // Прирост другого ресурса
@@ -77,6 +85,12 @@ class Update_Model extends Model
                    case 4:$this->CI->Update_User->towns[$i]->sulfur = $this->CI->Update_User->towns[$i]->sulfur + (($this->CI->Update_User->towns[$i]->tradegood/3600)*$elapsed);
                    break;
                }
+               // Проверяем не вышли ли мы за пределы вместимости
+               if ($this->CI->Update_User->towns[$i]->wood > $capacity) {$this->CI->Update_User->towns[$i]->wood = $capacity;}
+               if ($this->CI->Update_User->towns[$i]->wine > $capacity) {$this->CI->Update_User->towns[$i]->wine = $capacity;}
+               if ($this->CI->Update_User->towns[$i]->marble > $capacity) {$this->CI->Update_User->towns[$i]->marble = $capacity;}
+               if ($this->CI->Update_User->towns[$i]->crystal > $capacity) {$this->CI->Update_User->towns[$i]->crystal = $capacity;}
+               if ($this->CI->Update_User->towns[$i]->sulfur > $capacity) {$this->CI->Update_User->towns[$i]->sulfur = $capacity;}
                // Увеличение баллов за исследования
                $plus_research = 1;
                // Бумага - на 2% больше баллов
