@@ -26,7 +26,7 @@ class Actions extends Controller
      */
     function Error($error = '')
     {
-                $this->session->set_userdata(array('error' => $error));
+                $this->session->set_flashdata(array('game_error' => $error));
                 redirect('/game/error/', 'refresh');
     }
     
@@ -79,8 +79,7 @@ class Actions extends Controller
         $position = floor($position);
         $this->load->model('Town_Model');
         $this->Town_Model->Town_Load($this->User_Model->town);
-        if (  (($position == 0 and $this->Town_Model->buildings[$position]['level'] > 1) or $this->Town_Model->build_line[0]['type'] == 1)
-              or $position > 0)
+        if ($position > 0)
         {
             // Уровень здания
             $level = $this->Town_Model->buildings[$position]['level'];
@@ -170,6 +169,10 @@ class Actions extends Controller
             $this->db->set('sulfur', $sulfur);
             $this->db->where(array('id' => $this->Town_Model->id));
             $this->db->update($this->session->userdata('universe').'_towns');
+        }
+        else
+        {
+            $this->Error('Невозможно понизить уровень Ратуши!');
         }
         // Возвращаемся в игру
         redirect($this->config->item('base_url').'game/', 'refresh');
@@ -724,6 +727,111 @@ class Actions extends Controller
             $this->db->update($this->session->userdata('universe').'_users');
         }
         redirect($this->config->item('base_url').'game/premium/', 'refresh');
+    }
+
+    function options($type = '')
+    {
+        switch($type)
+        {
+            case 'user':
+                if (isset($_POST['name']))
+                {
+                    $login = strip_tags($_POST['name']);
+                    if ($login != $this->User_Model->login)
+                    {
+                        $query = $this->db->get_where($this->session->userdata('universe').'_users', array('login' => $login));
+                        // Если такого игрока нету
+                        if ($query->num_rows == 0)
+                        {
+                            $this->db->set('login', $login);
+                            $this->db->where(array('id' => $this->User_Model->id));
+                            $this->db->update($this->session->userdata('universe').'_users');
+                        }
+                        else
+                        {
+                            $this->session->set_flashdata(array('options_error' => 'Ошибка!'));
+                            $this->session->set_flashdata(array('options_error_login' => 'Имя '.$login.' уже занято.'));
+                        }
+                    }
+                }
+                if (isset($_POST['oldPassword']) and isset($_POST['newPassword']) and isset($_POST['newPasswordConfirm']))
+                {
+                    $old = strip_tags($_POST['oldPassword']);
+                    $new = strip_tags($_POST['newPassword']);
+                    $new2 = strip_tags($_POST['newPasswordConfirm']);
+                    if ($old != $new and $old != '' and $new != '')
+                    {
+                        if ($this->User_Model->password == $old)
+                        {
+                            if ($new == $new2)
+                            {
+                                $this->db->set('password', $new);
+                                $this->db->where(array('id' => $this->User_Model->id));
+                                $this->db->update($this->session->userdata('universe').'_users');
+                            }
+                            else
+                            {
+                                $this->session->set_flashdata(array('options_error' => 'Ошибка!'));
+                                $this->session->set_flashdata(array('options_error_login' => 'Неверный пароль!'));
+                            }
+                        }
+                        else
+                        {
+                            $this->session->set_flashdata(array('options_error' => 'Ошибка!'));
+                            $this->session->set_flashdata(array('options_error_login' => 'Неверное имя или пароль.'));
+                        }
+                    }
+                }
+                if (isset($_POST['citySelectOptions']))
+                {
+                    $city_select = floor($_POST['citySelectOptions']);
+                    if ($city_select != $this->User_Model->options['city_select'] and $city_select >=0 and $city_select <= 2)
+                    {
+                        $this->db->set('options_select', $city_select);
+                        $this->db->where(array('id' => $this->User_Model->id));
+                        $this->db->update($this->session->userdata('universe').'_users');
+                    }
+                }
+                if (isset($_POST['tutorialOptions']))
+                {
+                    if ($this->User_Model->tutorial < 999 and $_POST['tutorialOptions'] == -2)
+                    {
+                        $this->db->set('tutorial', 999);
+                        $this->db->where(array('id' => $this->User_Model->id));
+                        $this->db->update($this->session->userdata('universe').'_users');
+                    }
+                }
+            break;
+            case 'validationEmail':
+                $this->load->library('email');
+                $this->load->helper('email');
+                $config['mailtype'] = 'html';               // Тип письма text или html
+                $this->email->initialize($config);
+                if ($this->config->item('game_email'))
+                {
+                                        $message = '
+                                            <html>
+                                            <body>
+                                             <p>Привет '.$this->User_Model->login.', <br>
+                                             <br>Вы решили создать империю в мире Икариам '.$this->session->userdata('universe').'!<br>
+                                             <br>Нажмите на ссылку, чтобы подтвердить Ваш аккаунт:<br>
+                                             <br><a href="'.$this->config->item('base_url').'main/validate/'.$this->session->userdata('universe').'/'.$this->User_Model->register_key.'/" target="_blank">'.$this->config->item('base_url').'main/validate/'.$this->session->userdata('universe').'/'.$this->User_Model->register_key.'</a><br>
+                                             <br>Ваша информация для доступа:
+                                             <br>Имя игрока: '.$this->User_Model->login.'<br>Пароль: ***
+                                             <br>Сервер: '.$this->session->userdata('universe').'<br>
+                                             <br>Если Вам понадобится помощь, то Вы сможете найти ее на форуме Икариам ('.$this->config->item('forum_url').').<br><br>Удачи в игре,<br>Ваша команда Икариам.</p>
+                                            </body>
+                                            </html>';
+                    $this->email->from($this->config->item('email_from'), 'Гермес');
+                    $this->email->to($this->User_Model->email);
+                    $this->email->subject('Ваша активация для Икариам!');
+                    $this->email->message($message);
+                    $this->email->send();
+                 }
+            break;
+        }
+        
+         redirect('/game/options/', 'refresh');
     }
 
 }

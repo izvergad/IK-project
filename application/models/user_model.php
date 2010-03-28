@@ -5,12 +5,18 @@
 class User_Model extends Model
 {
     var $id = 0;
+    var $login = '';
+    var $password = '';
     var $gold = 0;
     var $ambrosy = 0;
     var $tutorial = 0;
     var $capital = 0;
     var $last_visit = 0;
     var $town = 0;
+    var $register_complete = 0;
+    var $register_key = '';
+    var $email = '';
+    var $options = array();
 
     var $towns = array();
     var $armys = array();
@@ -101,6 +107,8 @@ class User_Model extends Model
             if (isset($user))
             {
                 $this->id = $user->id;
+                $this->login = $user->login;
+                $this->password = $user->password;
                 $this->gold = $user->gold;
                 $this->ambrosy = $user->ambrosy;
                 $this->premium_account = $user->premium_account;
@@ -115,6 +123,13 @@ class User_Model extends Model
                 $this->capital = $user->capital;
                 $this->last_visit = $user->last_visit;
                 $this->town = $user->town;
+
+                $this->register_key = $user->register_key;
+                $this->register_complete = $user->register_complete;
+                $this->email = $user->email;
+
+                $this->options['city_select'] = $user->options_select;
+
                 // Загружаем города
                 $query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
                 foreach ($query->result() as $row)

@@ -36,7 +36,7 @@ if ($position > 0 or ($position == 0 and $location == 'townHall')){
         </ul>
         <ul class="actions">
             <li class="upgrade">
-<?if(($this->Town_Model->buildings[$position]['type'] == 5 and $this->User_Model->armys[$this->Town_Model->id]->army_line != '')){?>
+<?if(($this->Town_Model->build_text != '' and $this->User_Model->premium_account == 0) or ($this->Town_Model->buildings[$position]['type'] == 5 and $this->User_Model->armys[$this->Town_Model->id]->army_line != '')){?>
                 <a class="disabled" href="#" title="Улучшение не доступно!"></a>
 <?}else{?>
                 <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel">Улучшение</span></a>
@@ -44,7 +44,7 @@ if ($position > 0 or ($position == 0 and $location == 'townHall')){
             </li>
             <li class="downgrade">
 <?if (($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $position) or 
-        ($position == 0 and $this->Town_Model->buildings[$position]['level'] == 1) or
+        ($position == 0) or
         ($this->Town_Model->buildings[$position]['type'] == 5 and $this->User_Model->armys[$this->Town_Model->id]->army_line != '')){?>
                 <a class="disabled" href="#" title="Невозможно разрушить в данный момент!"></a>
 <?}else{?>

@@ -300,8 +300,12 @@ class Game extends Controller
 
     function warehouse($position = 0)
     {
-        //$position = $this->Data_Model->get_position(6, $this->Town_Model->buildings);
         $this->show('warehouse', $position);
+    }
+
+    function options()
+    {
+        $this->show('options');
     }
     
     /**

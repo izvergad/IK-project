@@ -71,8 +71,8 @@
             <ul class="stats">
                 <li class="space">
                     <span class="textLabel">Жилая площадь: </span>
-                    <span class="value occupied"><?=number_format($this->Town_Model->peoples['all'])?></span>/
-                    <span class="value total"><?=number_format($this->Town_Model->peoples['max'])?></span>
+                    <span class="value occupied"><?=number_format(floor($this->Town_Model->peoples['all']))?></span>/
+                    <span class="value total"><?=number_format(floor($this->Town_Model->peoples['max']))?></span>
                 </li>
                 <li class="growth growth_positive">
                     <span class="textLabel">Рост: </span>

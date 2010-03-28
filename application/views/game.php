@@ -182,7 +182,17 @@
 <?foreach($this->User_Model->towns as $town){?>
 <?$island = $this->User_Model->islands[$town->island]?>
 <?$selected = ($this->User_Model->town == $town->id) ? 'selected="selected"' : ''?>
+<?switch($this->User_Model->options['city_select']){?>
+<?case 0:?>
+                    <option class="" value="<?=$town->id?>" <?=$selected?> title="" ><p><?=$town->name?></p></option>
+<?break;?>
+<?case 1:?>
                     <option class="coords" value="<?=$town->id?>" <?=$selected?> title="Торговля: <?=$this->Data_Model->resource_name_by_type($island->trade_resource)?>" ><p>[<?=$island->x?>:<?=$island->y?>]&nbsp;<?=$town->name?></p></option>
+<?break;?>
+<?case 2:?>
+                    <option class="tradegood<?=$island->trade_resource?>" value="<?=$town->id?>" <?=$selected?> title="[<?=$island->x?>:<?=$island->y?>]" ><p><?=$town->name?></p></option>
+<?break;?>
+<?}?>
 <?}?>
                 </select>
             </li>

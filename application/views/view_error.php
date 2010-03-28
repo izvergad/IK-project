@@ -8,7 +8,7 @@
         <div class="content">
             <!--<ul class="error">
             </ul>-->
-            <p><br><center><?=$this->session->flashdata('game_error')?></center></p>
+            <p><br><center><?if($this->session->flashdata('game_error') != ''){?><?=$this->session->flashdata('game_error')?><?}else{?>Страница не найдена!<?}?></center></p>
         </div>
         <div class="footer"></div>
     </div>
