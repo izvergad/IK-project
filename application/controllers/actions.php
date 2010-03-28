@@ -195,7 +195,7 @@ class Actions extends Controller
             ($id != 5 or ($id == 5 and $this->Town_Model->army_line == '')) and
             ($id != 13 or $this->User_Model->research->res2_13 > 0) and
             ($this->Town_Model->buildings[$position]['type'] == 0 or $this->Town_Model->buildings[$position]['type'] == $id) and
-            (SizeOf($this->Town_Model->build_line) <= $this->config->item('town_queue_size')))
+            (SizeOf($this->Town_Model->build_line) <= $this->config->item('town_queue_size')) and (SizeOf($this->Town_Model->build_line) > 0 and $this->User_Model->premium_account > 0) or SizeOf($this->Town_Model->build_line) == 0)
         {
             $level = ($this->Town_Model->buildings[$position] != false ) ? $this->Town_Model->buildings[$position]['level'] : 0;
             // Получаем цены
@@ -250,10 +250,10 @@ class Actions extends Controller
                             // Построили казарму
                             $this->tutorials('set', 9);
                         }
-                        if ($id == 7 and $this->User_Model->tutorial <= 12)
+                        if ($id == 7 and $this->User_Model->tutorial <= 11)
                         {
                             // Построили стену
-                            $this->tutorials('set', 13);
+                            $this->tutorials('set', 12);
                         }
                         if ($id == 2 and $this->User_Model->tutorial <= 13)
                         {

@@ -2,7 +2,6 @@
 <?if ($location == 'city'){$class = 'researchAdvisor';}else{$class = 'invisible';}?>
 <?if ($active){$class = 'lighten '.$class;}?>
 <?$position = ($position > 0) ? $position : $this->Data_Model->get_position(3, $this->Town_Model->buildings)?>
-<?if ($this->Town_Model->buildings[$position]['level'] > 0){?>
 
 <style>
 #tutorialAdvisor {
@@ -182,8 +181,8 @@ var startY = 153+187;
 var startY = 420;
 var startX = 570;
 <?}else{?>
-    var startY = 70;
-    var startX = 480;
+var startY = 70;
+var startX = 480;
 <?}?>
 
 var defaultClass = "<?=$class?>" ;
@@ -310,4 +309,3 @@ Event.onDOMReady(function() {
 });
 
 </script>
-<?}?>
