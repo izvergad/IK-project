@@ -1,0 +1,1 @@
+ALTER TABLE alpha_users ADD COLUMN `email` varchar(255) character set utf8 NOT NULL AFTER `password`;
