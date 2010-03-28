@@ -44,8 +44,12 @@ class Update_Model extends Model
                $good = 196 - $this->CI->Update_User->towns[$i]->peoples;
                // Колодец - +50 счастья в столице
                if ($this->CI->Update_User->research->res3_1 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 50; }
+               // Выходной - +25 счастья
+               if ($this->CI->Update_User->research->res2_8 > 0) { $good = $good + 25; }
                // Утопия - +200 счастья в столице
                if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 200; }
+               // Будущее экономики - +10 счастья за уровень
+               if ($this->CI->Update_User->research->res2_15 > 0) { $good = $good + (10*$this->CI->Update_User->research->res2_15); }
                // Прирост жителей
                $workers = $this->CI->Update_User->towns[$i]->workers;
                $tradegood = $this->CI->Update_User->towns[$i]->tradegood;
@@ -55,6 +59,8 @@ class Update_Model extends Model
                if ($this->CI->Update_User->research->res3_1 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $max = $max + 50; }
                // Утопия - +200 жилых мест в столице
                if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $max = $max + 200; }
+               // Будущее экономики - +20 жилых мест за уровень
+               if ($this->CI->Update_User->research->res2_15 > 0) { $max = $max + (20*$this->CI->Update_User->research->res2_15); }
                $max_peoples = $max - $workers - $scientists - $tradegood;
                $this->CI->Update_User->towns[$i]->peoples = $this->CI->Update_User->towns[$i]->peoples + ((($good/50)/3600)*$elapsed);
                if ($this->CI->Update_User->towns[$i]->peoples < 0){ $this->CI->Update_User->towns[$i]->peoples = 0; }

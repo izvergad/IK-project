@@ -165,10 +165,8 @@ class Town_Model extends Model
             // Счастье
             $this->minus['peoples'] = $this->peoples['all'];
             $this->plus['base'] = 196;
-            $this->plus['capital'] = ($this->is_capital) ? 250 : 0;
             $this->plus['capital'] = 0;
             $this->plus['research'] = 0;
-            $this->good = ($this->plus['base'] + $this->plus['capital']) - ($this->minus['peoples']);
             // Сделано пожертвований
             $this->workers_wood = $town->workers_wood;
             $this->tradegood_wood = $town->tradegood_wood;
@@ -180,12 +178,26 @@ class Town_Model extends Model
             {
                 $this->peoples['max'] = $this->peoples['max'] + 50;
                 $this->good = $this->good + 50;
+                $this->plus['capital'] = $this->plus['capital'] + 50;
+            }
+            if ($this->User_Model->research->res2_8 > 0)
+            {
+                $this->good = $this->good + 25;
+                $this->plus['research'] = $this->plus['research'] + 25;
             }
             if ($this->User_Model->research->res2_14 > 0 and $this->is_capital)
             {
                 $this->peoples['max'] = $this->peoples['max'] + 200;
                 $this->good = $this->good + 200;
+                $this->plus['capital'] = $this->plus['capital'] + 200;
             }
+            if ($this->User_Model->research->res2_15 > 0)
+            {
+                $this->peoples['max'] = $this->peoples['max'] + (20*$this->User_Model->research->res2_15);
+                $this->good = $this->good + (10*$this->User_Model->research->res2_15);
+                $this->plus['research'] = $this->plus['research'] + (10*$this->User_Model->research->res2_15);
+            }
+            $this->good = ($this->plus['base'] + $this->plus['capital'] + $this->plus['research']) - ($this->minus['peoples']);
             // Очередь армии
             $this->army_text = $this->User_Model->armys[$town->id]->army_line;
             $this->army_line = $this->Data_Model->load_army_line($this->army_text);
