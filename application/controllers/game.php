@@ -184,6 +184,12 @@ class Game extends Controller
         $this->show('barracks', $position);
     }
 
+    function tavern($position = 0)
+    {
+        $position = $this->Data_Model->get_position(8, $this->Town_Model->buildings);
+        $this->show('tavern', $position);
+    }
+
     function shipyard($position = 0)
     {
         $position = $this->Data_Model->get_position(4, $this->Town_Model->buildings);
@@ -307,7 +313,12 @@ class Game extends Controller
     {
         $this->show('options');
     }
-    
+
+    function wall()
+    {
+        $this->show('wall', 14);
+    }
+
     /**
      * Функция отображения страниц
      * @param <string> $location

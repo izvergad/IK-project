@@ -834,6 +834,23 @@ class Actions extends Controller
          redirect('/game/options/', 'refresh');
     }
 
+    function tavern($position = 0)
+    {
+        $position = floor($position);
+        $this->load->model('Town_Model');
+        $this->Town_Model->Town_Load($this->User_Model->town);
+        if(isset($_POST['amount']))
+        {
+            if ($this->Town_Model->buildings[$position]['type'] == 8 and $this->Town_Model->buildings[$position]['level'] >= floor($_POST['amount']))
+            {
+                $this->db->set('tavern_wine', floor($_POST['amount']));
+                $this->db->where(array('id' => $this->Town_Model->id));
+                $this->db->update($this->session->userdata('universe').'_towns');
+            }
+        }
+        redirect('/game/tavern/'.$position.'/', 'refresh');
+    }
+
 }
 
 /* End of file actions.php */

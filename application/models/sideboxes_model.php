@@ -31,6 +31,8 @@ class SideBoxes_Model extends Model
             case 'shipyard':
             case 'townHall':
             case 'warehouse':
+            case 'wall':
+            case 'tavern':
                 $this->load->view('sb_update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island': 

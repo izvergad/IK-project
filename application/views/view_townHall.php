@@ -218,12 +218,32 @@
 ?>
 
                         <div class="base" style="left:100px;width:<?=floor($base_percent*$one_px)+$base_px?>px"><span class="value">+<?=$this->Town_Model->plus['base']?></span> <img src="<?=$this->config->item('style_url')?>skin/icons/city_30x30.gif" width="30" height="30" title="Основной бонус" alt="Основной бонус"></div>
-                        <div class="research1" style="left:<?=floor($base_percent*$one_px)+$base_px+100?>px;width:<?=floor($research_percent*$one_px)+$research_px?>px"><span class="value">+<?=$this->Town_Model->plus['research']?></span> <img src="<?=$this->config->item('style_url')?>skin/icons/researchbonus_30x30.gif" width="30" height="30" title="через исследования" alt="через исследования"></div>
+                        <div class="research1" style="left:<?=floor($base_percent*$one_px)+$base_px+100?>px;width:<?=floor($research_percent*$one_px)+$research_px?>px"><span class="value">+<?=$this->Town_Model->plus['research']?></span> <img src="<?=$this->config->item('style_url')?>skin/icons/researchbonus_30x30.gif" width="30" height="30" title="Через исследования" alt="Через исследования"></div>
                         <div class="capital" style="left:<?=floor($base_percent*$one_px)+$base_px+floor($research_percent*$one_px)+$research_px+100?>px;width:<?=floor($capital_percent*$one_px)+$capital_px?>px"><span class="value">+<?=$this->Town_Model->plus['capital']?></span> <img src="<?=$this->config->item('style_url')?>skin/layout/crown.gif" width="20" height="20" title="Бонус столицы" alt="Бонус столицы"></div>
                     </div>
                     <div class="cat wine">
                         <h5>Вино</h5>
+<?if($this->Town_Model->tavern_wine > 0){?>
+<?
+$tavern_position = $this->Data_Model->get_position(8, $this->Town_Model->buildings);
+$tavern_level = ($this->Town_Model->buildings[$tavern_position] != false ) ? $this->Town_Model->buildings[$tavern_position]['level'] : 0;
+
+// Строим полосу плюсов по процентам
+    $all_px = 400;   // всего пикселей
+    $min_px = 60;    // минимальный размер
+    $tavern_px = $min_px;
+    $serving_px = $min_px;
+    $ostalos_px = $all_px - $tavern_px - $serving_px; // осталось
+    $one_px = $ostalos_px/100;
+    $all_plus = ($tavern_level*12) + ($this->Town_Model->tavern_wine*60);
+    $tavern_percent = (($tavern_level*12)/$all_plus)*100;
+    $serving_percent = (($this->Town_Model->tavern_wine*60)/$all_plus)*100;
+?>
+                        <div class="tavern" style="left:100px;width:<?=floor($tavern_percent*$one_px)+$tavern_px?>px"><span class="value">+<?=$tavern_level*12?></span> <img src="<?=$this->config->item('style_url')?>skin/buildings/tavern_30x30.gif" width="30" height="30" title="Уровнем таверны" alt="Уровнем таверны"></div>
+                        <div class="serving" style="left:<?=floor($tavern_percent*$one_px)+$base_px+100?>px;width:<?=floor($serving_percent*$one_px)+$serving_px?>px"><span class="value">+<?=$this->Town_Model->tavern_wine*60?></span> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" width="30" height="30" title="Приготовлением вина" alt="Приготовлением вина"></div>
+<?}else{?>
                         <p>В городе нет таверны!</p>
+<?}?>
                     </div>
                     <div class="cat culture">
                         <h5>Культура</h5>

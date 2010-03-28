@@ -44,6 +44,8 @@ class View_Model extends Model
             case 'cityMilitary':
             case 'warehouse':
             case 'options':
+            case 'wall':
+            case 'tavern':
                 $this->load->view('view_'.$location, array('position' => $param1));
             break;
             default: $this->not_found(); break;

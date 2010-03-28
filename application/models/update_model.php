@@ -50,6 +50,21 @@ class Update_Model extends Model
                if ($this->CI->Update_User->research->res2_14 > 0 and $this->CI->Update_User->towns[$i]->id == $this->CI->Update_User->capital) { $good = $good + 200; }
                // Будущее экономики - +10 счастья за уровень
                if ($this->CI->Update_User->research->res2_15 > 0) { $good = $good + (10*$this->CI->Update_User->research->res2_15); }
+               // Ищем таверну и даем за каждый уровень +12 счастья
+               for ($a = 3; $a <= 13; $a++)
+               {
+                   $type_text = 'pos'.$a.'_type';
+                   $level_text = 'pos'.$a.'_level';
+                   if ($this->CI->Update_User->towns[$i]->$type_text == 8)
+                   {
+                       $good = $good + ($this->CI->Update_User->towns[$i]->$level_text*12);
+                   }
+               }
+               // Счастье за вино
+               $good = $good + ($this->CI->Update_User->towns[$i]->tavern_wine*60);
+               $wine_need = $this->Data_Model->wine_by_tavern_level($this->CI->Update_User->towns[$i]->tavern_wine);
+               $this->CI->Update_User->towns[$i]->wine = $this->CI->Update_User->towns[$i]->wine - (($wine_need/3600)*$elapsed);
+               if ($this->CI->Update_User->towns[$i]->wine < 0){ $this->CI->Update_User->towns[$i]->wine = 0; $this->CI->Update_User->towns[$i]->tavern_wine = 0; }
                // Прирост жителей
                $workers = $this->CI->Update_User->towns[$i]->workers;
                $tradegood = $this->CI->Update_User->towns[$i]->tradegood;
@@ -218,6 +233,8 @@ class Update_Model extends Model
                $this->db->set('marble', $this->CI->Update_User->towns[$i]->marble);
                $this->db->set('crystal', $this->CI->Update_User->towns[$i]->crystal);
                $this->db->set('sulfur', $this->CI->Update_User->towns[$i]->sulfur);
+               // Вино в таверне
+               $this->db->set('tavern_wine', $this->CI->Update_User->towns[$i]->tavern_wine);
 
                $this->db->where(array('id' => $this->CI->Update_User->towns[$i]->id));
                $this->db->update($this->session->userdata('universe').'_towns');

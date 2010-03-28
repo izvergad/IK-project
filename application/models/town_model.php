@@ -43,6 +43,8 @@ class Town_Model extends Model
     var $last_update = 0;
     var $saldo = 0;
 
+    var $tavern_wine = 0;
+
     function Town_Model()
     {
         // Call the Model constructor
@@ -160,13 +162,24 @@ class Town_Model extends Model
             // очки действий
             $this->actions = $town->actions;
             // лимит гарнизона
-            $wall_level = 0;
+            $wall_level = $this->buildings[14]['level'];
             $this->garrison_limit = 250 + (($this->buildings[0]['level'] + $wall_level) * 50);
+            // Вино в таверне
+            $this->tavern_wine = $town->tavern_wine;
             // Счастье
             $this->minus['peoples'] = $this->peoples['all'];
             $this->plus['base'] = 196;
             $this->plus['capital'] = 0;
             $this->plus['research'] = 0;
+            $this->plus['tavern'] = 0;
+            $this->plus['wine'] = $this->tavern_wine*60;
+            // За счет таверны и вина
+            $tavern_position = $this->Data_Model->get_position(8, $this->buildings);
+            if ($tavern_position > 0)
+            {
+                // За счет уровня
+                $this->plus['tavern'] = $this->buildings[$tavern_position]['level']*12;
+            }
             // Сделано пожертвований
             $this->workers_wood = $town->workers_wood;
             $this->tradegood_wood = $town->tradegood_wood;
@@ -197,7 +210,7 @@ class Town_Model extends Model
                 $this->good = $this->good + (10*$this->User_Model->research->res2_15);
                 $this->plus['research'] = $this->plus['research'] + (10*$this->User_Model->research->res2_15);
             }
-            $this->good = ($this->plus['base'] + $this->plus['capital'] + $this->plus['research']) - ($this->minus['peoples']);
+            $this->good = ($this->plus['base'] + $this->plus['capital'] + $this->plus['research'] + $this->plus['tavern'] + $this->plus['wine']) - ($this->minus['peoples']);
             // Очередь армии
             $this->army_text = $this->User_Model->armys[$town->id]->army_line;
             $this->army_line = $this->Data_Model->load_army_line($this->army_text);
