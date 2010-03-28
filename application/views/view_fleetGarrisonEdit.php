@@ -16,7 +16,7 @@
 <?for($i = 16; $i <= 22; $i++){?>
 <?$class = $this->Data_Model->army_class_by_type($i)?>
 <?if($this->User_Model->armys[$this->Town_Model->id]->$class > 0){?>
-<?$cost = $this->Data_Model->army_cost_by_type($i);?>
+<?$cost = $this->Data_Model->army_cost_by_type($i, $this->User_Model->research);?>
 
                     <li class="unit <?=$class?>">
                         <div class="unitinfo">

@@ -18,8 +18,8 @@
     $position = $this->Data_Model->get_position($id, $this->Town_Model->buildings);
     if ($this->Town_Model->buildings[$position]['level'] > 0) { $level = $this->Town_Model->buildings[$position]['level']; }
     if ($position == 0 and $id > 1) { $level = 0; }
-    $cost = $this->Data_Model->building_cost($id,$level);
-    $cost_max = $this->Data_Model->building_cost($id,$cost['max_level']);
+    $cost = $this->Data_Model->building_cost($id,$level, $this->User_Model->research);
+    $cost_max = $this->Data_Model->building_cost($id,$cost['max_level'], $this->User_Model->research);
     $wood = ($cost_max['wood'] > 0) ? true : false;
     $wine = ($cost_max['wine'] > 0) ? true : false;
     $marble = ($cost_max['marble'] > 0) ? true : false;
@@ -58,7 +58,7 @@
 
 <?for ($i = $level; $i <= $level + 15; $i++){?>
 <?if ($cost['max_level'] >= $i) {?>
-<?$cost = $this->Data_Model->building_cost($id,$i)?>
+<?$cost = $this->Data_Model->building_cost($id,$i, $this->User_Model->research)?>
                 <tr >
                     <td class="level"><?=$i+1?></td>
 <?if ($wood) {?>

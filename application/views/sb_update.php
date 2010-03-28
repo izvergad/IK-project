@@ -1,6 +1,6 @@
 <?
 if ($position > 0 or ($position == 0 and $location == 'townHall')){
-    $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level']);
+    $cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level'], $this->User_Model->research);
 ?>
 
 <div id="buildingUpgrade" class="dynamic">

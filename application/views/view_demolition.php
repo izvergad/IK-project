@@ -5,7 +5,7 @@
 
 	<div class="contentBox" id="demolition">
 <?if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $position){?>
-<?$cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level'])?>
+<?$cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level'], $this->User_Model->research)?>
 
 		<h3 class="header">Подтвердить отмену улучшения</h3>
 		<div class="content">
@@ -13,7 +13,7 @@
 			<p>Вы уверены, что хотите прервать улучшение здания? Учтите, что будет возвращено 90% вложенных денег!</p>
 			<p class="refund">При отмене Вы получите назад следующие ресурсы:
 <?}else{?>
-<?$cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level']-1)?>
+<?$cost = $this->Data_Model->building_cost($type,$this->Town_Model->buildings[$position]['level']-1, $this->User_Model->research)?>
 
                 <h3 class="header">Подтвердить понижение уровня</h3>
 		<div class="content">

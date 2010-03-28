@@ -14,7 +14,7 @@
         <h1 style="text-align:center">Верфь</h1>
 <?
     $level = ($this->Town_Model->buildings[$position] != false ) ? $this->Town_Model->buildings[$position]['level'] : 0;
-    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level);
+    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level, $this->User_Model->research);
     $end_date = $this->Town_Model->build_start + $cost['time'];
     $ostalos = $end_date - time();
     $one_percent = ($cost['time']/100);
@@ -100,7 +100,7 @@
     $max_crystal = 0;
     $max_peoples = 0;
 
-    $cost = $this->Data_Model->army_cost_by_type($i);
+    $cost = $this->Data_Model->army_cost_by_type($i, $this->User_Model->research);
     $class = $this->Data_Model->army_class_by_type($i);
     if ($cost['wood'] > 0){ $max_wood = floor($this->Town_Model->resources['wood']/$cost['wood']);}
     if ($cost['sulfur'] > 0){ $max_sulfur = floor($this->Town_Model->resources['sulfur']/$cost['sulfur']); }
@@ -189,7 +189,7 @@
                                 <li class="glass" title="Хрусталь"><span class="textLabel">Хрусталь: </span><?=$cost['crystal']?></li>
 <?}?>
 <?if($cost['gold'] > 0){?>
-                                <li class="upkeep" title="Содержание в час"><span class="textLabel">Содержание в час: </span><?=$cost['gold']?></li>
+                                <li class="upkeep" title="Содержание в час"><span class="textLabel">Содержание в час: </span><?=number_format($cost['gold'])?></li>
 <?}?>
 <?if($cost['time'] > 0){?>
                                 <li class="time" title="Время постройки"><span class="textLabel">Время постройки: </span><?=format_time($cost['time'])?></li>

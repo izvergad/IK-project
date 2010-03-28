@@ -45,7 +45,7 @@
 
 <?$buildings_count++?>
 <?$building_id=$i?>
-<?$cost = $this->Data_Model->building_cost($building_id,0)?>
+<?$cost = $this->Data_Model->building_cost($building_id,0, $this->User_Model->research)?>
 
                 <li class="building <?=$this->Data_Model->building_class_by_type($building_id)?>">
                     <div class="buildinginfo">
@@ -84,27 +84,27 @@
                         <ul class="resources">
 <?if($cost['wood'] > 0){?>
                             <li class="wood" title="Стройматериалы">
-                                <span class="textLabel">Стройматериалы: </span><?=$cost['wood']?>
+                                <span class="textLabel">Стройматериалы: </span><?=number_format($cost['wood'])?>
                             </li>
 <?}?>
 <?if($cost['wine'] > 0){?>
                             <li class="wine" title="Виноград">
-                                <span class="textLabel">Виноград: </span><?=$cost['wine']?>
+                                <span class="textLabel">Виноград: </span><?=number_format($cost['wine'])?>
                             </li>
 <?}?>
 <?if($cost['marble'] > 0){?>
                             <li class="marble" title="Мрамор">
-                                <span class="textLabel">Мрамор: </span><?=$cost['marble']?>
+                                <span class="textLabel">Мрамор: </span><?=number_format($cost['marble'])?>
                             </li>
 <?}?>
 <?if($cost['crystal'] > 0){?>
                             <li class="crystal" title="Хрусталь">
-                                <span class="textLabel">Хрусталь: </span><?=$cost['crystal']?>
+                                <span class="textLabel">Хрусталь: </span><?=number_format($cost['crystal'])?>
                             </li>
 <?}?>
 <?if($cost['sulfur'] > 0){?>
                             <li class="sulfur" title="Сера">
-                                <span class="textLabel">Сера: </span><?=$cost['sulfur']?>
+                                <span class="textLabel">Сера: </span><?=number_format($cost['sulfur'])?>
                             </li>
 <?}?>
 

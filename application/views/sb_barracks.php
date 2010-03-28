@@ -20,7 +20,7 @@
     $ostalos_all = 0;
 ?>
 <?
-        $cost = $this->Data_Model->army_cost_by_type($this->Town_Model->army_line[0]['type']);
+        $cost = $this->Data_Model->army_cost_by_type($this->Town_Model->army_line[0]['type'], $this->User_Model->research);
         $count = $this->Town_Model->army_line[0]['count'];
         $end_date = $this->Town_Model->army_start + $cost['time'];
         $ostalos = $end_date - time();
@@ -74,7 +74,7 @@
 <?}?>
 <?for($i = 1; $i < SizeOf($this->Town_Model->army_line); $i++){?>
 <?
-        $cost = $this->Data_Model->army_cost_by_type($this->Town_Model->army_line[$i]['type']);
+        $cost = $this->Data_Model->army_cost_by_type($this->Town_Model->army_line[$i]['type'], $this->User_Model->research);
         $end_date = $this->Town_Model->army_start + $cost['time']*$this->Town_Model->army_line[$i]['count'];
         $ostalos = $end_date - time();
         if ($ostalos < 0){ $ostalos = 0; }

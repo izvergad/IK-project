@@ -126,7 +126,7 @@ class Update_Model extends Model
                        $pos_text = 'pos'.$buildings[0]['position'].'_level';
                        $type_text = 'pos'.$buildings[0]['position'].'_type';
                        $level = $this->CI->Update_User->towns[$i]->$pos_text;
-                       $cost = $this->Data_Model->building_cost($buildings[0]['type'], $level);
+                       $cost = $this->Data_Model->building_cost($buildings[0]['type'], $level, $this->CI->Update_User->research);
                        // Стоимость постройки
                        $wood = $this->CI->Update_User->towns[$i]->wood - $cost['wood'];
                        $wine = $this->CI->Update_User->towns[$i]->wine - $cost['wine'];
@@ -239,7 +239,7 @@ class Update_Model extends Model
                        {
                            
                            // Переменные
-                           $cost = $this->Data_Model->army_cost_by_type($army[0]['type']);
+                           $cost = $this->Data_Model->army_cost_by_type($army[0]['type'], $this->CI->Update_User->research);
                            $ELAPSED_ARMY = time() - $army_start;
                            $count = floor($ELAPSED_ARMY/$cost['time']);
                            $class = $this->Data_Model->army_class_by_type($army[0]['type']);
@@ -293,7 +293,7 @@ class Update_Model extends Model
                for ($a = 1; $a <= 22; $a ++)
                {
                    $class = $this->Data_Model->army_class_by_type($a);
-                   $cost = $this->Data_Model->army_cost_by_type($a);
+                   $cost = $this->Data_Model->army_cost_by_type($a, $this->CI->Update_User->research);
                    $ARMY_GOLD = $ARMY_GOLD + ((($cost['gold'] * $this->CI->Update_User->armys[$this->CI->Update_User->towns[$i]->id]->$class)/3600)*$elapsed);
                }
                $this->CI->Update_User->gold = $this->CI->Update_User->gold - $ARMY_GOLD;

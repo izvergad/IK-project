@@ -496,7 +496,7 @@ function jsTitleTag(nextETA) {
 
 <?if($this->Town_Model->build_start > 0){
     $level = ($this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']] != false ) ? $this->Town_Model->buildings[$this->Town_Model->build_line[0]['position']]['level'] : 0;
-    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level);
+    $cost = $this->Data_Model->building_cost($this->Town_Model->build_line[0]['type'], $level, $this->User_Model->research);
     $end_date = $this->Town_Model->build_start + $cost['time'];
 ?>
 titleTag = new jsTitleTag(<?=$end_date?>)

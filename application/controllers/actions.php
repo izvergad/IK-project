@@ -86,11 +86,11 @@ class Actions extends Controller
             // Получаем цены
             if ($this->Town_Model->build_text != '' and $this->Town_Model->build_line[0]['position'] == $position)
             {
-                $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level']);
+                $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level'], $this->User_Model->research);
             }
             else
             {
-                $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level']-1);
+                $cost = $this->Data_Model->building_cost($this->Town_Model->buildings[$position]['type'],$this->Town_Model->buildings[$position]['level']-1, $this->User_Model->research);
                 $level = ($level > 0) ? $level - 1 : $level;
             }
             //Если это академия обнуляем ученых
@@ -131,7 +131,7 @@ class Actions extends Controller
                         $buildings = $this->Data_Model->load_build_line($build_line);
                         $type = $this->Town_Model->buildings[$buildings[0]['position']]['type'];
                         $next_level = $this->Town_Model->buildings[$buildings[0]['position']]['level'];
-                        $cost = $this->Data_Model->building_cost($type, $next_level);
+                        $cost = $this->Data_Model->building_cost($type, $next_level, $this->User_Model->research);
                         // Если хватает ресурсов
                         if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
                         {
@@ -202,7 +202,7 @@ class Actions extends Controller
         {
             $level = ($this->Town_Model->buildings[$position] != false ) ? $this->Town_Model->buildings[$position]['level'] : 0;
             // Получаем цены
-            $cost = $this->Data_Model->building_cost($id, $level);
+            $cost = $this->Data_Model->building_cost($id, $level, $this->User_Model->research);
             // Подсчитываем остаток
             $wood = $this->Town_Model->resources['wood'] - $cost['wood'];
             $wine = $this->Town_Model->resources['wine'] - $cost['wine'];
@@ -518,7 +518,7 @@ class Actions extends Controller
                 {
                     $class = $this->Data_Model->army_class_by_type($i);
                     $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
-                    $cost = $this->Data_Model->army_cost_by_type($i);
+                    $cost = $this->Data_Model->army_cost_by_type($i, $this->User_Model->research);
                     $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
                     $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
                     $all_cost['crystal'] = $all_cost['crystal'] + $cost['crystal']*$$class;
@@ -591,7 +591,7 @@ class Actions extends Controller
                 {
                     $class = $this->Data_Model->army_class_by_type($i);
                     $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
-                    $cost = $this->Data_Model->army_cost_by_type($i);
+                    $cost = $this->Data_Model->army_cost_by_type($i, $this->User_Model->research);
                     $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
                     $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
                     $all_cost['crystal'] = $all_cost['crystal'] + $cost['crystal']*$$class;
@@ -645,7 +645,7 @@ class Actions extends Controller
         {
                 $class = $this->Data_Model->army_class_by_type($i);
                 $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
-                $cost = $this->Data_Model->army_cost_by_type($i);
+                $cost = $this->Data_Model->army_cost_by_type($i, $this->User_Model->research);
                 if ($this->User_Model->armys[$this->Town_Model->id]->$class >= $$class)
                 {
                     $peoples_army = $peoples_army + ($$class*$cost['peoples']);

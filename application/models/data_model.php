@@ -229,10 +229,10 @@ class Data_Model extends Model
      * @param <int> $type
      * @return <array>
      */
-    function army_cost_by_type($type)
+    function army_cost_by_type($type, $research)
     {
         $type = $type-1;
-
+        
         $peoples = '1 2 1 1 1 1 1 5 5 5 3 5 1 1 0 5 4 2 6 5 5 6';
         $wood = '40 130 30 30 20 30 50 220 260 300 25 40 50 50 0 220 80 300 180 180 220 160';
         $sulfur = '30 180 0 30 0 25 150 0 300 1250 100 250 0 0 0 50 230 1500 160 140 900 0';
@@ -257,6 +257,32 @@ class Data_Model extends Model
         $return['gold'] = ($gold_array[$type] > 0) ? $gold_array[$type] : 0;
         $return['time'] = ($time_array[$type] > 0) ? $time_array[$type] : 0;
 
+        // Исследования снижают содержание кораблей
+        if ($type >= 15)
+        {
+            // Ремонт кораблей
+            if ($research->res1_3 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02); }
+            // Смола
+            if ($research->res1_6 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.04); }
+            // Морские карты
+            if ($research->res1_11 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.08); }
+            // Будущее мореходства
+            if ($research->res1_14 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02*$research->res1_14); }
+        }
+        // Исследования снижают содержание войск
+        if ($type < 15)
+        {
+            // Карты
+            if ($research->res4_2 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02); }
+            // Кодекс чести
+            if ($research->res4_5 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.04); }
+            // Логистика
+            if ($research->res4_10 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.08); }
+            // Будущее армии
+            if ($research->res4_14 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02*$research->res1_14); }
+        }
+        if ($return['gold'] < 0){ $return['gold'] = 0; }
+        
         return $return;
     }
 
@@ -600,7 +626,7 @@ class Data_Model extends Model
      * @param <int> $level
      * @return <array>
      */
-    function building_cost($id = 1, $level = 0)
+    function building_cost($id = 1, $level = 0, $research)
     {
         if ($level < 0){ $level = 0; }
         $wood = ''; $wine = ''; $marble = ''; $crystal = ''; $sulfur = ''; $time = ''; $max_level = 0;
@@ -675,6 +701,41 @@ class Data_Model extends Model
             $max_level = count($time_array)-1;
         }else{$return['time'] = 0;}
         $return['max_level'] = $max_level;
+        
+        // Исследования уменьшают стоимость зданий
+        // Шкив
+        if ($research->res2_2 > 0)
+        {
+            $return['wood'] = $return['wood'] - ($return['wood']*0.02);
+            $return['wine'] = $return['wine'] - ($return['wine']*0.02);
+            $return['marble'] = $return['marble'] - ($return['marble']*0.02);
+            $return['crystal'] = $return['crystal'] - ($return['crystal']*0.02);
+            $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*0.02);
+        }
+        // Геометрия
+        if ($research->res2_6 > 0)
+        {
+            $return['wood'] = $return['wood'] - ($return['wood']*0.04);
+            $return['wine'] = $return['wine'] - ($return['wine']*0.04);
+            $return['marble'] = $return['marble'] - ($return['marble']*0.04);
+            $return['crystal'] = $return['crystal'] - ($return['crystal']*0.04);
+            $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*0.04);
+        }
+        // Водяной уровень
+        if ($research->res2_11 > 0)
+        {
+            $return['wood'] = $return['wood'] - ($return['wood']*0.08);
+            $return['wine'] = $return['wine'] - ($return['wine']*0.08);
+            $return['marble'] = $return['marble'] - ($return['marble']*0.08);
+            $return['crystal'] = $return['crystal'] - ($return['crystal']*0.08);
+            $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*0.08);
+        }
+        if ($return['wood'] < 0){ $return['wood'] = 0; }
+        if ($return['wine'] < 0){ $return['wine'] = 0; }
+        if ($return['marble'] < 0){ $return['marble'] = 0; }
+        if ($return['crystal'] < 0){ $return['crystal'] = 0; }
+        if ($return['sulfur'] < 0){ $return['sulfur'] = 0; }
+        
         return $return;
     }
 
