@@ -1,2 +1,0 @@
-ALTER TABLE alpha_users ADD COLUMN `register_key` varchar(255) character set utf8 NOT NULL AFTER `password`;
-ALTER TABLE alpha_users ADD COLUMN `register_complete` int(11) NOT NULL default '0' AFTER `register_key`;
