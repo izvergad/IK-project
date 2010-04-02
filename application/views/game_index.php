@@ -10,7 +10,7 @@
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link href="<?=$this->config->item('style_url')?>skin/ik_common_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
         <link href="<?=$this->config->item('style_url')?>skin/ik_<?=$page?>_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
-<?if(floor(date('n', time())) == 4 and (floor(date('j', time())) >= 1 and floor(date('j', time())) <= 5)){?>
+<?if($this->config->item('easter')){?>
         <link href="<?=$this->config->item('style_url')?>skin/specialsEaster.css" rel="stylesheet" type="text/css" media="screen">
 <?}?>
 
