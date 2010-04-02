@@ -123,10 +123,10 @@
 
 <script language="javascript">
 <?
-    $position = $this->Data_Model->get_position(3, $this->Town_Model->buildings);
-    if ($position == 0){ $position = $this->Data_Model->get_position(5, $this->Town_Model->buildings);}
-    if ($position == 0){ $position = $this->Data_Model->get_position(7, $this->Town_Model->buildings);}
-    if ($position == 0){ $position = $this->Data_Model->get_position(2, $this->Town_Model->buildings);}
+    $position = $this->Data_Model->get_position(3, $this->Player_Model->now_town);
+    if ($position == 0){ $position = $this->Data_Model->get_position(5, $this->Player_Model->now_town);}
+    if ($position == 0){ $position = $this->Data_Model->get_position(7, $this->Player_Model->now_town);}
+    if ($position == 0){ $position = $this->Data_Model->get_position(2, $this->Player_Model->now_town);}
 ?>
 
 var counter = 0;
