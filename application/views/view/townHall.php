@@ -135,7 +135,7 @@
                     </span> 
                     <span class="production">
                         <span class="textLabel">Производство </span>
-                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"> +<?=number_format($this->Player_Model->now_town->workers*$this->Player_Model->corruption[$this->Player_Model->town_id])?>
+                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"> +<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id]))?>
                     </span>
                 </div>
 								
@@ -159,7 +159,7 @@
 <?case 4:?>
         <img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif">
 <?break;?>
-<?}?>+<?=number_format($this->Player_Model->now_town->tradegood*$this->Player_Model->corruption[$this->Player_Model->town_id])?>
+<?}?>+<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id]))?>
                     </span> 
                 </div>
 								
