@@ -868,6 +868,17 @@ class Actions extends Controller
         redirect('/game/port/'.$position.'/', 'refresh');
     }
 
+    function saveAvatarNotes()
+    {
+        $notes = strip_tags($_POST['notes']);
+        if (strlen($notes <= 200) or (strlen($notes <= 8192 and $this->Player_Model->user->premium_account > 0)))
+        {
+            $this->db->set('text', $notes);
+            $this->db->where(array('user' => $this->Player_Model->user->id));
+            $this->db->update($this->session->userdata('universe').'_notes');
+        }
+    }
+
 }
 
 /* End of file actions.php */

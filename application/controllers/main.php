@@ -104,6 +104,8 @@ class Main extends Controller {
                             $this->db->update($_POST['universe'].'_islands');
                             // Добавляем исследования
                             $this->db->insert($_POST['universe'].'_research', array('user' => $user->id));
+                            // Notes
+                            $this->db->insert($_POST['universe'].'_notes', array('user' => $user->id));
                             // Обновляем игрока
                             $this->db->set('town', $town->id);
                             $this->db->set('capital', $town->id);

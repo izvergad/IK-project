@@ -35,6 +35,9 @@ class Player_Model extends Model
                 $this->research =& $this->Data_Model->temp_research_db[$id];
                 // Всего ученых
                 $this->scientists = 0;
+                // Notes
+                $notes_query = $this->db->get_where($this->session->userdata('universe').'_notes', array('user' => $id));
+                $this->notes = $notes_query->row();
                 // Загружаем города
                     $towns_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
                     foreach ($towns_query->result() as $town)

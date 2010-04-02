@@ -16,7 +16,7 @@
             <div class="bd">
                 <div class="rightborder">
                     <div id="messageBox">
-                        <textarea id="message"><?=get_cookie('ikariam_notes_message')?></textarea>
+                        <textarea id="message"><?=$this->Player_Model->notes->text?></textarea>
                     </div>
                 </div>
             </div>

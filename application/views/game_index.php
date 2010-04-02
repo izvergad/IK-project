@@ -288,7 +288,7 @@
     <h3>Обзоры</h3>
     <ul>
         <li id="advCities">
-            <a href="<?=$this->config->item('base_url')?>game/tradeAdvisor/" title="Обзор городов и финансов" class="normal<?if($this->Player_Model->new_towns_messages > 0){?>active<?}?> <?if($this->Player_Model->user->premium_account > 0){?>premium<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/tradeAdvisor/" title="Обзор городов и финансов" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_towns_messages > 0){?>active<?}?>">
                 <span class="textLabel">Города</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
@@ -296,7 +296,7 @@
             </a>
         </li>
 	<li id="advMilitary">
-            <a href="<?=$this->config->item('base_url')?>game/advisors/military/" title="Военный обзор" class="normal <?if($this->Player_Model->user->premium_account > 0){?>premium<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/advisors/military/" title="Военный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
                 <span class="textLabel">Войска</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
@@ -304,7 +304,7 @@
             </a>
         </li>
 	<li id="advResearch">
-            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="normal <?if($this->Player_Model->user->premium_account > 0){?>premium<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
                 <span class="textLabel">Исследования</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
@@ -312,7 +312,7 @@
             </a>
 	</li>
 	<li id="advDiplomacy">
-            <a href="<?=$this->config->item('base_url')?>game/advisors/diplomacy/" title="Обзор сообщений и дипломатии" class="normal <?if($this->Player_Model->user->premium_account > 0){?>premium<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/advisors/diplomacy/" title="Обзор сообщений и дипломатии" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
                 <span class="textLabel">Дипломатия</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
@@ -529,7 +529,6 @@ function switchNoteDisplay() {
         setCookie( 'ikariam_notes_y', Dom.get("resizablepanel_c").style.top, '9999', '/', '', '' );
         setCookie( 'ikariam_notes_width', Dom.get("resizablepanel").style.width, '9999', '/', '', '' );
         setCookie( 'ikariam_notes_height', Dom.get("resizablepanel").style.height, '9999', '/', '', '' );
-        setCookie( 'ikariam_notes_message', document.getElementById("message").value, '9999', '/', '', '' );
         avatarNotes.save();
     }
 }
@@ -573,7 +572,7 @@ function updateNoteLayer(responseText) {
                 Dom.get("message").style.height = (panelHeight-75) + "px";
             }, panel, true);
             avatarNotes = new Notes();
-            avatarNotes.setMaxChars(200);
+            avatarNotes.setMaxChars(<?if($this->Player_Model->user->premium_account > 0){?>8192<?}else{?>200<?}?>);
             avatarNotes.init(Dom.get("message"), Dom.get("chars"));
             Dom.get("resizablepanel_c").style.top = getCookie("ikariam_notes_y", "80px");
             Dom.get("resizablepanel_c").style.left = getCookie("ikariam_notes_x", "375px");
@@ -585,7 +584,6 @@ window.onunload = function() {
         setCookie( 'ikariam_notes_y', Dom.get("resizablepanel_c").style.top, '9999', '/', '', '' );
         setCookie( 'ikariam_notes_width', Dom.get("resizablepanel").style.width, '9999', '/', '', '' );
         setCookie( 'ikariam_notes_height', Dom.get("resizablepanel").style.height, '9999', '/', '', '' );
-        setCookie( 'ikariam_notes_message', document.getElementById("message").value, '9999', '/', '', '' );
         avatarNotes.save();
     }
 }
