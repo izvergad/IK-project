@@ -572,7 +572,7 @@ function updateNoteLayer(responseText) {
                 Dom.get("message").style.height = (panelHeight-75) + "px";
             }, panel, true);
             avatarNotes = new Notes();
-            avatarNotes.setMaxChars(<?if($this->Player_Model->user->premium_account > 0){?>8192<?}else{?>200<?}?>);
+            avatarNotes.setMaxChars(<?if($this->Player_Model->user->premium_account > 0){?><?=$this->config->item('notes_premium')?><?}else{?><?=$this->config->item('notes_default')?><?}?>);
             avatarNotes.init(Dom.get("message"), Dom.get("chars"));
             Dom.get("resizablepanel_c").style.top = getCookie("ikariam_notes_y", "80px");
             Dom.get("resizablepanel_c").style.left = getCookie("ikariam_notes_x", "375px");

@@ -207,7 +207,8 @@ class Data_Model extends Model
         $return['crystal'] = ($crystal_array[$type] > 0) ? $crystal_array[$type] : 0;
         $return['gold'] = ($gold_array[$type] > 0) ? $gold_array[$type] : 0;
         $return['time'] = ($time_array[$type] > 0) ? $time_array[$type] : 0;
-
+        // Игровая скорость
+        $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
         // Исследования снижают содержание кораблей
         if ($type >= 15)
         {
@@ -572,6 +573,8 @@ class Data_Model extends Model
             $return['time'] = ($time_array[$level] > 0) ? $time_array[$level] : 0;
             $max_level = count($time_array)-1;
         }else{$return['time'] = 0;}
+        // Игровая скорость
+        $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
         $return['max_level'] = $max_level;
         return $return;
     }
@@ -676,7 +679,8 @@ class Data_Model extends Model
             $max_level = count($time_array)-1;
         }else{$return['time'] = 0;}
         $return['max_level'] = $max_level;
-
+        // Игровая скорость
+        $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
         // Исследования уменьшают стоимость зданий
         // Шкив
         if ($research->res2_2 > 0)

@@ -758,9 +758,9 @@ class Actions extends Controller
                 }
                 if (isset($_POST['oldPassword']) and isset($_POST['newPassword']) and isset($_POST['newPasswordConfirm']))
                 {
-                    $old = strip_tags($_POST['oldPassword']);
-                    $new = strip_tags($_POST['newPassword']);
-                    $new2 = strip_tags($_POST['newPasswordConfirm']);
+                    $old = md5(strip_tags($_POST['oldPassword']));
+                    $new = md5(strip_tags($_POST['newPassword']));
+                    $new2 = md5(strip_tags($_POST['newPasswordConfirm']));
                     if ($old != $new and $old != '' and $new != '')
                     {
                         if ($this->Player_Model->user->password == $old)
@@ -871,7 +871,7 @@ class Actions extends Controller
     function saveAvatarNotes()
     {
         $notes = strip_tags($_POST['notes']);
-        if (strlen($notes <= 200) or (strlen($notes <= 8192 and $this->Player_Model->user->premium_account > 0)))
+        if (strlen($notes <= $this->config->item('notes_default')) or (strlen($notes <= $this->config->item('notes_premium') and $this->Player_Model->user->premium_account > 0)))
         {
             $this->db->set('text', $notes);
             $this->db->where(array('user' => $this->Player_Model->user->id));

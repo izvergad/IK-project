@@ -42,7 +42,7 @@ class Player_Model extends Model
                     $towns_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
                     foreach ($towns_query->result() as $town)
                     {
-                        $this->capacity[$town->id] = 1500;
+                        $this->capacity[$town->id] = $this->config->item('standart_capacity');
                         $this->tavern_level[$town->id] = 0;
                         $this->armys[$town->id] = array();
                         $this->warehouses[$town->id] = 0;
