@@ -271,10 +271,11 @@ function plusMinus(obj) {
 <?for($i = 1; $i <= 14; $i++){?>
 <?$class = $this->Data_Model->army_class_by_type($i)?>
 <?if ($this->Player_Model->armys[$this->Player_Model->town_id]->$class > 0){?>
+<?$cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research)?>
                     <li class="<?=$class?> ">
                         <label for="cargo_army_<?=$i?>"><?=$this->Data_Model->army_name_by_type($i)?> отправить:</label>
                         <div class="amount"><span class="textLabel">Доступно: </span><?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?></div>
-                        <div class="weight"><span class="textLabel">Вместимость груза </span>3</div>
+                        <div class="weight"><span class="textLabel">Вместимость груза </span><?=$cost['capacity']?></div>
                         <div class="sliderinput">
                             <div class="sliderbg" id="sliderbg_<?=$i?>">
                                 <div class="actualValue" id="actualValue_<?=$i?>"></div>
@@ -297,7 +298,7 @@ function plusMinus(obj) {
                                         });
                                         Event.onDOMReady(function() {
 											var s=sliders["slider_<?=$i?>"];
-											s.upkeep=1;
+											s.upkeep=<?=number_format($cost['gold'])?>;
 											s.weight=0;
 											s.unitJourneyTime=600;
                                             transporterDisplay.registerSlider(s);

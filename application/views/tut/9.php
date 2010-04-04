@@ -135,7 +135,7 @@
 ?>
 
 var counter = 0;
-<?if($location == 'island'){?>
+<?if($location == 'island' and $id == $this->Player_Model->island_id){?>
 <?switch($this->Island_Model->island->type)
 {
     case 1:

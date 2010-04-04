@@ -183,7 +183,7 @@ class Data_Model extends Model
     function army_cost_by_type($type, $research)
     {
         $type = $type-1;
-
+        // Цены
         $peoples = '1 2 1 1 1 1 1 5 5 5 3 5 1 1 0 5 4 2 6 5 5 6';
         $wood = '40 130 30 30 20 30 50 220 260 300 25 40 50 50 0 220 80 300 180 180 220 160';
         $sulfur = '30 180 0 30 0 25 150 0 300 1250 100 250 0 0 0 50 230 1500 160 140 900 0';
@@ -191,6 +191,29 @@ class Data_Model extends Model
         $crystal = '0 0 0 0 0 0 0 0 0 0 0 0 0 450 0 0 0 0 0 0 0 750';
         $gold = '3 12 1 4 2 4 3 15 25 30 15 45 10 20 0 40 30 90 45 50 130 70';
         $time = '300 900 300 814 600 850 631 1383 2068 2040 1197 2700 929 2293 0 2400 1800 2400 3000 3000 3000 3600';
+        // Параметры
+        $defence = '1 3 0 0 0 0 0 1 0 0 0 0 0 0 1 6 3 8 4 0 2 3 0';
+        $health = '56 184 13 18 8 16 12 88 54 32 29 40 22 12 12 120 110 236 132 86 56 47 30';
+        $class = '1 2 1 1 1 1 1 2 2 2 2 2 1 1 1 2 2 2 2 2 2 2 2';
+        /*
+         * Классы:
+         * 1 - Человек
+         * 2 - Машина
+         */
+        $speed = '60 40 60 60 60 60 60 40 40 40 80 20 40 60 0 30 40 30 30 30 20 40 60';
+        $ability = '1 0 0 2 0 1 2 3 3 3 0 2 4 5 0 0 0 0 0 0 0 0 0';
+        /**
+         * Способности:
+         * 1 - Устойчивость - Увеличение силы защиты на 30%, когда юнит участвует в защите города
+         * 2 - Атака - Увеличение силы атаки на 30%, когда юнит участвует в нападении
+         * 3 - Стенобитное орудие - Способность нарушить Городскую стену при осаде города. За один бой в стене можно сделать столько проломов, сколько уровней она имеет.Каждый пролом добавляет 10% к силе атаки нападающих войск.
+         *     Ориентировочная вероятность пролома стены для Тарана, в процентах = 2 / уровень стены
+         *     Ориентировочная вероятность пролома стены для Катапульты, в процентах = 3 / уровень стены
+         *     Ориентировочная вероятность пролома стены для Мортиры, в процентах = 4 / уровень стены
+         * 4 - Восстановление - Способность восстанавливать выносливость за раунд у повреждённых юнитов. Если в бою участвуют несколько юнитов с такой способностью, эффект аккумулируется
+         * 5 - Лекарь
+         */
+        $capacity = '5 15 3 3 3 5 5 30 30 30 15 30 20 10 0 0 0 0 0 0 0 0 0';
 
         $peoples_array = explode(' ', $peoples) ;
         $wood_array = explode(' ', $wood) ;
@@ -200,6 +223,13 @@ class Data_Model extends Model
         $gold_array = explode(' ', $gold) ;
         $time_array = explode(' ', $time) ;
 
+        $defence_array = explode(' ', $defence) ;
+        $health_array = explode(' ', $health) ;
+        $class_array = explode(' ', $class) ;
+        $speed_array = explode(' ', $speed) ;
+        $ability_array = explode(' ', $ability) ;
+        $capacity_array = explode(' ', $capacity) ;
+
         $return['peoples'] = ($peoples_array[$type] > 0) ? $peoples_array[$type] : 0;
         $return['wood'] = ($wood_array[$type] > 0) ? $wood_array[$type] : 0;
         $return['sulfur'] = ($sulfur_array[$type] > 0) ? $sulfur_array[$type] : 0;
@@ -207,6 +237,14 @@ class Data_Model extends Model
         $return['crystal'] = ($crystal_array[$type] > 0) ? $crystal_array[$type] : 0;
         $return['gold'] = ($gold_array[$type] > 0) ? $gold_array[$type] : 0;
         $return['time'] = ($time_array[$type] > 0) ? $time_array[$type] : 0;
+
+        $return['defence'] = ($defence_array[$type] > 0) ? $defence_array[$type] : 0;
+        $return['health'] = ($health_array[$type] > 0) ? $health_array[$type] : 0;
+        $return['class'] = ($class_array[$type] > 0) ? $class_array[$type] : 0;
+        $return['speed'] = ($speed_array[$type] > 0) ? $speed_array[$type] : 0;
+        $return['ability'] = ($ability_array[$type] > 0) ? $ability_array[$type] : 0;
+        $return['capacity'] = ($capacity_array[$type] > 0) ? $capacity_array[$type] : 0;
+        
         // Игровая скорость
         $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
         // Исследования снижают содержание кораблей
@@ -633,6 +671,7 @@ class Data_Model extends Model
             break;
 
             case 10:
+            case 15:
                 $wood = '712 5823 16048 36496 77392 159184 322768 649936 1304272 2612944 5230287 10464974';
                 $wine = '0 0 0 10898 22110 44534 89382 179078 358470 717254 1233946 2869957';
                 $marble = '0 1433 4546 10770 23218 48114 97906 197490 396658 794994 1591666 3185009';

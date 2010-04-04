@@ -14,38 +14,38 @@ class View_Model extends Model
      * Отображение обучения
      * @param <string> $location
      */
-    function show_tutorial($location)
+    function show_tutorial($location, $id)
     {
         switch($this->Player_Model->user->tutorial)
         {
             // Приветствие
             case 0: $this->load->view('tut/0',array('location' => $location)); break;
             // Найм рабочих
-            case 1: $this->load->view('tut/1',array('location' => $location, 'active' => true)); break;
-            case 2: $this->load->view('tut/1',array('location' => $location, 'active' => false)); break;
+            case 1: $this->load->view('tut/1',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 2: $this->load->view('tut/1',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Постройка академии
-            case 3: $this->load->view('tut/2',array('location' => $location, 'active' => true)); break;
-            case 4: $this->load->view('tut/2',array('location' => $location, 'active' => false)); break;
+            case 3: $this->load->view('tut/2',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 4: $this->load->view('tut/2',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Найм ученых
-            case 5: $this->load->view('tut/3',array('location' => $location, 'active' => true)); break;
-            case 6: $this->load->view('tut/3',array('location' => $location, 'active' => false)); break;
+            case 5: $this->load->view('tut/3',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 6: $this->load->view('tut/3',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Постройка казарм
-            case 7: $this->load->view('tut/4',array('location' => $location, 'active' => true)); break;
-            case 8: $this->load->view('tut/4',array('location' => $location, 'active' => false)); break;
+            case 7: $this->load->view('tut/4',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 8: $this->load->view('tut/4',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Найм копейщиков
-            case 9: $this->load->view('tut/5',array('location' => $location, 'active' => true)); break;
-            case 10: $this->load->view('tut/5',array('location' => $location, 'active' => false)); break;
+            case 9: $this->load->view('tut/5',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 10: $this->load->view('tut/5',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Постройка стены
-            case 11: $this->load->view('tut/6',array('location' => $location, 'active' => false)); break;
+            case 11: $this->load->view('tut/6',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Постройка порта
-            case 12: $this->load->view('tut/7',array('location' => $location, 'active' => true)); break;
-            case 13: $this->load->view('tut/7',array('location' => $location, 'active' => false)); break;
+            case 12: $this->load->view('tut/7',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 13: $this->load->view('tut/7',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Апгрейд здания
-            case 14: $this->load->view('tut/8',array('location' => $location, 'active' => true)); break;
-            case 15: $this->load->view('tut/8',array('location' => $location, 'active' => false)); break;
+            case 14: $this->load->view('tut/8',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 15: $this->load->view('tut/8',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Нападение на варваров
-            case 16: $this->load->view('tut/9',array('location' => $location, 'active' => true)); break;
-            case 17: $this->load->view('tut/9',array('location' => $location, 'active' => false)); break;
+            case 16: $this->load->view('tut/9',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            case 17: $this->load->view('tut/9',array('location' => $location, 'active' => false, 'id' => $id)); break;
 
         }
     }
@@ -60,6 +60,7 @@ class View_Model extends Model
         switch($location)
         {
             case 'worldmap_iso': $this->load->view('view/'.$location, array('x' => $param1, 'y' => $param2)); break;
+            case 'colonize': $this->load->view('view/'.$location, array('id' => $param1, 'position' => $param2)); break;
             case 'academy':
             case 'buildingGround':
             case 'city':
@@ -132,10 +133,12 @@ class View_Model extends Model
             case 'tradeAdvisor':
             case 'armyGarrisonEdit':
             case 'fleetGarrisonEdit':
-            case 'plunder':
             case 'finances':
                 $this->load->view('sidebox/'.$location);
             break;
+            case 'plunder':
+            case 'colonize':
+                $this->load->view('sidebox/back_to_island');
             default: break;
         }
     }

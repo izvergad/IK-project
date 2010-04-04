@@ -1,3 +1,10 @@
+<?
+    $levels = array();
+    for ($i = 0; $i <= 14; $i++)
+    {
+        $levels[$i] = 0;
+    }
+?>
 <div id="information" class="dynamic" style="z-index:1;">        
     <h3 class="header">Город</h3>
     <div class="content">
@@ -24,6 +31,7 @@
         $type_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_type';
         $level = $this->Player_Model->now_town->$level_text;
         $type = $this->Player_Model->build_line[$this->Player_Model->town_id][0]['type'];
+        $levels[$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position']] = $level;
         $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research);
         $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
         $ostalos = $end_date - time();
@@ -34,7 +42,7 @@
 ?>
     <h4>В процессе создания:</h4>
     <div class="currentUnit <?=$this->Data_Model->building_class_by_type($type)?>">
-        <div class="amount"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($type)?></span></div>
+        <div class="amount"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($type)?> (Уровень <?=$levels[$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position']]+1?>)</span></div>
         <div class="progressbar"><div class="bar" id="buildProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div></div>
         <div class="time" id="buildCountDown"><?=format_time($ostalos_all)?><span class="textLabel"> до завершения</span></div>
     </div>
@@ -68,7 +76,8 @@
         $type_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position'].'_type';
         $level = $this->Player_Model->now_town->$level_text;
         $type = $this->Player_Model->build_line[$this->Player_Model->town_id][$i]['type'];
-        $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research);
+        $levels[$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position']] = ($levels[$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position']] > 0) ? $levels[$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position']]+1 : $level;
+        $cost = $this->Data_Model->building_cost($type, $levels[$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position']], $this->Player_Model->research);
         $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
         $ostalos = $end_date - time();
         if ($ostalos < 0){ $ostalos = 0; }
@@ -77,7 +86,7 @@
         $percent = 100 - floor($ostalos/$one_percent);
 ?>
     <li class="<?=$this->Data_Model->building_class_by_type($type)?>">
-        <div class="amount"><span class="textLabel"> <?=$this->Data_Model->building_name_by_type($type)?></span></div>
+        <div class="amount"><span class="textLabel"> <?=$this->Data_Model->building_name_by_type($type)?> (Уровень <?=$levels[$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position']]+1?>)</span></div>
         <div class="time" id="queueEntry1"><?=format_time($ostalos_all)?><span class="textLabel"> до завершения</span></div>
     </li>
 <?}?>

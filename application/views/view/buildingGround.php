@@ -19,12 +19,12 @@
         ($i == 6 and $this->Player_Model->research->res2_1 == 0) or
         ($i == 8 and $this->Player_Model->research->res2_4 == 0) or
         ($i == 9 and $this->Player_Model->research->res3_7 == 0) or
-        ($i == 10 and $this->Player_Model->research->res1_4 == 0) or
+        ($i == 10 and ($this->Player_Model->research->res1_4 == 0 or $this->Player_Model->capital_id != $this->Player_Model->town_id)) or
         ($i == 11 and $this->Player_Model->research->res1_5 == 0) or
         ($i == 12 and $this->Player_Model->research->res2_3 == 0) or
         ($i == 13 and $this->Player_Model->research->res3_6 == 0) or
         ($i == 14 and $this->Player_Model->research->res3_3 == 0) or
-        ($i == 15 and $this->Player_Model->research->res1_4 == 0) or
+        ($i == 15 and ($this->Player_Model->research->res1_4 == 0 or $this->Player_Model->capital_id == $this->Player_Model->town_id)) or
         ($i == 16 and $this->Player_Model->research->res2_5 == 0) or
         ($i == 17 and $this->Player_Model->research->res2_5 == 0) or
         ($i == 18 and $this->Player_Model->research->res2_5 == 0) or

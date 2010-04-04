@@ -323,7 +323,7 @@
 </div>
 
 <?if ($this->Player_Model->capital_id == $this->Player_Model->town_id){?>
-    <?=$this->View_Model->show_tutorial($page)?>
+    <?=$this->View_Model->show_tutorial($page, $param1)?>
 <?}?>
 
 <div id="footer">

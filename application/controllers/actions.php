@@ -879,6 +879,47 @@ class Actions extends Controller
         }
     }
 
+    function colonize($id = 0, $position = 0)
+    {
+        $id = floor($id);
+        $position = floor($position);
+        if ($id > 0 and $position > 0)
+        {
+            $this->load->model('Island_Model');
+            $this->Island_Model->Load_Island($id);
+            if($_POST['action'] == 'Переместить' and isset($this->Player_Model->towns[$_POST['cityId']]) and $this->Player_Model->user->ambrosy >= 200)
+            {
+                $now_position = -1;
+                $city_text = 'city'.$position;
+                for ($i = 0; $i <= 15; $i++)
+                {
+                    $city_now = 'city'.$i;
+                    if ($this->Player_Model->islands[$this->Player_Model->towns[$_POST['cityId']]->island]->$city_now == $_POST['cityId']){$now_position = $i;}
+                }
+                if($this->Island_Model->island->$city_text == 0 and $now_position >= 0)
+                {
+                    // Удаляем старую отметку
+                    $this->db->set('city'.$now_position, 0);
+                    $this->db->where(array('id' => $this->Player_Model->towns[$_POST['cityId']]->island));
+                    $this->db->update($this->session->userdata('universe').'_islands');
+                    // Пишем новую отметку
+                    $this->db->set('city'.$position, $_POST['cityId']);
+                    $this->db->where(array('id' => $id));
+                    $this->db->update($this->session->userdata('universe').'_islands');
+                    // Пишем новый остров в городе
+                    $this->db->set('island', $id);
+                    $this->db->where(array('id' => $_POST['cityId']));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                    // Забираем амброзию
+                    $this->db->set('ambrosy', $this->Player_Model->user->ambrosy-200);
+                    $this->db->where(array('id' => $this->Player_Model->user->id));
+                    $this->db->update($this->session->userdata('universe').'_users');
+                }
+            }
+        }
+        redirect('/game/island/'.$id.'/', 'refresh');
+    }
+
 }
 
 /* End of file actions.php */

@@ -252,7 +252,7 @@
                     <div class="cat overpopulation" >
                         <h5>Население:</h5>
 <?
-    $peoples_percent = ($this->Player_Model->now_town[$this->Player_Model->town_id]->peoples/$this->Player_Model->max_peoples[$this->Player_Model->town_id])*$all_px;
+    $peoples_percent = ($this->Player_Model->peoples[$this->Player_Model->town_id]/$this->Player_Model->max_peoples[$this->Player_Model->town_id])*$all_px;
 ?>
                         <div class="bar" style="left:100px;width:<?=floor($peoples_percent)?>px;"><span class="value">-<?=number_format($this->Player_Model->peoples[$this->Player_Model->town_id])?></span></div>
                     </div>

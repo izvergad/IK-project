@@ -327,6 +327,17 @@ class Game extends Controller {
         $this->show('finances');
     }
 
+    function colonize($island = 0, $position = 0)
+    {
+        if ($island == 0)
+        {
+            $island = $this->Player_Model->island_id;
+        }
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($island);
+        $this->show('colonize', $island, $position);
+    }
+
         function show($location, $param1 = 0, $param2 = 0)
         {
             $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2));

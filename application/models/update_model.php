@@ -85,8 +85,8 @@ class Update_Model extends Model
                    while (SizeOf($buildings) > 0)
                    {
                        // Переменные
-                       $level_text = 'pos'.$buildings[0]['position'].'_level';
-                       $type_text = 'pos'.$buildings[0]['position'].'_type';
+                       $level_text = 'pos'.floor($buildings[0]['position']).'_level';
+                       $type_text = 'pos'.floor($buildings[0]['position']).'_type';
                        $level = $this->CI->Update_Player->towns[$i]->$level_text;
                        $type = $this->CI->Update_Player->towns[$i]->$type_text;
                        $cost = $this->Data_Model->building_cost($buildings[0]['type'], $level, $this->CI->Update_Player->research);
@@ -130,7 +130,7 @@ class Update_Model extends Model
                                     if (SizeOf($buildings) > 1)
                                     {
                                         // уменьшаем настоящую очередь
-
+                                        
                                         if ($buildings[0]['position'] < 10)
                                         {
                                             $this->CI->Update_Player->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->Update_Player->towns[$i]->build_line, 4) : substr($this->CI->Update_Player->towns[$i]->build_line, 5);
@@ -141,7 +141,6 @@ class Update_Model extends Model
                                         }
                                         $this->CI->Update_Player->towns[$i]->build_start = $this->CI->Update_Player->towns[$i]->build_start + $cost['time'];
                                         // и псевдо очередь
-                                        $buildings = $this->Data_Model->load_build_line($this->CI->Update_Player->towns[$i]->build_line);
                                         if ($buildings[0]['position'] < 10)
                                         {
                                             $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 4) : substr($while_line, 5);
@@ -150,6 +149,7 @@ class Update_Model extends Model
                                         {
                                             $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 5) : substr($while_line, 6);
                                         }
+                                        $buildings = $this->Data_Model->load_build_line($this->CI->Update_Player->towns[$i]->build_line);
                                     }
                                     else
                                     {
@@ -193,6 +193,7 @@ class Update_Model extends Model
                        $buildings = $this->Data_Model->load_build_line($while_line);
                        // Счетчик цикла
                        $step = $step + 1;
+                       
                    }
                         // Проверка данных, чтобы не писать в БД лишнего
                         if (strlen($this->CI->Update_Player->towns[$i]->build_line) < 3){ $this->CI->Update_Player->towns[$i]->build_line = ''; }
@@ -307,7 +308,7 @@ class Update_Model extends Model
            // Пробегаемся по островам
            foreach ($this->CI->Update_Player->islands as $island)
            {
-               for ($is = 0; $is < 2; $is++)
+               for ($is = 0; $is <= 1; $is++)
                {
                    $res_level = ($is == 0) ? 'wood_level' : 'trade_level';
                    $res_count = ($is == 0) ? 'wood_count' : 'trade_count';
