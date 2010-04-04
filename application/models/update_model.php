@@ -51,17 +51,17 @@ class Update_Model extends Model
                // Прирост золота
                $this->CI->Update_Player->user->gold = $this->CI->Update_Player->user->gold + (($this->CI->Update_Player->saldo[$i]/3600)*$elapsed);
                // Прирост дерева
-               $this->CI->Update_Player->towns[$i]->wood = $this->CI->Update_Player->towns[$i]->wood + (($this->CI->Update_Player->towns[$i]->workers/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i]);
+               $this->CI->Update_Player->towns[$i]->wood = $this->CI->Update_Player->towns[$i]->wood + (($this->CI->Update_Player->towns[$i]->workers/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i])*($this->CI->Update_Player->plus_wood);
                // Прирост другого ресурса
                switch($this->CI->Update_Player->islands[$town->island]->trade_resource)
                {
-                   case 1:$this->CI->Update_Player->towns[$i]->wine = $this->CI->Update_Player->towns[$i]->wine + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i]);
+                   case 1:$this->CI->Update_Player->towns[$i]->wine = $this->CI->Update_Player->towns[$i]->wine + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i])*($this->CI->Update_Player->plus_wine);
                    break;
-                   case 2:$this->CI->Update_Player->towns[$i]->marble = $this->CI->Update_Player->towns[$i]->marble + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i]);
+                   case 2:$this->CI->Update_Player->towns[$i]->marble = $this->CI->Update_Player->towns[$i]->marble + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i])*($this->CI->Update_Player->plus_marble);
                    break;
-                   case 3:$this->CI->Update_Player->towns[$i]->crystal = $this->CI->Update_Player->towns[$i]->crystal + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i]);
+                   case 3:$this->CI->Update_Player->towns[$i]->crystal = $this->CI->Update_Player->towns[$i]->crystal + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i])*($this->CI->Update_Player->plus_crystal);
                    break;
-                   case 4:$this->CI->Update_Player->towns[$i]->sulfur = $this->CI->Update_Player->towns[$i]->sulfur + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i]);
+                   case 4:$this->CI->Update_Player->towns[$i]->sulfur = $this->CI->Update_Player->towns[$i]->sulfur + (($this->CI->Update_Player->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->Update_Player->corruption[$i])*($this->CI->Update_Player->plus_sulfur);
                    break;
                }
                // Проверяем не вышли ли мы за пределы вместимости

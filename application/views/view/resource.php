@@ -18,7 +18,7 @@
                 <ul>
                     <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens"><?=$peoples?></span></li>
                     <li class="workers"><span class="textLabel">Работников: </span><span class="value" id="valueWorkers"><?=number_format($this->Player_Model->now_town->workers)?></span></li>
-                    <li class="gain" title="Производство:<?=floor($this->Player_Model->now_town->workers)?>" alt="Производство:<?=number_format($this->Player_Model->now_town->workers)?>">
+                    <li class="gain" title="Производство:<?=floor($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->plus_wood))?>" alt="Производство:<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->plus_wood))?>">
                         <span class="textLabel">Вместимость: </span>
                         <div id="gainPoints">
                             <div id="resiconcontainer">
@@ -26,7 +26,7 @@
                             </div>
                         </div>
                         <div class="gainPerHour">
-                            <span id="valueResource" >+<?=number_format($this->Player_Model->now_town->workers)?></span> <span class="timeUnit">в час</span>
+                            <span id="valueResource" >+<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->plus_wood))?></span> <span class="timeUnit">в час</span>
                         </div>
                     </li>
                     <li class="costs">
@@ -134,7 +134,7 @@
             this.flagSliderMoved = 1;
             valueWorkers.innerHTML = locaNumberFormat(slider.actualValue);
             valueCitizens.innerHTML = locaNumberFormat(startCitizens+startResourceWorkers - slider.actualValue);
-            var valRes = 1 * 1 * (Math.min(<?=$cost['workers']?>, slider.actualValue) + Math.max(0, 0.25 * (slider.actualValue-196)));
+            var valRes = <?=($this->Player_Model->plus_wood)?> * <?=(1-$this->Player_Model->corruption[$this->Player_Model->town_id])?> * (Math.min(<?=$cost['workers']?>, slider.actualValue) + Math.max(0, 0.25 * (slider.actualValue-196)));
             valueResource.innerHTML = '+' + Math.floor(valRes);
             valueWorkCosts.innerHTML = startIncomePerTimeUnit  - 3*(slider.actualValue-startSlider);
         });

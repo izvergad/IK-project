@@ -135,7 +135,7 @@
                     </span> 
                     <span class="production">
                         <span class="textLabel">Производство </span>
-                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"> +<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id]))?>
+                        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"> +<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*$this->Player_Model->plus_wood)?>
                     </span>
                 </div>
 								
@@ -146,20 +146,9 @@
                     </span>       
                     <span class="production">
                         <span class="textLabel">Производство </span>
-<?switch($this->Player_Model->now_island->trade_resource){?>
-<?case 1:?>
-        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif">
-<?break;?>
-<?case 2:?>
-        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif">
-<?break;?>
-<?case 3:?>
-        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif">
-<?break;?>
-<?case 4:?>
-        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif">
-<?break;?>
-<?}?>+<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id]))?>
+<?$plus_text = 'plus_'.$this->Data_Model->resource_class_by_type($this->Player_Model->now_island->trade_resource)?>
+        <img src="<?=$this->config->item('style_url')?>skin/resources/icon_<?=resource_icon($this->Player_Model->now_island->trade_resource)?>.gif">
++<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*$this->Player_Model->$plus_text)?>
                     </span> 
                 </div>
 								

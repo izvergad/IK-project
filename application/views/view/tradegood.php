@@ -16,6 +16,7 @@
 </div>
 <?}else{?>
 <?
+    $plus_text = 'plus_'.$this->Data_Model->resource_class_by_type($this->Island_Model->island->trade_resource);
     $cost = $this->Data_Model->island_cost($this->Island_Model->island->trade_resource, $this->Island_Model->island->trade_level-1);
     $peoples = floor($this->Player_Model->now_town->peoples);
     $all = $this->Player_Model->now_town->peoples + $this->Player_Model->now_town->tradegood;
@@ -36,7 +37,7 @@
                 <ul>
                     <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens"><?=$peoples?></span></li>
                     <li class="workers"><span class="textLabel">Работников: </span><span class="value" id="valueWorkers"><?=number_format($this->Player_Model->now_town->tradegood)?></span></li>
-                    <li class="gain" title="Производство:<?=number_format($this->Player_Model->now_town->tradegood)?>" alt="Производство:<?=number_format($this->Player_Model->now_town->tradegood)?>">
+                    <li class="gain" title="Производство:<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->$plus_text))?>" alt="Производство:<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->$plus_text))?>">
                         <span class="textLabel">Вместимость: </span>
                         <div id="gainPoints">
                             <div id="resiconcontainer">
@@ -44,7 +45,7 @@
                             </div>
                         </div>
                         <div class="gainPerHour">
-                            <span id="valueResource" >+<?=number_format($this->Player_Model->now_town->tradegood)?></span> <span class="timeUnit">в час</span>
+                            <span id="valueResource" >+<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->$plus_text))?></span> <span class="timeUnit">в час</span>
                         </div>
                     </li>
                     <li class="costs">
@@ -152,7 +153,7 @@
             this.flagSliderMoved = 1;
             valueWorkers.innerHTML = locaNumberFormat(slider.actualValue);
             valueCitizens.innerHTML = locaNumberFormat(startCitizens+startResourceWorkers - slider.actualValue);
-            var valRes = 1 * 1 * (Math.min(<?=$cost['workers']?>, slider.actualValue) + Math.max(0, 0.25 * (slider.actualValue-<?=$cost['workers']?>)));
+            var valRes = <?=($this->Player_Model->$plus_text)?> * <?=(1-$this->Player_Model->corruption[$this->Player_Model->town_id])?> * (Math.min(<?=$cost['workers']?>, slider.actualValue) + Math.max(0, 0.25 * (slider.actualValue-<?=$cost['workers']?>)));
             valueResource.innerHTML = '+' + Math.floor(valRes);
             valueWorkCosts.innerHTML = startIncomePerTimeUnit  - 3*(slider.actualValue-startSlider);
         });

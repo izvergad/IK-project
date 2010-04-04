@@ -13,7 +13,7 @@
             <p style="padding-top:10px;padding-left:18px;padding-right:10px;padding-bottom:0px;">
             </p>
 <?
-    $safe = (SizeOf($this->Player_Model->warehouses_levels[$this->Player_Model->town_id])*80)+100;
+    $safe = ((SizeOf($this->Player_Model->warehouses_levels[$this->Player_Model->town_id])*80)+100)*$this->Player_Model->plus_capacity;
     $nosafe_wood = (($this->Player_Model->now_town->wood - $safe) < 0) ? 0 : ($this->Player_Model->now_town->wood - $safe);
     $nosafe_wine = (($this->Player_Model->now_town->wine - $safe) < 0) ? 0 : ($this->Player_Model->now_town->wine - $safe);
     $nosafe_marble = (($this->Player_Model->now_town->marble - $safe) < 0) ? 0 : ($this->Player_Model->now_town->marble - $safe);

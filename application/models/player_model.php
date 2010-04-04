@@ -30,6 +30,13 @@ class Player_Model extends Model
                 $this->user_id =& $this->user->id;
                 $this->town_id =& $this->user->town;
                 $this->capital_id =& $this->user->capital;
+                // премиум прирост
+                $this->plus_wood = 1;
+                $this->plus_marble = 1;
+                $this->plus_wine = 1;
+                $this->plus_crystal = 1;
+                $this->plus_sulfur = 1;
+                $this->plus_capacity = 1;
                 // Загружаем исследования
                 $this->Data_Model->Load_Research($id);
                 $this->research =& $this->Data_Model->temp_research_db[$id];
@@ -161,6 +168,13 @@ class Player_Model extends Model
                 if ($this->research->res3_11 > 0){$this->plus_research = $this->plus_research + 0.08;}
                 // Будущее Науки - на 2% больше баллов за уровень
                 if ($this->research->res3_16 > 0){$this->plus_research = $this->plus_research + (0.02*$this->research->res3_16);}
+                // Премиум прирост
+                if ($this->user->premium_wood > 0){$this->plus_wood = 1.2;}
+                if ($this->user->premium_wine > 0){$this->plus_wine = 1.2;}
+                if ($this->user->premium_marble > 0){$this->plus_marble = 1.2;}
+                if ($this->user->premium_crystal > 0){$this->plus_crystal = 1.2;}
+                if ($this->user->premium_sulfur > 0){$this->plus_sulfur = 1.2;}
+                if ($this->user->premium_capacity > 0){$this->plus_capacity = 2;}
 
                 $this->island_id = $this->towns[$this->town_id]->island;
                 $this->now_town = $this->towns[$this->town_id];
