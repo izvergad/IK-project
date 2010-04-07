@@ -31,4 +31,9 @@ margin: 			0 0 4px 0;
 	</div>
 </body>
 </html>
-<?redirect('/game/error/', 'refresh')?>
+<?
+    if(function_exists('redirect'))
+    {
+        redirect('/game/error/', 'refresh');
+    }
+?>

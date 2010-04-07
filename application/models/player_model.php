@@ -39,9 +39,31 @@ class Player_Model extends Model
                 $this->plus_crystal = 1;
                 $this->plus_sulfur = 1;
                 $this->plus_capacity = 1;
+                $this->research_advisor = false;
                 // Загружаем исследования
                 $this->Data_Model->Load_Research($id);
                 $this->research =& $this->Data_Model->temp_research_db[$id];
+                for($i = 1; $i < 14; $i++){
+                    $parametr = 'res1_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[1] = $this->Data_Model->get_research(1,$i,$this->research);break;}}
+                if ($this->Player_Model->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
+                if($this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
+                for($i = 1; $i < 15; $i++){
+                    $parametr = 'res2_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[2] = $this->Data_Model->get_research(2,$i,$this->research);break;}}
+                if ($this->research->res2_15 > 0){$this->ways[2] = $this->Data_Model->get_research(2,15,$this->research);}
+                if($this->ways[2]['points'] <= $this->research->points and $this->research->way2_checked == 0){$this->research_advisor = true;}
+                for($i = 1; $i < 16; $i++){
+                    $parametr = 'res3_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[3] = $this->Data_Model->get_research(3,$i,$this->research);break;}}
+                if ($this->research->res3_16 > 0){$this->ways[3] = $this->Data_Model->get_research(3,16,$this->research);}
+                if($this->ways[3]['points'] <= $this->research->points and $this->research->way3_checked == 0){$this->research_advisor = true;}
+                for($i = 1; $i < 14; $i++)
+                {
+                    $parametr = 'res4_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[4] = $this->Data_Model->get_research(4,$i,$this->research);break;}}
+                if ($this->research->res4_14 > 0){$this->ways[4] = $this->Data_Model->get_research(4,14,$this->research);}
+                if($this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
                 // Загружаем миссии
                 $this->Data_Model->Load_Missions($id);
                 $this->missions =& $this->Data_Model->temp_missions_db[$id];
@@ -51,6 +73,7 @@ class Player_Model extends Model
                     if ($mission->mission_start == 0){ $this->missions_loading++; }
                     $this->all_transports = $this->all_transports + $mission->ship_transport;
                     $this->Data_Model->Load_Town($mission->to);
+                    $this->Data_Model->Load_User($this->Data_Model->temp_towns_db[$mission->to]->user);
                     $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->to]->island);
                 }
                 // Всего ученых

@@ -304,7 +304,7 @@
             </a>
         </li>
 	<li id="advResearch">
-            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->research_advisor){?>active<?}?>">
                 <span class="textLabel">Исследования</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">

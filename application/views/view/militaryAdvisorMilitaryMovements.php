@@ -5,7 +5,7 @@
     </div>
     <div class="yui-navset">
         <ul class="yui-nav">
-            <li  class="selected"><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Перемещения войск"><em>Перемещения войск (0)</em></a></li>
+            <li  class="selected"><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Перемещения войск"><em>Перемещения войск (<?=SizeOf($this->Player_Model->missions)?>)</em></a></li>
             <li ><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorCombatReports/" title="Боевые доклады"><em>Боевые доклады (0)</em></a></li>
             <li><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorCombatReportsArchive/" title="Архив"><em>Архив</em></a></li>
         </ul>
@@ -98,15 +98,17 @@
                 </div>
             </td>
             <td title="Начало"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Data_Model->temp_towns_db[$mission->from]->island?>/<?=$this->Data_Model->temp_towns_db[$mission->from]->id?>/"><?=$this->Data_Model->temp_towns_db[$mission->from]->name?></a> (<?=$this->Data_Model->temp_users_db[$this->Data_Model->temp_towns_db[$mission->from]->user]->login?>)</td>
-            <td style='width: 12px; padding-left: 0px; padding-right: 0px'></td>
+            <td style='width: 12px; padding-left: 0px; padding-right: 0px'>
+<?if($mission->return_start > 0){?>
+                <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_left_green.gif">
+<?}?>
+            </td>
             <td style="text-align: center; width: 35px" title="<?=$this->Data_Model->mission_name_by_type($mission->mission_type)?> <?if($mission->return_start == 0){?><?if($mission->mission_start > 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?>(возвращение)<?}?>">
                 <img src="<?=$this->config->item('style_url')?>skin/interface/mission_transport.gif">
             </td>
             <td style='width: 12px; padding-left: 0px; padding-right: 0px'>
 <?if($mission->return_start == 0){?>
                 <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_right_green.gif">
-<?}else{?>
-                <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_left_red.gif">
 <?}?>
             </td>
             <td title="Цель"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Data_Model->temp_towns_db[$mission->to]->island?>/<?=$this->Data_Model->temp_towns_db[$mission->to]->id?>/"><?=$this->Data_Model->temp_towns_db[$mission->to]->name?></a> (<?=$this->Data_Model->temp_users_db[$this->Data_Model->temp_towns_db[$mission->to]->user]->login?>)</td>

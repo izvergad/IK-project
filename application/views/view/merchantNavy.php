@@ -7,9 +7,9 @@
     <div class="contentBox">
         <h3 class="header">Перемещение товаров</h3>
         <div class="content">
+<?if(SizeOf($this->Player_Model->missions) > 0){?>
 
             <table cellpadding="0" cellspacing="0">
-
                 <tr>
                     <th class="transports"><img src="<?=$this->config->item('style_url')?>skin/characters/fleet/40x40/ship_transport_r_40x40.gif" width="40" height="40" title="Кол-во транспортных кораблей" alt="Кол-во"></th>
                     <th class="source">Старт</th>
@@ -19,7 +19,6 @@
                     <th class="return">Возвращение</th>
                     <th class="actions">Действия</th>
                 </tr>
-<?if(SizeOf($this->Player_Model->missions) > 0)?>
 <?foreach($this->Player_Model->missions as $mission){?>
 <?
     $cost = $this->Data_Model->army_cost_by_type(23, $this->Player_Model->research);
@@ -36,9 +35,10 @@
 ?>
                 <tr>
                     <td class="transports"><?=$mission->ship_transport?></td>
-                    <td class="source"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Player_Model->towns[$mission->from]->island?>/<?=$this->Player_Model->towns[$mission->from]->id?>/"><?=$this->Player_Model->towns[$mission->from]->name?></a></td>
-                    <td class="mission gotoown"><?=$this->Data_Model->mission_name_by_type($mission->mission_type)?> <?if($mission->return_start == 0){?><?if($mission->mission_start > 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?>(возвращение)<?}?></td>
-                    <td class="target"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Data_Model->temp_towns_db[$mission->to]->island?>/<?=$this->Data_Model->temp_towns_db[$mission->to]->id?>/"><?=$this->Data_Model->temp_towns_db[$mission->to]->name?>&nbsp;</a></td>
+                    <td class="source"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Player_Model->towns[$mission->from]->island?>/<?=$this->Player_Model->towns[$mission->from]->id?>/"><?=$this->Player_Model->towns[$mission->from]->name?></a>
+                    </td>
+                    <td class="mission <?if($mission->return_start > 0){?>returning<?}else{?>gotoown<?}?>"><?=$this->Data_Model->mission_name_by_type($mission->mission_type)?> <?if($mission->return_start == 0){?><?if($mission->mission_start > 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?>(возвращение)<?}?></td>
+                    <td class="target"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Data_Model->temp_towns_db[$mission->to]->island?>/<?=$this->Data_Model->temp_towns_db[$mission->to]->id?>/"><?=$this->Data_Model->temp_towns_db[$mission->to]->name?> <?if($this->Data_Model->temp_towns_db[$mission->to]->user != $this->Player_Model->user->id){?>(<?=$this->Data_Model->temp_users_db[$this->Data_Model->temp_towns_db[$mission->to]->user]->login?>)<?}?>&nbsp;</a></td>
                     <td id="ika<?=$mission->id?>" class="ika"><?if($mission->return_start == 0){?><?if($mission->mission_start > 0){?><?=format_time($ostalos)?><?}else{?>Погрузка<?}?><?}else{?>-<?}?></td>
                     <td id="ret<?=$mission->id?>" class="return"><?if($mission->return_start > 0){?><?=format_time($return_time)?><?}else{?>-<?}?></td>
                     <td class="actions">
@@ -55,7 +55,7 @@
                         <td class="pulldown" colspan="7">
                             <div class="pulldown">
                                 <div class="content">
-                                    <table cellpadding="0" cellspacing="0">
+                                    <table cellpadding="0" cellspacing="0" align="center">
                                         <tr>
                                             <td>
                                                 <div class="payload">
@@ -64,13 +64,13 @@
                                                     <img src="<?=$this->config->item('style_url')?>skin/img/blank.gif" width="25" height="20">
 <?
     $all_resources = $mission->wood+$mission->wine+$mission->marble+$mission->crystal+$mission->sulfur+$mission->peoples;
-    $one_percent = 30/$all_resources;
-    $wood_icons = $mission->wood*$one_percent;
-    $wine_icons = $mission->wine*$one_percent;
-    $marble_icons = $mission->marble*$one_percent;
-    $crystal_icons = $mission->crystal*$one_percent;
-    $sulfur_icons = $mission->sulfur*$one_percent;
-    $peoples_icons = $mission->peoples*$one_percent;
+    $one_percent = ($all_resources > 0) ? 30/$all_resources : 0;
+    $wood_icons = ($mission->wood > 0) ? $mission->wood*$one_percent : 0;
+    $wine_icons = ($mission->wine > 0) ? $mission->wine*$one_percent : 0;
+    $marble_icons = ($mission->marble > 0) ? $mission->marble*$one_percent : 0;
+    $crystal_icons = ($mission->crystal > 0) ? $mission->crystal*$one_percent : 0;
+    $sulfur_icons = ($mission->sulfur > 0) ? $mission->sulfur*$one_percent : 0;
+    $peoples_icons = ($mission->peoples > 0) ? $mission->peoples*$one_percent : 0;
     
 ?>
 <?if($wood_icons > 0){?>
@@ -130,7 +130,10 @@
             </script>
 <?}?>
 <?}?>
-                    </table>
+            </table>
+<?}else{?>
+<p align="center">Нет торговых судов в пути</p>
+<?}?>
         </div>
         <div class="footer"></div>
     </div>

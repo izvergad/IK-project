@@ -399,7 +399,7 @@ class Update_Model extends Model
                                $this->CI->Update_Player->user->transports =  $this->CI->Update_Player->user->transports + $mission->ship_transport;
                                $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_missions where `id`="'.$mission->id.'"');
                                // Сообщение
-                               $text = 'Мы основали новый город (<a href="'.$this->config->item('base_url').'game/city/'.$mission->to.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->to]->name.'</a>). Ваш торговый флот выгрузил: <ul class="resources">';
+                               $text = 'Мы основали новый город (<a href="'.$this->config->item('base_url').'game/island/'.$this->Data_Model->temp_towns_db[$mission->to]->island.'/'.$mission->to.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->to]->name.'</a>). Ваш торговый флот выгрузил: <ul class="resources">';
                                $text .= '<li class="wood"><span class="textLabel">Стройматериалы: </span>'.($mission->wood-1000).'</li>';
                                if ($mission->wine > 0){$text .= '<li class="wine"><span class="textLabel">Виноград: </span>'.($mission->wine).'</li>';}
                                if ($mission->marble > 0){$text .= '<li class="marble"><span class="textLabel">Мрамор: </span>'.($mission->marble).'</li>';}
@@ -415,36 +415,108 @@ class Update_Model extends Model
                                $towns_messages[] = $town_message;
                                unset($this->CI->Update_Player->missions[$mission->id]);
                            }
+                           if ($mission->mission_type == 2)
+                           {
+                               // Транспортировка
+                               $this->db->set('wood', $this->CI->Data_Model->temp_towns_db[$mission->to]->wood + $mission->wood);
+                               $this->db->set('wine', $this->CI->Data_Model->temp_towns_db[$mission->to]->wine + $mission->wine);
+                               $this->db->set('marble', $this->CI->Data_Model->temp_towns_db[$mission->to]->marble + $mission->marble);
+                               $this->db->set('crystal', $this->CI->Data_Model->temp_towns_db[$mission->to]->crystal + $mission->crystal);
+                               $this->db->set('sulfur', $this->CI->Data_Model->temp_towns_db[$mission->to]->sulfur + $mission->sulfur);
+                               $this->db->set('last_update', $mission->mission_start + $time);
+                               $this->db->where(array('id' => $mission->to));
+                               $this->db->update($this->session->userdata('universe').'_towns');
+                               // Сообщение
+                               $text = 'Ваш торговый флот из <a href="'.$this->config->item('base_url').'game/island/'.$this->Data_Model->temp_towns_db[$mission->from]->island.'/'.$mission->from.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->from]->name.'</a> прибыл в <a href="'.$this->config->item('base_url').'game/island/'.$this->Data_Model->temp_towns_db[$mission->to]->island.'/'.$mission->to.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->to]->name.'</a> и привез следующие товары: <ul class="resources">';
+                               if ($mission->wood > 0){ $text .= '<li class="wood"><span class="textLabel">Стройматериалы: </span>'.($mission->wood).'</li>';}
+                               if ($mission->wine > 0){$text .= '<li class="wine"><span class="textLabel">Виноград: </span>'.($mission->wine).'</li>';}
+                               if ($mission->marble > 0){$text .= '<li class="marble"><span class="textLabel">Мрамор: </span>'.($mission->marble).'</li>';}
+                               if ($mission->crystal > 0){$text .= '<li class="glass"><span class="textLabel">Хрусталь: </span>'.($mission->crystal).'</li>';}
+                               if ($mission->sulfur > 0){$text .= '<li class="sulfur"><span class="textLabel">Сера: </span>'.($mission->sulfur).'</li>';}
+                               $text .= '</ul>';
+                               $town_message = array(
+                                            'user' => $this->CI->Update_Player->user->id,
+                                            'town' => $mission->from,
+                                            'date' => $mission->mission_start + $time,
+                                            'text' => $text
+                                        );
+                               $towns_messages[] = $town_message;
+                               
+                               if ($this->CI->Data_Model->temp_towns_db[$mission->to]->user == $mission->user)
+                               {
+                                   // возвращаем сухогрузы
+                                   $this->CI->Update_Player->user->transports =  $this->CI->Update_Player->user->transports + $mission->ship_transport;
+                                   $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_missions where `id`="'.$mission->id.'"');
+                               }
+                               else
+                               {
+                                   if($mission->return_start == 0)
+                                   {
+                                        $this->db->set('return_start', $mission->mission_start + $time);
+                                        $this->db->set('percent', 1);
+                                        $this->db->set('wood', 0);
+                                        $this->db->set('wine', 0);
+                                        $this->db->set('marble', 0);
+                                        $this->db->set('crystal', 0);
+                                        $this->db->set('sulfur', 0);
+                                        $this->db->where(array('id' => $mission->id));
+                                        $this->db->update($this->session->userdata('universe').'_missions');
+                                   }
+                               }
+                               unset($this->CI->Update_Player->missions[$mission->id]);
+                           }
                        }
                        else
                        {
-                           if ($mission->mission_type == 1)
+                           if ($this->CI->Data_Model->temp_towns_db[$mission->to]->user == $mission->user or $return_time == 0)
                            {
-                                $this->db->set('city'.$this->CI->Data_Model->temp_towns_db[$mission->to]->position, 0);
-                                $this->db->where(array('id' => $this->CI->Data_Model->temp_towns_db[$mission->to]->island));
-                                $this->db->update($this->session->userdata('universe').'_islands');
-                                $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_towns where `id`="'.$mission->to.'"');
+                               if ($mission->mission_type == 1)
+                               {
+                                    $this->db->set('city'.$this->CI->Data_Model->temp_towns_db[$mission->to]->position, 0);
+                                    $this->db->where(array('id' => $this->CI->Data_Model->temp_towns_db[$mission->to]->island));
+                                    $this->db->update($this->session->userdata('universe').'_islands');
+                                    $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_towns where `id`="'.$mission->to.'"');
+                               }
+                               if ($mission->wood > 0 or $mission->wine > 0 or $mission->marble > 0 or $mission->crystal > 0 or $mission->sulfur > 0 or $mission->peoples > 0)
+                               {
+                                   // Возвращаем флот
+                                   $this->CI->Update_Player->towns[$mission->from]->wood = $this->CI->Update_Player->towns[$mission->from]->wood +  $mission->wood;
+                                   $this->CI->Update_Player->towns[$mission->from]->wine = $this->CI->Update_Player->towns[$mission->from]->wine +  $mission->wine;
+                                   $this->CI->Update_Player->towns[$mission->from]->marble = $this->CI->Update_Player->towns[$mission->from]->marble +  $mission->marble;
+                                   $this->CI->Update_Player->towns[$mission->from]->crystal = $this->CI->Update_Player->towns[$mission->from]->crystal +  $mission->crystal;
+                                   $this->CI->Update_Player->towns[$mission->from]->sulfur = $this->CI->Update_Player->towns[$mission->from]->sulfur +  $mission->sulfur;
+                                   $this->CI->Update_Player->towns[$mission->from]->peoples = $this->CI->Update_Player->towns[$mission->from]->peoples +  $mission->peoples;
+                                   $this->db->set('wood', $this->CI->Update_Player->towns[$mission->from]->wood);
+                                   $this->db->set('wine', $this->CI->Update_Player->towns[$mission->from]->wine);
+                                   $this->db->set('marble', $this->CI->Update_Player->towns[$mission->from]->marble);
+                                   $this->db->set('crystal', $this->CI->Update_Player->towns[$mission->from]->crystal);
+                                   $this->db->set('sulfur', $this->CI->Update_Player->towns[$mission->from]->sulfur);
+                                   $this->CI->Update_Player->user->gold = $this->CI->Update_Player->user->gold + $mission->gold;
+                                   $this->db->set('peoples', $this->CI->Update_Player->towns[$mission->from]->peoples);
+                                   $this->db->where(array('id' => $mission->from));
+                                   $this->db->update($this->session->userdata('universe').'_towns');
+                                   // Отправляем сообщение
+                                   $text = 'Ваш торговый флот из <a href="'.$this->config->item('base_url').'game/island/'.$this->Data_Model->temp_towns_db[$mission->from]->island.'/'.$mission->from.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->from]->name.'</a> вернулся и выгрузил следующие товары: <ul class="resources">';
+                                   if ($mission->wood > 0){ $text .= '<li class="wood"><span class="textLabel">Стройматериалы: </span>'.($mission->wood).'</li>';}
+                                   if ($mission->wine > 0){$text .= '<li class="wine"><span class="textLabel">Виноград: </span>'.($mission->wine).'</li>';}
+                                   if ($mission->marble > 0){$text .= '<li class="marble"><span class="textLabel">Мрамор: </span>'.($mission->marble).'</li>';}
+                                   if ($mission->crystal > 0){$text .= '<li class="glass"><span class="textLabel">Хрусталь: </span>'.($mission->crystal).'</li>';}
+                                   if ($mission->sulfur > 0){$text .= '<li class="sulfur"><span class="textLabel">Сера: </span>'.($mission->sulfur).'</li>';}
+                                   $text .= '</ul>';
+                                   $town_message = array(
+                                    'user' => $this->CI->Update_Player->user->id,
+                                    'town' => $mission->from,
+                                    'date' => $mission->mission_start + $time,
+                                    'text' => $text
+                                   );
+                                   $towns_messages[] = $town_message;
+                               }
+                               // возвращаем сухогрузы
+                               $this->CI->Update_Player->user->transports =  $this->CI->Update_Player->user->transports + $mission->ship_transport;
+                               $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_missions where `id`="'.$mission->id.'"');
+
+                               unset($this->CI->Update_Player->missions[$mission->id]);
                            }
-                           // Возвращаем флот
-                           $this->CI->Update_Player->towns[$mission->from]->wood = $this->CI->Update_Player->towns[$mission->from]->wood +  $mission->wood;
-                           $this->CI->Update_Player->towns[$mission->from]->wine = $this->CI->Update_Player->towns[$mission->from]->wine +  $mission->wine;
-                           $this->CI->Update_Player->towns[$mission->from]->marble = $this->CI->Update_Player->towns[$mission->from]->marble +  $mission->marble;
-                           $this->CI->Update_Player->towns[$mission->from]->crystal = $this->CI->Update_Player->towns[$mission->from]->crystal +  $mission->crystal;
-                           $this->CI->Update_Player->towns[$mission->from]->sulfur = $this->CI->Update_Player->towns[$mission->from]->sulfur +  $mission->sulfur;
-                           $this->CI->Update_Player->towns[$mission->from]->peoples = $this->CI->Update_Player->towns[$mission->from]->peoples +  $mission->peoples;
-                           $this->db->set('wood', $this->CI->Update_Player->towns[$mission->from]->wood);
-                           $this->db->set('wine', $this->CI->Update_Player->towns[$mission->from]->wine);
-                           $this->db->set('marble', $this->CI->Update_Player->towns[$mission->from]->marble);
-                           $this->db->set('crystal', $this->CI->Update_Player->towns[$mission->from]->crystal);
-                           $this->db->set('sulfur', $this->CI->Update_Player->towns[$mission->from]->sulfur);
-                           $this->CI->Update_Player->user->gold = $this->CI->Update_Player->user->gold + $mission->gold;
-                           $this->db->set('peoples', $this->CI->Update_Player->towns[$mission->from]->peoples);
-                           $this->db->where(array('id' => $mission->from));
-                           $this->db->update($this->session->userdata('universe').'_towns');
-                           // возвращаем сухогрузы
-                           $this->CI->Update_Player->user->transports =  $this->CI->Update_Player->user->transports + $mission->ship_transport;
-                           $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_missions where `id`="'.$mission->id.'"');
-                           unset($this->CI->Update_Player->missions[$mission->id]);
                        }
                    }
                }

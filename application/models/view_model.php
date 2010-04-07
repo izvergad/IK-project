@@ -93,6 +93,7 @@ class View_Model extends Model
             case 'port':
             case 'merchantNavy':
             case 'militaryAdvisorMilitaryMovements':
+            case 'transport':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/city'); break;
@@ -142,6 +143,7 @@ class View_Model extends Model
             break;
             case 'plunder':
             case 'colonize':
+            case 'transport':
                 $this->load->view('sidebox/back_to_island');
             default: break;
         }
@@ -182,6 +184,8 @@ class View_Model extends Model
             case 'premiumPayment': $caption = 'Икариам ПЛЮС'; $file = 'null'; break;
             case 'researchDetail': $caption = 'Подробно об исследовании'; $file = 'null'; break;
             case 'merchantNavy': $caption = 'Торговый флот'; $file = 'null'; break;
+            case 'transport': $caption = 'Транспорт'; $file = '_island'; break;
+            case 'colonize': $caption = 'Колонизация'; $file = '_island'; break;
             default:
                  $file = $location; break;
             break;

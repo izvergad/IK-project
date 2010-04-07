@@ -442,6 +442,7 @@ class Actions extends Controller
             if ($this->Player_Model->research->points >= $data['points'])
             {
                 $this->db->set('points', $this->Player_Model->research->points - $data['points']);
+                $this->db->set('way'.$way.'_checked', 0);
                 $this->db->set($parametr, $this->Player_Model->research->$parametr + 1);
                 $this->db->where(array('user' => $this->Player_Model->user->id));
                 $this->db->update($this->session->userdata('universe').'_research');
@@ -880,6 +881,49 @@ class Actions extends Controller
         }
     }
 
+    function transport($island = 0, $town = 0)
+    {
+        $island = floor($island);
+        $town = floor($town);
+        if ($island > 0 and $town >= 0)
+        {
+            $this->Data_Model->Load_Town($town);
+            $this->load->model('Island_Model');
+            $this->Island_Model->Load_Island($island);
+            // Получаем данные
+            $cargo_wood = isset($_POST['cargo_resource']) ? $_POST['cargo_resource'] : 0;
+            $cargo_wine = isset($_POST['cargo_tradegood1']) ? $_POST['cargo_tradegood1'] : 0;
+            $cargo_marble = isset($_POST['cargo_tradegood2']) ? $_POST['cargo_tradegood2'] : 0;
+            $cargo_crystal = isset($_POST['cargo_tradegood3']) ? $_POST['cargo_tradegood3'] : 0;
+            $cargo_sulfur = isset($_POST['cargo_tradegood4']) ? $_POST['cargo_tradegood4'] : 0;
+            $transporters = isset($_POST['transporters']) ? $_POST['transporters'] : 0;
+            // Подсчитываем ресурсы
+            $wood = $this->Player_Model->now_town->wood - $cargo_wood;
+            $wine = $this->Player_Model->now_town->wine - $cargo_wine;
+            $marble = $this->Player_Model->now_town->marble - $cargo_marble;
+            $crystal = $this->Player_Model->now_town->crystal - $cargo_crystal;
+            $sulfur = $this->Player_Model->now_town->sulfur - $cargo_sulfur;
+            $transports = $this->Player_Model->user->transports - $transporters;
+            if(isset($this->Data_Model->temp_towns_db[$town]) and ($this->Player_Model->user->transports >= $transporters) and ($wood >= 0) and ($wine >= 0) and ($crystal >= 0) and ($sulfur >= 0) and ($transports >= 0) and ($transporters*$this->config->item('transport_capacity') >= $cargo_wood + $cargo_wine + $cargo_marble + $cargo_crystal + $cargo_sulfur))
+            {
+                // Вычитаем ресурсы
+                $this->db->set('wood', $wood);
+                $this->db->set('wine', $wine);
+                $this->db->set('marble', $marble);
+                $this->db->set('crystal', $crystal);
+                $this->db->set('sulfur', $sulfur);
+                $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                $this->db->update($this->session->userdata('universe').'_towns');
+                $this->db->set('transports', $transports);
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+                // Добавляем миссию
+                $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_start' => time(), 'mission_type' => 2, 'wood' => $cargo_wood, 'wine' => $cargo_wine, 'marble' => $cargo_marble, 'crystal' => $cargo_crystal, 'sulfur' => $cargo_sulfur, 'ship_transport' => $transporters));
+            }
+        }
+        redirect('/game/port/', 'refresh');
+    }
+
     function colonize($id = 0, $position = -1)
     {
         $id = floor($id);
@@ -994,13 +1038,13 @@ class Actions extends Controller
                     $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_towns where `id`="'.$this->Player_Model->missions[$mission]->to.'"');
                 }
                     // возвращаем ресурсы
-                    $this->db->set('wood', $this->Player_Model->now_town->wood + $this->Player_Model->missions[$mission]->wood);
-                    $this->db->set('wine', $this->Player_Model->now_town->wine + $this->Player_Model->missions[$mission]->wine);
-                    $this->db->set('marble', $this->Player_Model->now_town->marble + $this->Player_Model->missions[$mission]->marble);
-                    $this->db->set('crystal', $this->Player_Model->now_town->crystal + $this->Player_Model->missions[$mission]->crystal);
-                    $this->db->set('sulfur', $this->Player_Model->now_town->sulfur + $this->Player_Model->missions[$mission]->sulfur);
-                    $this->db->set('peoples', $this->Player_Model->now_town->peoples + $this->Player_Model->missions[$mission]->peoples);
-                    $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                    $this->db->set('wood', $this->Player_Model->towns[$this->Player_Model->missions[$mission]->from]->wood + $this->Player_Model->missions[$mission]->wood);
+                    $this->db->set('wine', $this->Player_Model->towns[$this->Player_Model->missions[$mission]->from]->wine + $this->Player_Model->missions[$mission]->wine);
+                    $this->db->set('marble', $this->Player_Model->towns[$this->Player_Model->missions[$mission]->from]->marble + $this->Player_Model->missions[$mission]->marble);
+                    $this->db->set('crystal', $this->Player_Model->towns[$this->Player_Model->missions[$mission]->from]->crystal + $this->Player_Model->missions[$mission]->crystal);
+                    $this->db->set('sulfur', $this->Player_Model->towns[$this->Player_Model->missions[$mission]->from]->sulfur + $this->Player_Model->missions[$mission]->sulfur);
+                    $this->db->set('peoples', $this->Player_Model->towns[$this->Player_Model->missions[$mission]->from]->peoples + $this->Player_Model->missions[$mission]->peoples);
+                    $this->db->where(array('id' => $this->Player_Model->missions[$mission]->from));
                     $this->db->update($this->session->userdata('universe').'_towns');
                     $this->db->set('gold', $this->Player_Model->user->gold + $this->Player_Model->missions[$mission]->gold);
                     $this->db->set('transports', $this->Player_Model->user->transports + $this->Player_Model->missions[$mission]->ship_transport);

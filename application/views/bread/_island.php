@@ -4,7 +4,7 @@
         <img src="<?=$this->config->item('style_url')?>skin/layout/icon-world.gif" alt="Мир">
     </a>
     <span>&nbsp;&gt;&nbsp;</span>
-    <a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Island_Model->island->id?>" class="island" title="Назад к острову"><?=$this->Island_Model->island->name?>[<?=$this->Island_Model->island->x?>:<?=$this->Island_Model->island->y?>]</a>
+    <a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Island_Model->island->id?>/" class="island" title="Назад к острову"><?=$this->Island_Model->island->name?>[<?=$this->Island_Model->island->x?>:<?=$this->Island_Model->island->y?>]</a>
     <span>&nbsp;&gt;&nbsp;</span>
-    <span class="building">Колонизация</span>
+    <span class="building"><?=$caption?></span>
 </div>

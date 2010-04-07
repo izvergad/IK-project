@@ -1451,6 +1451,7 @@ class Data_Model extends Model
         switch($type)
         {
             case 1: return 'Колонизация'; break;
+            case 2: return 'Транспорт'; break;
         }
     }
 

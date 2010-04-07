@@ -37,6 +37,17 @@
                 <!--<li class="noobModeInfo">Игрок под защитой богов.</li>-->
             </ul>
             <ul class="cityactions">
+<?if($this->Player_Model->user->transports == 0){?>
+                <li class="transport disabled" title="Сухогрузы для транспортировки недоступны!">
+                    <span class="textLabel">Отправить ресурсы</span>
+                </li>
+<?}else{?>
+                <li class="transport">
+                    <a href="<?=$this->config->item('base_url')?>game/transport/<?=$this->Island_Model->island->id?>/<?=$this->Island_Model->towns[$i]->id?>/" title="Отправить ресурсы">
+                        <span class="textLabel">Отправить ресурсы</span>
+                    </a>
+                </li>
+<?}?>
             </ul>
         </li>
 
@@ -67,7 +78,7 @@
      ($this->Player_Model->armys[$this->Player_Model->town_id]->cook > 0) or
      ($this->Player_Model->armys[$this->Player_Model->town_id]->medic > 0)){?>
                 <li class="plunder">
-                    <a href="<?=$this->config->item('base_url')?>game/plunder/0/" title="Набег">
+                    <a href="<?=$this->config->item('base_url')?>game/plunder/<?=$this->Player_Model->island_id?>/0/" title="Набег">
                         <span class="textLabel">Набег</span>
                     </a>
                 </li>

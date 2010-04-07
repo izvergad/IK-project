@@ -326,9 +326,15 @@ class Game extends Controller {
         $this->show('wall', 14);
     }
 
-    function plunder($id = 0)
+    function plunder($island = 0, $id = 0)
     {
-        $this->show('plunder', $id);
+       if ($island == 0)
+       {
+           $island = $this->Player_Model->island_id;
+       }
+       $this->load->model('Island_Model');
+       $this->Island_Model->Load_Island($island);
+       $this->show('plunder', $id);
     }
 
     function finances()
@@ -350,6 +356,18 @@ class Game extends Controller {
     function merchantNavy()
     {
         $this->show('merchantNavy');
+    }
+
+    function transport($island = 0, $id = 0)
+    {
+        if ($island == 0)
+        {
+            $island = $this->Player_Model->island_id;
+        }
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($island);
+        $this->Data_Model->Load_Town($id);
+        $this->show('transport', $id);
     }
 
         function show($location, $param1 = 0, $param2 = 0)
