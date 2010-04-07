@@ -92,7 +92,7 @@ class Main extends Controller {
                         if ($position >= 0)
                         {
                             // Добавляем город
-                            $this->db->insert($_POST['universe'].'_towns', array('user' => $user->id,'island' => $island->id,'last_update' => time()));
+                            $this->db->insert($_POST['universe'].'_towns', array('user' => $user->id,'island' => $island->id,'last_update' => time(), 'position' => $position));
                             // Находим город в базе
                             $town_query = $this->db->get_where($_POST['universe'].'_towns', array('user' => $user->id));
                             $town = $town_query->row();

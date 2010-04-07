@@ -53,6 +53,18 @@ class Data_Model extends Model
         }}
     }
 
+    function Load_Missions($id = 0)
+    {
+        if ($id > 0){if (!isset($temp_missions_db[$id])){
+                $query = $this->db->get_where($this->session->userdata('universe').'_missions', array('user' => $id));
+                $this->temp_missions_db[$id] = array();
+                foreach ($query->result() as $return)
+                {
+                    $this->temp_missions_db[$id][$return->id] = $return;
+                }
+        }}
+    }
+
     /**
      * Имя шахты по типу
      * @param <int> $id
@@ -184,13 +196,13 @@ class Data_Model extends Model
     {
         $type = $type-1;
         // Цены
-        $peoples = '1 2 1 1 1 1 1 5 5 5 3 5 1 1 0 5 4 2 6 5 5 6';
-        $wood = '40 130 30 30 20 30 50 220 260 300 25 40 50 50 0 220 80 300 180 180 220 160';
-        $sulfur = '30 180 0 30 0 25 150 0 300 1250 100 250 0 0 0 50 230 1500 160 140 900 0';
-        $wine = '0 0 0 0 0 0 0 0 0 0 0 0 250 0 0 0 0 0 0 0 0 0';
-        $crystal = '0 0 0 0 0 0 0 0 0 0 0 0 0 450 0 0 0 0 0 0 0 750';
-        $gold = '3 12 1 4 2 4 3 15 25 30 15 45 10 20 0 40 30 90 45 50 130 70';
-        $time = '300 900 300 814 600 850 631 1383 2068 2040 1197 2700 929 2293 0 2400 1800 2400 3000 3000 3000 3600';
+        $peoples = '1 2 1 1 1 1 1 5 5 5 3 5 1 1 0 5 4 2 6 5 5 6 0';
+        $wood = '40 130 30 30 20 30 50 220 260 300 25 40 50 50 0 220 80 300 180 180 220 160 0';
+        $sulfur = '30 180 0 30 0 25 150 0 300 1250 100 250 0 0 0 50 230 1500 160 140 900 0 0';
+        $wine = '0 0 0 0 0 0 0 0 0 0 0 0 250 0 0 0 0 0 0 0 0 0 0';
+        $crystal = '0 0 0 0 0 0 0 0 0 0 0 0 0 450 0 0 0 0 0 0 0 750 0';
+        $gold = '3 12 1 4 2 4 3 15 25 30 15 45 10 20 0 40 30 90 45 50 130 70 0';
+        $time = '300 900 300 814 600 850 631 1383 2068 2040 1197 2700 929 2293 0 2400 1800 2400 3000 3000 3000 3600 0';
         // Параметры
         $defence = '1 3 0 0 0 0 0 1 0 0 0 0 0 0 1 6 3 8 4 0 2 3 0';
         $health = '56 184 13 18 8 16 12 88 54 32 29 40 22 12 12 120 110 236 132 86 56 47 30';
@@ -1401,7 +1413,7 @@ class Data_Model extends Model
      */
     function speed_by_port_level($level = 0)
     {
-        $speed = '0 30 60 93 129 169 213 261 315 373 437 508 586 672 766 869 983 1108 1246 1398 1565 1748 1950 2172 2416 2685 2980 3305 3663 4056 4489 4965 5488 6064 6698 7394 8161';
+        $speed = '10 30 60 93 129 169 213 261 315 373 437 508 586 672 766 869 983 1108 1246 1398 1565 1748 1950 2172 2416 2685 2980 3305 3663 4056 4489 4965 5488 6064 6698 7394 8161';
         $array_speed = explode(' ',$speed);
         $return = $array_speed[$level];
         return $return;
@@ -1418,6 +1430,28 @@ class Data_Model extends Model
         $array_gold = explode(' ',$gold);
         $return = ($count < 160) ? $array_gold[$count] : 0;
         return $return;
+    }
+
+    function time_by_coords($x1, $x2, $y1, $y2, $speed)
+    {
+        $distance = sqrt((($x1-$x2)*($x1-$x2))+(($y1-$y2)*($y1-$y2)));
+        if (($x1 == $x2 and $y1 == $y2) or ($distance <=0))
+        {
+            $time = (1200/$speed*1*60)/2;
+        }
+        else
+        {
+            $time = 1200/$speed*$distance*60;
+        }
+        return $time;
+    }
+
+    function mission_name_by_type($type = 0)
+    {
+        switch($type)
+        {
+            case 1: return 'Колонизация'; break;
+        }
     }
 
 }

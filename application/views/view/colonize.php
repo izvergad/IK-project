@@ -73,9 +73,13 @@ Event.onDOMReady( function() {
                 </ul>
             </div>
 <?$errors = array()?>
-<?if($this->Player_Model->now_town->peoples < 40){ $errors[] = 'Недостаточно граждан! Вам необходимо <strong>'.number_format(40-$this->Player_Model->now_town->peoples).' граждан</strong>!';} ?>
+<?if($this->Player_Model->now_town->peoples < 40){ $errors[] = 'У Вас недостаточно граждан для новой колонии. Вам нужно <strong>'.number_format(40-$this->Player_Model->now_town->peoples).' гр.</strong>.
+<em>Внимание: рабочие и ученые не посчитаны! Возможно Вы могли бы отозвать некоторых рабочих или ученых и получить количество граждан, в котором Вы нуждаетесь?</em>';} ?>
 <?if($this->Player_Model->user->gold < 9000){ $errors[] = 'Недостаточно золота! Вам необходимо <strong>'.number_format(9000-$this->Player_Model->user->gold).' золота</strong>!';} ?>
 <?if($this->Player_Model->now_town->wood < 1250){ $errors[] = 'Недостаточно стройматериалов! Вам необходимо <strong>'.number_format(1250-$this->Player_Model->now_town->wood).' стройматериалов</strong>!';} ?>
+<?if($this->Player_Model->user->transports < 3){ $errors[] = 'Недостаточно сухогрузов! Вам необходимо <strong>'.number_format(3-$this->Player_Model->user->transports).' сухогрузов</strong>!';} ?>
+<?if(SizeOf($this->Player_Model->towns)-1 >= $this->Player_Model->palace_level[$this->Player_Model->capital_id]){ $errors[] = 'У Вас уже есть '.(SizeOf($this->Player_Model->towns)-1).' колоний и уровень дворца '.$this->Player_Model->palace_level[$this->Player_Model->capital_id].'! Улучшайте дворец в своем родном городе!';} ?>
+
 <?if(SizeOf($errors)> 0){?>
             <div class="errors">
                 <h4>Пока еще не все требования выполнены для основания колонии: </h4>
@@ -85,6 +89,262 @@ Event.onDOMReady( function() {
 <?}?>
                 </ul>
             </div>
+<?}else{?>
+<?
+    $all_capacity = $this->Player_Model->user->transports*$this->config->item('transport_capacity');
+    $used_capacity =  1250 + 40;
+    $capacity = $all_capacity - $used_capacity;
+    $cost = $this->Data_Model->army_cost_by_type(23, $this->Player_Model->research);
+    $x1 = $this->Player_Model->now_island->x;
+    $x2 = $this->Island_Model->island->x;
+    $y1 = $this->Player_Model->now_island->y;
+    $y2 = $this->Island_Model->island->y;
+    $time = $this->Data_Model->time_by_coords($x1,$x2,$y1,$y2,$cost['speed']);
+?>
+<script type="text/javascript" src="<?=$this->config->item('script_url')?>js/transportController.js"></script>
+<script type="text/javascript">
+var transporterDisplay;
+Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$this->Player_Model->user->transports?>, <?=$this->config->item('transport_capacity')?>, Dom.get("transporterCount"), 40+1250);});
+</script>
+<p>Вы можете отправить больше ресурсов для ускоренного развития новой колонии.:</p>
+<form action="<?=$this->config->item('base_url')?>actions/colonize/<?=$id?>/<?=$position?>/" method="post">
+<ul class="resourceAssign">
+    <li class="wood">
+        <label for="textfield_resource">Отправить стройматериалы::</label>
+        <div class="sliderinput">
+            <div class="sliderbg" id="sliderbg_resource">
+                <div class="actualValue" id="actualValue_resource"></div>
+                <div class="sliderthumb" id="sliderthumb_resource"></div>
+            </div>
+        <script type="text/javascript">
+		create_slider({
+                    dir : 'ltr',
+                    id : "slider_resource",
+                    maxValue : <?if($capacity < $this->Player_Model->now_town->wood){?><?=$capacity?><?}else{?><?=$this->Player_Model->now_town->wood?><?}?>,
+                    overcharge : 0,
+                    iniValue : 0,
+                    bg : "sliderbg_resource",
+                    thumb : "sliderthumb_resource",
+                    topConstraint: -10,
+                    bottomConstraint: 326,
+                    bg_value : "actualValue_resource",
+                    textfield:"textfield_resource"
+		});
+		Event.onDOMReady(function() {
+                    var slider = sliders["slider_resource"];
+                    slider.UpdateField1 = Dom.get("resourceInput");
+                    slider.subscribe("valueChange", function() {
+                        updateColonizeSummary('resource', slider.actualValue);
+                    });
+                    slider.subscribe("slideEnd", function() {
+                        slider.UpdateField1.value = 1250+slider.actualValue;
+                    });
+                    transporterDisplay.registerSlider(slider);
+		});
+        </script>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_resource'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_resource'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+        </div>
+        <input class="textfield" id="textfield_resource" type="text" name="sendresource" value="0" size="4" maxlength="9">
+    </li>
+    <li class="wine">					
+        <label for="textfield_wine">Отправить вино::</label>
+        <div class="sliderinput">
+            <div class="sliderbg" id="sliderbg_wine">
+                <div class="actualValue" id="actualValue_wine"></div>
+                <div class="sliderthumb" id="sliderthumb_wine"></div>
+            </div>
+        <script type="text/javascript">
+		create_slider({
+                    dir : 'ltr',
+                    id : "slider_wine",
+                    maxValue : <?if($capacity < $this->Player_Model->now_town->wine){?><?=$capacity?><?}else{?><?=$this->Player_Model->now_town->wine?><?}?>,
+                    overcharge : 0,
+                    iniValue : 0,
+                    bg : "sliderbg_wine",
+                    thumb : "sliderthumb_wine",
+                    topConstraint: -10,
+                    bottomConstraint: 326,
+                    bg_value : "actualValue_wine",
+                    textfield:"textfield_wine"
+		});
+		Event.onDOMReady(function() {
+                    var slider = sliders["slider_wine"];
+                    slider.UpdateField1 = Dom.get("tradegood1Input");
+                    slider.subscribe("valueChange", function() {
+                        updateColonizeSummary('wine', slider.actualValue);
+                    });
+                    slider.subscribe("slideEnd", function() {
+                        slider.UpdateField1.value = slider.actualValue;
+                    });
+                    transporterDisplay.registerSlider(slider);
+		});
+        </script>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_wine'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_wine'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+        </div>
+        <input class="textfield" id="textfield_wine" type="text" name="sendwine"  value="0" size="4" maxlength="9">
+    </li>
+    <li class="marble">
+        <label for="textfield_marble">Отправить мрамор::</label>
+        <div class="sliderinput">
+            <div class="sliderbg" id="sliderbg_marble">
+                <div class="actualValue" id="actualValue_marble"></div>
+                <div class="sliderthumb" id="sliderthumb_marble"></div>
+            </div>
+        <script type="text/javascript">
+		create_slider({
+                    dir : 'ltr',
+                    id : "slider_marble",
+                    maxValue : <?if($capacity < $this->Player_Model->now_town->marble){?><?=$capacity?><?}else{?><?=$this->Player_Model->now_town->marble?><?}?>,
+                    overcharge : 0,
+                    iniValue : 0,
+                    bg : "sliderbg_marble",
+                    thumb : "sliderthumb_marble",
+                    topConstraint: -10,
+                    bottomConstraint: 326,
+                    bg_value : "actualValue_marble",
+                    textfield:"textfield_marble"
+		});
+		Event.onDOMReady(function() {
+                    var slider = sliders["slider_marble"];
+                    slider.UpdateField1 = Dom.get("tradegood2Input");
+                    slider.subscribe("valueChange", function() {
+                        updateColonizeSummary('marble', slider.actualValue);
+                    });
+                    slider.subscribe("slideEnd", function() {
+                        slider.UpdateField1.value = slider.actualValue;
+                    });
+                    transporterDisplay.registerSlider(slider);
+		});
+        </script>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_marble'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_marble'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+        </div>
+        <input class="textfield" id="textfield_marble" type="text" name="sendmarble"  value="0" size="4" maxlength="9">
+    </li>
+    <li class="glass">
+        <label for="textfield_crystal">Отправить хрусталь::</label>
+        <div class="sliderinput">
+            <div class="sliderbg" id="sliderbg_crystal">
+                <div class="actualValue" id="actualValue_crystal"></div>
+                <div class="sliderthumb" id="sliderthumb_crystal"></div>
+            </div>
+        <script type="text/javascript">
+		create_slider({
+                    dir : 'ltr',
+                    id : "slider_crystal",
+                    maxValue : <?if($capacity < $this->Player_Model->now_town->crystal){?><?=$capacity?><?}else{?><?=$this->Player_Model->now_town->crystal?><?}?>,
+                    overcharge : 0,
+                    iniValue : 0,
+                    bg : "sliderbg_crystal",
+                    thumb : "sliderthumb_crystal",
+                    topConstraint: -10,
+                    bottomConstraint: 326,
+                    bg_value : "actualValue_crystal",
+                    textfield:"textfield_crystal"
+		});
+		Event.onDOMReady(function() {
+                    var slider = sliders["slider_crystal"];
+                    slider.UpdateField1 = Dom.get("tradegood3Input");
+                    slider.subscribe("valueChange", function() {
+                        updateColonizeSummary('crystal', slider.actualValue);
+                    });
+                    slider.subscribe("slideEnd", function() {
+                        slider.UpdateField1.value = slider.actualValue;
+                    });
+                    transporterDisplay.registerSlider(slider);
+		});
+        </script>					
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_crystal'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_crystal'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+        </div>
+        <input class="textfield" id="textfield_crystal" type="text" name="sendcrystal"  value="0" size="4" maxlength="9">
+    </li>
+    <li class="sulfur">
+        <label for="textfield_sulfur">Отправить серу:</label>
+        <div class="sliderinput">
+            <div class="sliderbg" id="sliderbg_sulfur">
+                <div class="actualValue" id="actualValue_sulfur"></div>
+                <div class="sliderthumb" id="sliderthumb_sulfur"></div>
+            </div>
+        <script type="text/javascript">
+		create_slider({
+                    dir : 'ltr',
+                    id : "slider_sulfur",
+                    maxValue : <?if($capacity < $this->Player_Model->now_town->sulfur){?><?=$capacity?><?}else{?><?=$this->Player_Model->now_town->sulfur?><?}?>,
+                    overcharge : 0,
+                    iniValue : 0,
+                    bg : "sliderbg_sulfur",
+                    thumb : "sliderthumb_sulfur",
+                    topConstraint: -10,
+                    bottomConstraint: 326,
+                    bg_value : "actualValue_sulfur",
+                    textfield:"textfield_sulfur"
+		});
+		Event.onDOMReady(function() {
+                    var slider = sliders["slider_sulfur"];
+                    slider.UpdateField1 = Dom.get("tradegood4Input");
+                    slider.subscribe("valueChange", function() {
+                        updateColonizeSummary('sulfur', slider.actualValue);
+                    });
+                    slider.subscribe("slideEnd", function() {
+                        slider.UpdateField1.value = slider.actualValue;
+                    });
+                    transporterDisplay.registerSlider(slider);
+		});
+        </script>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_sulfur'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_sulfur'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+        </div>
+        <input class="textfield" id="textfield_sulfur" type="text" name="sendsulfur"  value="0" size="4" maxlength="9">
+    </li>
+    <li>
+        <script type="text/javascript">
+            function setColonizeMinValue(sName) {
+                sliders[sName].setActualValue(0);
+                transporterDisplay.sliderEnd();
+            }
+            function setColonizeMaxValue(sName) {
+                maxLoadableVal = transporterDisplay.getMaxLoadable(sliders[sName]);
+                sliders[sName].setActualValue(maxLoadableVal);
+                transporterDisplay.sliderEnd();
+            }
+            var colonizeSummaries =new Array();
+            colonizeSummaries['resource'] = 0;
+            colonizeSummaries['wine'] = 0;
+            colonizeSummaries['marble'] = 0;
+            colonizeSummaries['crystal'] = 0;
+            colonizeSummaries['sulfur'] = 0;
+            function updateColonizeSummary(sName, sVal) {
+                colonizeSummaries[sName] = sVal;
+                var sum =  colonizeSummaries['resource'];
+                sum +=  colonizeSummaries['wine'];
+                sum +=  colonizeSummaries['marble'];
+                sum +=  colonizeSummaries['crystal'];
+                sum +=  colonizeSummaries['sulfur'];
+                Dom.get('sendSummary').innerHTML = sum + '/<?=$capacity?>';
+            }
+        </script>
+        <div class="summaryText">Свободное место:</div>
+        <div class="summary" id="sendSummary">0/<?=$capacity?></div>
+    </li>
+</ul>
+<hr>
+<div id="missionSummary">
+    <div class="common">
+        <div class="journeyTarget"><span class="textLabel">Пункт назначения: </span><?=$this->Island_Model->island->name?></div>
+        <div class="journeyTime"><span class="textLabel">Время в пути: </span><?=format_time($time)?></div>
+    </div>
+    <div class="transporters">
+        <span class="textLabel">Торговые корабли: </span>
+        <span><input id="transporterCount" name="transporters" size="3" maxlength="3" readonly="readonly" value="3" /> / <?=number_format($this->Player_Model->user->transports)?></span>
+    </div>
+</div>
+<div class="centerButton">			 
+    <input id="colonizeBtn" name="action" class="button" type="submit" value="Основать колонию!">
+</div>
+</form>
 <?}?>
         </div>
         <div class="footer"></div>

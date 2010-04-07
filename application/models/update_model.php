@@ -45,9 +45,17 @@ class Update_Model extends Model
                $this->CI->Update_Player->towns[$i]->wine = $this->CI->Update_Player->towns[$i]->wine - (($wine_need/3600)*$elapsed);
                if ($this->CI->Update_Player->towns[$i]->wine < 0){ $this->CI->Update_Player->towns[$i]->wine = 0; $this->CI->Update_Player->towns[$i]->tavern_wine = 0; }
                // Прирост жителей
-               $this->CI->Update_Player->towns[$i]->peoples = $this->CI->Update_Player->towns[$i]->peoples + ((($this->CI->Update_Player->good[$i]/50)/3600)*$elapsed);
+               if ($this->CI->Update_Player->peoples[$i] < $this->CI->Update_Player->max_peoples[$i])
+               {
+                   $this->CI->Update_Player->towns[$i]->peoples = $this->CI->Update_Player->towns[$i]->peoples + ((($this->CI->Update_Player->good[$i]/50)/3600)*$elapsed);
+                   $this->CI->Update_Player->peoples[$i] = $this->CI->Update_Player->towns[$i]->peoples + $this->CI->Update_Player->towns[$i]->scientists + $this->CI->Update_Player->towns[$i]->workers + $this->CI->Update_Player->towns[$i]->tradegood;
+               }
                if ($this->CI->Update_Player->towns[$i]->peoples < 0){ $this->CI->Update_Player->towns[$i]->peoples = 0; }
-               if ($this->CI->Update_Player->towns[$i]->peoples > $this->CI->Update_Player->max_peoples[$i]){ $this->CI->Update_Player->towns[$i]->peoples = $this->CI->Update_Player->max_peoples[$i]; }
+               if ($this->CI->Update_Player->peoples[$i] > $this->CI->Update_Player->max_peoples[$i])
+               {
+                   $this->CI->Update_Player->towns[$i]->peoples = $this->CI->Update_Player->max_peoples[$i] - ($this->CI->Update_Player->peoples[$i] - $this->CI->Update_Player->towns[$i]->peoples);
+                   $this->CI->Update_Player->peoples[$i] = $this->CI->Update_Player->towns[$i]->peoples + $this->CI->Update_Player->towns[$i]->scientists + $this->CI->Update_Player->towns[$i]->workers + $this->CI->Update_Player->towns[$i]->tradegood;
+               }
                // Прирост золота
                $this->CI->Update_Player->user->gold = $this->CI->Update_Player->user->gold + (($this->CI->Update_Player->saldo[$i]/3600)*$elapsed);
                // Прирост дерева
@@ -344,6 +352,103 @@ class Update_Model extends Model
                }
            }
 
+           foreach($this->CI->Update_Player->missions as $mission)
+           {
+               // Проверяем загрузку
+
+               if ($mission->mission_start == 0)
+               {
+                    $all_resources = $mission->wood + $mission->marble + $mission->wine + $mission->crystal + $mission->sulfur;
+                    $speed = $this->Data_Model->speed_by_port_level($this->CI->Update_Player->port_level[$mission->from]);
+                    $per_sec = $speed / 60;
+                    $all_time = $all_resources/$per_sec;
+                    $elapsed_mission = time() - $mission->loading_start - $all_time;
+                    // Если загрузили
+                    if ($elapsed_mission >= 0)
+                    {
+                        $this->CI->Update_Player->missions[$mission->id]->mission_start = $mission->loading_start + $all_time;
+                        $this->db->set('mission_start', $mission->loading_start + $all_time);
+                        $this->db->where(array('id' => $mission->id));
+                        $this->db->update($this->session->userdata('universe').'_missions');
+                    }
+               }
+               if ($mission->mission_start > 0)
+               {
+                   include('mission_data.php');
+                   if($ostalos == 0 or $return_time == 0)
+                   {
+                       // Приплыли
+                       if ($mission->return_start == 0)
+                       {
+                           if($mission->mission_type == 1)
+                           {
+                               // Колонизация
+                               $this->CI->Data_Model->temp_towns_db[$mission->to]->pos0_level = 1;
+                               $this->db->set('pos0_level', 1);
+                               $this->db->set('wood', $mission->wood-1000);
+                               $this->db->set('wine', $mission->wine);
+                               $this->db->set('marble', $mission->marble);
+                               $this->db->set('crystal', $mission->crystal);
+                               $this->db->set('sulfur', $mission->sulfur);
+                               $this->db->set('last_update', $mission->mission_start + $time);
+                               $this->db->where(array('id' => $mission->to));
+                               $this->db->update($this->session->userdata('universe').'_towns');
+                               // Добавляем армию
+                               $this->db->insert($_POST['universe'].'_army', array('city' => $mission->to));
+                               // возвращаем сухогрузы
+                               $this->CI->Update_Player->user->transports =  $this->CI->Update_Player->user->transports + $mission->ship_transport;
+                               $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_missions where `id`="'.$mission->id.'"');
+                               // Сообщение
+                               $text = 'Мы основали новый город (<a href="'.$this->config->item('base_url').'game/city/'.$mission->to.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->to]->name.'</a>). Ваш торговый флот выгрузил: <ul class="resources">';
+                               $text .= '<li class="wood"><span class="textLabel">Стройматериалы: </span>'.($mission->wood-1000).'</li>';
+                               if ($mission->wine > 0){$text .= '<li class="wine"><span class="textLabel">Виноград: </span>'.($mission->wine).'</li>';}
+                               if ($mission->marble > 0){$text .= '<li class="marble"><span class="textLabel">Мрамор: </span>'.($mission->marble).'</li>';}
+                               if ($mission->crystal > 0){$text .= '<li class="glass"><span class="textLabel">Хрусталь: </span>'.($mission->crystal).'</li>';}
+                               if ($mission->sulfur > 0){$text .= '<li class="sulfur"><span class="textLabel">Сера: </span>'.($mission->sulfur).'</li>';}
+                               $text .= '</ul>';
+                               $town_message = array(
+                                            'user' => $this->CI->Update_Player->user->id,
+                                            'town' => $mission->from,
+                                            'date' => $mission->mission_start + $time,
+                                            'text' => $text
+                                        );
+                               $towns_messages[] = $town_message;
+                               unset($this->CI->Update_Player->missions[$mission->id]);
+                           }
+                       }
+                       else
+                       {
+                           if ($mission->mission_type == 1)
+                           {
+                                $this->db->set('city'.$this->CI->Data_Model->temp_towns_db[$mission->to]->position, 0);
+                                $this->db->where(array('id' => $this->CI->Data_Model->temp_towns_db[$mission->to]->island));
+                                $this->db->update($this->session->userdata('universe').'_islands');
+                                $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_towns where `id`="'.$mission->to.'"');
+                           }
+                           // Возвращаем флот
+                           $this->CI->Update_Player->towns[$mission->from]->wood = $this->CI->Update_Player->towns[$mission->from]->wood +  $mission->wood;
+                           $this->CI->Update_Player->towns[$mission->from]->wine = $this->CI->Update_Player->towns[$mission->from]->wine +  $mission->wine;
+                           $this->CI->Update_Player->towns[$mission->from]->marble = $this->CI->Update_Player->towns[$mission->from]->marble +  $mission->marble;
+                           $this->CI->Update_Player->towns[$mission->from]->crystal = $this->CI->Update_Player->towns[$mission->from]->crystal +  $mission->crystal;
+                           $this->CI->Update_Player->towns[$mission->from]->sulfur = $this->CI->Update_Player->towns[$mission->from]->sulfur +  $mission->sulfur;
+                           $this->CI->Update_Player->towns[$mission->from]->peoples = $this->CI->Update_Player->towns[$mission->from]->peoples +  $mission->peoples;
+                           $this->db->set('wood', $this->CI->Update_Player->towns[$mission->from]->wood);
+                           $this->db->set('wine', $this->CI->Update_Player->towns[$mission->from]->wine);
+                           $this->db->set('marble', $this->CI->Update_Player->towns[$mission->from]->marble);
+                           $this->db->set('crystal', $this->CI->Update_Player->towns[$mission->from]->crystal);
+                           $this->db->set('sulfur', $this->CI->Update_Player->towns[$mission->from]->sulfur);
+                           $this->CI->Update_Player->user->gold = $this->CI->Update_Player->user->gold + $mission->gold;
+                           $this->db->set('peoples', $this->CI->Update_Player->towns[$mission->from]->peoples);
+                           $this->db->where(array('id' => $mission->from));
+                           $this->db->update($this->session->userdata('universe').'_towns');
+                           // возвращаем сухогрузы
+                           $this->CI->Update_Player->user->transports =  $this->CI->Update_Player->user->transports + $mission->ship_transport;
+                           $this->db->query('DELETE FROM '.$this->session->userdata('universe').'_missions where `id`="'.$mission->id.'"');
+                           unset($this->CI->Update_Player->missions[$mission->id]);
+                       }
+                   }
+               }
+           }
            // Последнее посещение
            $this->db->set('last_visit', time());
            // Если текущий игрок обновляем город
@@ -354,6 +459,8 @@ class Update_Model extends Model
            // Обновляем золото
            if ($this->CI->Update_Player->user->gold < 0) { $this->CI->Update_Player->user->gold = 0; }
            $this->db->set('gold', $this->CI->Update_Player->user->gold);
+           // Обновляем сухогрузы
+           $this->db->set('transports', $this->CI->Update_Player->user->transports);
            // Обновляем премиумы
            if ($this->CI->Update_Player->user->premium_account < time()){ $this->CI->Update_Player->user->premium_account = 0; }
            if ($this->CI->Update_Player->user->premium_wood < time()){ $this->CI->Update_Player->user->premium_wood = 0; }

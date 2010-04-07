@@ -30,6 +30,8 @@ class Player_Model extends Model
                 $this->user_id =& $this->user->id;
                 $this->town_id =& $this->user->town;
                 $this->capital_id =& $this->user->capital;
+                $this->missions_loading = 0;
+                $this->all_transports = $this->user->transports;
                 // премиум прирост
                 $this->plus_wood = 1;
                 $this->plus_marble = 1;
@@ -40,6 +42,17 @@ class Player_Model extends Model
                 // Загружаем исследования
                 $this->Data_Model->Load_Research($id);
                 $this->research =& $this->Data_Model->temp_research_db[$id];
+                // Загружаем миссии
+                $this->Data_Model->Load_Missions($id);
+                $this->missions =& $this->Data_Model->temp_missions_db[$id];
+                if (SizeOf($this->missions) > 0)
+                foreach($this->missions as $mission)
+                {
+                    if ($mission->mission_start == 0){ $this->missions_loading++; }
+                    $this->all_transports = $this->all_transports + $mission->ship_transport;
+                    $this->Data_Model->Load_Town($mission->to);
+                    $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->to]->island);
+                }
                 // Всего ученых
                 $this->scientists = 0;
                 // Notes
@@ -49,13 +62,16 @@ class Player_Model extends Model
                     $towns_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
                     foreach ($towns_query->result() as $town)
                     {
+                        if ($town->pos0_level == 0){ continue; }
                         $this->capacity[$town->id] = $this->config->item('standart_capacity');
                         $this->tavern_level[$town->id] = 0;
+                        $this->port_level[$town->id] = 0;
                         $this->armys[$town->id] = array();
                         $this->warehouses[$town->id] = 0;
                         $this->army_gold_need[$town->id] = 0;
                         $this->corruption[$town->id] = 0;
                         $this->palace_level[$town->id] = 0;
+                        $this->units_count[$town->id] = 0;
                         // Загружаем город
                         $this->Data_Model->temp_towns_db[$town->id] = $town;
                         $this->towns[$town->id] =& $this->Data_Model->temp_towns_db[$town->id];
@@ -81,6 +97,8 @@ class Player_Model extends Model
                             if ($town->$pos_type == 6){ $this->capacity[$town->id] = $this->capacity[$town->id] + ($town->$pos_level*8000); $this->warehouses[$town->id]++; $this->warehouses_levels[$town->id] = $town->$pos_level; }
                             // Уровни таверн
                             if($town->$pos_type == 8){ $this->tavern_level[$town->id] = $town->$pos_level; }
+                            // Уровни портов
+                            if($town->$pos_type == 2){ $this->port_level[$town->id] = $town->$pos_level; }
                             // Уровни дворцов и резиденций
                             if($town->$pos_type == 10 or $town->$pos_type == 15){ $this->palace_level[$town->id] = $town->$pos_level; }
                             // Если здание построено заносим в построенные
@@ -105,6 +123,7 @@ class Player_Model extends Model
                                 $cost = $this->Data_Model->army_cost_by_type($a, $this->research);
                                 $this->saldo[$town->id] = $this->saldo[$town->id] - ($cost['gold']*$this->armys[$town->id]->$class);
                                 $this->army_gold_need[$town->id] = $this->army_gold_need[$town->id] + ($cost['gold']*$this->armys[$town->id]->$class);
+                                $this->units_count[$town->id] = ($a <= 14) ? $this->units_count[$town->id] + $this->armys[$town->id]->$class : $this->units_count[$town->id];
                             }
                         }
                         // Максимум жителей

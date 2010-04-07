@@ -41,7 +41,7 @@
                 <tbody>
 <?$message_id = 0?>
 <?foreach($this->Player_Model->towns_messages as $message){?>
-<?if($message_id >= $msg_id and $message_id < ($msg_id + $config['total_rows']) ){?>
+<?if($message_id >= $msg_id and $message_id < ($msg_id + $config['per_page']) ){?>
                     <tr class="<?if (($message_id % 2) == 0){?>alt<?}else{?>empty<?}?>">
                         <td class="<?if ($message->checked == 0){?>wichtig<?}else{?>empty<?}?>"></td>
                         <td class="city"></td>

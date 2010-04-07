@@ -2,9 +2,7 @@
 <div id="mainview" class="island<?=$this->Island_Model->island->type?>">
     <h3>Города на острове <?=$this->Island_Model->island->name?></h3>
     <ul id="cities">
-
 <?for ($i = 0; $i <=15; $i++){?>
-
 <?if ($this->Island_Model->towns[$i] == false){?>
         <li id="cityLocation<?=$i?>" class="cityLocation buildplace">
             <div class="claim"></div>
@@ -18,30 +16,30 @@
 <?}else{?>
 <? $level = $this->Island_Model->towns[$i]->pos0_level?>
 
-<?if ($this->Island_Model->towns[$i]->user == $this->Player_Model->user->id){?>)
-
-        <li id="cityLocation<?=$i?>" class="cityLocation city level1">
-            <div class="ownCityImg"></div>
+        <li id="cityLocation<?=$i?>" class="cityLocation city level<?=$this->Island_Model->towns[$i]->pos0_level?>">
+            <div class="<?if($this->Island_Model->towns[$i]->pos0_level > 0){?><?if ($this->Island_Model->towns[$i]->user == $this->Player_Model->user->id){?>ownCityImg<?}else{?>cityimg<?}?><?}else{?>buildCityImg<?}?>"></div>
             <div class="selectimg"></div>
-            <a href="#" id="city_149657" onclick="selectCity(<?=$i?>, <?=$this->Island_Model->towns[$i]->id?>, 1); selectGroup.activate(this, 'cities'); return false;">
+<?if($this->Island_Model->towns[$i]->pos0_level > 0){?>
+            <a href="#" id="city_<?=$this->Island_Model->towns[$i]->id?>" onclick="selectCity(<?=$i?>, <?=$this->Island_Model->towns[$i]->id?>, 1); selectGroup.activate(this, 'cities'); return false;">
                 <span class="textLabel">
                     <span class="before"></span><?=$this->Island_Model->towns[$i]->name?>
                     <span class="after"></span>
                 </span>
-                <div class="noob"></div>
+                <!--<div class="noob"></div>-->
             </a>
+<?}?>
             <ul class="cityinfo">
                 <li class="name"><span class="textLabel">Имя: </span><?=$this->Island_Model->towns[$i]->name?></li>
                 <li class="citylevel"><span class="textLabel">Размер: </span><?=$level?></li>
                 <li class="owner"><span class="textLabel">Игрок: </span><?=$this->Island_Model->users[$i]->login?></li>
                 <li class="name"><span class="textLabel">Баллы: </span>0</li>
                 <li class="ally"><span class="textLabel">Альянс: </span>-</li>
-                <li class="noobModeInfo">Игрок под защитой богов.</li>
+                <!--<li class="noobModeInfo">Игрок под защитой богов.</li>-->
             </ul>
             <ul class="cityactions">
             </ul>
         </li>
-<?}?>
+
 
 <?}?>
 <?}?>
@@ -113,4 +111,13 @@
             </a>
         </li>
     </ul>
-</div> 
+</div>
+<?$town_id = $param2?>
+<?if($town_id >= 0){?>
+<script language="JavaScript">
+    Event.onDOMReady(function() {
+        selectCity(<?=$this->Data_Model->temp_towns_db[$town_id]->position?>, <?=$town_id?>, 1);
+        selectGroup.activate(document.getElementById("city_<?=$town_id?>"), 'cities');
+    });
+</script>
+<?}?>

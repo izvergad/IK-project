@@ -1,6 +1,7 @@
 <?
     $level_text = 'pos'.$position.'_level';
     $level = $this->Player_Model->now_town->$level_text;
+    $speed = $this->Data_Model->speed_by_port_level($level);
 ?>
 <div class="dynamic">
     <h3 class="header">Грузоподъемность<a class="help" href="<?=$this->config->item('base_url')?>game/shipDescription/23/" title="Помощь"><span class="textLabel">Помощь?</span></a></h3>
@@ -15,7 +16,7 @@
     <h3 class="header">Время загрузки</h3>
     <div class="content">
     	<p>Скорость погрузки показывает, как быстро торговые судна могут быть загружены и разгружены в Вашем порту.</p>
-        <p><strong>Время загрузки:</strong><br> <?=number_format($this->Data_Model->speed_by_port_level($level))?> Товаров в мин.</p>
+        <p><strong>Время загрузки:</strong><br> <?=number_format($speed)?> Товаров в мин.</p>
     </div>
     <div class="footer"></div>
 </div>

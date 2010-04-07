@@ -14,6 +14,10 @@ class Game extends Controller {
                 {
                     // Загружаем пользователя
                     $this->Player_Model->Load_Player($this->session->userdata('id'));
+                    if (isset($_POST['cityId']) and isset($this->Data_Model->temp_towns_db[$_POST['cityId']]) and $_POST['cityId'] > 0)
+                    {
+                        $this->Player_Model->town_id = ($_POST['cityId'] > 0) ? intval($_POST['cityId']) : $this->Player_Model->town_id;
+                    }
                     $this->load->model('Update_Model');
                     // Отмечаем здания в очереди на карте
                     $this->Player_Model->correct_buildings();
@@ -83,7 +87,7 @@ class Game extends Controller {
      * Страница острова
      * @param <int> $id
      */
-    function island($id = 0)
+    function island($id = 0, $town = -1)
     {
         if ($id == 0)
         {
@@ -91,7 +95,7 @@ class Game extends Controller {
         }
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($id);
-        $this->show('island', $id);
+        $this->show('island', $id, $town);
     }
 
     /**
@@ -223,6 +227,11 @@ class Game extends Controller {
         $this->show('researchAdvisor');
     }
 
+    function militaryAdvisorMilitaryMovements()
+    {
+        $this->show('militaryAdvisorMilitaryMovements');
+    }
+
     /**
      * Информация по исследованиям
      * @param <int> $way
@@ -336,6 +345,11 @@ class Game extends Controller {
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($island);
         $this->show('colonize', $island, $position);
+    }
+
+    function merchantNavy()
+    {
+        $this->show('merchantNavy');
     }
 
         function show($location, $param1 = 0, $param2 = 0)

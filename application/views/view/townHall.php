@@ -92,7 +92,7 @@
                 <li class="corruption">
                     <span class="textLabel">Упадок: </span>
                     <span class="value positive">
-                        <span title="Упадок: ситуация в данный момент"><?=$this->Player_Model->corruption[$this->Player_Model->town_id]*100?>%</span>
+                        <span title="Упадок: ситуация в данный момент"><?=number_format($this->Player_Model->corruption[$this->Player_Model->town_id]*100)?>%</span>
                     </span>
                 </li>
                 <li class="happiness happiness_<?=$this->Data_Model->good_class_by_count($this->Player_Model->good[$this->Player_Model->town_id])?>">
@@ -172,8 +172,15 @@
             </div>
 				
             <div id="notices">			
-                <h4>Примечания:</h4>			
+                <h4>Примечания:</h4>
+<?if($this->Player_Model->corruption[$this->Player_Model->town_id] > 0){?>
+                <div class="warning">
+                    <h5>Колония в состоянии упадка!</h5>
+                    <p>Уровень производительности и уровень довольства жизнью в этом городе падают! Следует улучшить резиденцию губернатора - при этом число уровней должно соответствовать числу колоний!</p>
+                </div>
+<?}else{?>
                 <p>Никаких происшествий! Поздравляем, развитие города идет самым лучшим образом!</p>
+<?}?>
             </div>			
         </div>
 						

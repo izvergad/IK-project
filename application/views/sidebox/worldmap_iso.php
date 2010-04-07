@@ -51,13 +51,14 @@ allyIslandJS = new Array();
 militaryIslandsJS = new Array();
 
 ownIslandJS = new Array();
-if (!ownIslandJS[<?=$this->Island_Model->island->x?>]) {
-    ownIslandJS[<?=$this->Island_Model->island->x?>] = new Array();
+<?foreach($this->Player_Model->islands as $island){?>
+if (!ownIslandJS[<?=$island->x?>]) {
+    ownIslandJS[<?=$island->x?>] = new Array();
 }
-if (ownIslandJS[<?=$this->Island_Model->island->x?>]) {
-    ownIslandJS[<?=$this->Island_Model->island->x?>][<?=$this->Island_Model->island->y?>] = 1;
+if (ownIslandJS[<?=$island->x?>]) {
+    ownIslandJS[<?=$island->x?>][<?=$island->y?>] = 1;
 }
-
+<?}?>
 var shortcuts = new Array();
 
 

@@ -223,7 +223,7 @@
     <ul>
         <li class="transporters" title="Сухогрузов доступно (всего)">
             <a href="<?=$this->config->item('base_url')?>game/merchantNavy/">
-                <span class="textLabel">Торговые корабли:</span><span><?=$this->Player_Model->user->transports?> (<?=$this->Player_Model->user->transports?>)</span>
+                <span class="textLabel">Торговые корабли:</span><span><?=$this->Player_Model->user->transports?> (<?=$this->Player_Model->all_transports?>)</span>
             </a>
         </li>
 	<li class="ambrosia" title="<?=number_format($this->Player_Model->user->ambrosy)?> Амброзия">
@@ -296,7 +296,7 @@
             </a>
         </li>
 	<li id="advMilitary">
-            <a href="<?=$this->config->item('base_url')?>game/advisors/military/" title="Военный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Военный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
                 <span class="textLabel">Войска</span>
             </a>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">

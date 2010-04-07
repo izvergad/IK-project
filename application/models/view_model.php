@@ -91,6 +91,8 @@ class View_Model extends Model
             case 'plunder':
             case 'finances':
             case 'port':
+            case 'merchantNavy':
+            case 'militaryAdvisorMilitaryMovements':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/city'); break;
@@ -134,6 +136,8 @@ class View_Model extends Model
             case 'armyGarrisonEdit':
             case 'fleetGarrisonEdit':
             case 'finances':
+            case 'merchantNavy':
+            case 'militaryAdvisorMilitaryMovements':
                 $this->load->view('sidebox/'.$location);
             break;
             case 'plunder':
@@ -170,12 +174,14 @@ class View_Model extends Model
             case 'buildingDetail': $caption = 'Информация о здании'; $file = 'world'; break;
             case 'researchAdvisor': $caption = 'Советник по исследованиям'; $file = 'world'; break;
             case 'tradeAdvisor': $caption = 'Мэр'; $file = 'world'; break;
+            case 'militaryAdvisorMilitaryMovements': $caption = 'Военный советник'; $file = 'world'; break;
             case 'error': $caption = 'Ошибка!'; $file = 'null'; break;
             case 'options': $caption = 'Настройки'; $file = 'null'; break;
             case 'finances': $caption = 'Сводный отчет по финансам'; $file = 'null'; break;
             case 'premium':
             case 'premiumPayment': $caption = 'Икариам ПЛЮС'; $file = 'null'; break;
             case 'researchDetail': $caption = 'Подробно об исследовании'; $file = 'null'; break;
+            case 'merchantNavy': $caption = 'Торговый флот'; $file = 'null'; break;
             default:
                  $file = $location; break;
             break;
