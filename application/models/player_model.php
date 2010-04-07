@@ -223,6 +223,7 @@ class Player_Model extends Model
     function Load_Town_Messages()
     {
         // Загрузка сообщений
+        $this->towns_messages = array();
         $this->db->order_by("date", "desc");
         $where_array = array();
             $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('user' => $this->session->userdata('id')));
