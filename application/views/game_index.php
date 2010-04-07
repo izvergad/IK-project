@@ -6,7 +6,7 @@
         <meta name="language" content="ru">
         <meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков заключается в управлении народом в древнем мире, основывая города, ведя торговлю и завоевывая другие острова.">
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
-        <title>Икариам</title>
+        <title>Икариам - Мир <?=ucfirst($this->session->userdata('universe'))?></title>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link href="<?=$this->config->item('style_url')?>skin/ik_common_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
         <link href="<?=$this->config->item('style_url')?>skin/ik_<?=$page?>_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
@@ -487,11 +487,12 @@ function jsTitleTag(nextETA) {
         var timeargs = this.enddate - Math.floor(this.currenttime/1000) *1000;
         var title = "Икариам - ";
         if (timeargs != "")
-            title += getTimestring(timeargs, 3, undefined, undefined, undefined, true);
+            title += getTimestring(timeargs, 3, undefined, undefined, undefined, true) + " - ";
+        title += "Мир <?=ucfirst($this->session->userdata('universe'))?>";
         top.document.title = title;
     })
     cnt.subscribe("finished", function() {
-        top.document.title = "Икариам";
+        top.document.title = "Икариам" + " - Мир <?=ucfirst($this->session->userdata('universe'))?>";
     });
     cnt.startTimer();
     return cnt;
