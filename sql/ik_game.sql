@@ -1,4 +1,4 @@
-/*
+﻿/*
 Navicat MySQL Data Transfer
 
 Source Server         : MySQL
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50024
 File Encoding         : 65001
 
-Date: 2010-04-02 17:37:35
+Date: 2010-04-08 21:19:28
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,10 +51,6 @@ CREATE TABLE `alpha_army` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
--- Records of alpha_army
--- ----------------------------
-
--- ----------------------------
 -- Table structure for `alpha_islands`
 -- ----------------------------
 DROP TABLE IF EXISTS `alpha_islands`;
@@ -92,15 +88,6 @@ CREATE TABLE `alpha_islands` (
 ) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
--- Records of alpha_islands
--- ----------------------------
-INSERT INTO `alpha_islands` VALUES ('1', 'Кипр', '1', '3', '4', '3', '2', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `alpha_islands` VALUES ('2', 'Гренландия', '2', '1', '1', '2', '1', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `alpha_islands` VALUES ('3', 'Канары', '1', '5', '2', '1', '3', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `alpha_islands` VALUES ('4', 'Мадагаскар', '3', '2', '3', '1', '5', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-INSERT INTO `alpha_islands` VALUES ('5', 'Новая Гвинея', '4', '5', '5', '4', '7', '1', '1', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0');
-
--- ----------------------------
 -- Table structure for `alpha_missions`
 -- ----------------------------
 DROP TABLE IF EXISTS `alpha_missions`;
@@ -109,13 +96,17 @@ CREATE TABLE `alpha_missions` (
   `user` int(11) NOT NULL,
   `from` int(11) NOT NULL,
   `to` int(11) NOT NULL,
+  `loading_start` int(11) NOT NULL,
   `mission_type` int(11) NOT NULL,
   `mission_start` int(11) NOT NULL,
+  `return_start` int(11) NOT NULL,
   `wood` int(11) NOT NULL,
   `wine` int(11) NOT NULL,
   `marble` int(11) NOT NULL,
   `crystal` int(11) NOT NULL,
   `sulfur` int(11) NOT NULL,
+  `gold` int(11) NOT NULL default '0',
+  `peoples` int(11) NOT NULL,
   `phalanx` int(11) NOT NULL,
   `steamgiant` int(11) NOT NULL,
   `spearman` int(11) NOT NULL,
@@ -139,12 +130,19 @@ CREATE TABLE `alpha_missions` (
   `ship_mortar` int(11) NOT NULL,
   `ship_submarine` int(11) NOT NULL,
   `ship_transport` int(11) NOT NULL,
+  `percent` varchar(11) character set utf8 NOT NULL default '0',
   PRIMARY KEY  (`id`,`user`,`from`,`to`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
--- Records of alpha_missions
+-- Table structure for `alpha_notes`
 -- ----------------------------
+DROP TABLE IF EXISTS `alpha_notes`;
+CREATE TABLE `alpha_notes` (
+  `user` int(11) NOT NULL,
+  `text` text character set utf8 NOT NULL,
+  PRIMARY KEY  (`user`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
 -- Table structure for `alpha_research`
@@ -212,12 +210,12 @@ CREATE TABLE `alpha_research` (
   `res4_12` int(11) NOT NULL,
   `res4_13` int(11) NOT NULL,
   `res4_14` int(11) NOT NULL,
+  `way1_checked` int(11) NOT NULL,
+  `way2_checked` int(11) NOT NULL,
+  `way3_checked` int(11) NOT NULL,
+  `way4_checked` int(11) NOT NULL,
   PRIMARY KEY  (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
--- ----------------------------
--- Records of alpha_research
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_town_messages`
@@ -231,11 +229,7 @@ CREATE TABLE `alpha_town_messages` (
   `text` text character set utf8 NOT NULL,
   `checked` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`,`user`,`town`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
--- ----------------------------
--- Records of alpha_town_messages
--- ----------------------------
+) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
 -- Table structure for `alpha_towns`
@@ -245,6 +239,7 @@ CREATE TABLE `alpha_towns` (
   `id` int(11) NOT NULL auto_increment,
   `user` int(11) NOT NULL,
   `island` int(11) NOT NULL,
+  `position` int(11) NOT NULL default '0',
   `last_update` int(11) NOT NULL,
   `name` varchar(255) character set utf8 NOT NULL default 'Полис',
   `wood` varchar(255) character set utf8 NOT NULL default '160',
@@ -293,12 +288,8 @@ CREATE TABLE `alpha_towns` (
   `tradegood_wood` int(11) NOT NULL default '0',
   `actions` varchar(255) character set utf8 NOT NULL default '3',
   `tavern_wine` int(11) NOT NULL default '0',
-  PRIMARY KEY  (`id`,`user`,`island`,`name`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
--- ----------------------------
--- Records of alpha_towns
--- ----------------------------
+  PRIMARY KEY  (`id`,`user`,`island`,`position`,`name`)
+) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
 -- Table structure for `alpha_users`
@@ -327,8 +318,4 @@ CREATE TABLE `alpha_users` (
   `premium_capacity` int(11) NOT NULL default '0',
   `options_select` int(11) NOT NULL default '1',
   PRIMARY KEY  (`id`,`login`,`town`,`capital`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
-
--- ----------------------------
--- Records of alpha_users
--- ----------------------------
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
