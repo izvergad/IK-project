@@ -41,7 +41,7 @@ class Update_Model extends Model
                $elapsed = time() - $this->CI->Update_Player->towns[$i]->last_update;
                $this->db->set('last_update', time());
                // Вычитаем виноград за вино
-               $wine_need = $this->Data_Model->wine_by_tavern_level($this->CI->Update_Player->towns[$i]->tavern_wine);
+               $wine_need = $this->Data_Model->wine_by_tavern_level($this->CI->Update_Player->levels[$i][8]);
                $this->CI->Update_Player->towns[$i]->wine = $this->CI->Update_Player->towns[$i]->wine - (($wine_need/3600)*$elapsed);
                if ($this->CI->Update_Player->towns[$i]->wine < 0){ $this->CI->Update_Player->towns[$i]->wine = 0; $this->CI->Update_Player->towns[$i]->tavern_wine = 0; }
                // Прирост жителей
@@ -359,7 +359,7 @@ class Update_Model extends Model
                if ($mission->mission_start == 0)
                {
                     $all_resources = $mission->wood + $mission->marble + $mission->wine + $mission->crystal + $mission->sulfur;
-                    $speed = $this->Data_Model->speed_by_port_level($this->CI->Update_Player->port_level[$mission->from]);
+                    $speed = $this->Data_Model->speed_by_port_level($this->CI->Update_Player->levels[$mission->from][2]);
                     $per_sec = $speed / 60;
                     $all_time = $all_resources/$per_sec;
                     $elapsed_mission = time() - $mission->loading_start - $all_time;

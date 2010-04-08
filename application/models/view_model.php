@@ -94,6 +94,7 @@ class View_Model extends Model
             case 'merchantNavy':
             case 'militaryAdvisorMilitaryMovements':
             case 'transport':
+            case 'premiumTradeAdvisor':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/city'); break;
@@ -139,6 +140,7 @@ class View_Model extends Model
             case 'finances':
             case 'merchantNavy':
             case 'militaryAdvisorMilitaryMovements':
+            case 'premiumTradeAdvisor':
                 $this->load->view('sidebox/'.$location);
             break;
             case 'plunder':
@@ -186,6 +188,7 @@ class View_Model extends Model
             case 'merchantNavy': $caption = 'Торговый флот'; $file = 'null'; break;
             case 'transport': $caption = 'Транспорт'; $file = '_island'; break;
             case 'colonize': $caption = 'Колонизация'; $file = '_island'; break;
+            case 'premiumTradeAdvisor': $caption = 'Обзор построек'; $file = 'tradeAdvisor'; break;
             default:
                  $file = $location; break;
             break;

@@ -78,7 +78,7 @@ Event.onDOMReady( function() {
 <?if($this->Player_Model->user->gold < 9000){ $errors[] = 'Недостаточно золота! Вам необходимо <strong>'.number_format(9000-$this->Player_Model->user->gold).' золота</strong>!';} ?>
 <?if($this->Player_Model->now_town->wood < 1250){ $errors[] = 'Недостаточно стройматериалов! Вам необходимо <strong>'.number_format(1250-$this->Player_Model->now_town->wood).' стройматериалов</strong>!';} ?>
 <?if($this->Player_Model->user->transports < 3){ $errors[] = 'Недостаточно сухогрузов! Вам необходимо <strong>'.number_format(3-$this->Player_Model->user->transports).' сухогрузов</strong>!';} ?>
-<?if(SizeOf($this->Player_Model->towns)-1 >= $this->Player_Model->palace_level[$this->Player_Model->capital_id]){ $errors[] = 'У Вас уже есть '.(SizeOf($this->Player_Model->towns)-1).' колоний и уровень дворца '.$this->Player_Model->palace_level[$this->Player_Model->capital_id].'! Улучшайте дворец в своем родном городе!';} ?>
+<?if(SizeOf($this->Player_Model->towns)-1 >= $this->Player_Model->levels[$this->Player_Model->capital_id][10]){ $errors[] = 'У Вас уже есть '.(SizeOf($this->Player_Model->towns)-1).' колоний и уровень дворца '.$this->Player_Model->levels[$this->Player_Model->capital_id][10].'! Улучшайте дворец в своем родном городе!';} ?>
 
 <?if(SizeOf($errors)> 0){?>
             <div class="errors">

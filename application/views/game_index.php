@@ -291,7 +291,11 @@
             <a href="<?=$this->config->item('base_url')?>game/tradeAdvisor/" title="Обзор городов и финансов" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_towns_messages > 0){?>active<?}?>">
                 <span class="textLabel">Города</span>
             </a>
+<?if($this->Player_Model->user->premium_account > 0){?>
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumTradeAdvisor/" title="К обзору">
+<?}else{?>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+<?}?>
                 <span class="textLabel">К обзору</span>
             </a>
         </li>
@@ -299,7 +303,11 @@
             <a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Военный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
                 <span class="textLabel">Войска</span>
             </a>
+<?if($this->Player_Model->user->premium_account > 0){?>
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumMilitaryAdvisor/" title="К обзору">
+<?}else{?>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+<?}?>
                 <span class="textLabel">К обзору</span>
             </a>
         </li>
@@ -307,7 +315,11 @@
             <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->research_advisor){?>active<?}?>">
                 <span class="textLabel">Исследования</span>
             </a>
+<?if($this->Player_Model->user->premium_account > 0){?>
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumResearchAdvisor/" title="К обзору">
+<?}else{?>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+<?}?>
                 <span class="textLabel">К обзору</span>
             </a>
 	</li>
@@ -315,7 +327,11 @@
             <a href="<?=$this->config->item('base_url')?>game/advisors/diplomacy/" title="Обзор сообщений и дипломатии" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
                 <span class="textLabel">Дипломатия</span>
             </a>
+<?if($this->Player_Model->user->premium_account > 0){?>
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumDiplomacyAdvisor/" title="К обзору">
+<?}else{?>
             <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+<?}?>
                 <span class="textLabel">К обзору</span>
             </a>
 	</li>

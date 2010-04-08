@@ -36,8 +36,8 @@
                         <td><?=$town->name?></td>
                         <td><?=$town->pos0_level?></td>
                         <td><?=$level?></td>
-                        <td><?=$this->Player_Model->now_island->name?> [<?=$this->Player_Model->now_island->x?>:<?=$this->Player_Model->now_island->y?>]</td>
-                        <td><img src="<?=$this->config->item('style_url')?>skin/resources/icon_<?=resource_icon($this->Player_Model->now_island->trade_resource)?>.gif"  title="<?=$this->Data_Model->island_building_by_resource($this->Player_Model->now_island->trade_resource)?>" alt="<?=$this->Data_Model->island_building_by_resource($this->Player_Model->now_island->trade_resource)?>"></td>
+                        <td><?=$this->Player_Model->islands[$town->island]->name?> [<?=$this->Player_Model->islands[$town->island]->x?>:<?=$this->Player_Model->islands[$town->island]->y?>]</td>
+                        <td><img src="<?=$this->config->item('style_url')?>skin/resources/icon_<?=resource_icon($this->Player_Model->islands[$town->island]->trade_resource)?>.gif"  title="<?=$this->Data_Model->island_building_by_resource($this->Player_Model->islands[$town->island]->trade_resource)?>" alt="<?=$this->Data_Model->island_building_by_resource($this->Player_Model->islands[$town->island]->trade_resource)?>"></td>
                     </tr>
 <?}?>
                 </tbody>

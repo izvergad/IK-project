@@ -218,7 +218,7 @@
                     <div class="cat wine">
                         <h5>Вино</h5>
 <?$tavern_position = $this->Data_Model->get_position(8, $this->Player_Model->now_town)?>
-<?if($this->Player_Model->tavern_level[$this->Player_Model->town_id] > 0 and $tavern_position > 0){
+<?if($this->Player_Model->levels[$this->Player_Model->town_id][8] > 0 and $tavern_position > 0){
 
 // Строим полосу плюсов по процентам
     $all_px = 400;   // всего пикселей
@@ -227,11 +227,11 @@
     $serving_px = $min_px;
     $ostalos_px = $all_px - $tavern_px - $serving_px; // осталось
     $one_px = $ostalos_px/100;
-    $all_plus = ($this->Player_Model->tavern_level[$this->Player_Model->town_id]*12) + ($this->Player_Model->now_town->tavern_wine*60);
-    $tavern_percent = (($this->Player_Model->tavern_level[$this->Player_Model->town_id]*12)/$all_plus)*100;
+    $all_plus = ($this->Player_Model->levels[$this->Player_Model->town_id][8]*12) + ($this->Player_Model->now_town->tavern_wine*60);
+    $tavern_percent = (($this->Player_Model->levels[$this->Player_Model->town_id][8]*12)/$all_plus)*100;
     $serving_percent = (($this->Player_Model->now_town->tavern_wine*60)/$all_plus)*100;
 ?>
-                        <div class="tavern" style="left:100px;width:<?=floor($tavern_percent*$one_px)+$tavern_px?>px"><span class="value">+<?=$this->Player_Model->tavern_level[$this->Player_Model->town_id]*12?></span> <img src="<?=$this->config->item('style_url')?>skin/buildings/tavern_30x30.gif" width="30" height="30" title="Уровнем таверны" alt="Уровнем таверны"></div>
+                        <div class="tavern" style="left:100px;width:<?=floor($tavern_percent*$one_px)+$tavern_px?>px"><span class="value">+<?=$this->Player_Model->levels[$this->Player_Model->town_id][8]*12?></span> <img src="<?=$this->config->item('style_url')?>skin/buildings/tavern_30x30.gif" width="30" height="30" title="Уровнем таверны" alt="Уровнем таверны"></div>
                         <div class="serving" style="left:<?=floor($tavern_percent*$one_px)+$base_px+100?>px;width:<?=floor($serving_percent*$one_px)+$serving_px?>px"><span class="value">+<?=$this->Player_Model->now_town->tavern_wine*60?></span> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" width="30" height="30" title="Приготовлением вина" alt="Приготовлением вина"></div>
 <?}else{?>
                         <p>В городе нет таверны!</p>

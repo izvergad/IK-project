@@ -104,6 +104,22 @@ class Game extends Controller {
      */
     function resource($id = 0)
     {
+        $town_id = 0;
+        if ($id > 0 and $id != $this->Player_Model->island_id and isset($this->Data_Model->temp_islands_db[$id]))
+        {
+            foreach ($this->Player_Model->towns as $town)
+                if ($town->island == $id) $town_id = $town->id;
+            if ($town_id > 0 and isset($this->Player_Model->towns[$town_id]))
+            {
+                // Меняем город
+                $this->Player_Model->town_id = $town_id;
+                $this->Player_Model->now_town = $this->Player_Model->towns[$town_id];
+                // Пишем в базу
+                $this->db->set('town', $town_id);
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+            }
+        }
         if ($id == 0)
         {
             $id = $this->Player_Model->island_id;
@@ -368,6 +384,19 @@ class Game extends Controller {
         $this->Island_Model->Load_Island($island);
         $this->Data_Model->Load_Town($id);
         $this->show('transport', $id);
+    }
+
+    function premiumTradeAdvisor($page = 'resources')
+    {
+        if($this->Player_Model->user->premium_account > 0)
+        {
+            $this->show('premiumTradeAdvisor', $page);
+        }
+        else
+        {
+            $this->tradeAdvisor();
+        }
+        
     }
 
         function show($location, $param1 = 0, $param2 = 0)

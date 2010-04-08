@@ -47,23 +47,23 @@ class Player_Model extends Model
                     $parametr = 'res1_'.$i;
                     if ($this->research->$parametr == 0){$this->ways[1] = $this->Data_Model->get_research(1,$i,$this->research);break;}}
                 if ($this->Player_Model->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
-                if($this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
+                if(isset($this->ways[1]) and $this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
                 for($i = 1; $i < 15; $i++){
                     $parametr = 'res2_'.$i;
                     if ($this->research->$parametr == 0){$this->ways[2] = $this->Data_Model->get_research(2,$i,$this->research);break;}}
                 if ($this->research->res2_15 > 0){$this->ways[2] = $this->Data_Model->get_research(2,15,$this->research);}
-                if($this->ways[2]['points'] <= $this->research->points and $this->research->way2_checked == 0){$this->research_advisor = true;}
+                if(isset($this->ways[2]) and $this->ways[2]['points'] <= $this->research->points and $this->research->way2_checked == 0){$this->research_advisor = true;}
                 for($i = 1; $i < 16; $i++){
                     $parametr = 'res3_'.$i;
                     if ($this->research->$parametr == 0){$this->ways[3] = $this->Data_Model->get_research(3,$i,$this->research);break;}}
                 if ($this->research->res3_16 > 0){$this->ways[3] = $this->Data_Model->get_research(3,16,$this->research);}
-                if($this->ways[3]['points'] <= $this->research->points and $this->research->way3_checked == 0){$this->research_advisor = true;}
+                if(isset($this->ways[3]) and $this->ways[3]['points'] <= $this->research->points and $this->research->way3_checked == 0){$this->research_advisor = true;}
                 for($i = 1; $i < 14; $i++)
                 {
                     $parametr = 'res4_'.$i;
                     if ($this->research->$parametr == 0){$this->ways[4] = $this->Data_Model->get_research(4,$i,$this->research);break;}}
                 if ($this->research->res4_14 > 0){$this->ways[4] = $this->Data_Model->get_research(4,14,$this->research);}
-                if($this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
+                if(isset($this->ways[4]) and $this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
                 // Загружаем миссии
                 $this->Data_Model->Load_Missions($id);
                 $this->missions =& $this->Data_Model->temp_missions_db[$id];
@@ -80,20 +80,22 @@ class Player_Model extends Model
                 $this->scientists = 0;
                 // Notes
                 $notes_query = $this->db->get_where($this->session->userdata('universe').'_notes', array('user' => $id));
-                $this->notes = $notes_query->row();
+                $this->notes = $notes_query->row();   
                 // Загружаем города
                     $towns_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
                     foreach ($towns_query->result() as $town)
                     {
                         if ($town->pos0_level == 0){ continue; }
                         $this->capacity[$town->id] = $this->config->item('standart_capacity');
-                        $this->tavern_level[$town->id] = 0;
-                        $this->port_level[$town->id] = 0;
+                        // Уровни зданий
+                        for ($i = 1; $i <=26; $i++)
+                        {
+                            $this->levels[$town->id][$i] = 0;
+                        }
                         $this->armys[$town->id] = array();
                         $this->warehouses[$town->id] = 0;
                         $this->army_gold_need[$town->id] = 0;
                         $this->corruption[$town->id] = 0;
-                        $this->palace_level[$town->id] = 0;
                         $this->units_count[$town->id] = 0;
                         // Загружаем город
                         $this->Data_Model->temp_towns_db[$town->id] = $town;
@@ -118,14 +120,9 @@ class Player_Model extends Model
                         {
                             $pos_type = 'pos'.$i.'_type'; $pos_level = 'pos'.$i.'_level';
                             if ($town->$pos_type == 6){ $this->capacity[$town->id] = $this->capacity[$town->id] + ($town->$pos_level*8000); $this->warehouses[$town->id]++; $this->warehouses_levels[$town->id] = $town->$pos_level; }
-                            // Уровни таверн
-                            if($town->$pos_type == 8){ $this->tavern_level[$town->id] = $town->$pos_level; }
-                            // Уровни портов
-                            if($town->$pos_type == 2){ $this->port_level[$town->id] = $town->$pos_level; }
-                            // Уровни дворцов и резиденций
-                            if($town->$pos_type == 10 or $town->$pos_type == 15){ $this->palace_level[$town->id] = $town->$pos_level; }
                             // Если здание построено заносим в построенные
                             if ($town->$pos_level > 0){ $this->already_build[$town->id][$town->$pos_type] = true; }
+                            $this->levels[$town->id][$town->$pos_type] = $town->$pos_level;
                         }
                         // Строящиеся здания
                         $this->build_line[$town->id] = $this->Data_Model->load_build_line($town->build_line);
@@ -181,7 +178,7 @@ class Player_Model extends Model
                             $this->good[$town->id] = $this->good[$town->id] + (10*$this->research->res2_15);
                             $this->plus[$town->id]['research'] = $this->plus[$town->id]['research'] + (10*$this->research->res2_15);
                         }
-                        $this->plus[$town->id]['tavern'] = $this->tavern_level[$town->id];
+                        $this->plus[$town->id]['tavern'] = $this->levels[$town->id][8];
                         $this->plus[$town->id]['wine'] = $town->tavern_wine*60;
                         $this->good[$town->id] = ($this->plus[$town->id]['base'] + $this->plus[$town->id]['capital'] + $this->plus[$town->id]['research'] + $this->plus[$town->id]['tavern'] + $this->plus[$town->id]['wine']) - ($this->minus[$town->id]['peoples']);
                         // Очереди армии и флота
@@ -194,7 +191,7 @@ class Player_Model extends Model
                         $colonys = SizeOf($this->towns) - 1;
                         if ($colonys > 0)
                         {
-                            $this->corruption[$town->id] = (1 - ($this->palace_level[$town->id] + 1) / ($colonys + 1));
+                            $this->corruption[$town->id] = (1 - ($this->levels[$town->id][10] + 1) / ($colonys + 1));
                             if ($this->corruption[$town->id] > 0)
                             {
                                 $this->good[$town->id] = $this->good[$town->id] - (($town->peoples + $this->good[$town->id]) * $this->corruption[$town->id] );

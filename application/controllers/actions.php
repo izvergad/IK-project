@@ -966,7 +966,7 @@ class Actions extends Controller
                     }
                     else
                     {
-                        if(SizeOf($this->Player_Model->towns)-1 < $this->Player_Model->palace_level[$this->Player_Model->capital_id])
+                        if(SizeOf($this->Player_Model->towns)-1 < $this->Player_Model->levels[$this->Player_Model->capital_id][10])
                         {
                             $sendresource = floor($_POST['sendresource']);
                             $sendwine = floor($_POST['sendwine']);
