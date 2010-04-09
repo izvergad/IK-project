@@ -46,7 +46,7 @@ class Player_Model extends Model
                 for($i = 1; $i < 14; $i++){
                     $parametr = 'res1_'.$i;
                     if ($this->research->$parametr == 0){$this->ways[1] = $this->Data_Model->get_research(1,$i,$this->research);break;}}
-                if ($this->Player_Model->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
+                if ($this->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
                 if(isset($this->ways[1]) and $this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
                 for($i = 1; $i < 15; $i++){
                     $parametr = 'res2_'.$i;
@@ -224,7 +224,6 @@ class Player_Model extends Model
 
     function User_Login()
     {
-        $this->check_php();
         if (isset($_POST['name']) & isset($_POST['password']))
         {
             $query = $this->db->get_where($_POST['universe'].'_users', array('login' => $_POST['name'], 'password' => md5($_POST['password'])));
@@ -270,15 +269,6 @@ class Player_Model extends Model
                 $this->already_build[$this->town_id][$this->build_line[$this->town_id][$i]['type']] = true;
                 $this->now_town->$pos_type = $this->build_line[$this->town_id][$i]['type'];
             }
-        }
-    }
-
-    function check_php()
-    {
-        $version = explode('.', phpversion());
-        if ($version[0] != 4)
-        {
-            $this->Error('Для корректной работы игры требуется 4-я версия php! Версия php на сервере: '.phpversion().'.');
         }
     }
 
