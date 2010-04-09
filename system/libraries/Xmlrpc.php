@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -229,7 +229,7 @@ class CI_Xmlrpc {
 
 	function values_parsing($value, $return = FALSE)
 	{
-		if (is_array($value) && isset($value['0']))
+		if (is_array($value) && array_key_exists(0, $value))
 		{
 			if ( ! isset($value['1']) OR (! isset($this->xmlrpcTypes[$value['1']])))
 			{

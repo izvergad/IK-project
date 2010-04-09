@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -49,13 +49,29 @@ if ( ! function_exists('xss_clean'))
 /**
  * Hash encode a string
  *
+ * This is simply an alias for do_hash()
+ * dohash() is now deprecated
+ */
+if ( ! function_exists('dohash'))
+{	
+	function dohash($str, $type = 'sha1')
+	{
+		return $this->do_hash($str, $type);
+	}
+}
+
+// --------------------------------------------------------------------
+
+/**
+ * Hash encode a string
+ *
  * @access	public
  * @param	string
  * @return	string
  */	
-if ( ! function_exists('dohash'))
+if ( ! function_exists('do_hash'))
 {	
-	function dohash($str, $type = 'sha1')
+	function do_hash($str, $type = 'sha1')
 	{
 		if ($type == 'sha1')
 		{

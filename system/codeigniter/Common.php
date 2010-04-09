@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -62,7 +62,7 @@ function is_really_writable($file)
 	// write a file then read it.  Bah...
 	if (is_dir($file))
 	{
-		$file = rtrim($file, '/').'/'.md5(rand(1,100));
+		$file = rtrim($file, '/').'/'.md5(mt_rand(1,100).mt_rand(1,100));
 
 		if (($fp = @fopen($file, FOPEN_WRITE_CREATE)) === FALSE)
 		{

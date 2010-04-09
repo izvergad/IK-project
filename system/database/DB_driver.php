@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -215,14 +215,20 @@ class CI_DB_driver {
 			}
 			return FALSE;
 		}
-		
-		if ($this->dbdriver == 'oci8')
+
+		// Some DBs have functions that return the version, and don't run special
+		// SQL queries per se. In these instances, just return the result.
+		$driver_version_exceptions = array('oci8', 'sqlite');
+
+		if (in_array($this->dbdriver, $driver_version_exceptions))
 		{
 			return $sql;
 		}
-	
-		$query = $this->query($sql);
-		return $query->row('ver');
+		else
+		{
+			$query = $this->query($sql);
+			return $query->row('ver');
+		}
 	}
 	
 	// --------------------------------------------------------------------
@@ -816,7 +822,7 @@ class CI_DB_driver {
 			return FALSE;
 		}
 		
-		if (FALSE === ($sql = $this->_list_columns($this->_protect_identifiers($table, TRUE, NULL, FALSE))))
+		if (FALSE === ($sql = $this->_list_columns($table)))
 		{
 			if ($this->db_debug)
 			{

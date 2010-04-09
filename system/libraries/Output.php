@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -331,7 +331,7 @@ class CI_Output {
 			return;
 		}
 		fclose($fp);
-		@chmod($cache_path, DIR_WRITE_MODE);
+		@chmod($cache_path, FILE_WRITE_MODE);
 
 		log_message('debug', "Cache file written: ".$cache_path);
 	}

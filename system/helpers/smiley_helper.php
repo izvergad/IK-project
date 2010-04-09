@@ -6,7 +6,7 @@
  *
  * @package		CodeIgniter
  * @author		ExpressionEngine Dev Team
- * @copyright	Copyright (c) 2008 - 2009, EllisLab, Inc.
+ * @copyright	Copyright (c) 2008 - 2010, EllisLab, Inc.
  * @license		http://codeigniter.com/user_guide/license.html
  * @link		http://codeigniter.com
  * @since		Version 1.0
@@ -93,7 +93,7 @@ if ( ! function_exists('smiley_js'))
 						el.setSelectionRange(newStart, newStart);
 					}
 					else if (document.selection) {
-						document.selection.createRange().text = text;
+						document.selection.createRange().text = smiley;
 					}
 				}
 EOF;
