@@ -4,7 +4,12 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
     $type_text = 'pos'.$position.'_type';
     $class = $this->Player_Model->now_town->$type_text;
     $level = $this->Player_Model->now_town->$level_text;
-    $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research);
+    $real_level = $level;
+    for ($i = 0; $i < SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]); $i++)
+    {
+        if ($class == $this->Player_Model->build_line[$this->Player_Model->town_id][$i]['type']){$real_level++;}
+    }
+    $cost = $this->Data_Model->building_cost($type, $real_level, $this->Player_Model->research);
 ?>
 
 <div id="buildingUpgrade" class="dynamic">
@@ -14,9 +19,9 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
         </a>
     </h3>
     <div class="content">
-        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$level?></div>
+        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$real_level?></div>
 
-        <h4>Необходим уровень <?=$level+1?>:</h4>
+        <h4>Необходим уровень <?=$real_level+1?>:</h4>
 
         <ul class="resources">
 <?if($cost['wood'] > 0){?>
@@ -43,7 +48,7 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
 <?if(($this->Player_Model->now_town->build_line != '' and $this->Player_Model->user->premium_account == 0) or ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '')){?>
                 <a class="disabled" href="#" title="Улучшение не доступно!"></a>
 <?}else{?>
-                <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel">Улучшение</span></a>
+                <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel"><?if($real_level != $level){?>Уже в очереди<?}else{?>Улучшение<?}?></span></a>
 <?}?>
             </li>
             <li class="downgrade">

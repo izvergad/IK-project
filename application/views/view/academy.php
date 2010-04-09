@@ -12,7 +12,7 @@ $all = $this->Player_Model->now_town->peoples + $this->Player_Model->now_town->s
 $max = ($max_scientists < $all) ? $max_scientists : $all;
 $max = floor($max);
 $add_research = $this->Player_Model->now_town->scientists * $this->Player_Model->plus_research;
-$gold_need = $this->Player_Model->scientists_gold_need;
+$gold_need = $this->Player_Model->scientists_gold_need+3;
 ?>
     <form id="setScientists" action="<?=$this->config->item('base_url')?>actions/workers/academy/<?=$position?>/" method="POST">
         <div class="contentBox01h">

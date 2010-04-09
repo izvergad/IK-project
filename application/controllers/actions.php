@@ -1077,6 +1077,27 @@ class Actions extends Controller
         redirect('/game/'.$redirect.'/'.$position.'/', 'refresh');
     }
 
+    function leaveConstructionList($id = 1)
+    {
+        if(isset($this->Player_Model->build_line[$this->Player_Model->town_id][$id]) and $id > 0)
+        {
+            if (SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) > 1)
+            for ($i = 0; $i < SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]); $i++)
+            {
+                if ($i != $id)
+                {
+                    $building = array($this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position'], $this->Player_Model->build_line[$this->Player_Model->town_id][$i]['type']);
+                    $building_line[] = implode(",", $building);
+                }
+            }
+            $buildings_line = implode(";", $building_line);
+            $this->db->set('build_line', $buildings_line);
+            $this->db->where(array('id' => $this->Player_Model->town_id));
+            $this->db->update($this->session->userdata('universe').'_towns');
+        }
+        redirect('/game/city/', 'refresh');
+    }
+
 }
 
 /* End of file actions.php */
