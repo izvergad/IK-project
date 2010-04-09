@@ -52,10 +52,11 @@ for ($i = 0; $i <= 14; $i++)
             <div class="<?if($class > 0){?><?if($level > 0){?><?=$image?><?}else{?>constructionSite<?}?><?}else{?><?=$image?><?}?>"></div>
             <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> <?if($class > 0){?>Уровень <?=$level?><?}?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($class)?>  <?if($class > 0){?>Уровень <?=$level?><?}?></span></a>
 <?$line_id=1?>
+<?if(SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id])>1){?>
 <?foreach($this->Player_Model->build_line[$this->Player_Model->town_id] as $build_line){?>
 <?if($build_line['type'] == $class){?>
             <div class="timetofinish"><span class="before"></span><span><?=$line_id?>.</span><span class="after"></span></div>
-<?}$line_id++;}?>
+<?}$line_id++;}}?>
 <?}?>
         </li>
 <?}?>

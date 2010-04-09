@@ -98,26 +98,21 @@ class Update_Model extends Model
                        $level = $this->CI->Update_Player->towns[$i]->$level_text;
                        $type = $this->CI->Update_Player->towns[$i]->$type_text;
                        $cost = $this->Data_Model->building_cost($buildings[0]['type'], $level, $this->CI->Update_Player->research);
-                       // Стоимость постройки
-                       $wood = $this->CI->Update_Player->towns[$i]->wood - $cost['wood'];
-                       $wine = $this->CI->Update_Player->towns[$i]->wine - $cost['wine'];
-                       $marble = $this->CI->Update_Player->towns[$i]->marble - $cost['marble'];
-                       $crystal = $this->CI->Update_Player->towns[$i]->crystal - $cost['crystal'];
-                       $sulfur = $this->CI->Update_Player->towns[$i]->sulfur - $cost['sulfur'];
+                       if (SizeOf($buildings) > 1)
+                       {
+                           $new_cost = $this->Data_Model->building_cost($buildings[1]['type'], $level, $this->CI->Update_Player->research);
+                           // Стоимость постройки
+                           $wood = $this->CI->Update_Player->towns[$i]->wood - $new_cost['wood'];
+                           $wine = $this->CI->Update_Player->towns[$i]->wine - $new_cost['wine'];
+                           $marble = $this->CI->Update_Player->towns[$i]->marble - $new_cost['marble'];
+                           $crystal = $this->CI->Update_Player->towns[$i]->crystal - $new_cost['crystal'];
+                           $sulfur = $this->CI->Update_Player->towns[$i]->sulfur - $new_cost['sulfur'];
+                       }
                        // Если время строить
                        if (($this->CI->Update_Player->towns[$i]->build_start + $cost['time']) <= time())
                        {
                            if (($step == 0) or ($step > 0 and $wood >= 0 and $marble >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0))
                            {
-                                // Если не первое здание в очереди
-                                if ($step > 0)
-                                {
-                                    $this->CI->Update_Player->towns[$i]->wood = $wood;
-                                    $this->CI->Update_Player->towns[$i]->wine = $wine;
-                                    $this->CI->Update_Player->towns[$i]->marble = $marble;
-                                    $this->CI->Update_Player->towns[$i]->crystal = $crystal;
-                                    $this->CI->Update_Player->towns[$i]->sulfur = $sulfur;
-                                }
                                     // Увеличиваем уровень
                                     $this->CI->Update_Player->towns[$i]->$level_text = $this->CI->Update_Player->towns[$i]->$level_text + 1;
                                     $this->CI->Update_Player->towns[$i]->$type_text = $buildings[0]['type'];
@@ -126,7 +121,6 @@ class Update_Model extends Model
                                     $this->db->set($type_text, $this->CI->Update_Player->towns[$i]->$type_text);
                                     // Отправляем сообщение
                                     $message = ($this->CI->Update_Player->towns[$i]->$level_text == 1) ? 'Строительство "<a href="'.$this->config->item('base_url').'game/city/'.$i.'/'.$this->Data_Model->building_class_by_type($buildings[0]['type']).'/'.$buildings[0]['position'].'/">'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'</a>" завершено!' : 'Уровень здания "<a href="'.$this->config->item('base_url').'game/city/'.$i.'/'.$this->Data_Model->building_class_by_type($buildings[0]['type']).'/'.$buildings[0]['position'].'/">'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'</a>" увеличен до '.$this->CI->Update_Player->towns[$i]->$level_text.'!';
-                                    //$message = ($this->CI->Update_Player->towns[$i]->$level_text == 1) ? 'Строительство "'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'" завершено!' : 'Уровень здания "'.$this->Data_Model->building_name_by_type($buildings[0]['type']).'" увеличен до '.$this->CI->Update_Player->towns[$i]->$level_text.'!';
                                     $town_message = array(
                                         'user' => $this->CI->Update_Player->user->id,
                                         'town' => $i,
@@ -134,11 +128,20 @@ class Update_Model extends Model
                                         'text' => $message
                                     );
                                     $towns_messages[] = $town_message;
+
+                                    // Если не первое здание в очереди
+                                    if (SizeOf($buildings) > 1 and ($cost['wood'] > 0 or $cost['wine'] > 0 or $cost['marble'] > 0 or $cost['crystal'] > 0 or $cost['sulfur'] > 0))
+                                    {
+                                        $this->CI->Update_Player->towns[$i]->wood = $wood;
+                                        $this->CI->Update_Player->towns[$i]->wine = $wine;
+                                        $this->CI->Update_Player->towns[$i]->marble = $marble;
+                                        $this->CI->Update_Player->towns[$i]->crystal = $crystal;
+                                        $this->CI->Update_Player->towns[$i]->sulfur = $sulfur;
+                                    }
                                     // Если есть очередь
                                     if (SizeOf($buildings) > 1)
                                     {
                                         // уменьшаем настоящую очередь
-                                        
                                         if ($buildings[0]['position'] < 10)
                                         {
                                             $this->CI->Update_Player->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->Update_Player->towns[$i]->build_line, 4) : substr($this->CI->Update_Player->towns[$i]->build_line, 5);
@@ -158,6 +161,7 @@ class Update_Model extends Model
                                             $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 5) : substr($while_line, 6);
                                         }
                                         $buildings = $this->Data_Model->load_build_line($this->CI->Update_Player->towns[$i]->build_line);
+                                        
                                     }
                                     else
                                     {
@@ -206,6 +210,7 @@ class Update_Model extends Model
                         // Проверка данных, чтобы не писать в БД лишнего
                         if (strlen($this->CI->Update_Player->towns[$i]->build_line) < 3){ $this->CI->Update_Player->towns[$i]->build_line = ''; }
                         if ($this->CI->Update_Player->towns[$i]->build_line == ''){ $this->CI->Update_Player->towns[$i]->build_start = 0; }
+                        $this->CI->Update_Player->build_line[$i] = $this->Data_Model->load_build_line($this->CI->Update_Player->towns[$i]->build_line);
                         // Пишем в БД очередь
                         $this->db->set('build_line', $this->CI->Update_Player->towns[$i]->build_line);
                         $this->db->set('build_start', $this->CI->Update_Player->towns[$i]->build_start);
