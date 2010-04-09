@@ -6,6 +6,7 @@ class Game extends Controller {
 		parent::Controller();
                 
                 $this->load->model('Player_Model');
+                $this->Player_Model->check_php();
                 if (!$this->session->userdata('login'))
                 {
                     $this->Player_Model->Error('Ваша сессия истекла, войдите снова!');

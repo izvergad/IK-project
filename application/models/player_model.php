@@ -224,6 +224,7 @@ class Player_Model extends Model
 
     function User_Login()
     {
+        $this->check_php();
         if (isset($_POST['name']) & isset($_POST['password']))
         {
             $query = $this->db->get_where($_POST['universe'].'_users', array('login' => $_POST['name'], 'password' => md5($_POST['password'])));
@@ -272,6 +273,14 @@ class Player_Model extends Model
         }
     }
 
+    function check_php()
+    {
+        $version = explode('.', phpversion());
+        if ($version[0] != 4)
+        {
+            $this->Error('Для корректной работы игры требуется 4-я версия php! Версия php на сервере: '.phpversion().'.');
+        }
+    }
 
 }
 
