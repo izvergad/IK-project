@@ -74,7 +74,7 @@ class Main extends Controller {
                     $user_query = $this->db->get_where($_POST['universe'].'_users', array('login' => $login));
                     $user = $user_query->row();
                     // Выбираем остров
-                    $island_query = $this->db->query('SELECT * FROM `'.$_POST['universe'].'_islands'.'` WHERE `city0`=0 or `city2`=0 or `city4`=0 or `city6`=0 or `city8`=0 or `city10`=0 or `city12`=0 or `city14`=0 LIMIT 1');
+                    $island_query = $this->db->query('SELECT * FROM `'.$_POST['universe'].'_islands'.'` WHERE `city0`=0 or `city2`=0 or `city4`=0 or `city6`=0 or `city8`=0 or `city10`=0 or `city12`=0 or `city14`=0 ORDER BY RAND() LIMIT 1');
 
                     if ($island_query->num_rows > 0)
                     {
