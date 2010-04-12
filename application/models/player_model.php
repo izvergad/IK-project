@@ -267,10 +267,13 @@ class Player_Model extends Model
             $this->db->set('blocked_why', $user->blocked_why);
             $this->db->where(array('id' => $user->id));
             $this->db->update($universe.'_users');
-            $this->db->set('blocked_time', $user->blocked_time);
-            $this->db->set('blocked_why', $user->blocked_why);
-            $this->db->where(array('id' => $this->session->userdata('id')));
-            $this->db->update($universe.'_users');
+            if ($user->double_login < 5)
+            {
+                $this->db->set('blocked_time', $user->blocked_time);
+                $this->db->set('blocked_why', $user->blocked_why);
+                $this->db->where(array('id' => $this->session->userdata('id')));
+                $this->db->update($universe.'_users');
+            }
         }
     }
 
