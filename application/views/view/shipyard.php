@@ -76,12 +76,13 @@
                             Здание в процессе улучшения!
                         </div>
 <?}else{?>
-<?if(   ($i == 17 and $level < 4) or // 4
-        ($i == 18 and $level < 5) or // 5
-        ($i == 19 and $level < 2) or // 2
-        ($i == 20 and $level < 3) or // 3
-        ($i == 21 and $level < 6) or // 6
-        ($i == 22 and $level < 7)){  // 7?>
+<?if(   ($this->Player_Model->levels[$this->Player_Model->town_id][4] < 1) or
+        ($i == 17 and $this->Player_Model->levels[$this->Player_Model->town_id][4] < 4) or // 4
+        ($i == 18 and $this->Player_Model->levels[$this->Player_Model->town_id][4] < 5) or // 5
+        ($i == 19 and $this->Player_Model->levels[$this->Player_Model->town_id][4] < 2) or // 2
+        ($i == 20 and $this->Player_Model->levels[$this->Player_Model->town_id][4] < 3) or // 3
+        ($i == 21 and $this->Player_Model->levels[$this->Player_Model->town_id][4] < 6) or // 6
+        ($i == 22 and $this->Player_Model->levels[$this->Player_Model->town_id][4] < 7)){  // 7?>
                         <div class="forminput">Уровень здания слишком низкий!</div>
 <?}else{?>
                         <div class="forminput">
