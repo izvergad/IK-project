@@ -230,6 +230,20 @@ class Player_Model extends Model
             if ($query->num_rows() > 0)
             {
                 $user = $query->row();
+                $this->Check_Double_Login($user, $_POST['universe']);
+                if($user->blocked_time > 0 and $user->blocked_time > time())
+                {
+                                $this->Error('Ваш аккаунт заблокирован до '.date("m.d.y H:i:s", $user->blocked_time).'!<br>Причина: '.$user->blocked_why);
+                }
+                else
+                {
+                    $user->blocked_time = 0;
+                    $user-> blocked_why = '';
+                    $this->db->set('blocked_time', $user->blocked_time);
+                    $this->db->set('blocked_why', $user->blocked_why);
+                    $this->db->where(array('id' => $user->id));
+                    $this->db->update($_POST['universe'].'_users');
+                }
                 $this->session->set_userdata(array('id' => $user->id, 'universe' => $_POST['universe'], 'login' => $_POST['name'], 'password' => md5($_POST['password'])));
                 redirect('/game/', 'refresh');
             }
@@ -237,6 +251,26 @@ class Player_Model extends Model
             {
                 $this->Error('Неверные логин или пароль.');
             }
+        }
+    }
+
+    function Check_Double_Login($user, $universe)
+    {
+        if (($user->blocked_time == 0) and ($this->session->userdata('id') > 0) and ($user->id != $this->session->userdata('id')) and ($this->session->userdata('universe') == $universe))
+        {
+            $this->db->insert($universe.'_double_login', array('account_from' => $this->session->userdata('id'),'account_to' => $user->id,'login_time' => time(), 'ip_address' => $_SERVER['REMOTE_ADDR']));
+            $user->double_login++;
+            $user->blocked_time = ($user->double_login < 5) ? time()+3600 : time()+(3600*30);
+            $user->blocked_why = ($user->double_login < 5) ? 'Подозрение в мультоводстве!' : 'Мультоводство!';
+            $this->db->set('double_login', $user->double_login);
+            $this->db->set('blocked_time', $user->blocked_time);
+            $this->db->set('blocked_why', $user->blocked_why);
+            $this->db->where(array('id' => $user->id));
+            $this->db->update($universe.'_users');
+            $this->db->set('blocked_time', $user->blocked_time);
+            $this->db->set('blocked_why', $user->blocked_why);
+            $this->db->where(array('id' => $this->session->userdata('id')));
+            $this->db->update($universe.'_users');
         }
     }
 

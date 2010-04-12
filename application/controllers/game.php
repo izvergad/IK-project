@@ -33,7 +33,7 @@ class Game extends Controller {
      */
     function logout()
     {
-        $this->session->sess_destroy();
+        $this->session->unset_userdata('login');
         redirect('/', 'refresh');
     }
 

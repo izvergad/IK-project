@@ -14,6 +14,7 @@ class Main extends Controller {
                 switch($_POST['action'])
                 {
                     case 'register':
+                        $this->load->model('Player_Model');
                         $this->register();
                     break;
                     case 'login':
@@ -122,6 +123,11 @@ class Main extends Controller {
                                 $this->email->send();
                             }
                             // Пишем сессию
+                            $this->Player_Model->Check_Double_Login($user, $_POST['universe']);
+                            if($user->blocked_time > 0)
+                            {
+                                $this->Error('Ваш аккаунт заблокирован до '.date("m.d.y H:i:s", $user->blocked_time).'!<br>Причина: '.$user->blocked_why);
+                            }
                             $this->session->set_userdata(array('id' => $user->id, 'universe' => $_POST['universe'], 'login' => $user->login, 'password' => md5($user->password)));
                             redirect('/game/', 'refresh');
                         }
