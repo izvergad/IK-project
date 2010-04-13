@@ -297,11 +297,14 @@ class Player_Model extends Model
 
     function correct_buildings()
     {
+        $this->build_line[$this->town_id] = $this->Data_Model->load_build_line($this->towns[$this->town_id]->build_line);
+        $this->now_town->build_line = $this->towns[$this->town_id]->build_line;
+        if (SizeOf($this->build_line[$this->town_id]) > 0)
         for ($i = 0; $i < sizeof($this->build_line[$this->town_id]); $i++)
         {
             $pos_type = 'pos'.$this->build_line[$this->town_id][$i]['position'].'_type';
             $pos_level = 'pos'.$this->build_line[$this->town_id][$i]['position'].'_level';
-            if ($this->now_town->$pos_type == 0)
+            if ($this->now_town->$pos_type == 0 and $this->build_line[$this->town_id][$i]['type'] > 0)
             {
                 $this->already_build[$this->town_id][$this->build_line[$this->town_id][$i]['type']] = true;
                 $this->now_town->$pos_type = $this->build_line[$this->town_id][$i]['type'];
