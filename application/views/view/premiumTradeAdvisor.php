@@ -140,7 +140,7 @@
                     <td><?=number_format($town->tradegood*(1-$this->Player_Model->corruption[$town->id])*$this->Player_Model->plus_wine)?> в час</td>
                     <td><?if($town->tradegood>0){?><?=format_time((($this->Player_Model->capacity[$town->id]-$town->wine)/($town->tradegood*(1-$this->Player_Model->corruption[$town->id])*$this->Player_Model->plus_wine))*3600)?><?}else{?>-<?}?></td>
                     <td><?=$this->Data_Model->wine_by_tavern_level($this->Player_Model->levels[$town->id][8])?> в час</td>
-                    <td><?=format_time(($town->wine/$this->Data_Model->wine_by_tavern_level($this->Player_Model->levels[$town->id][8]))*3600)?></td>
+                    <td><?if($town->wine > 0 and $this->Player_Model->levels[$town->id][8] > 0){?><?=format_time(($town->wine/$this->Data_Model->wine_by_tavern_level($this->Player_Model->levels[$town->id][8]))*3600)?><?}else{?>-<?}?></td>
                 </tr>
 <?}else{?>
                 <tr class='<?if (($town_id % 2) == 0){?>normal<?}else{?>alt<?}?>'>

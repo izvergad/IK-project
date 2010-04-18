@@ -9,11 +9,11 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
     {
         if ($class == $this->Player_Model->build_line[$this->Player_Model->town_id][$i]['type']){$real_level++;}
     }
-    $cost = $this->Data_Model->building_cost($type, $real_level, $this->Player_Model->research);
+    $cost = $this->Data_Model->building_cost($type, $real_level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
 ?>
 
 <div id="buildingUpgrade" class="dynamic">
-    <h3 class="header">Улучшить
+    <h3 class="header">Улучшить здание
         <a class="help" href="<?=$this->config->item('base_url')?>game/buildingDetail/<?=$class?>/" title="Помощь">
             <span class="textLabel">Нужна помощь?</span>
         </a>
@@ -21,7 +21,7 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
     <div class="content">
         <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$real_level?></div>
 
-        <h4>Необходим уровень <?=$real_level+1?>:</h4>
+        <h4>Необходимо для уровня <?=$real_level+1?>:</h4>
 
         <ul class="resources">
 <?if($cost['wood'] > 0){?>
@@ -45,10 +45,10 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
         </ul>
         <ul class="actions">
             <li class="upgrade">
-<?if(($this->Player_Model->now_town->build_line != '' and $this->Player_Model->user->premium_account == 0) or ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '')){?>
+<?if(($this->Player_Model->now_town->build_line != '' and $this->Player_Model->user->premium_account == 0) or ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '') or ($real_level >= $cost['max_level'])){?>
                 <a class="disabled" href="#" title="Улучшение не доступно!"></a>
 <?}else{?>
-                <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel"><?if($real_level != $level){?>Уже в очереди<?}else{?>Улучшение<?}?></span></a>
+                <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel"><?if($real_level != $level){?>Уже в очереди<?}else{?>Улучшить<?}?></span></a>
 <?}?>
             </li>
             <li class="downgrade">

@@ -1,7 +1,7 @@
 ﻿/*
 Navicat MySQL Data Transfer
 
-Source Server         : MySQL
+Source Server         : localhost
 Source Server Version : 50024
 Source Host           : localhost:3306
 Source Database       : ik_game
@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50024
 File Encoding         : 65001
 
-Date: 2010-04-08 21:19:28
+Date: 2010-04-18 13:38:30
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -51,6 +51,43 @@ CREATE TABLE `alpha_army` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
+-- Records of alpha_army
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `alpha_banners`
+-- ----------------------------
+DROP TABLE IF EXISTS `alpha_banners`;
+CREATE TABLE `alpha_banners` (
+  `id` int(11) NOT NULL auto_increment,
+  `frame` text character set utf8 NOT NULL,
+  `image` text character set utf8 NOT NULL,
+  `link` text character set utf8 NOT NULL,
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_banners
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `alpha_double_login`
+-- ----------------------------
+DROP TABLE IF EXISTS `alpha_double_login`;
+CREATE TABLE `alpha_double_login` (
+  `id` int(11) NOT NULL auto_increment,
+  `account_from` int(11) NOT NULL,
+  `account_to` int(11) NOT NULL,
+  `login_time` int(11) NOT NULL,
+  `ip_address` varchar(15) character set utf8 NOT NULL,
+  PRIMARY KEY  (`id`,`account_from`,`account_to`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_double_login
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `alpha_islands`
 -- ----------------------------
 DROP TABLE IF EXISTS `alpha_islands`;
@@ -85,7 +122,11 @@ CREATE TABLE `alpha_islands` (
   `city14` int(11) NOT NULL default '0',
   `city15` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`,`name`,`x`,`y`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_islands
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_missions`
@@ -96,7 +137,8 @@ CREATE TABLE `alpha_missions` (
   `user` int(11) NOT NULL,
   `from` int(11) NOT NULL,
   `to` int(11) NOT NULL,
-  `loading_start` int(11) NOT NULL,
+  `loading_from_start` int(11) NOT NULL,
+  `loading_to_start` int(11) NOT NULL,
   `mission_type` int(11) NOT NULL,
   `mission_start` int(11) NOT NULL,
   `return_start` int(11) NOT NULL,
@@ -131,8 +173,23 @@ CREATE TABLE `alpha_missions` (
   `ship_submarine` int(11) NOT NULL,
   `ship_transport` int(11) NOT NULL,
   `percent` varchar(11) character set utf8 NOT NULL default '0',
+  `trade_wood_count` int(11) NOT NULL,
+  `trade_wine_count` int(11) NOT NULL,
+  `trade_marble_count` int(11) NOT NULL,
+  `trade_crystal_count` int(11) NOT NULL,
+  `trade_sulfur_count` int(11) NOT NULL,
+  `trade_gold_count` int(11) NOT NULL,
+  `trade_wood_cost` int(11) NOT NULL,
+  `trade_wine_cost` int(11) NOT NULL,
+  `trade_marble_cost` int(11) NOT NULL,
+  `trade_crystal_cost` int(11) NOT NULL,
+  `trade_sulfur_cost` int(11) NOT NULL,
   PRIMARY KEY  (`id`,`user`,`from`,`to`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_missions
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_notes`
@@ -143,6 +200,10 @@ CREATE TABLE `alpha_notes` (
   `text` text character set utf8 NOT NULL,
   PRIMARY KEY  (`user`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_notes
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_research`
@@ -218,6 +279,10 @@ CREATE TABLE `alpha_research` (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
 
 -- ----------------------------
+-- Records of alpha_research
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for `alpha_town_messages`
 -- ----------------------------
 DROP TABLE IF EXISTS `alpha_town_messages`;
@@ -229,7 +294,11 @@ CREATE TABLE `alpha_town_messages` (
   `text` text character set utf8 NOT NULL,
   `checked` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`,`user`,`town`)
-) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_town_messages
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_towns`
@@ -288,8 +357,30 @@ CREATE TABLE `alpha_towns` (
   `tradegood_wood` int(11) NOT NULL default '0',
   `actions` varchar(255) character set utf8 NOT NULL default '3',
   `tavern_wine` int(11) NOT NULL default '0',
+  `branch_search_type` int(11) NOT NULL default '0',
+  `branch_search_resource` int(11) NOT NULL default '0',
+  `branch_search_radius` int(11) NOT NULL default '1',
+  `branch_trade_wood_type` int(11) NOT NULL default '1',
+  `branch_trade_wine_type` int(11) NOT NULL default '1',
+  `branch_trade_marble_type` int(11) NOT NULL default '1',
+  `branch_trade_crystal_type` int(11) NOT NULL default '1',
+  `branch_trade_sulfur_type` int(11) NOT NULL default '1',
+  `branch_trade_wood_count` int(11) NOT NULL default '0',
+  `branch_trade_wine_count` int(11) NOT NULL default '0',
+  `branch_trade_marble_count` int(11) NOT NULL default '0',
+  `branch_trade_crystal_count` int(11) NOT NULL default '0',
+  `branch_trade_sulfur_count` int(11) NOT NULL default '0',
+  `branch_trade_wood_cost` int(11) NOT NULL default '0',
+  `branch_trade_wine_cost` int(11) NOT NULL default '0',
+  `branch_trade_marble_cost` int(11) NOT NULL default '0',
+  `branch_trade_crystal_cost` int(11) NOT NULL default '0',
+  `branch_trade_sulfur_cost` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id`,`user`,`island`,`position`,`name`)
-) ENGINE=MyISAM AUTO_INCREMENT=16 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_towns
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `alpha_users`
@@ -303,6 +394,9 @@ CREATE TABLE `alpha_users` (
   `register_key` varchar(255) character set utf8 NOT NULL,
   `register_complete` int(11) NOT NULL default '0',
   `last_visit` int(11) NOT NULL,
+  `double_login` int(11) NOT NULL default '0',
+  `blocked_time` int(11) NOT NULL default '0',
+  `blocked_why` text character set utf8 NOT NULL,
   `town` int(11) NOT NULL,
   `capital` int(11) NOT NULL,
   `gold` varchar(255) character set utf8 NOT NULL default '100',
@@ -318,4 +412,8 @@ CREATE TABLE `alpha_users` (
   `premium_capacity` int(11) NOT NULL default '0',
   `options_select` int(11) NOT NULL default '1',
   PRIMARY KEY  (`id`,`login`,`town`,`capital`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+) ENGINE=MyISAM DEFAULT CHARSET=latin1 COLLATE=latin1_general_ci;
+
+-- ----------------------------
+-- Records of alpha_users
+-- ----------------------------

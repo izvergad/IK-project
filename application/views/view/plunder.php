@@ -271,7 +271,7 @@ function plusMinus(obj) {
 <?for($i = 1; $i <= 14; $i++){?>
 <?$class = $this->Data_Model->army_class_by_type($i)?>
 <?if ($this->Player_Model->armys[$this->Player_Model->town_id]->$class > 0){?>
-<?$cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research)?>
+<?$cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id])?>
                     <li class="<?=$class?> ">
                         <label for="cargo_army_<?=$i?>"><?=$this->Data_Model->army_name_by_type($i)?> отправить:</label>
                         <div class="amount"><span class="textLabel">Доступно: </span><?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?></div>

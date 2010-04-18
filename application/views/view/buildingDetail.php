@@ -18,8 +18,8 @@
     $level_text = 'pos'.$position.'_level';
     $level = $this->Player_Model->now_town->$level_text;
     if ($position == 0 and $id > 1) { $level = 0; }
-    $cost = $this->Data_Model->building_cost($id,$level,$this->Player_Model->research);
-    $cost_max = $this->Data_Model->building_cost($id,$cost['max_level'],$this->Player_Model->research);
+    $cost = $this->Data_Model->building_cost($id,$level-1,$this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
+    $cost_max = $this->Data_Model->building_cost($id,$cost['max_level']-1,$this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
     $wood = ($cost_max['wood'] > 0) ? true : false;
     $wine = ($cost_max['wine'] > 0) ? true : false;
     $marble = ($cost_max['marble'] > 0) ? true : false;
@@ -49,18 +49,43 @@
 <?case 1:?>
                     <th class="allow">макс. граждан</th>
 <?break;?>
+<?case 2:?>
+                    <th class="allow">Скорость загрузки</th>
+<?break;?>
 <?case 3:?>
                     <th class="allow">Ученые</th>
+<?break;?>
+<?case 6:?>
+                    <th colspan="5" class="warehouseCapacity">Вместимость</th>
+<?break;?>
+<?case 8:?>
+                    <th class="allow">Макс. кол-во вина</th>
+                    <th class="allow"><img src="<?=$this->config->item('style_url')?>skin/ikipedia/tavern_bonus.GIF" alt="Базовый бонус довольства" title="Базовый бонус довольства"></th>
+                    <th class="allow"><img src="<?=$this->config->item('style_url')?>skin/ikipedia/wine_bonus.gif" alt="Макс. бонус вина" title="Макс. бонус вина"></th>
+<?break;?>
+<?case 12:?>
+                    <th class="allow">Вместимость</th>
 <?break;?>
 
 <?}?>
                 </tr>
+<?if($id==6){?>
+                <tr>
+                    <td colspan="4"></td>
+                    <td title="Стройматериалы" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"></td>
+                    <td title="Хрусталь" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif" alt="Хрусталь"></td>
+                    <td title="Мрамор" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif" alt="Мрамор"></td>
+                    <td title="Сера" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif" alt="Сера"></td>
+                    <td title="Виноград" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" alt="Виноград"></td>
+                </tr>
+<?}?>
+
 <?$start_level = ($level > 5) ? $level - 6 : 0?>
 <?$max_level = (($start_level + 15) > $cost['max_level']) ? $cost['max_level'] : $start_level + 15?>
 <?for ($i = $start_level; $i <= $max_level; $i++){?>
 <?if ($cost['max_level'] >= $i) {?>
-<?$cost = $this->Data_Model->building_cost($id,$i, $this->Player_Model->research)?>
-                <tr >
+<?$cost = $this->Data_Model->building_cost($id, $i, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id])?>
+                <tr <?if (($i % 2) == 1){?>class="alt"<?}?>>
                     <td class="level"><?=$i+1?></td>
 <?if ($wood) {?>
                     <td class="costs"><?=number_format($cost['wood'])?></td>
@@ -82,8 +107,26 @@
     case 1:?>
                     <td class="allow"><?echo number_format($this->Data_Model->peoples_by_level($i))?></th>
 <?break;
+    case 2:?>
+                    <td class="allow"><?echo number_format($this->Data_Model->speed_by_port_level($i+1))?></th>
+<?break;
     case 3:?>
                     <td class="allow"><?echo number_format($this->Data_Model->scientists_by_level($i+1))?></th>
+<?break;
+    case 6:?>
+                    <td class="allow"><?echo number_format(8000*($i+1))?></th>
+                    <td class="allow"><?echo number_format(8000*($i+1))?></th>
+                    <td class="allow"><?echo number_format(8000*($i+1))?></th>
+                    <td class="allow"><?echo number_format(8000*($i+1))?></th>
+                    <td class="allow"><?echo number_format(8000*($i+1))?></th>
+<?break;
+    case 8:?>
+                    <td class="allow"><?echo number_format($this->Data_Model->wine_by_tavern_level($i+1))?></th>
+                    <td class="allow"><?echo number_format(12*($i+1))?></th>
+                    <td class="allow"><?echo number_format(60*($i+1))?></th>
+<?break;
+    case 12:?>
+                    <td class="allow"><?echo number_format($this->Data_Model->branchOffice_capacity_by_level($i+1))?></th>
 <?break;
 
 }?>

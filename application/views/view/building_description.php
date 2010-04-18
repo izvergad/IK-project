@@ -8,7 +8,7 @@
     <div class="buildingDescription">
         <h1 style="text-align:center"><?=$this->Data_Model->building_name_by_type($class)?></h1>
 <?
-    $cost = $this->Data_Model->building_cost($class, $level, $this->Player_Model->research);
+    $cost = $this->Data_Model->building_cost($class, $level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
     $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
     $ostalos = $end_date - time();
     $one_percent = ($cost['time']/100);

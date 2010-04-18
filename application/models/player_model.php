@@ -64,18 +64,6 @@ class Player_Model extends Model
                     if ($this->research->$parametr == 0){$this->ways[4] = $this->Data_Model->get_research(4,$i,$this->research);break;}}
                 if ($this->research->res4_14 > 0){$this->ways[4] = $this->Data_Model->get_research(4,14,$this->research);}
                 if(isset($this->ways[4]) and $this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
-                // Загружаем миссии
-                $this->Data_Model->Load_Missions($id);
-                $this->missions =& $this->Data_Model->temp_missions_db[$id];
-                if (SizeOf($this->missions) > 0)
-                foreach($this->missions as $mission)
-                {
-                    if ($mission->mission_start == 0){ $this->missions_loading++; }
-                    $this->all_transports = $this->all_transports + $mission->ship_transport;
-                    $this->Data_Model->Load_Town($mission->to);
-                    $this->Data_Model->Load_User($this->Data_Model->temp_towns_db[$mission->to]->user);
-                    $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->to]->island);
-                }
                 // Всего ученых
                 $this->scientists = 0;
                 // Notes
@@ -140,7 +128,7 @@ class Player_Model extends Model
                             $class = $this->Data_Model->army_class_by_type($a);
                             if ($this->armys[$town->id]->$class > 0)
                             {
-                                $cost = $this->Data_Model->army_cost_by_type($a, $this->research);
+                                $cost = $this->Data_Model->army_cost_by_type($a, $this->research, $this->levels[$town->id]);
                                 $this->saldo[$town->id] = $this->saldo[$town->id] - ($cost['gold']*$this->armys[$town->id]->$class);
                                 $this->army_gold_need[$town->id] = $this->army_gold_need[$town->id] + ($cost['gold']*$this->armys[$town->id]->$class);
                                 $this->units_count[$town->id] = ($a <= 14) ? $this->units_count[$town->id] + $this->armys[$town->id]->$class : $this->units_count[$town->id];
@@ -184,6 +172,8 @@ class Player_Model extends Model
                         // Очереди армии и флота
                         $this->army_line[$town->id] = $this->Data_Model->load_army_line($this->armys[$town->id]->army_line);
                         $this->ships_line[$town->id] = $this->Data_Model->load_army_line($this->armys[$town->id]->ships_line);
+                    
+                        $this->my_fleets[$town->id] = 0;
                     }
                     // Вычисляем коррупцию
                     foreach($this->towns as $town)
@@ -215,11 +205,36 @@ class Player_Model extends Model
                 if ($this->user->premium_sulfur > 0){$this->plus_sulfur = 1.2;}
                 if ($this->user->premium_capacity > 0){$this->plus_capacity = 2;}
 
+                // Загружаем миссии
+                $this->Data_Model->Load_Missions($this->user->id, $this->towns);
+                $this->missions =& $this->Data_Model->temp_missions_db[$id];
+                $this->fleets = 0;
+                if (SizeOf($this->missions) > 0)
+                foreach($this->missions as $mission)
+                {
+                    if ($mission->mission_start == 0){ $this->missions_loading++; }
+                    if ($mission->user == $this->user->id)
+                    {
+                        $this->all_transports = $this->all_transports + $mission->ship_transport;
+                        $this->fleets++;
+                        $this->my_fleets[$mission->from]++;
+                    }
+                    elseif($mission->return_start == 0)
+                    {
+                        $this->fleets++;
+                    }
+                    $this->Data_Model->Load_Town($mission->to);
+                    $this->Data_Model->Load_Town($mission->from);
+                    $this->Data_Model->Load_User($this->Data_Model->temp_towns_db[$mission->to]->user);
+                    $this->Data_Model->Load_User($this->Data_Model->temp_towns_db[$mission->from]->user);
+                    $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->to]->island);
+                    $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->from]->island);
+                }
+                
                 $this->island_id = $this->towns[$this->town_id]->island;
                 $this->now_town = $this->towns[$this->town_id];
                 $this->now_island = $this->islands[$this->island_id];
             }
-            $this->Data_Model->temp_players[$id] =& $this->Player_Model;
     }
 
     function User_Login()
@@ -256,7 +271,7 @@ class Player_Model extends Model
 
     function Check_Double_Login($user, $universe)
     {
-        if (($user->blocked_time == 0) and ($this->session->userdata('id') > 0) and ($user->id != $this->session->userdata('id')) and ($this->session->userdata('universe') == $universe))
+        if ($this->config->item('double_login') and ($user->blocked_time == 0) and ($this->session->userdata('id') > 0) and ($user->id != $this->session->userdata('id')) and ($this->session->userdata('universe') == $universe))
         {
             $this->db->insert($universe.'_double_login', array('account_from' => $this->session->userdata('id'),'account_to' => $user->id,'login_time' => time(), 'ip_address' => $_SERVER['REMOTE_ADDR']));
             $user->double_login++;
@@ -276,7 +291,7 @@ class Player_Model extends Model
             }
         }
     }
-
+    
     function Load_Town_Messages()
     {
         // Загрузка сообщений
@@ -288,7 +303,7 @@ class Player_Model extends Model
                 foreach ($town_messages->result() as $row)
                     $this->towns_messages[] = $row;
     }
-
+    
     function Load_New_Messages()
     {
             $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('user' => $this->session->userdata('id'), 'checked' => 0));
@@ -297,8 +312,7 @@ class Player_Model extends Model
 
     function correct_buildings()
     {
-        $this->build_line[$this->town_id] = $this->Data_Model->load_build_line($this->towns[$this->town_id]->build_line);
-        $this->now_town->build_line = $this->towns[$this->town_id]->build_line;
+        $this->now_town = $this->towns[$this->town_id];
         if (SizeOf($this->build_line[$this->town_id]) > 0)
         for ($i = 0; $i < sizeof($this->build_line[$this->town_id]); $i++)
         {

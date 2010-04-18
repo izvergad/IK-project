@@ -39,7 +39,7 @@
 ?>
 <?$buildings_count++?>
 <?$building_id=$i?>
-<?$cost = $this->Data_Model->building_cost($building_id,0, $this->Player_Model->research)?>
+<?$cost = $this->Data_Model->building_cost($building_id,0, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id])?>
                 <li class="building <?=$this->Data_Model->building_class_by_type($building_id)?>">
                     <div class="buildinginfo">
                         <h4><?=$this->Data_Model->building_name_by_type($building_id)?></h4>

@@ -37,6 +37,7 @@
                 <!--<li class="noobModeInfo">Игрок под защитой богов.</li>-->
             </ul>
             <ul class="cityactions">
+<?if($this->Island_Model->towns[$i]->id != $this->Player_Model->town_id){?>
 <?if($this->Player_Model->user->transports == 0){?>
                 <li class="transport disabled" title="Сухогрузы для транспортировки недоступны!">
                     <span class="textLabel">Отправить ресурсы</span>
@@ -47,7 +48,7 @@
                         <span class="textLabel">Отправить ресурсы</span>
                     </a>
                 </li>
-<?}?>
+<?}}?>
             </ul>
         </li>
 

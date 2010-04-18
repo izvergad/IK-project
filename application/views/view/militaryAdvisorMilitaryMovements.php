@@ -1,3 +1,4 @@
+<?=$this->CI =& get_instance()?>
 <div id="mainview">
     <div class="buildingDescription">
         <h1>Войска</h1>
@@ -5,7 +6,7 @@
     </div>
     <div class="yui-navset">
         <ul class="yui-nav">
-            <li  class="selected"><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Перемещения войск"><em>Перемещения войск (<?=SizeOf($this->Player_Model->missions)?>)</em></a></li>
+            <li  class="selected"><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Перемещения войск"><em>Перемещения войск (<?=$this->Player_Model->fleets?>)</em></a></li>
             <li ><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorCombatReports/" title="Боевые доклады"><em>Боевые доклады (0)</em></a></li>
             <li><a href="<?=$this->config->item('base_url')?>game/militaryAdvisorCombatReportsArchive/" title="Архив"><em>Архив</em></a></li>
         </ul>
@@ -31,13 +32,31 @@
                     <td>Цель</td>
                     <td style="width: 42px">Действие</td>
                 </tr>
-                <!-- repeat... -->
+<?$mission_id = 0?>
 <?if(SizeOf($this->Player_Model->missions) > 0)?>
 <?foreach($this->Player_Model->missions as $mission){?>
-<?include('mission_data.php')?>
-	<tr  class=' own own'>
+<?
+    $all_resources = $mission->wood+$mission->wine+$mission->marble+$mission->crystal+$mission->sulfur+$mission->peoples;
+    include(APPPATH.'models/mission_data.php');
+?>
+<?if($mission->user == $this->Player_Model->user->id or ($mission->return_start == 0 and $mission->user != $this->Player_Model->user->id)){?>
+	<tr  <?if (($mission_id % 2) == 1){?>class='alt'<?}?>>
             <td><img src="<?=$this->config->item('style_url')?>skin/resources/icon_time.gif" /></td>
-            <td id="fleetRow<?=$mission->id?>" title="Время прибытия"><?if($mission->return_start == 0){?><?if($mission->mission_start > 0){?><?=format_time($ostalos)?><?}else{?>Погрузка<?}?><?}else{?><?=format_time($return_time)?><?}?></td>
+            <td id="fleetRow<?=$mission->id?>" title="Время прибытия">
+                        <?if ($mission->mission_start == 0){?>
+                            Погрузка
+                        <?}else{?>
+                            <?if($mission_end > 0){?>
+                                <?=format_time($mission_end)?>
+                            <?}else{?>
+                                <?if($mission->return_start == 0){?>
+                                    Погрузка
+                                <?}else{?>
+                                    <?=format_time($loading_end + $time)?>
+                                <?}?>
+                            <?}?>
+                        <?}?>
+            </td>
             <td title="Кол-во" style="cursor: pointer" onMouseOut="this.firstChild.nextSibling.style.display = 'none'" onMouseOver="this.firstChild.nextSibling.style.display = 'block'"><?=$mission->ship_transport?> Корабли
                 <div class="tooltip2" style="z-index: 2000">
                     <h5>Флот / Войсковые части / Груз</h5>
@@ -103,39 +122,57 @@
                 <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_left_green.gif">
 <?}?>
             </td>
-            <td style="text-align: center; width: 35px" title="<?=$this->Data_Model->mission_name_by_type($mission->mission_type)?> <?if($mission->return_start == 0){?><?if($mission->mission_start > 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?>(возвращение)<?}?>">
+            <td style="text-align: center; width: 35px" title="<?=$this->Data_Model->mission_name_by_type($mission->mission_type)?> <?if($mission->return_start == 0){?><?if($mission->mission_start > 0 and $loading_end > 0 AND $mission->loading_to_start == 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?><?if($mission->percent < 1){?>(отмена)<?}else{?>(возвращение)<?}}?>">
+<?if($mission->mission_type <=2){?>
                 <img src="<?=$this->config->item('style_url')?>skin/interface/mission_transport.gif">
+<?}elseif($mission->mission_type > 2 and $mission->mission_type <= 4){?>
+                <img src="<?=$this->config->item('style_url')?>skin/interface/mission_trade.gif">
+<?}?>
             </td>
             <td style='width: 12px; padding-left: 0px; padding-right: 0px'>
-<?if($mission->return_start == 0){?>
+<?if($mission->return_start == 0 and $mission->mission_start > 0 and $loading_end > 0  and $mission->loading_to_start == 0){?>
                 <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_right_green.gif">
 <?}?>
             </td>
             <td title="Цель"><a href="<?=$this->config->item('base_url')?>game/island/<?=$this->Data_Model->temp_towns_db[$mission->to]->island?>/<?=$this->Data_Model->temp_towns_db[$mission->to]->id?>/"><?=$this->Data_Model->temp_towns_db[$mission->to]->name?></a> (<?=$this->Data_Model->temp_users_db[$this->Data_Model->temp_towns_db[$mission->to]->user]->login?>)</td>
             <td title="Действия" style="text-align: center; ">
-<?if($mission->return_start == 0){?>
+<?if($mission->return_start == 0 and $mission->user == $this->Player_Model->user->id){?>
                 <a href="<?=$this->config->item('base_url')?>actions/abortFleet/<?=$mission->id?>/0/militaryAdvisorMilitaryMovements/">
                     <img title="Отступать!" src="<?=$this->config->item('style_url')?>skin/interface/btn_abort.gif">
                 </a>
 <?}else{?>-<?}?>
             </td>
         </tr>
-<?if($mission->mission_start > 0 and $mission->return_start == 0){?>
+
+<?if($mission->mission_start > 0 and $mission->return_start == 0 and $mission->loading_to_start == 0){?>
         <script type="text/javascript">
             Event.onDOMReady(function() {
-                getCountdown({enddate: <?=time()+$ostalos?>, currentdate: <?=time()?>, el: "fleetRow<?=$mission->id?>"});
+                getCountdown({enddate: <?=time()+$mission_end?>, currentdate: <?=time()?>, el: "fleetRow<?=$mission->id?>"});
             })
         </script>
-<?}?>
+<?}elseif($mission->return_start > 0){?>
+        <script type="text/javascript">
+            Event.onDOMReady(function() {
+                getCountdown({enddate: <?=time()+$return_end?>, currentdate: <?=time()?>, el: "fleetRow<?=$mission->id?>"});
+            })
+        </script>
+<?}elseif($mission->mission_start > 0){?>
 <?if($mission->return_start > 0){?>
         <script type="text/javascript">
             Event.onDOMReady(function() {
-                getCountdown({enddate: <?=time()+$return_time?>, currentdate: <?=time()?>, el: "fleetRow<?=$mission->id?>"});
+                getCountdown({enddate: <?=time()+$loading_end+$time?>, currentdate: <?=time()?>, el: "fleetRow<?=$mission->id?>"});
+            })
+        </script>
+<?}else{?>
+        <script type="text/javascript">
+            Event.onDOMReady(function() {
+                getCountdown({enddate: <?=time()+$loading_end?>, currentdate: <?=time()?>, el: "fleetRow<?=$mission->id?>"});
             })
         </script>
 <?}?>
+<?}}?>
+<?$mission_id++?>
 <?}?>
-                <!-- end repeat... -->
             </table>
         </div>
         <div class="footer"></div>

@@ -94,7 +94,7 @@ Event.onDOMReady( function() {
     $all_capacity = $this->Player_Model->user->transports*$this->config->item('transport_capacity');
     $used_capacity =  1250 + 40;
     $capacity = $all_capacity - $used_capacity;
-    $cost = $this->Data_Model->army_cost_by_type(23, $this->Player_Model->research);
+    $cost = $this->Data_Model->army_cost_by_type(23, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
     $x1 = $this->Player_Model->now_island->x;
     $x2 = $this->Island_Model->island->x;
     $y1 = $this->Player_Model->now_island->y;

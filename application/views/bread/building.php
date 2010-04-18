@@ -8,7 +8,7 @@
         <img src="<?=$this->config->item('style_url')?>skin/layout/icon-island.gif" alt="<?=$this->Player_Model->now_island->name?>"> [<?=$this->Player_Model->now_island->x?>:<?=$this->Player_Model->now_island->y?>]
     </a>
     <span>&nbsp;&gt;&nbsp;</span>
-    <a href="<?=$this->config->item('base_url')?>game/city/" class="city" title="Назад в город"><?=$this->Player_Model->now_town->name?></a>
+    <a href="<?=$this->config->item('base_url')?>game/city/" title="Назад в город"><img src="<?=$this->config->item('style_url')?>skin/layout/icon-city2.gif" alt="<?=$this->Player_Model->now_town->name?>"></a>
     <span>&nbsp;&gt;&nbsp;</span>
     <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($type)?>/" class="building" title="<?=$this->Data_Model->building_name_by_type($type)?>"><?=$this->Data_Model->building_name_by_type($type)?></a>
     <span>&nbsp;&gt;&nbsp;</span>

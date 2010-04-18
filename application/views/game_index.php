@@ -159,14 +159,44 @@
 	<body id="<?=$page?>">
             <div id="container">
                 <div id="container2">
+<?$banner_query = $this->db->query("SELECT * FROM `".$this->session->userdata('universe')."_banners` ORDER BY RAND() LIMIT 1")?>
+<?if($banner_query->num_rows > 0){?>
+<?$banner = $banner_query->row()?>
+<style type="text/css">
+#banner_skyscraper {
+	width:120px;
+	height:600px;
+	position:absolute;
+	left:505px;
+	z-index:25;
+}
+#banner_container {
+	top:20px;
+	position:absolute;
+	width:120px;
+	left:50%;
+	z-index:25;
+}
+</style>
+                    <div id="banner_container">
+                        <div id="banner_skyscraper">
+<?if($banner->frame){?>
+                            <iframe id="a<?=$banner->id?>" name="a<?=$banner->id?>" src="<?=$banner->frame?>" framespacing="0" frameborder="no" scrolling="no" width="120" height="600" allowtransparency="true">
+                            </iframe>
+<?}else{?>
+                                <a href="<?=$banner->link?>" target="_blank"><img src="<?=$banner->image?>" border="0" alt=""></a>
+<?}?>
+                        </div>
+                    </div>
+<?}?>
                     <div id="header">
                         <h1>Икариам</h1>
                         <h2>Древний мир!</h2>
                     </div>
                     <div id="avatarNotes"></div>
-                    <?=$this->View_Model->show_bread($page, $param1, $param2)?>
-                    <?=$this->View_Model->show_sidebox($page, $param1, $param2)?>
-                    <?=$this->View_Model->show_view($page, $param1, $param2)?>
+                    <?=$this->View_Model->show_bread($page, $param1, $param2, $param3)?>
+                    <?=$this->View_Model->show_sidebox($page, $param1, $param2, $param3)?>
+                    <?=$this->View_Model->show_view($page, $param1, $param2, $param3)?>
 
 <div id="cityNav">
     <form id="changeCityForm" action="<?=$this->config->item('base_url')?>game/<?=$page?>/" method="POST">
@@ -250,34 +280,49 @@
             <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=number_format($this->Player_Model->now_town->actions)?></span>
 	</li>
 	<li class="wood">
-            <span class="textLabel">Стройматериалы:</span><span id="value_wood" class="<?if(($this->Player_Model->now_town->wood*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wood >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wood))?></span>
+            <span class="textLabel">Стройматериалы: </span><span id="value_wood" class="<?if(($this->Player_Model->now_town->wood*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wood >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wood))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Стройматериалы:</span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel">Вместимость Стройматериалы: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <?if($this->Player_Model->now_town->branch_trade_wood_type == 1 and $this->Player_Model->now_town->branch_trade_wood_count > 0){?>
+                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_wood_count)?>
+                <?}?>
             </div>
 	</li>
 <?$disabled = ($this->Player_Model->research->res2_3 == 0) ? 'disabled' : ''?>
 	<li class="wine <?if($this->Player_Model->now_town->wine==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Виноград:</span><span id="value_wine" class="<?if(($this->Player_Model->now_town->wine*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wine >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wine))?></span>
+            <span class="textLabel">Виноград: </span><span id="value_wine" class="<?if(($this->Player_Model->now_town->wine*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wine >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wine))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Виноград:</span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel">Вместимость Виноград: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <?if($this->Player_Model->now_town->branch_trade_wine_type == 1 and $this->Player_Model->now_town->branch_trade_wine_count > 0){?>
+                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_wine_count)?>
+                <?}?>
             </div>
 	</li>
 	<li class="marble <?if($this->Player_Model->now_town->marble==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Мрамор:</span><span id="value_marble" class="<?if(($this->Player_Model->now_town->marble*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->marble >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->marble))?></span>
+            <span class="textLabel">Мрамор: </span><span id="value_marble" class="<?if(($this->Player_Model->now_town->marble*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->marble >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->marble))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Мрамор:</span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <?if($this->Player_Model->now_town->branch_trade_marble_type == 1 and $this->Player_Model->now_town->branch_trade_marble_count > 0){?>
+                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_marble_count)?>
+                <?}?>
             </div>
 	</li>
         <li class="glass <?if($this->Player_Model->now_town->crystal==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Хрусталь:</span><span id="value_crystal" class="<?if(($this->Player_Model->now_town->crystal*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->crystal >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->crystal))?></span>
+            <span class="textLabel">Хрусталь: </span><span id="value_crystal" class="<?if(($this->Player_Model->now_town->crystal*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->crystal >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->crystal))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Хрусталь:</span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <?if($this->Player_Model->now_town->branch_trade_crystal_type == 1 and $this->Player_Model->now_town->branch_trade_crystal_count > 0){?>
+                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_crystal_count)?>
+                <?}?>
             </div>
 	</li>
         <li class="sulfur <?if($this->Player_Model->now_town->sulfur==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Сера:</span><span id="value_sulfur" class="<?if(($this->Player_Model->now_town->sulfur*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->sulfur >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->sulfur))?></span>
+            <span class="textLabel">Сера: </span><span id="value_sulfur" class="<?if(($this->Player_Model->now_town->sulfur*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->sulfur >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->sulfur))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Сера:</span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <?if($this->Player_Model->now_town->branch_trade_sulfur_type == 1 and $this->Player_Model->now_town->branch_trade_sulfur_count > 0){?>
+                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_sulfur_count)?>
+                <?}?>
             </div>
 	</li>
     </ul>
@@ -519,7 +564,7 @@ function jsTitleTag(nextETA) {
     $type_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_type';
     $level = $this->Player_Model->now_town->$level_text;
     $type = $this->Player_Model->now_town->$type_text;
-    $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research);
+    $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
     $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
 ?>
 titleTag = new jsTitleTag(<?=$end_date?>)

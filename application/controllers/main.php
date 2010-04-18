@@ -21,6 +21,9 @@ class Main extends Controller {
                         $this->load->model('Player_Model');
                         $this->Player_Model->User_Login();
                     break;
+                    case 'sendPassword':
+                        $this->send_password();
+                    break;
                 }
             }
             else
@@ -182,6 +185,48 @@ class Main extends Controller {
             {
                 redirect('/', 'refresh');
             }
+        }
+
+        function send_password()
+        {
+            // Переменная ошибок
+            $errors = array();
+            $sended = false;
+            // Загружаем модули
+            $this->load->library('email');
+            $this->load->helper('email');
+            // Тип письма text или html
+            $config['mailtype'] = 'html';
+            $this->email->initialize($config);
+            if (!isset($_POST['universe'])){ $errors[] = 'Не выбрана вселенная!'; }
+            if (!isset($_POST['email']) or !valid_email($_POST['email'])){ $errors[] = 'Неверный e-mail.'; }
+            if (count($errors) == 0)
+            {
+                $user_query = $this->db->get_where($_POST['universe'].'_users', array('email' => $_POST['email']));
+                if ($user_query->num_rows == 0)
+                {
+                    $errors[] = 'E-mail не зарегистрирован!';
+                }
+                else
+                {
+                    $user = $user_query->row();
+                    $password = $key = random_key(8);
+                    $this->db->set('password', md5($password));
+                    $this->db->where(array('id' => $user->id));
+                    $this->db->update($_POST['universe'].'_users');
+                    //Отправляем письмо
+                                $message = '<html><body><p>Привет '.$user->login.',<br><br>Ваш новый пароль для Икариам ('.$_POST['universe'].'):<br><br>'.$password.'<br><br>Вы можете войти на странице <a href="'.$this->config->item('base_url').'" target="_blank">'.$this->config->item('base_url').'</a><br><br>Удачи в игре,<br>Ваша команда Икариам.</p></body></html>';
+                                $this->email->from($this->config->item('email_from'), 'Гермес');
+                                $this->email->to($_POST['email']);
+                                $this->email->subject('Ваш новый пароль для Икариам!');
+                                $this->email->message($message);
+                                $this->email->send();
+                    $sended = true;
+                }
+            }
+            $this->session->set_flashdata(array('errors' => $errors));
+            $this->session->set_flashdata(array('sended' => $sended));
+            $this->load->view('main_index', array('page' => 'password', 'errors' => $errors));
         }
 }
 

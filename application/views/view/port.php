@@ -63,7 +63,7 @@
             <div class="tcap">Мои торговые корабли</div>
 <?$m_id = 0?>
 <?if($this->Player_Model->missions_loading > 0){?>
-<?foreach($this->Player_Model->missions as $mission)
+<?foreach($this->Player_Model->missions as $mission){
 if ($mission->mission_start == 0){?>
 <?
     $wood = $mission->wood;
@@ -71,10 +71,11 @@ if ($mission->mission_start == 0){?>
     $wine = $mission->wine;
     $crystal = $mission->crystal;
     $sulfur = $mission->sulfur;
-    $all_resources = $wood + $marble + $wine + $crystal + $sulfur;
+    $peoples = $mission->peoples;
+    $all_resources = $wood + $marble + $wine + $crystal + $sulfur + $peoples;
     $per_sec = $speed / 60;
     $all_time = ($all_resources/$per_sec);
-    $elapsed = (time() - $mission->loading_start);
+    $elapsed = (time() - $mission->loading_from_start);
     if($all_time <= $elapsed){ $time = 0; } else { $time = $all_time - $elapsed; }
 ?>
             <table cellpadding="0" cellspacing="0" class="table01">
@@ -110,6 +111,9 @@ if ($mission->mission_start == 0){?>
 <?if($sulfur > 0){?>
                 <tr><td class='unit'><img src='<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif'></td><td class='count'><?=number_format($sulfur)?></td></tr>
 <?}?>
+<?if($peoples > 0){?>
+                <tr><td class='unit'><img src='<?=$this->config->item('style_url')?>skin/resources/icon_citizen.gif'></td><td class='count'><?=number_format($peoples)?></td></tr>
+<?}?>
             </table>
         </div><?=$mission->ship_transport?>
     </td>
@@ -128,7 +132,7 @@ if ($mission->mission_start == 0){?>
                     el: "outgoingOwnCountDown"
                 }, 2, " ", "", true, true);
                 var tmppbar = getProgressBar({
-                    startdate: <?=$mission->loading_start?>,
+                    startdate: <?=$mission->loading_from_start?>,
                     enddate: <?=time()+$time?>,
                     currentdate: <?=time()?>,
                     bar: "outgoingOwnProgress"
@@ -152,10 +156,9 @@ if ($mission->mission_start == 0){?>
 </tr>
                 </tbody>
             </table>
-
+<?$m_id++;?>
 <?}?>
-
-<?}?>
+<?}}?>
 <?if($m_id == 0){?>
             <p>Нет зарегистрированных кораблей в порту</p>
 <?}?>

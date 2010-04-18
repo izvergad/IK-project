@@ -29,6 +29,12 @@
                                     <td><input id="pwd"  name="password" type="password" class="pass"></td>
                                     <td><input type="submit" class="button" value="Вход"></td>
                                 </tr>
+<?if ($this->config->item('game_email')){?>
+                                <tr>
+                                    <td colspan="3" class="forgotpwd"><a id="lost_password" title="Здесь вы можете запросить новый пароль">Забыли пароль?</a></td>
+                                    <td style="font-size:10px; text-align:left; padding:4px 0px 0px 16px;"></td>
+                                </tr>
+<?}?>
                             </table>
                         </div>
                     </form>
@@ -40,5 +46,12 @@ $(document).ready(function(){
         $('#text').load('<?=$this->config->item('base_url')?>main/page/register/');
         $('#text').fadeIn();
     });
+<?if ($this->config->item('game_email')){?>
+    $("#lost_password").click(function(){
+        $('#text').hide();
+        $('#text').load('<?=$this->config->item('base_url')?>main/page/password/');
+        $('#text').fadeIn();
+    });
+<?}?>
 });
 </script>

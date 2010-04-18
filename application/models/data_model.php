@@ -53,16 +53,22 @@ class Data_Model extends Model
         }}
     }
 
-    function Load_Missions($id = 0)
+    function Load_Missions($id = 0, $towns)
     {
-        if ($id > 0){if (!isset($temp_missions_db[$id])){
-                $query = $this->db->get_where($this->session->userdata('universe').'_missions', array('user' => $id));
+        if (is_array($towns) and $id > 0){
+                $where = '';
+                foreach($towns as $town)
+                {
+                    $where .= '`to`='.$town->id.' or `from`='.$town->id.' or ';
+                }
+                    $where .= '`id`=0';
+                $query = $this->db->query('SELECT * FROM '.$this->session->userdata('universe').'_missions WHERE '.$where.' ORDER BY `loading_from_start` ASC');
                 $this->temp_missions_db[$id] = array();
                 foreach ($query->result() as $return)
                 {
                     $this->temp_missions_db[$id][$return->id] = $return;
                 }
-        }}
+        }
     }
 
     /**
@@ -192,7 +198,7 @@ class Data_Model extends Model
      * @param <int> $type
      * @return <array>
      */
-    function army_cost_by_type($type, $research)
+    function army_cost_by_type($type, $research, $levels)
     {
         $type = $type-1;
         // Цены
@@ -257,34 +263,52 @@ class Data_Model extends Model
         $return['ability'] = ($ability_array[$type] > 0) ? $ability_array[$type] : 0;
         $return['capacity'] = ($capacity_array[$type] > 0) ? $capacity_array[$type] : 0;
         
-        // Игровая скорость
-        $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
+        // Скидки на цены
+        $minus_wood = 0;
+        $minus_wine = 0;
+        $minus_crystal = 0;
+        $minus_sulfur = 0;
+        $minus_gold = 0;
         // Исследования снижают содержание кораблей
         if ($type >= 15)
         {
             // Ремонт кораблей
-            if ($research->res1_3 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02); }
+            if ($research->res1_3 > 0) { $minus_gold = $minus_gold +0.02; }
             // Смола
-            if ($research->res1_6 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.04); }
+            if ($research->res1_6 > 0) { $minus_gold = $minus_gold +0.04; }
             // Морские карты
-            if ($research->res1_11 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.08); }
+            if ($research->res1_11 > 0) { $minus_gold = $minus_gold +0.08; }
             // Будущее мореходства
-            if ($research->res1_14 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02*$research->res1_14); }
+            if ($research->res1_14 > 0) { $minus_gold = $minus_gold +(0.02*$research->res1_14); }
         }
         // Исследования снижают содержание войск
         if ($type < 15)
         {
             // Карты
-            if ($research->res4_2 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02); }
+            if ($research->res4_2 > 0) { $minus_gold = $minus_gold +0.02; }
             // Кодекс чести
-            if ($research->res4_5 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.04); }
+            if ($research->res4_5 > 0) { $minus_gold = $minus_gold +0.04; }
             // Логистика
-            if ($research->res4_10 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.08); }
+            if ($research->res4_10 > 0) { $minus_gold = $minus_gold +0.08; }
             // Будущее армии
-            if ($research->res4_14 > 0) { $return['gold'] = $return['gold'] - ($return['gold']*0.02*$research->res1_14); }
+            if ($research->res4_14 > 0) { $minus_gold = $minus_gold +(0.02*$research->res4_14); }
         }
+        // плотницкая мастерская
+        if ($levels[21] > 0)
+        {
+            $minus_wood = $minus_wood + (0.01*$levels[21]);
+        }
+        $return['gold'] = $return['gold'] - ($return['gold']*$minus_gold);
+        $return['wood'] = $return['wood'] - ($return['wood']*$minus_wood);
+        $return['wine'] = $return['wine'] - ($return['wine']*$minus_wine);
+        $return['crystal'] = $return['crystal'] - ($return['crystal']*$minus_crystal);
+        $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*$minus_sulfur);
         if ($return['gold'] < 0){ $return['gold'] = 0; }
-
+        if ($return['wood'] < 0){ $return['wood'] = 0; }
+        if ($return['wine'] < 0){ $return['wine'] = 0; }
+        if ($return['crystal'] < 0){ $return['crystal'] = 0; }
+        if ($return['sulfur'] < 0){ $return['sulfur'] = 0; }
+        
         return $return;
     }
 
@@ -623,8 +647,6 @@ class Data_Model extends Model
             $return['time'] = ($time_array[$level] > 0) ? $time_array[$level] : 0;
             $max_level = count($time_array)-1;
         }else{$return['time'] = 0;}
-        // Игровая скорость
-        $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
         $return['max_level'] = $max_level;
         return $return;
     }
@@ -635,7 +657,7 @@ class Data_Model extends Model
      * @param <int> $level
      * @return <array>
      */
-    function building_cost($id = 1, $level = 0, $research)
+    function building_cost($id = 1, $level = 0, $research, $levels)
     {
         if ($level < 0){ $level = 0; }
         $wood = ''; $wine = ''; $marble = ''; $crystal = ''; $sulfur = ''; $time = ''; $max_level = 0;
@@ -692,74 +714,100 @@ class Data_Model extends Model
                 $time = '16080 22560 31560 44220 61920 86700 118800 169200 237600 331200 464400 651600';
             break;
 
+            case 12:
+                $wood = '48 173 346 581 896 1314 1863 2580 3509 4706 6241 8203 10699 13866 17872 22926 29286 37272 47282 59806 75446 94954 119245 149453 186977';
+                $marble = '0 0 0 0 540 792 1123 1555 2115 2837 3762 4945 6450 8359 10774 13820 17654 22469 28502 36051 45481 57240 71883 90092 112712';
+                $time = '1440 2520 3660 4980 6420 7980 9720 11640 13740 16080 18600 21420 24480 27900 31620 35700 40260 45180 50640 56640 63240 70560 78540 87300 93600';
+            break;
+
+            case 21:
+                $wood = '63 122 192 274 372 486 620 777 962 1178 1432 1730 2078 2486 2964 3524 4178 4944 5841 6890 8117 9550 11229 13190 15484 18167 21299 24946 29245 34247 40096 46930';
+                $marble = '0 0 0 0 0 0 0 359 444 546 669 816 993 1205 1459 1765 2131 2571 3097 3731 4490 5402 6496 7809 9383 11273 13543 16263 19531 23450 28154 33798';
+                $time = '792 1008 1237 1480 1737 2010 2299 2605 2930 3274 3639 4020 4380 4860 5280 5820 6300 6840 7440 8040 8700 9420 10140 10980 11760 126000 13560 14520 15540 16680 17820 19080';
+            break;
         }
         if ($wood != '')
         {
             $wood_array = explode(' ', $wood) ;
-            $return['wood'] = ($wood_array[$level] > 0) ? $wood_array[$level] : 0;
+            $return['wood'] = (isset($wood_array[$level]) and $wood_array[$level] > 0) ? $wood_array[$level] : 0;
             $max_level = count($wood_array)-1;
         }else{$return['wood'] = 0;}
         if ($wine != '')
         {
             $wine_array = explode(' ', $wine) ;
-            $return['wine'] = ($wine_array[$level] > 0) ? $wine_array[$level] : 0;
+            $return['wine'] = (isset($wine_array[$level]) and $wine_array[$level] > 0) ? $wine_array[$level] : 0;
             $max_level = count($wine_array)-1;
         }else{$return['wine'] = 0;}
         if ($marble != '')
         {
             $marble_array = explode(' ', $marble) ;
-            $return['marble'] = ($marble_array[$level] > 0) ? $marble_array[$level] : 0;
+            $return['marble'] = (isset($marble_array[$level]) and $marble_array[$level] > 0) ? $marble_array[$level] : 0;
             $max_level = count($marble_array)-1;
         }else{$return['marble'] = 0;}
         if ($crystal != '')
         {
             $crystal_array = explode(' ', $crystal) ;
-            $return['crystal'] = ($crystal_array[$level] > 0) ? $crystal_array[$level] : 0;
+            $return['crystal'] = (isset($crystal_array[$level]) and $crystal_array[$level] > 0) ? $crystal_array[$level] : 0;
             $max_level = count($crystal_array)-1;
         }else{$return['crystal'] = 0;}
         if ($sulfur != '')
         {
             $sulfur_array = explode(' ', $sulfur) ;
-            $return['sulfur'] = ($sulfur_array[$level] > 0) ? $sulfur_array[$level] : 0;
+            $return['sulfur'] = (isset($sulfur_array[$level]) and $sulfur_array[$level] > 0) ? $sulfur_array[$level] : 0;
             $max_level = count($sulfur_array)-1;
         }else{$return['sulfur'] = 0;}
         if ($time != '')
         {
             $time_array = explode(' ', $time) ;
-            $return['time'] = ($time_array[$level] > 0) ? $time_array[$level] : 0;
+            $return['time'] = (isset($time_array[$level]) and $time_array[$level] > 0) ? $time_array[$level] : 0;
             $max_level = count($time_array)-1;
         }else{$return['time'] = 0;}
         $return['max_level'] = $max_level;
-        // Игровая скорость
-        $return['time'] = (1/$this->config->item('game_speed'))*$return['time'];
+        // скидки на цены
+        $minus_wood = 0;
+        $minus_wine = 0;
+        $minus_marble = 0;
+        $minus_crystal = 0;
+        $minus_sulfur = 0;
         // Исследования уменьшают стоимость зданий
-        // Шкив
+        // Шкиф
         if ($research->res2_2 > 0)
         {
-            $return['wood'] = $return['wood'] - ($return['wood']*0.02);
-            $return['wine'] = $return['wine'] - ($return['wine']*0.02);
-            $return['marble'] = $return['marble'] - ($return['marble']*0.02);
-            $return['crystal'] = $return['crystal'] - ($return['crystal']*0.02);
-            $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*0.02);
+            $minus_wood = $minus_wood + 0.02;
+            $minus_wine = $minus_wine + 0.02;
+            $minus_marble = $minus_marble + 0.02;
+            $minus_crystal = $minus_crystal + 0.02;
+            $minus_sulfur = $minus_sulfur + 0.02;
         }
         // Геометрия
         if ($research->res2_6 > 0)
         {
-            $return['wood'] = $return['wood'] - ($return['wood']*0.04);
-            $return['wine'] = $return['wine'] - ($return['wine']*0.04);
-            $return['marble'] = $return['marble'] - ($return['marble']*0.04);
-            $return['crystal'] = $return['crystal'] - ($return['crystal']*0.04);
-            $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*0.04);
+            $minus_wood = $minus_wood + 0.04;
+            $minus_wine = $minus_wine + 0.04;
+            $minus_marble = $minus_marble + 0.04;
+            $minus_crystal = $minus_crystal + 0.04;
+            $minus_sulfur = $minus_sulfur + 0.04;
         }
         // Водяной уровень
         if ($research->res2_11 > 0)
         {
-            $return['wood'] = $return['wood'] - ($return['wood']*0.08);
-            $return['wine'] = $return['wine'] - ($return['wine']*0.08);
-            $return['marble'] = $return['marble'] - ($return['marble']*0.08);
-            $return['crystal'] = $return['crystal'] - ($return['crystal']*0.08);
-            $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*0.08);
+            $minus_wood = $minus_wood + 0.08;
+            $minus_wine = $minus_wine + 0.08;
+            $minus_marble = $minus_marble + 0.08;
+            $minus_crystal = $minus_crystal + 0.08;
+            $minus_sulfur = $minus_sulfur + 0.08;
         }
+        // Плотницкая мастерская
+        if ($levels[21] > 0)
+        {
+            $minus_wood = $minus_wood + (0.01*$levels[21]);
+        }
+        $return['wood'] = $return['wood'] - ($return['wood']*$minus_wood);
+        $return['wine'] = $return['wine'] - ($return['wine']*$minus_wine);
+        $return['marble'] = $return['marble'] - ($return['marble']*$minus_marble);
+        $return['crystal'] = $return['crystal'] - ($return['crystal']*$minus_crystal);
+        $return['sulfur'] = $return['sulfur'] - ($return['sulfur']*$minus_sulfur);
+
         if ($return['wood'] < 0){ $return['wood'] = 0; }
         if ($return['wine'] < 0){ $return['wine'] = 0; }
         if ($return['marble'] < 0){ $return['marble'] = 0; }
@@ -1452,7 +1500,27 @@ class Data_Model extends Model
         {
             case 1: return 'Колонизация'; break;
             case 2: return 'Транспорт'; break;
+            case 3: return 'Торговля'; break;
+            case 4: return 'Торговля'; break;
         }
+    }
+
+    function branchOffice_capacity_by_level($level = 0)
+    {
+        return 400*$level*$level;
+    }
+
+    function branchOffice_radius_by_level($level)
+    {
+            $radius = ($level >= 3) ? ceil($level/2) : 1;
+            return $radius;
+    }
+
+    function action_points_by_level($level = 0)
+    {
+        $points = ($level > 0) ? 3 : 0;
+        $points = $points + floor($level/4);
+        return $points;
     }
 
 }

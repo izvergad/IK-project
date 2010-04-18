@@ -1,3 +1,10 @@
+
+<?
+    if(function_exists('redirect'))
+    {
+        redirect('/game/error/', 'refresh');
+    }
+?>
 <html>
 <head>
 <title>404 Page Not Found</title>
@@ -31,9 +38,3 @@ margin: 			0 0 4px 0;
 	</div>
 </body>
 </html>
-<?
-    if(function_exists('redirect'))
-    {
-        redirect('/game/error/', 'refresh');
-    }
-?>

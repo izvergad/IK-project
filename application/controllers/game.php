@@ -17,6 +17,10 @@ class Game extends Controller {
                     if (isset($_POST['cityId']) and isset($this->Data_Model->temp_towns_db[$_POST['cityId']]) and $_POST['cityId'] > 0)
                     {
                         $this->Player_Model->town_id = ($_POST['cityId'] > 0) ? intval($_POST['cityId']) : $this->Player_Model->town_id;
+                        $this->Player_Model->now_town = $this->Player_Model->towns[$this->Player_Model->town_id];
+                        $this->db->set('town', $this->Player_Model->town_id);
+                        $this->db->where(array('id' => $this->Player_Model->user->id));
+                        $this->db->update($this->session->userdata('universe').'_users');
                     }
                     $this->load->model('Update_Model');
                     // Отмечаем здания в очереди на карте
@@ -210,6 +214,18 @@ class Game extends Controller {
         $this->show('palace', $position);
     }
 
+    function carpentering()
+    {
+        $position = $this->Data_Model->get_position(21, $this->Player_Model->now_town);
+        $this->show('carpentering', $position);
+    }
+
+    function branchOffice($position = 0, $desc = 'ressDesc')
+    {
+        $position = $this->Data_Model->get_position(12, $this->Player_Model->now_town);
+        $this->show('branchOffice', $position, $desc);
+    }
+
     /**
      * Премиум-возможности
      */
@@ -399,9 +415,14 @@ class Game extends Controller {
         
     }
 
-        function show($location, $param1 = 0, $param2 = 0)
+    function takeOffer($town = 0, $type = 0, $resource = 0)
+    {
+        $this->show('takeOffer', $town, $type, $resource);
+    }
+
+        function show($location, $param1 = 0, $param2 = 0, $param3 = 0)
         {
-            $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2));
+            $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2, 'param3' => $param3));
         }
 
 }

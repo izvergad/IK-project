@@ -88,11 +88,11 @@ class Actions extends Controller
             // Получаем цены
             if ($this->Player_Model->now_town->build_line != '' and $this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'] == $position)
             {
-                $cost = $this->Data_Model->building_cost($type,$level, $this->Player_Model->research);
+                $cost = $this->Data_Model->building_cost($type,$level, $this->Player_Model->research,$this->Player_Model->levels[$this->Player_Model->town_id]);
             }
             else
             {
-                $cost = $this->Data_Model->building_cost($type,$level-1,$this->Player_Model->research);
+                $cost = $this->Data_Model->building_cost($type,$level-1,$this->Player_Model->research,$this->Player_Model->levels[$this->Player_Model->town_id]);
                 $level = ($level > 0) ? $level - 1 : $level;
             }
             //Если это академия обнуляем ученых
@@ -142,7 +142,7 @@ class Actions extends Controller
                         $type_text = 'pos'.$buildings[0]['position'].'_type';
                         $type = $this->Player_Model->now_town->$type_text;
                         $next_level = $this->Player_Model->now_town->$level_text;
-                        $cost = $this->Data_Model->building_cost($type, $next_level, $this->Player_Model->research);
+                        $cost = $this->Data_Model->building_cost($type, $next_level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
                         // Если хватает ресурсов
                         if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
                         {
@@ -221,7 +221,7 @@ class Actions extends Controller
             (SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) <= $this->config->item('town_queue_size')) and (SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) > 0 and $this->Player_Model->user->premium_account > 0) or SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) == 0)
         {
             // Получаем цены
-            $cost = $this->Data_Model->building_cost($id, $level, $this->Player_Model->research);
+            $cost = $this->Data_Model->building_cost($id, $level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
             // Подсчитываем остаток
             $wood = $this->Player_Model->now_town->wood - $cost['wood'];
             $wine = $this->Player_Model->now_town->wine - $cost['wine'];
@@ -530,7 +530,7 @@ class Actions extends Controller
                 {
                     $class = $this->Data_Model->army_class_by_type($i);
                     $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
-                    $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research);
+                    $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
                     $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
                     $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
                     $all_cost['crystal'] = $all_cost['crystal'] + $cost['crystal']*$$class;
@@ -599,7 +599,7 @@ class Actions extends Controller
                 {
                     $class = $this->Data_Model->army_class_by_type($i);
                     $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
-                    $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research);
+                    $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
                     $all_cost['wood'] = $all_cost['wood'] + $cost['wood']*$$class;
                     $all_cost['wine'] = $all_cost['wine'] + $cost['wine']*$$class;
                     $all_cost['crystal'] = $all_cost['crystal'] + $cost['crystal']*$$class;
@@ -649,7 +649,7 @@ class Actions extends Controller
         {
                 $class = $this->Data_Model->army_class_by_type($i);
                 $$class = (isset($_POST[$i])) ? floor($_POST[$i]) : 0 ;
-                $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research);
+                $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
                 if ($this->Player_Model->armys[$this->Player_Model->town_id]->$class >= $$class)
                 {
                     $peoples_army = $peoples_army + ($$class*$cost['peoples']);
@@ -885,41 +885,49 @@ class Actions extends Controller
     {
         $island = floor($island);
         $town = floor($town);
-        if ($island > 0 and $town >= 0)
+        if ($this->Player_Model->now_town->actions > 0)
         {
-            $this->Data_Model->Load_Town($town);
-            $this->load->model('Island_Model');
-            $this->Island_Model->Load_Island($island);
-            // Получаем данные
-            $cargo_wood = isset($_POST['cargo_resource']) ? $_POST['cargo_resource'] : 0;
-            $cargo_wine = isset($_POST['cargo_tradegood1']) ? $_POST['cargo_tradegood1'] : 0;
-            $cargo_marble = isset($_POST['cargo_tradegood2']) ? $_POST['cargo_tradegood2'] : 0;
-            $cargo_crystal = isset($_POST['cargo_tradegood3']) ? $_POST['cargo_tradegood3'] : 0;
-            $cargo_sulfur = isset($_POST['cargo_tradegood4']) ? $_POST['cargo_tradegood4'] : 0;
-            $transporters = isset($_POST['transporters']) ? $_POST['transporters'] : 0;
-            // Подсчитываем ресурсы
-            $wood = $this->Player_Model->now_town->wood - $cargo_wood;
-            $wine = $this->Player_Model->now_town->wine - $cargo_wine;
-            $marble = $this->Player_Model->now_town->marble - $cargo_marble;
-            $crystal = $this->Player_Model->now_town->crystal - $cargo_crystal;
-            $sulfur = $this->Player_Model->now_town->sulfur - $cargo_sulfur;
-            $transports = $this->Player_Model->user->transports - $transporters;
-            if(isset($this->Data_Model->temp_towns_db[$town]) and ($this->Player_Model->user->transports >= $transporters) and ($wood >= 0) and ($wine >= 0) and ($crystal >= 0) and ($sulfur >= 0) and ($transports >= 0) and ($transporters*$this->config->item('transport_capacity') >= $cargo_wood + $cargo_wine + $cargo_marble + $cargo_crystal + $cargo_sulfur))
+            if ($island > 0 and $town >= 0)
             {
-                // Вычитаем ресурсы
-                $this->db->set('wood', $wood);
-                $this->db->set('wine', $wine);
-                $this->db->set('marble', $marble);
-                $this->db->set('crystal', $crystal);
-                $this->db->set('sulfur', $sulfur);
-                $this->db->where(array('id' => $this->Player_Model->now_town->id));
-                $this->db->update($this->session->userdata('universe').'_towns');
-                $this->db->set('transports', $transports);
-                $this->db->where(array('id' => $this->Player_Model->user->id));
-                $this->db->update($this->session->userdata('universe').'_users');
-                // Добавляем миссию
-                $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_start' => time(), 'mission_type' => 2, 'wood' => $cargo_wood, 'wine' => $cargo_wine, 'marble' => $cargo_marble, 'crystal' => $cargo_crystal, 'sulfur' => $cargo_sulfur, 'ship_transport' => $transporters));
+                $this->Data_Model->Load_Town($town);
+                $this->load->model('Island_Model');
+                $this->Island_Model->Load_Island($island);
+                // Получаем данные
+                $cargo_wood = isset($_POST['cargo_resource']) ? $_POST['cargo_resource'] : 0;
+                $cargo_wine = isset($_POST['cargo_tradegood1']) ? $_POST['cargo_tradegood1'] : 0;
+                $cargo_marble = isset($_POST['cargo_tradegood2']) ? $_POST['cargo_tradegood2'] : 0;
+                $cargo_crystal = isset($_POST['cargo_tradegood3']) ? $_POST['cargo_tradegood3'] : 0;
+                $cargo_sulfur = isset($_POST['cargo_tradegood4']) ? $_POST['cargo_tradegood4'] : 0;
+                $transporters = isset($_POST['transporters']) ? $_POST['transporters'] : 0;
+                // Подсчитываем ресурсы
+                $wood = $this->Player_Model->now_town->wood - $cargo_wood;
+                $wine = $this->Player_Model->now_town->wine - $cargo_wine;
+                $marble = $this->Player_Model->now_town->marble - $cargo_marble;
+                $crystal = $this->Player_Model->now_town->crystal - $cargo_crystal;
+                $sulfur = $this->Player_Model->now_town->sulfur - $cargo_sulfur;
+                $transports = $this->Player_Model->user->transports - $transporters;
+                if(isset($this->Data_Model->temp_towns_db[$town]) and ($this->Player_Model->user->transports >= $transporters) and ($wood >= 0) and ($wine >= 0) and ($crystal >= 0) and ($sulfur >= 0) and ($transports >= 0) and ($transporters*$this->config->item('transport_capacity') >= $cargo_wood + $cargo_wine + $cargo_marble + $cargo_crystal + $cargo_sulfur))
+                {
+                    // Вычитаем ресурсы
+                    $this->db->set('wood', $wood);
+                    $this->db->set('wine', $wine);
+                    $this->db->set('marble', $marble);
+                    $this->db->set('crystal', $crystal);
+                    $this->db->set('sulfur', $sulfur);
+                    $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                    $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                    $this->db->update($this->session->userdata('universe').'_towns');
+                    $this->db->set('transports', $transports);
+                    $this->db->where(array('id' => $this->Player_Model->user->id));
+                    $this->db->update($this->session->userdata('universe').'_users');
+                    // Добавляем миссию
+                    $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_from_start' => time(), 'mission_type' => 2, 'wood' => $cargo_wood, 'wine' => $cargo_wine, 'marble' => $cargo_marble, 'crystal' => $cargo_crystal, 'sulfur' => $cargo_sulfur, 'ship_transport' => $transporters));
+                }
             }
+        }
+        else
+        {
+            $this->Player_Model->Game_Error('Недостаточно баллов действий!');
         }
         redirect('/game/port/', 'refresh');
     }
@@ -928,93 +936,101 @@ class Actions extends Controller
     {
         $id = floor($id);
         $position = floor($position);
-        if ($id > 0 and $position >= 0)
+        if ($this->Player_Model->now_town->actions > 0)
         {
-            $this->load->model('Island_Model');
-            $this->Island_Model->Load_Island($id);
-            if(isset($_POST['action']))
+            if ($id > 0 and $position >= 0)
             {
-                $city_text = 'city'.$position;
-                    if($_POST['action'] == 'Переместить' and isset($this->Player_Model->towns[$_POST['cityId']]) and $this->Player_Model->user->ambrosy >= 200)
-                    {
-                        $now_position = -1;
-                        for ($i = 0; $i <= 15; $i++)
+                $this->load->model('Island_Model');
+                $this->Island_Model->Load_Island($id);
+                if(isset($_POST['action']))
+                {
+                    $city_text = 'city'.$position;
+                        if($_POST['action'] == 'Переместить' and isset($this->Player_Model->towns[$_POST['cityId']]) and $this->Player_Model->user->ambrosy >= 200)
                         {
-                            $city_now = 'city'.$i;
-                            if ($this->Player_Model->islands[$this->Player_Model->towns[$_POST['cityId']]->island]->$city_now == $_POST['cityId']){$now_position = $i;}
-                        }
-                        if($this->Island_Model->island->$city_text == 0 and $now_position >= 0)
-                        {
-                            // Удаляем старую отметку
-                            $this->db->set('city'.$now_position, 0);
-                            $this->db->where(array('id' => $this->Player_Model->towns[$_POST['cityId']]->island));
-                            $this->db->update($this->session->userdata('universe').'_islands');
-                            // Пишем новую отметку
-                            $this->db->set('city'.$position, $_POST['cityId']);
-                            $this->db->where(array('id' => $id));
-                            $this->db->update($this->session->userdata('universe').'_islands');
-                            // Пишем новый остров в городе
-                            $this->db->set('island', $id);
-                            $this->db->set('position', $position);
-                            $this->db->where(array('id' => $_POST['cityId']));
-                            $this->db->update($this->session->userdata('universe').'_towns');
-                            // Забираем амброзию
-                            $this->db->set('ambrosy', $this->Player_Model->user->ambrosy-200);
-                            $this->db->where(array('id' => $this->Player_Model->user->id));
-                            $this->db->update($this->session->userdata('universe').'_users');
-                        }
-                    }
-                    else
-                    {
-                        if(SizeOf($this->Player_Model->towns)-1 < $this->Player_Model->levels[$this->Player_Model->capital_id][10])
-                        {
-                            $sendresource = floor($_POST['sendresource']);
-                            $sendwine = floor($_POST['sendwine']);
-                            $sendmarble = floor($_POST['sendmarble']);
-                            $sendcrystal = floor($_POST['sendcrystal']);
-                            $sendsulfur = floor($_POST['sendsulfur']);
-                            $transporters = floor($_POST['transporters']);
-                            $wood = $this->Player_Model->now_town->wood - $sendresource - 1250;
-                            $wine = $this->Player_Model->now_town->wine - $sendwine;
-                            $marble = $this->Player_Model->now_town->marble - $sendmarble;
-                            $crystal = $this->Player_Model->now_town->crystal - $sendcrystal;
-                            $sulfur = $this->Player_Model->now_town->sulfur - $sendsulfur;
-                            $peoples = $this->Player_Model->now_town->peoples - 40;
-                            $gold = $this->Player_Model->user->gold - 9000;
-                            $transports = $this->Player_Model->user->transports - $transporters;
-                            if(($this->Player_Model->user->transports >= $transporters) and ($wood >= 0) and ($wine >= 0) and ($crystal >= 0) and ($sulfur >= 0) and ($peoples >= 0) and ($gold >= 0) and ($transports >= 0) and ($transporters*$this->config->item('transport_capacity') >= $sendresource + $sendwine + $sendmarble + $sendcrystal + $sendsulfur + 1250 + 40))
+                            $now_position = -1;
+                            for ($i = 0; $i <= 15; $i++)
                             {
-                                if($this->Island_Model->island->$city_text == 0)
+                                $city_now = 'city'.$i;
+                                if ($this->Player_Model->islands[$this->Player_Model->towns[$_POST['cityId']]->island]->$city_now == $_POST['cityId']){$now_position = $i;}
+                            }
+                            if($this->Island_Model->island->$city_text == 0 and $now_position >= 0)
+                            {
+                                // Удаляем старую отметку
+                                $this->db->set('city'.$now_position, 0);
+                                $this->db->where(array('id' => $this->Player_Model->towns[$_POST['cityId']]->island));
+                                $this->db->update($this->session->userdata('universe').'_islands');
+                                // Пишем новую отметку
+                                $this->db->set('city'.$position, $_POST['cityId']);
+                                $this->db->where(array('id' => $id));
+                                $this->db->update($this->session->userdata('universe').'_islands');
+                                // Пишем новый остров в городе
+                                $this->db->set('island', $id);
+                                $this->db->set('position', $position);
+                                $this->db->where(array('id' => $_POST['cityId']));
+                                $this->db->update($this->session->userdata('universe').'_towns');
+                                // Забираем амброзию
+                                $this->db->set('ambrosy', $this->Player_Model->user->ambrosy-200);
+                                $this->db->where(array('id' => $this->Player_Model->user->id));
+                                $this->db->update($this->session->userdata('universe').'_users');
+                            }
+                        }
+                        else
+                        {
+                            if(SizeOf($this->Player_Model->towns)-1 < $this->Player_Model->levels[$this->Player_Model->capital_id][10])
+                            {
+                                $sendresource = floor($_POST['sendresource']);
+                                $sendwine = floor($_POST['sendwine']);
+                                $sendmarble = floor($_POST['sendmarble']);
+                                $sendcrystal = floor($_POST['sendcrystal']);
+                                $sendsulfur = floor($_POST['sendsulfur']);
+                                $transporters = floor($_POST['transporters']);
+                                $wood = $this->Player_Model->now_town->wood - $sendresource - 1250;
+                                $wine = $this->Player_Model->now_town->wine - $sendwine;
+                                $marble = $this->Player_Model->now_town->marble - $sendmarble;
+                                $crystal = $this->Player_Model->now_town->crystal - $sendcrystal;
+                                $sulfur = $this->Player_Model->now_town->sulfur - $sendsulfur;
+                                $peoples = $this->Player_Model->now_town->peoples - 40;
+                                $gold = $this->Player_Model->user->gold - 9000;
+                                $transports = $this->Player_Model->user->transports - $transporters;
+                                if(($this->Player_Model->user->transports >= $transporters) and ($wood >= 0) and ($wine >= 0) and ($crystal >= 0) and ($sulfur >= 0) and ($peoples >= 0) and ($gold >= 0) and ($transports >= 0) and ($transporters*$this->config->item('transport_capacity') >= $sendresource + $sendwine + $sendmarble + $sendcrystal + $sendsulfur + 1250 + 40))
                                 {
-                                    // Добавляем город
-                                    $this->db->insert($this->session->userdata('universe').'_towns', array('user' => $this->Player_Model->user->id, 'island' => $this->Island_Model->island->id, 'position' => $position, 'pos0_level' => 0));
-                                    // Находим город в базе
-                                    $town_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('island' => $this->Island_Model->island->id, 'position' => $position));
-                                    $town = $town_query->row();
-                                    // Обновляем остров
-                                    $this->db->set('city'.$position, $town->id);
-                                    $this->db->where(array('id' => $this->Island_Model->island->id));
-                                    $this->db->update($this->session->userdata('universe').'_islands');
-                                    // Вычитаем ресурсы
-                                    $this->db->set('wood', $wood);
-                                    $this->db->set('wine', $wine);
-                                    $this->db->set('marble', $marble);
-                                    $this->db->set('crystal', $crystal);
-                                    $this->db->set('sulfur', $sulfur);
-                                    $this->db->set('peoples', $peoples);
-                                    $this->db->where(array('id' => $this->Player_Model->now_town->id));
-                                    $this->db->update($this->session->userdata('universe').'_towns');
-                                    $this->db->set('gold', $gold);
-                                    $this->db->set('transports', $transports);
-                                    $this->db->where(array('id' => $this->Player_Model->user->id));
-                                    $this->db->update($this->session->userdata('universe').'_users');
-                                    // Добавляем миссию
-                                    $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town->id, 'loading_start' => time(), 'mission_type' => 1, 'wood' => $sendresource+1250, 'wine' => $sendwine, 'marble' => $sendmarble, 'crystal' => $sendcrystal, 'sulfur' => $sendsulfur, 'gold' => 9000, 'peoples' => 40, 'ship_transport' => $transporters));
+                                    if($this->Island_Model->island->$city_text == 0)
+                                    {
+                                        // Добавляем город
+                                        $this->db->insert($this->session->userdata('universe').'_towns', array('user' => $this->Player_Model->user->id, 'island' => $this->Island_Model->island->id, 'position' => $position, 'pos0_level' => 0));
+                                        // Находим город в базе
+                                        $town_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('island' => $this->Island_Model->island->id, 'position' => $position));
+                                        $town = $town_query->row();
+                                        // Обновляем остров
+                                        $this->db->set('city'.$position, $town->id);
+                                        $this->db->where(array('id' => $this->Island_Model->island->id));
+                                        $this->db->update($this->session->userdata('universe').'_islands');
+                                        // Вычитаем ресурсы
+                                        $this->db->set('wood', $wood);
+                                        $this->db->set('wine', $wine);
+                                        $this->db->set('marble', $marble);
+                                        $this->db->set('crystal', $crystal);
+                                        $this->db->set('sulfur', $sulfur);
+                                        $this->db->set('peoples', $peoples);
+                                        $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                                        $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                                        $this->db->update($this->session->userdata('universe').'_towns');
+                                        $this->db->set('gold', $gold);
+                                        $this->db->set('transports', $transports);
+                                        $this->db->where(array('id' => $this->Player_Model->user->id));
+                                        $this->db->update($this->session->userdata('universe').'_users');
+                                        // Добавляем миссию
+                                        $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town->id, 'loading_from_start' => time(), 'mission_type' => 1, 'wood' => $sendresource+1250, 'wine' => $sendwine, 'marble' => $sendmarble, 'crystal' => $sendcrystal, 'sulfur' => $sendsulfur, 'gold' => 9000, 'peoples' => 40, 'ship_transport' => $transporters));
+                                    }
                                 }
                             }
                         }
-                    }
+                }
             }
+        }
+        else
+        {
+            $this->Player_Model->Game_Error('Недостаточно баллов действий!');
         }
         redirect('/game/island/'.$id.'/', 'refresh');
     }
@@ -1057,7 +1073,7 @@ class Actions extends Controller
                 // Если погрузили просто разворачиваем
                 if($this->Player_Model->missions[$mission]->return_start == 0)
                 {
-                    $cost = $this->Data_Model->army_cost_by_type(23, $this->Player_Model->research);
+                    $cost = $this->Data_Model->army_cost_by_type(23, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
                     $x1 = $this->Data_Model->temp_islands_db[$this->Data_Model->temp_towns_db[$this->Player_Model->missions[$mission]->from]->island]->x;
                     $x2 = $this->Data_Model->temp_islands_db[$this->Data_Model->temp_towns_db[$this->Player_Model->missions[$mission]->to]->island]->x;
                     $y1 = $this->Data_Model->temp_islands_db[$this->Data_Model->temp_towns_db[$this->Player_Model->missions[$mission]->from]->island]->y;
@@ -1066,7 +1082,7 @@ class Actions extends Controller
                     $elapsed = time() - $this->Player_Model->missions[$mission]->mission_start;
                     $ostalos = ($time - $elapsed >= 0) ? $time - $elapsed : 0;
                     $return_time = $time - $elapsed;
-                    $this->Player_Model->missions[$mission]->percent = $return_time/$time;
+                    $this->Player_Model->missions[$mission]->percent = 1 - $return_time/$time;
                     $this->db->set('percent', $this->Player_Model->missions[$mission]->percent);
                     $this->db->set('return_start', time());
                     $this->db->where(array('id' => $this->Player_Model->missions[$mission]->id));
@@ -1096,6 +1112,194 @@ class Actions extends Controller
             $this->db->update($this->session->userdata('universe').'_towns');
         }
         redirect('/game/city/', 'refresh');
+    }
+
+    function branchOffice($position)
+    {
+        if (isset($_POST['type']) and isset($_POST['searchResource']))
+        {
+            $type = ($_POST['type'] <= 1) ? floor($_POST['type']) : 0;
+            switch($_POST['searchResource'])
+            {
+                case 1: $resource = 1; break;
+                case 2: $resource = 2; break;
+                case 3: $resource = 3; break;
+                case 4: $resource = 4; break;
+                default: $resource = 0; break;
+            }
+            $this->db->set('branch_search_type', $type);
+            $this->db->set('branch_search_resource', $resource);
+            $this->db->set('branch_search_radius', floor($_POST['range']));
+            $this->db->where(array('id' => $this->Player_Model->town_id));
+            $this->db->update($this->session->userdata('universe').'_towns');
+        }
+        if(isset($_POST['resource']) and isset($_POST['tradegood1']) and isset($_POST['tradegood2']) and isset($_POST['tradegood3']) and isset($_POST['tradegood4']))
+        {
+            $wood_count = floor($_POST['resource']);
+            $wine_count = floor($_POST['tradegood1']);
+            $marble_count = floor($_POST['tradegood2']);
+            $crystal_count = floor($_POST['tradegood3']);
+            $sulfur_count = floor($_POST['tradegood4']);
+            $gold_wood = floor($_POST['resourcePrice']);
+            $gold_wine = floor($_POST['tradegood1Price']);
+            $gold_marble = floor($_POST['tradegood2Price']);
+            $gold_crystal = floor($_POST['tradegood3Price']);
+            $gold_sulfur = floor($_POST['tradegood4Price']);
+            $capacity = $this->Data_Model->branchOffice_capacity_by_level($this->Player_Model->levels[$this->Player_Model->town_id][12]);
+            $all_trade_resources = 0;
+            if($_POST['resourceTradeType'] == 1){ $all_trade_resources = $all_trade_resources + $wood_count; }
+            if($_POST['tradegood1TradeType'] == 1){ $all_trade_resources = $all_trade_resources + $wine_count; }
+            if($_POST['tradegood2TradeType'] == 1){ $all_trade_resources = $all_trade_resources + $marble_count; }
+            if($_POST['tradegood3TradeType'] == 1){ $all_trade_resources = $all_trade_resources + $crystal_count; }
+            if($_POST['tradegood4TradeType'] == 1){ $all_trade_resources = $all_trade_resources + $sulfur_count; }
+            for($i = 0; $i <= 4; $i++)
+            {
+                $resource_name = $this->Data_Model->resource_class_by_type($i);
+                $branch_type = 'branch_trade_'.$resource_name.'_type';
+                $branch_count = 'branch_trade_'.$resource_name.'_count';
+                $branch_cost = 'branch_trade_'.$resource_name.'_cost';
+                switch($i)
+                {
+                    case 1: $post_name = 'tradegood1'; $count = $wine_count; $gold = $gold_wine; break;
+                    case 2: $post_name = 'tradegood2'; $count = $marble_count; $gold = $gold_marble; break;
+                    case 3: $post_name = 'tradegood3'; $count = $crystal_count; $gold = $gold_crystal; break;
+                    case 4: $post_name = 'tradegood4'; $count = $sulfur_count; $gold = $gold_sulfur; break;
+                    default: $post_name = 'resource'; $count = $wood_count; $gold = $gold_wood; break;
+                }
+                if ($count == 0){ $gold = 0; }
+                if ($gold == 0){ $count = 0; }
+                if ($_POST[$post_name.'TradeType'] == 1 and $all_trade_resources <= $capacity)
+                {
+                    if($this->Player_Model->now_town->$branch_type == 1){
+                        $this->Player_Model->now_town->$resource_name = $this->Player_Model->now_town->$resource_name + $this->Player_Model->now_town->$branch_count - $count;
+                    }else{
+                        $this->Player_Model->user->gold = $this->Player_Model->user->gold + ($this->Player_Model->now_town->$branch_count*$this->Player_Model->now_town->$branch_cost);
+                        $this->Player_Model->now_town->$resource_name = $this->Player_Model->now_town->$resource_name  - $count;
+                    }
+                    $this->Player_Model->now_town->$branch_type = floor($_POST[$post_name.'TradeType']);
+                    $this->Player_Model->now_town->$branch_count = $count;
+                    $this->Player_Model->now_town->$branch_cost = $gold;
+                }
+                elseif ($_POST[$post_name.'TradeType'] == 0)
+                {
+                    if($this->Player_Model->now_town->$branch_type == 0){
+                        $this->Player_Model->user->gold = $this->Player_Model->user->gold + ($this->Player_Model->now_town->$branch_count*$this->Player_Model->now_town->$branch_cost) - ($gold*$count);
+                    }
+                    else
+                    {
+                        $this->Player_Model->now_town->$resource_name = $this->Player_Model->now_town->$resource_name + $this->Player_Model->now_town->$branch_count;
+                        $this->Player_Model->user->gold = $this->Player_Model->user->gold - ($gold*$count);
+                    }
+                    $this->Player_Model->now_town->$branch_type = floor($_POST[$post_name.'TradeType']);
+                    $this->Player_Model->now_town->$branch_count = $count;
+                    $this->Player_Model->now_town->$branch_cost = $gold;
+                }
+            }
+            if($this->Player_Model->user->gold >= 0 and
+               $this->Player_Model->now_town->wood >= 0 and
+               $this->Player_Model->now_town->wine >= 0 and
+               $this->Player_Model->now_town->marble >= 0 and
+               $this->Player_Model->now_town->crystal >= 0 and
+               $this->Player_Model->now_town->sulfur >= 0)
+            {
+                for($i = 0; $i <= 4; $i++)
+                {
+                    $resource_name = $this->Data_Model->resource_class_by_type($i);
+                    $branch_type = 'branch_trade_'.$resource_name.'_type';
+                    $branch_count = 'branch_trade_'.$resource_name.'_count';
+                    $branch_cost = 'branch_trade_'.$resource_name.'_cost';
+                    $this->db->set($resource_name, $this->Player_Model->now_town->$resource_name);
+                    $this->db->set($branch_type, $this->Player_Model->now_town->$branch_type);
+                    $this->db->set($branch_count, $this->Player_Model->now_town->$branch_count);
+                    $this->db->set($branch_cost, $this->Player_Model->now_town->$branch_cost);
+                }
+                $this->db->where(array('id' => $this->Player_Model->town_id));
+                $this->db->update($this->session->userdata('universe').'_towns');
+                $this->db->set('gold', $this->Player_Model->user->gold);
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+            }
+        }
+        redirect('/game/branchOffice/'.$position.'/', 'refresh');
+    }
+
+    function trade($town = 0, $type = 0)
+    {
+        if ($this->Player_Model->now_town->actions > 0)
+        {
+            if ($town > 0)
+            {
+                // Читаем данные
+                $wood_count = (isset($_POST['cargo_resource']) and floor($_POST['cargo_resource']) > 0) ? floor($_POST['cargo_resource']) : 0;
+                $wine_count = (isset($_POST['cargo_tradegood1']) and floor($_POST['cargo_tradegood1']) > 0) ? floor($_POST['cargo_tradegood1']) : 0;
+                $marble_count = (isset($_POST['cargo_tradegood2']) and floor($_POST['cargo_tradegood2']) > 0) ? floor($_POST['cargo_tradegood2']) : 0;
+                $crystal_count = (isset($_POST['cargo_tradegood3']) and floor($_POST['cargo_tradegood3']) > 0) ? floor($_POST['cargo_tradegood3']) : 0;
+                $sulfur_count = (isset($_POST['cargo_tradegood4']) and floor($_POST['cargo_tradegood4']) > 0) ? floor($_POST['cargo_tradegood4']) : 0;
+                $wood_cost = (isset($_POST['resourcePrice']) and floor($_POST['resourcePrice']) > 0) ? floor($_POST['resourcePrice']) : 0;
+                $wine_cost = (isset($_POST['tradegood1Price']) and floor($_POST['tradegood1Price']) > 0) ? floor($_POST['tradegood1Price']) : 0;
+                $marble_cost = (isset($_POST['tradegood2Price']) and floor($_POST['tradegood2Price']) > 0) ? floor($_POST['tradegood2Price']) : 0;
+                $crystal_cost = (isset($_POST['tradegood3Price']) and floor($_POST['tradegood3Price']) > 0) ? floor($_POST['tradegood3Price']) : 0;
+                $sulfur_cost = (isset($_POST['tradegood4Price']) and floor($_POST['tradegood4Price']) > 0) ? floor($_POST['tradegood4Price']) : 0;
+                $gold_need = floor(($wood_count*$wood_cost) + ($wine_count*$wine_cost) + ($marble_count*$marble_cost) + ($crystal_count*$crystal_cost) + ($sulfur_count*$sulfur_cost));
+                $transporters = floor($_POST['transporters']);
+
+                $transports = $this->Player_Model->user->transports - $transporters;
+
+                $this->Data_Model->Load_Town($town);
+                if(isset($this->Data_Model->temp_towns_db[$town]))
+                {
+                    if ($this->Player_Model->user->gold > 0 and $transports > 0)
+                    {
+                        if ($type == 1)
+                        {
+                            $this->Player_Model->user->gold = $this->Player_Model->user->gold - $gold_need;
+                            if ($this->Player_Model->user->gold > 0)
+                            {
+                                $trade_town = $this->Data_Model->temp_towns_db[$town];
+                                $this->db->set('gold', $this->Player_Model->user->gold);
+                                $this->db->set('transports', $transports);
+                                $this->db->where(array('id' => $this->Player_Model->user->id));
+                                $this->db->update($this->session->userdata('universe').'_users');
+                                $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_from_start' => time(), 'mission_start' => time(), 'mission_type' => 3, 'trade_wood_count' => $wood_count, 'trade_wine_count' => $wine_count, 'trade_marble_count' => $marble_count, 'trade_crystal_count' => $crystal_count, 'trade_sulfur_count' => $sulfur_count, 'gold' => $gold_need, 'trade_wood_cost' => $wood_cost, 'trade_wine_cost' => $wine_cost, 'trade_marble_cost' => $marble_cost, 'trade_crystal_cost' => $crystal_cost, 'trade_sulfur_cost' => $sulfur_cost, 'ship_transport' => $transporters));
+                                $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                                $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                                $this->db->update($this->session->userdata('universe').'_towns');
+                            }
+                        }
+                        if($type == 0)
+                        {
+                            $trade_town = $this->Data_Model->temp_towns_db[$town];
+                            // Вычитаем остаток
+                            $wood = $this->Player_Model->now_town->wood - $wood_count;
+                            $wine = $this->Player_Model->now_town->wine - $wine_count;
+                            $marble = $this->Player_Model->now_town->marble - $marble_count;
+                            $crystal = $this->Player_Model->now_town->crystal - $crystal_count;
+                            $sulfur = $this->Player_Model->now_town->sulfur - $sulfur_count;
+                            if ($wood >= 0 and $wine >=0 and $marble >= 0 and $crystal >= 0 and $sulfur >=0)
+                            {
+                                $this->db->set('transports', $transports);
+                                $this->db->where(array('id' => $this->Player_Model->user->id));
+                                $this->db->update($this->session->userdata('universe').'_users');
+                                $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_from_start' => time(), 'mission_type' => 4, 'wood' => $wood_count, 'wine' => $wine_count, 'marble' => $marble_count, 'crystal' => $crystal_count, 'sulfur' => $sulfur_count, 'trade_wood_cost' => $wood_cost, 'trade_wine_cost' => $wine_cost, 'trade_marble_cost' => $marble_cost, 'trade_crystal_cost' => $crystal_cost, 'trade_sulfur_cost' => $sulfur_cost, 'ship_transport' => $transporters));
+                                $this->db->set('wood', $wood);
+                                $this->db->set('wine', $wine);
+                                $this->db->set('marble', $marble);
+                                $this->db->set('crystal', $crystal);
+                                $this->db->set('sulfur', $sulfur);
+                                $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                                $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                                $this->db->update($this->session->userdata('universe').'_towns');
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            $this->Player_Model->Game_Error('Недостаточно баллов действий!');
+        }
+        redirect('/game/branchOffice/', 'refresh');
     }
 
 }

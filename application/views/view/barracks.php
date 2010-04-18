@@ -34,7 +34,7 @@
     $max_wine = 0;
     $max_crystal = 0;
     $max_peoples = 0;
-    $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research);
+    $cost = $this->Data_Model->army_cost_by_type($i, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
     $class = $this->Data_Model->army_class_by_type($i);
     if ($cost['wood'] > 0){ $max_wood = floor($this->Player_Model->now_town->wood/$cost['wood']);}
     if ($cost['sulfur'] > 0){ $max_sulfur = floor($this->Player_Model->now_town->sulfur/$cost['sulfur']); }
@@ -118,16 +118,16 @@
                                 <li class="citizens" title="Граждане"><span class="textLabel">Граждане: </span><?=$cost['peoples']?></li>
 <?}?>
 <?if($cost['wood'] > 0){?>
-                                <li class="wood" title="Стройматериалы"><span class="textLabel">Стройматериалы: </span><?=$cost['wood']?></li>
+                                <li class="wood" title="Стройматериалы"><span class="textLabel">Стройматериалы: </span><?=number_format($cost['wood'])?></li>
 <?}?>
 <?if($cost['sulfur'] > 0){?>
-                                <li class="sulfur" title="Сера"><span class="textLabel">Сера: </span><?=$cost['sulfur']?></li>
+                                <li class="sulfur" title="Сера"><span class="textLabel">Сера: </span><?=number_format($cost['sulfur'])?></li>
 <?}?>
 <?if($cost['wine'] > 0){?>
-                                <li class="wine" title="Виноград"><span class="textLabel">Виноград: </span><?=$cost['wine']?></li>
+                                <li class="wine" title="Виноград"><span class="textLabel">Виноград: </span><?=number_format($cost['wine'])?></li>
 <?}?>
 <?if($cost['crystal'] > 0){?>
-                                <li class="glass" title="Хрусталь"><span class="textLabel">Хрусталь: </span><?=$cost['crystal']?></li>
+                                <li class="glass" title="Хрусталь"><span class="textLabel">Хрусталь: </span><?=number_format($cost['crystal'])?></li>
 <?}?>
 <?if($cost['gold'] > 0){?>
                                 <li class="upkeep" title="Содержание в час"><span class="textLabel">Содержание в час: </span><?=number_format($cost['gold'])?></li>

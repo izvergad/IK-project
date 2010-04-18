@@ -8,14 +8,14 @@
 		<h1><?=$this->Data_Model->building_name_by_type($type)?></h1>
                 <div class="contentBox" id="demolition">
 <?if ($this->Player_Model->now_town->build_line != '' and $this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'] == $position){?>
-<?$cost = $this->Data_Model->building_cost($type,$level,$this->Player_Model->research)?>
+<?$cost = $this->Data_Model->building_cost($type,$level,$this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id])?>
 		<h3 class="header">Подтвердить отмену улучшения</h3>
 		<div class="content">
 			<h4>Внимание</h4>
 			<p>Вы уверены, что хотите прервать улучшение здания? Учтите, что будет возвращено 90% вложенных денег!</p>
 			<p class="refund">При отмене Вы получите назад следующие ресурсы:
 <?}else{?>
-<?$cost = $this->Data_Model->building_cost($type,$level-1,$this->Player_Model->research)?>
+<?$cost = $this->Data_Model->building_cost($type,$level-1,$this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id])?>
 
                 <h3 class="header">Подтвердить понижение уровня</h3>
 		<div class="content">

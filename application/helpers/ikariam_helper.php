@@ -12,10 +12,28 @@
         $minutes = floor(($seconds-($days*86400)-($hours*3600))/60);
         $seconds = floor($seconds-($days*86400)-($hours*3600)-($minutes*60));
         $return = '';
-        $return .= ($days > 0) ? $days.'д. ' : '';
-        $return .= ($hours > 0) ? $hours.'ч. ' : '';
-        $return .= ($minutes > 0) ? $minutes.'мин. ' : '';
-        $return .= ($seconds > 0) ? $seconds.'с. ' : '';
+        $times_count = 0;
+        if ($days > 0 and $times_count < 2)
+        {
+            $times_count++;
+            $return .= $days.'д. ';
+        }
+        if ($hours > 0 and $times_count < 2)
+        {
+            $times_count++;
+            $return .= $hours.'ч. ';
+        }
+        if ($minutes > 0 and $times_count < 2)
+        {
+            $times_count++;
+            $return .= $minutes.'мин. ';
+        }
+        if ($seconds > 0 and $times_count < 2)
+        {
+            $times_count++;
+            $return .= $seconds.'с. ';
+        }
+        
         return $return;
     }
 

@@ -55,7 +55,7 @@ class View_Model extends Model
      * @param <string> $location
      * @param <int> $position
      */
-    function show_view($location = 'city', $param1, $param2)
+    function show_view($location = 'city', $param1, $param2, $param3)
     {
         switch($location)
         {
@@ -95,9 +95,12 @@ class View_Model extends Model
             case 'militaryAdvisorMilitaryMovements':
             case 'transport':
             case 'premiumTradeAdvisor':
+            case 'carpentering':
+            case 'branchOffice':
+            case 'takeOffer':
                 $this->load->view('view/'.$location);
             break;
-            default: $this->load->view('view/city'); break;
+            default: $this->load->view('view/null'); break;
         }
     }
 
@@ -105,7 +108,7 @@ class View_Model extends Model
      * Отображение левой части
      * @param <string> $location
      */
-    function show_sidebox($location = 'city', $param1, $param2)
+    function show_sidebox($location = 'city', $param1, $param2, $param3)
     {
         switch($location)
         {
@@ -125,6 +128,8 @@ class View_Model extends Model
             case 'tavern':
             case 'palace':
             case 'port':
+            case 'carpentering':
+            case 'branchOffice':
                 $this->load->view('sidebox/update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island':
@@ -141,6 +146,7 @@ class View_Model extends Model
             case 'merchantNavy':
             case 'militaryAdvisorMilitaryMovements':
             case 'premiumTradeAdvisor':
+            case 'takeOffer':
                 $this->load->view('sidebox/'.$location);
             break;
             case 'plunder':
@@ -151,7 +157,7 @@ class View_Model extends Model
         }
     }
 
-    function show_bread($location = 'city', $param1, $param2)
+    function show_bread($location = 'city', $param1, $param2, $param3)
     {
         switch($location)
         {
@@ -159,10 +165,13 @@ class View_Model extends Model
             case 'fleetGarrisonEdit': $location = 'shipyard'; break;
         }
         $caption = $this->Data_Model->building_name_by_type($this->Data_Model->building_type_by_class($location));
-        $type = $this->Data_Model->building_type_by_class($location);
+        $pos_text = 'pos'.$param1.'_type';
+        $type = ($param1 > 0 and $param1 <= 15) ? $this->Player_Model->now_town->$pos_text : $this->Data_Model->building_type_by_class($location);
         switch($location)
         {
-            case 'demolition': $file = 'building';break;
+            case 'demolition': $caption = 'Подтверждение'; $file = 'building';break;
+            case 'renameCity': $caption = 'Переименовать город'; $file = 'building'; $type = 1; break;
+            case 'takeOffer': if ($param2 == 0) { $caption = 'Принять ставку'; } else { $caption = 'Принять предложение'; } $file = 'building'; $type = 12; break;
             case 'academy':
             case 'barracks':
             case 'buildingGround':
@@ -172,9 +181,10 @@ class View_Model extends Model
             case 'tavern':
             case 'townHall':
             case 'wall':
+            case 'carpentering':
+            case 'branchOffice':
             case 'warehouse': $file = 'town'; break;
             case 'cityMilitary': $caption = 'Военный обзор'; $file = 'town'; break;
-            case 'renameCity': $caption = 'Переименовать город'; $file = 'town'; break;
             case 'buildingDetail': $caption = 'Информация о здании'; $file = 'world'; break;
             case 'researchAdvisor': $caption = 'Советник по исследованиям'; $file = 'world'; break;
             case 'tradeAdvisor': $caption = 'Мэр'; $file = 'world'; break;
