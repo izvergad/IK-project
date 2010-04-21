@@ -166,7 +166,7 @@ class Update_Model extends Model
                                     $towns_messages[] = $town_message;
 
                                     // Если не первое здание в очереди
-                                    if (SizeOf($buildings) > 1 and ($cost['wood'] > 0 or $cost['wine'] > 0 or $cost['marble'] > 0 or $cost['crystal'] > 0 or $cost['sulfur'] > 0))
+                                    if ($step > 0 and SizeOf($buildings) > 1 and ($cost['wood'] > 0 or $cost['wine'] > 0 or $cost['marble'] > 0 or $cost['crystal'] > 0 or $cost['sulfur'] > 0))
                                     {
                                         $this->CI->$model->towns[$i]->wood = $wood;
                                         $this->CI->$model->towns[$i]->wine = $wine;
