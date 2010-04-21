@@ -1,4 +1,4 @@
-<?=$position = $param1?>
+<?$position = $param1?>
 <div id="mainview">			
     <div class="buildingDescription">
         <h1>Участок для постройки</h1>

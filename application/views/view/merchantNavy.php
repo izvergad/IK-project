@@ -1,4 +1,4 @@
-<?=$this->CI =& get_instance()?>
+<?$this->CI =& get_instance()?>
 <div id="mainview">
     <div class="buildingDescription">
         <h1>Торговый флот</h1>

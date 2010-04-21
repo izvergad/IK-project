@@ -313,6 +313,7 @@ class Player_Model extends Model
     function correct_buildings()
     {
         $this->now_town = $this->towns[$this->town_id];
+        $this->build_line[$this->town_id] = $this->Data_Model->load_build_line($this->now_town->build_line);
         if (SizeOf($this->build_line[$this->town_id]) > 0)
         for ($i = 0; $i < sizeof($this->build_line[$this->town_id]); $i++)
         {

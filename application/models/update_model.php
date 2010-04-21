@@ -175,7 +175,7 @@ class Update_Model extends Model
                                         $this->CI->$model->towns[$i]->sulfur = $sulfur;
                                     }
                                     // Если есть очередь
-                                    if (SizeOf($buildings) > 1)
+                                    if (SizeOf($buildings) > 1 and $step > 0)
                                     {
                                         // уменьшаем настоящую очередь
                                         if ($buildings[0]['position'] < 10)
@@ -240,7 +240,7 @@ class Update_Model extends Model
                        // Снова загружаем псевдо постройки
                        $buildings = $this->Data_Model->load_build_line($while_line);
                        // Счетчик цикла
-                       $step = $step + 1;
+                       $step++;
 
                    }
                         // Проверка данных, чтобы не писать в БД лишнего
