@@ -545,6 +545,19 @@ class Game extends Controller {
         $this->show('takeOffer', $town, $type, $resource);
     }
 
+    function researchOverview()
+    {
+        $position = $this->Data_Model->get_position(3, $this->Player_Model->now_town);
+        if ($position == 0)
+        {
+            $this->show('error','Академия еще не построена!');
+        }
+        else
+        {
+            $this->show('researchOverview');
+        }
+    }
+
         function show($location, $param1 = 0, $param2 = 0, $param3 = 0)
         {
             $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2, 'param3' => $param3));

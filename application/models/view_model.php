@@ -98,6 +98,7 @@ class View_Model extends Model
             case 'carpentering':
             case 'branchOffice':
             case 'takeOffer':
+            case 'researchOverview':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/null'); break;
@@ -147,6 +148,7 @@ class View_Model extends Model
             case 'militaryAdvisorMilitaryMovements':
             case 'premiumTradeAdvisor':
             case 'takeOffer':
+            case 'researchOverview':
                 $this->load->view('sidebox/'.$location);
             break;
             case 'plunder':
@@ -171,6 +173,7 @@ class View_Model extends Model
         {
             case 'demolition': $caption = 'Подтверждение'; $file = 'building';break;
             case 'renameCity': $caption = 'Переименовать город'; $file = 'building'; $type = 1; break;
+            case 'researchOverview': $caption = 'Библиотека'; $file = 'building'; $type = 3; break;
             case 'takeOffer': if ($param2 == 0) { $caption = 'Принять ставку'; } else { $caption = 'Принять предложение'; } $file = 'building'; $type = 12; break;
             case 'academy':
             case 'barracks':
