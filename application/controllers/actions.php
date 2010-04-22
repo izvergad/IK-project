@@ -27,7 +27,7 @@ class Actions extends Controller
     function Error($error = '')
     {
                 $this->session->set_flashdata(array('game_error' => $error));
-                redirect('/game/error/', 'refresh');
+                redirect($this->config->item('base_url').'game/error/', 'refresh');
     }
     
     /**
@@ -834,7 +834,7 @@ class Actions extends Controller
             break;
         }
         
-         redirect('/game/options/', 'refresh');
+         redirect($this->config->item('base_url').'game/options/', 'refresh');
     }
 
     function tavern($position = 0)
@@ -851,7 +851,7 @@ class Actions extends Controller
                 $this->db->update($this->session->userdata('universe').'_towns');
             }
         }
-        redirect('/game/tavern/'.$position.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/tavern/'.$position.'/', 'refresh');
     }
 
     function transporter($position = 0)
@@ -867,7 +867,7 @@ class Actions extends Controller
             $this->db->where(array('id' => $this->Player_Model->user->id));
             $this->db->update($this->session->userdata('universe').'_users');
         }
-        redirect('/game/port/'.$position.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/port/'.$position.'/', 'refresh');
     }
 
     function saveAvatarNotes()
@@ -929,7 +929,7 @@ class Actions extends Controller
         {
             $this->Error('Недостаточно баллов действий!');
         }
-        redirect('/game/port/', 'refresh');
+        redirect($this->config->item('base_url').'game/port/', 'refresh');
     }
 
     function colonize($id = 0, $position = -1)
@@ -1032,7 +1032,7 @@ class Actions extends Controller
         {
             $this->Error('Недостаточно баллов действий!');
         }
-        redirect('/game/island/'.$id.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/island/'.$id.'/', 'refresh');
     }
 
     function abortFleet($mission = 0, $position = 0, $redirect = 'port')
@@ -1090,7 +1090,7 @@ class Actions extends Controller
                 }
             }
         }
-        redirect('/game/'.$redirect.'/'.$position.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/'.$redirect.'/'.$position.'/', 'refresh');
     }
 
     function leaveConstructionList($id = 1)
@@ -1111,7 +1111,7 @@ class Actions extends Controller
             $this->db->where(array('id' => $this->Player_Model->town_id));
             $this->db->update($this->session->userdata('universe').'_towns');
         }
-        redirect('/game/city/', 'refresh');
+        redirect($this->config->item('base_url').'game/city/', 'refresh');
     }
 
     function branchOffice($position)
@@ -1220,7 +1220,7 @@ class Actions extends Controller
                 $this->db->update($this->session->userdata('universe').'_users');
             }
         }
-        redirect('/game/branchOffice/'.$position.'/', 'refresh');
+        redirect($this->config->item('base_url').'game/branchOffice/'.$position.'/', 'refresh');
     }
 
     function trade($town = 0, $type = 0)
@@ -1299,7 +1299,7 @@ class Actions extends Controller
         {
             $this->Error('Недостаточно баллов действий!');
         }
-        redirect('/game/branchOffice/', 'refresh');
+        redirect($this->config->item('base_url').'game/branchOffice/', 'refresh');
     }
 
 }
