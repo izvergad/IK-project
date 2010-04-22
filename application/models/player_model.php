@@ -7,19 +7,13 @@ class Player_Model extends Model
         // Call the Model constructor
         parent::Model();
     }
-
+    
     function Error($error = '')
     {
                 $this->session->set_flashdata(array('error' => $error));
                 redirect('/main/error/', 'refresh');
     }
-
-    function Game_Error($error = '')
-    {
-                $this->session->set_flashdata(array('game_error' => $error));
-                redirect('/game/error/', 'refresh');
-    }
-
+    
     function Load_Player($id = 0)
     {
         if ($id > 0)

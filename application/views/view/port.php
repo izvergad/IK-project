@@ -1,8 +1,4 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Торговый порт еще не построен!');
-  }
-    $level_text = 'pos'.$position.'_level';
+<?  $level_text = 'pos'.$position.'_level';
     $level = $this->Player_Model->now_town->$level_text;
     $speed = $this->Data_Model->speed_by_port_level($level);
 ?>

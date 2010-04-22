@@ -1,11 +1,4 @@
-<?
-    $position = $param1;
-    if($position == 0 or isset($this->Data_Model->temp_towns_db[$position])){
-    if(isset($this->Data_Model->temp_towns_db[$position]) and $this->Data_Model->temp_towns_db[$position]->user == $this->Player_Model->user->id)
-    {
-        $this->Player_Model->Game_Error('Невозможно ограбить свой город!');
-    }
-?>
+<?$position = $param1?>
 <div id="breadcrumbs">
     <h3>Вы здесь:</h3>
     <a href="<?=$this->config->item('base_url')?>game/worldmap_iso/" title="Назад к карте мира">
@@ -16,6 +9,3 @@
     <span>&nbsp;&gt;&nbsp;</span>
     <span class="city"><?if($position == 0){?>Деревня Варваров<?}else{?><?=$this->Data_Model->temp_towns_db[$position]->name?><?}?></span>
 </div>
-<?}else{
-    $this->User_Model->Game_Error('Город не найден!');
-}?>

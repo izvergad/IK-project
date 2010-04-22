@@ -1,8 +1,3 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Академия еще не построена!');
-  }
-?>
 <div id="mainview">
 <?include_once('building_description.php')?>
     <form id="buildForm"  action="<?=$this->config->item('base_url')?>actions/army/<?=$position?>/" method="POST">

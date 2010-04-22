@@ -1,8 +1,3 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Верфь еще не построена!');
-  }
-?>
 <div class="dynamic" id="reportInboxLeft">
     <h3 class="header"></h3>
     <div class="content">

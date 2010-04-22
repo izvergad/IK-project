@@ -73,9 +73,12 @@ class Game extends Controller {
         }
         if ($relocation != 'city')
         {
-            redirect('/game/'.$relocation.'/'.$reposition.'/', 'refresh');
+            $this->$relocation($reposition);
         }
-        $this->index();
+        else
+        {
+            $this->index();
+        }
     }
 
     /**
@@ -184,13 +187,27 @@ class Game extends Controller {
     function academy()
     {
         $position = $this->Data_Model->get_position(3, $this->Player_Model->now_town);
-        $this->show('academy', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Академия еще не построена!');
+        }
+        else
+        {
+            $this->show('academy', $position);
+        }
     }
 
     function port()
     {
         $position = $this->Data_Model->get_position(2, $this->Player_Model->now_town);
-        $this->show('port', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Порт еще не построен!');
+        }
+        else
+        {
+            $this->show('port', $position);
+        }
     }
 
     /**
@@ -200,37 +217,79 @@ class Game extends Controller {
     function barracks()
     {
         $position = $this->Data_Model->get_position(5, $this->Player_Model->now_town);
-        $this->show('barracks', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Казарма еще не построена!');
+        }
+        else
+        {
+            $this->show('barracks', $position);
+        }
     }
 
     function tavern()
     {
         $position = $this->Data_Model->get_position(8, $this->Player_Model->now_town);
-        $this->show('tavern', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Таверна еще не построена!');
+        }
+        else
+        {
+            $this->show('tavern', $position);
+        }
     }
 
     function shipyard()
     {
         $position = $this->Data_Model->get_position(4, $this->Player_Model->now_town);
-        $this->show('shipyard', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Верфь еще не построена!');
+        }
+        else
+        {
+            $this->show('shipyard', $position);
+        }
     }
 
     function palace($position = 0)
     {
         $position = $this->Data_Model->get_position(10, $this->Player_Model->now_town);
-        $this->show('palace', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Дворец еще не построен!');
+        }
+        else
+        {
+            $this->show('palace', $position);
+        }
     }
 
     function carpentering()
     {
         $position = $this->Data_Model->get_position(21, $this->Player_Model->now_town);
-        $this->show('carpentering', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Плотницкая мастерская еще не построена!');
+        }
+        else
+        {
+            $this->show('carpentering', $position);
+        }
     }
 
     function branchOffice($position = 0, $desc = 'ressDesc')
     {
         $position = $this->Data_Model->get_position(12, $this->Player_Model->now_town);
-        $this->show('branchOffice', $position, $desc);
+        if ($position == 0)
+        {
+            $this->show('error','Рынок еще не построен!');
+        }
+        else
+        {
+            $this->show('branchOffice', $position, $desc);
+        }
     }
 
     /**
@@ -323,13 +382,27 @@ class Game extends Controller {
     function armyGarrisonEdit()
     {
         $position = $this->Data_Model->get_position(5, $this->Player_Model->now_town);
-        $this->show('armyGarrisonEdit', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Казарма еще не построена!');
+        }
+        else
+        {
+            $this->show('armyGarrisonEdit', $position);
+        }
     }
 
     function fleetGarrisonEdit()
     {
         $position = $this->Data_Model->get_position(4, $this->Player_Model->now_town);
-        $this->show('fleetGarrisonEdit', $position);
+        if ($position == 0)
+        {
+            $this->show('error','Верфь еще не построена!');
+        }
+        else
+        {
+            $this->show('fleetGarrisonEdit', $position);
+        }
     }
 
     function tradeAdvisor($message_id = 0)
@@ -352,7 +425,15 @@ class Game extends Controller {
 
     function warehouse($position = 0)
     {
-        $this->show('warehouse', $position);
+        $pos_type = 'pos'.$position.'_type';
+        if ($position == 0 or $this->Player_Model->now_town->$pos_type != 6)
+        {
+            $this->show('error','Склад еще не построен!');
+        }
+        else
+        {
+            $this->show('warehouse', $position);
+        }
     }
 
     function options()
@@ -362,18 +443,39 @@ class Game extends Controller {
 
     function wall()
     {
-        $this->show('wall', 14);
+        if ($position == 0)
+        {
+            $this->show('error','Городская стена еще не построена!');
+        }
+        else
+        {
+            $this->show('wall', 14);
+        }
     }
 
     function plunder($island = 0, $id = 0)
     {
-       if ($island == 0)
+       if($island > 0 and $id >= 0)
        {
-           $island = $this->Player_Model->island_id;
+           if(isset($this->Data_Model->temp_towns_db[$id]) and $this->Data_Model->temp_towns_db[$id]->user == $this->Player_Model->user->id)
+           {
+               $this->show('error', 'Невозможно ограбить свой город!');
+           }
+           else
+           {
+               if ($island == 0)
+               {
+                   $island = $this->Player_Model->island_id;
+               }
+               $this->load->model('Island_Model');
+               $this->Island_Model->Load_Island($island);
+               $this->show('plunder', $id);
+           }
        }
-       $this->load->model('Island_Model');
-       $this->Island_Model->Load_Island($island);
-       $this->show('plunder', $id);
+       else
+       {
+           $this->show('error', 'Город не найден!');
+       }
     }
 
     function finances()
@@ -383,13 +485,22 @@ class Game extends Controller {
 
     function colonize($island = 0, $position = 0)
     {
+
         if ($island == 0)
         {
             $island = $this->Player_Model->island_id;
         }
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($island);
-        $this->show('colonize', $island, $position);
+        $city_text = 'city'.$position;
+        if($this->Island_Model->island->$city_text > 0)
+        {
+            $this->show('error','Стройплощадка уже занята!');
+        }
+        else
+        {
+            $this->show('colonize', $island, $position);
+        }
     }
 
     function merchantNavy()
@@ -406,7 +517,14 @@ class Game extends Controller {
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($island);
         $this->Data_Model->Load_Town($id);
-        $this->show('transport', $id);
+        if(!isset($this->Data_Model->temp_towns_db[$id]) or $this->Data_Model->temp_towns_db[$id]->island != $this->Island_Model->island->id)
+        {
+            $this->show('error','Город не найден!');
+        }
+        else
+        {
+            $this->show('transport', $id);
+        }
     }
 
     function premiumTradeAdvisor($page = 'resources')

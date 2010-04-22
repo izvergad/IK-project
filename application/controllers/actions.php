@@ -927,7 +927,7 @@ class Actions extends Controller
         }
         else
         {
-            $this->Player_Model->Game_Error('Недостаточно баллов действий!');
+            $this->Error('Недостаточно баллов действий!');
         }
         redirect('/game/port/', 'refresh');
     }
@@ -1030,7 +1030,7 @@ class Actions extends Controller
         }
         else
         {
-            $this->Player_Model->Game_Error('Недостаточно баллов действий!');
+            $this->Error('Недостаточно баллов действий!');
         }
         redirect('/game/island/'.$id.'/', 'refresh');
     }
@@ -1297,7 +1297,7 @@ class Actions extends Controller
         }
         else
         {
-            $this->Player_Model->Game_Error('Недостаточно баллов действий!');
+            $this->Error('Недостаточно баллов действий!');
         }
         redirect('/game/branchOffice/', 'refresh');
     }

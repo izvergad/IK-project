@@ -1,10 +1,6 @@
 <?
     $position = $this->Data_Model->get_position(5, $this->Player_Model->now_town);
     $level_text = 'pos'.$position.'_level';
-    if ($position == 0 and $page != 'townHall')
-    {
-        //$this->Player_Model->Game_Error('Верфь еще не построена!');
-    }
     $level = $this->Player_Model->now_town->$level_text;
 ?>
 <div id="mainview">

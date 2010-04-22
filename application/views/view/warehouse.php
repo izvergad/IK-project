@@ -1,10 +1,3 @@
-<?
-  $pos_type = 'pos'.$position.'_type';
-  if (($position == 0 and $location != 'townHall') or $this->Player_Model->now_town->$pos_type != 6)
-  {
-    $this->Player_Model->Game_Error('Склад еще не построен!');
-  }
-?>
 <div id="mainview">
 <?include_once('building_description.php')?>
     <div class="contentBox01h">

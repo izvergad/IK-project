@@ -1,8 +1,3 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Городская стена еще не построена!');
-  }
-?>
 <div id="mainview">
 <?include_once('building_description.php')?>
 <?$wall_data = $this->Data_Model->wall_data_by_level($this->Player_Model->now_town->pos14_level)?>

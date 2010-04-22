@@ -1,9 +1,3 @@
-<?
-    if(!isset($this->Data_Model->temp_towns_db[$param1]) or $this->Data_Model->temp_towns_db[$param1]->island != $this->Island_Model->island->id)
-    {
-        $this->Player_Model->Game_Error('Город не найден!');
-    }
-?>
 <div id="mainview">		
     <div class="buildingDescription">
         <h1>Транспорт</h1>

@@ -1,8 +1,3 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Дворец еще не построен!');
-  }
-?>
 <div id="mainview">
 <?include_once('building_description.php')?>
     <div class="contentBox01h">

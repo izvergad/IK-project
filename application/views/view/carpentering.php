@@ -1,8 +1,3 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Плотницкая мастерская еще не построена!');
-  }
-?>
 <div id="mainview">
 <div id="reductionBuilding">
 <?include_once('building_description.php')?>

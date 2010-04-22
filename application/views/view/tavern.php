@@ -1,8 +1,3 @@
-<?if ($position == 0 and $page != 'townHall')
-  {
-    $this->Player_Model->Game_Error('Таверна еще не построена!');
-  }
-?>
 <script>
 classValuePerSatisfaction = new Array();
 classNamePerSatisfaction = new Array();

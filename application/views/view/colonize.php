@@ -1,10 +1,3 @@
-<?
-    $city_text = 'city'.$position;
-    if($this->Island_Model->island->$city_text > 0)
-    {
-        $this->Player_Model->Game_Error('Стройплощадка уже занята!');
-    }
-?>
 <div id="mainview">
     <div class="buildingDescription">
         <h1>Колонизация</h1>
