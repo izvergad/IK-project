@@ -300,6 +300,11 @@ class Game extends Controller {
         $this->show('premium');
     }
 
+    function premiumDetails()
+    {
+        $this->show('premiumDetails');
+    }
+
     /**
      * Получение амброзии
      */

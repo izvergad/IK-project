@@ -72,6 +72,7 @@ class View_Model extends Model
             case 'tradegood':
             case 'townHall':
             case 'premium':
+            case 'premiumDetails':
             case 'premiumPayment':
             case 'researchAdvisor':
             case 'researchDetail':
@@ -139,6 +140,7 @@ class View_Model extends Model
             case 'tradegood':
             case 'renameCity':
             case 'premium':
+            case 'premiumDetails':
             case 'premiumPayment':
             case 'researchAdvisor':
             case 'tradeAdvisor':
@@ -198,6 +200,7 @@ class View_Model extends Model
             case 'options': $caption = 'Настройки'; $file = 'null'; break;
             case 'finances': $caption = 'Сводный отчет по финансам'; $file = 'null'; break;
             case 'premium':
+            case 'premiumDetails':
             case 'premiumPayment': $caption = 'Икариам ПЛЮС'; $file = 'null'; break;
             case 'researchDetail': $caption = 'Подробно об исследовании'; $file = 'null'; break;
             case 'merchantNavy': $caption = 'Торговый флот'; $file = 'null'; break;

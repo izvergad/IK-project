@@ -179,18 +179,18 @@ class Update_Model extends Model
                                     // Если есть очередь
                                     if (SizeOf($buildings) > 1)
                                     {
+                                        // уменьшаем настоящую очередь
+                                        if ($buildings[0]['position'] < 10)
+                                        {
+                                            $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 4) : substr($this->CI->$model->towns[$i]->build_line, 5);
+                                        }
+                                        else
+                                        {
+                                            $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 5) : substr($this->CI->$model->towns[$i]->build_line, 6);
+                                        }
+                                        $this->CI->$model->towns[$i]->build_start = $this->CI->$model->towns[$i]->build_start + $cost['time'];
                                         if ($step > 0)
                                         {
-                                            // уменьшаем настоящую очередь
-                                            if ($buildings[0]['position'] < 10)
-                                            {
-                                                $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 4) : substr($this->CI->$model->towns[$i]->build_line, 5);
-                                            }
-                                            else
-                                            {
-                                                $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 5) : substr($this->CI->$model->towns[$i]->build_line, 6);
-                                            }
-                                            $this->CI->$model->towns[$i]->build_start = $this->CI->$model->towns[$i]->build_start + $cost['time'];
                                             // и псевдо очередь
                                             if ($buildings[0]['position'] < 10)
                                             {
