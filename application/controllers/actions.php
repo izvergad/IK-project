@@ -718,13 +718,13 @@ class Actions extends Controller
         {
             switch($type)
             {
-                case 'account': $this->db->set('premium_account', time()+604800); break;
-                case 'wood': $this->db->set('premium_wood', time()+604800); break;
-                case 'wine': $this->db->set('premium_wine', time()+604800); break;
-                case 'marble': $this->db->set('premium_marble', time()+604800); break;
-                case 'crystal': $this->db->set('premium_crystal', time()+604800); break;
-                case 'sulfur': $this->db->set('premium_sulfur', time()+604800); break;
-                case 'capacity': $this->db->set('premium_capacity', time()+604800); break;
+                case 'account': if($this->Player_Model->user->premium_account > 0){ $this->db->set('premium_account', $this->Player_Model->user->premium_account+604800); } else { $this->db->set('premium_account', time()+604800); } break;
+                case 'wood': if($this->Player_Model->user->premium_wood > 0){ $this->db->set('premium_wood', $this->Player_Model->user->premium_wood+604800); } else { $this->db->set('premium_wood', time()+604800); } break;
+                case 'wine': if($this->Player_Model->user->premium_wine > 0){ $this->db->set('premium_wine', $this->Player_Model->user->premium_wine+604800); } else { $this->db->set('premium_wine', time()+604800); } break;
+                case 'marble': if($this->Player_Model->user->premium_marble > 0){ $this->db->set('premium_marble', $this->Player_Model->user->premium_marble+604800); } else { $this->db->set('premium_marble', time()+604800); } break;
+                case 'crystal': if($this->Player_Model->user->premium_crystal > 0){ $this->db->set('premium_crystal', $this->Player_Model->user->premium_crystal+604800); } else { $this->db->set('premium_crystal', time()+604800); } break;
+                case 'sulfur': if($this->Player_Model->user->premium_sulfur > 0){ $this->db->set('premium_sulfur', $this->Player_Model->user->premium_sulfur+604800); } else { $this->db->set('premium_sulfur', time()+604800); } break;
+                case 'capacity': if($this->Player_Model->user->premium_capacity > 0){ $this->db->set('premium_capacity', $this->Player_Model->user->premium_capacity+604800); } else { $this->db->set('premium_capacity', time()+604800); } break;
             }
             $this->db->set('ambrosy', $this->Player_Model->user->ambrosy - $cost);
             $this->db->where(array('id' => $this->Player_Model->user->id));
