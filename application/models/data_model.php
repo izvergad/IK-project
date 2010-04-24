@@ -52,7 +52,7 @@ class Data_Model extends Model
                 $this->temp_army_db[$id] = $return;
         }}
     }
-
+    
     function Load_Missions($id = 0, $towns)
     {
         if (is_array($towns) and $id > 0){
@@ -69,6 +69,17 @@ class Data_Model extends Model
                     $this->temp_missions_db[$id][$return->id] = $return;
                 }
         }
+    }
+
+    function Load_Trade_Routes($id = 0)
+    {
+        if ($id > 0){if (!isset($temp_trade_routes_db[$id])){
+                $query = $this->db->get_where($this->session->userdata('universe').'_trade_routes', array('user' => $id));
+                foreach ($query->result() as $return)
+                {
+                    $this->temp_trade_routes_db[$id][$return->id] = $return;
+                }
+        }}
     }
 
     /**
@@ -308,7 +319,36 @@ class Data_Model extends Model
         if ($return['wine'] < 0){ $return['wine'] = 0; }
         if ($return['crystal'] < 0){ $return['crystal'] = 0; }
         if ($return['sulfur'] < 0){ $return['sulfur'] = 0; }
-        
+
+        // Уменьшаем время постройки от уровня здания
+        switch($type)
+        {
+            case 0: if($levels[5] >= 4){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 4)*0.0455); } break;
+            case 1: if($levels[5] >= 12){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 12)*0.0455); } break;
+            case 2: $return['time'] = $return['time'] - ($return['time']*$levels[5]*0.0455); break;
+            case 3: if($levels[5] >= 6){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 6)*0.0455); } break;
+            case 4: if($levels[5] >= 2){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 2)*0.0455); } break;
+            case 5: if($levels[5] >= 7){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 7)*0.0455); } break;
+            case 6: if($levels[5] >= 13){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 13)*0.0455); } break;
+            case 7: if($levels[5] >= 3){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 3)*0.0455); } break;
+            case 8: if($levels[5] >= 8){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 8)*0.0455); } break;
+            case 9: if($levels[5] >= 14){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 14)*0.0455); } break;
+            case 10: if($levels[5] >= 10){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 10)*0.0455); } break;
+            case 11: if($levels[5] >= 11){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 11)*0.0455); } break;
+            case 12: if($levels[5] >= 5){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 5)*0.0455); } break;
+            case 13: if($levels[5] >= 9){ $return['time'] = $return['time'] - ($return['time']*($levels[5] - 9)*0.0455); } break;
+            
+            case 14: $return['time'] = $return['time'] - ($return['time']*$levels[4]*0.0455); break;
+            case 15: $return['time'] = $return['time'] - ($return['time']*$levels[4]*0.0455); break;
+            case 16: if($levels[4] >= 4){ $return['time'] = $return['time'] - ($return['time']*($levels[4] - 4)*0.0455); } break;
+            case 17: if($levels[4] >= 5){ $return['time'] = $return['time'] - ($return['time']*($levels[4] - 5)*0.0455); } break;
+            case 18: if($levels[4] >= 2){ $return['time'] = $return['time'] - ($return['time']*($levels[4] - 2)*0.0455); } break;
+            case 19: if($levels[4] >= 3){ $return['time'] = $return['time'] - ($return['time']*($levels[4] - 3)*0.0455); } break;
+            case 20: if($levels[4] >= 6){ $return['time'] = $return['time'] - ($return['time']*($levels[4] - 6)*0.0455); } break;
+            case 21: if($levels[4] >= 7){ $return['time'] = $return['time'] - ($return['time']*($levels[4] - 7)*0.0455); } break;
+        }
+        if ($return['time'] < 0){ $return['time'] = 1; }else{ $return['time'] = floor($return['time']); }
+
         return $return;
     }
 

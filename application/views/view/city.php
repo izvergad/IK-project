@@ -64,12 +64,16 @@ for ($i = 0; $i <= 14; $i++)
 <?
 }
 ?>
+<?if($this->Player_Model->good[$this->Player_Model->town_id] < 0){?>
+        <li class="protester" title="Граждане города сердятся!"></li>
+<?}else{?>
 <?if($this->Player_Model->good[$this->Player_Model->town_id] >= 50){?>
         <li class="beachboys"></li>
 <?}?>
 <?if($this->Player_Model->units_count[$this->Player_Model->town_id] > 0){?>
         <li class="garnison"></li>
-<?}?>
+<?}}?>
+
 <?if($this->Player_Model->missions_loading > 0){?>
         <li class="transporter"></li>
 <?}?>

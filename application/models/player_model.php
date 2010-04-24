@@ -11,7 +11,7 @@ class Player_Model extends Model
     function Error($error = '')
     {
                 $this->session->set_flashdata(array('error' => $error));
-                redirect('/main/error/', 'refresh');
+                redirect($this->config->item('base_url').'main/error/', 'refresh');
     }
     
     function Load_Player($id = 0)
@@ -224,7 +224,12 @@ class Player_Model extends Model
                     $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->to]->island);
                     $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$mission->from]->island);
                 }
-                
+                $this->Data_Model->Load_Trade_Routes($this->user->id);
+                if (isset($this->Data_Model->temp_trade_routes_db[$this->user->id]))
+                {
+                    $this->trade_routes =& $this->Data_Model->temp_trade_routes_db[$this->user->id];
+                }
+                    else $this->trade_routes = array();
                 $this->island_id = $this->towns[$this->town_id]->island;
                 $this->now_town = $this->towns[$this->town_id];
                 $this->now_island = $this->islands[$this->island_id];

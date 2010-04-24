@@ -85,6 +85,7 @@ class Actions extends Controller
             // Уровень здания
             $level = $this->Player_Model->now_town->$level_text;
             $type = $this->Player_Model->now_town->$type_text;
+            if ($type == 0){ $type = $this->Player_Model->build_line[$this->Player_Model->town_id][0]['type']; }
             // Получаем цены
             if ($this->Player_Model->now_town->build_line != '' and $this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'] == $position)
             {
@@ -1300,6 +1301,68 @@ class Actions extends Controller
             $this->Error('Недостаточно баллов действий!');
         }
         redirect($this->config->item('base_url').'game/branchOffice/', 'refresh');
+    }
+
+    function tradeRoute($delete_id = 0)
+    {
+        if ($delete_id > 0)
+        {
+            if (isset($this->Player_Model->trade_routes[$delete_id]))
+            {
+                $this->db->delete($this->session->userdata('universe').'_trade_routes', array('id' => $delete_id));
+            }
+        }
+        else
+        {
+            if (isset($_POST['city1Id']) and isset($_POST['city2Id']) and $_POST['city1Id'] > 0 and $_POST['city2Id'] > 0 and $_POST['city1Id'] != $_POST['city2Id'])
+            {
+                $from = floor($_POST['city1Id']);
+                $to = floor($_POST['city2Id']);
+                $tradegood = floor($_POST['tradegood']);
+                $time = floor($_POST['time']);
+                $number = floor($_POST['number']);
+                $update_time = route_time(time(), $time);
+                if ($from > 0 and $to > 0 and $tradegood > 0 and $tradegood <= 4 and $time >= 0 and $time <= 24 and $number > 0)
+                {
+                    if(!isset($_POST['save']))
+                    {
+                        if (SizeOf($this->Player_Model->trade_routes) == 0)
+                        {
+                            $this->db->insert($this->session->userdata('universe').'_trade_routes', array('user' => $this->Player_Model->user->id, 'from' => $from, 'to' => $to, 'start_time' => time(), 'update_time' => $update_time, 'send_resource' => $tradegood, 'send_time' => $time, 'send_count' => $number));
+                        }
+                        else
+                        {
+                            if($this->Player_Model->user->ambrosy >= 10)
+                            {
+                                $this->db->insert($this->session->userdata('universe').'_trade_routes', array('user' => $this->Player_Model->user->id, 'from' => $from, 'to' => $to, 'start_time' => time(), 'update_time' => $update_time, 'send_resource' => $tradegood, 'send_time' => $time, 'send_count' => $number));
+                                $this->db->set('ambrosy', $this->Player_Model->user->ambrosy - 10);
+                                $this->db->where(array('id' => $this->Player_Model->user->id));
+                                $this->db->update($this->session->userdata('universe').'_users');
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (isset($_POST['route']) and isset($this->Player_Model->trade_routes[floor($_POST['route'])]))
+                        {
+                            $this->db->set('from', $from);
+                            $this->db->set('to', $to);
+                            $this->db->set('update_time', $update_time);
+                            $this->db->set('send_resource', $tradegood);
+                            $this->db->set('send_time', $time);
+                            $this->db->set('send_count', $number);
+                            $this->db->where(array('id' => floor($_POST['route'])));
+                            $this->db->update($this->session->userdata('universe').'_trade_routes');
+                        }
+                    }
+                }
+            }
+            else
+            {
+                $this->Error('Выберите город!');
+            }
+        }
+        redirect($this->config->item('base_url').'game/tradeAdvisorTradeRoute/', 'refresh');
     }
 
 }

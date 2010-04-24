@@ -30,6 +30,8 @@ class Update_Model extends Model
            $this->Update_Towns('Update_Player');
            $this->Update_Islands('Update_Player');
            $this->Update_Missions('Update_Player');
+           $this->Update_Trade_Routes('Update_Player');
+           $this->Update_Missions('Update_Player');
            
            // Последнее посещение
            $this->db->set('last_visit', time());
@@ -449,7 +451,7 @@ class Update_Model extends Model
                // Если миссия не началась, значит мы грузим товары в порту
                if ($mission->mission_start == 0 and $mission->user == $this->CI->$model->user->id)
                {  
-                   if ($next_loading > 0)
+                   if ($next_loading > 0 and $mission->loading_from_start < $next_loading)
                    {
                        $mission->loading_from_start = $next_loading;
                    }
@@ -905,6 +907,53 @@ class Update_Model extends Model
            {
                $this->db->insert($this->session->userdata('universe').'_town_messages', $message_data);
            }
+    }
+
+    function Update_Trade_Routes($model)
+    {
+        $towns_messages = array();
+        foreach($this->CI->$model->trade_routes as $route)
+        {
+            while(time() >= $route->update_time)
+            {
+                $resource_name = $this->Data_Model->resource_class_by_type($route->send_resource);
+                if ($this->CI->$model->towns[$route->from]->$resource_name >= $route->send_count)
+                {
+                    $transports = ceil($route->send_count/$this->config->item('transport_capacity'));
+                    if ($this->CI->$model->user->transports >= $transports and $this->CI->$model->towns[$route->from]->actions > 0)
+                    {
+                        // Вычитаем ресурсы и баллы
+                        $this->CI->$model->towns[$route->from]->$resource_name = $this->CI->$model->towns[$route->from]->$resource_name - $route->send_count;
+                         $this->CI->$model->towns[$route->from]->actions =  $this->CI->$model->towns[$route->from]->actions - 1;
+                        $this->db->set($resource_name, $this->CI->$model->towns[$route->from]->$resource_name);
+                        $this->db->set('actions', $this->CI->$model->towns[$route->from]->actions);
+                        $this->db->where(array('id' => $route->from));
+                        $this->db->update($this->session->userdata('universe').'_towns');
+                        // Вычитаем сухогрузы
+                        $this->CI->$model->user->transports = $this->CI->$model->user->transports - $transports;
+                        $this->db->set('transports', $this->CI->$model->user->transports);
+                        $this->db->where(array('id' => $this->Player_Model->user->id));
+                        $this->db->update($this->session->userdata('universe').'_users');
+                        // Добавляем миссию
+                        $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $route->user, 'from' => $route->from, 'to' => $route->to, 'loading_from_start' => $route->update_time, 'mission_type' => 2, $resource_name => $route->send_count, 'ship_transport' => $transports));
+                        $text = 'Стартовала торговая миссия по маршруту до '.$this->CI->$model->towns[$route->from]->name.'.';
+                        $town_message = array(
+                                   'user' => $route->user,
+                                   'town' => $route->from,
+                                   'date' => $route->update_time,
+                                   'text' => $text
+                               );
+                        $towns_messages[] = $town_message;
+                    }
+                }
+                $route->update_time = $route->update_time + 86400;
+            }
+            
+            $this->db->set('update_time', $route->update_time);
+            $this->db->where(array('id' => $route->id));
+            $this->db->update($this->session->userdata('universe').'_trade_routes');
+        }
+        $this->Send_Messages($towns_messages);
     }
 
 }

@@ -39,9 +39,41 @@
 
     function premium_time($seconds)
     {
-        $days = floor($seconds/86400)+1;
-        $return = '';
-        $return .= ($days > 0) ? $days.'д. ' : '';
+        $days = floor($seconds/86400);
+        $hours = floor(($seconds-($days*86400))/3600);
+        $minutes = floor(($seconds-($days*86400)-($hours*3600))/60);
+        $seconds = floor($seconds-($days*86400)-($hours*3600)-($minutes*60));
+        $return = ($days > 0) ? $days.'д. ' : '';
+        if ($days > 0)
+        {
+            $return = $days.'д.';
+        }
+        elseif($days == 0 and $hours > 0)
+        {
+            $return = $hours.'ч.';
+        }
+        elseif($days == 0 and $hours == 0 and $minutes > 0)
+        {
+            $return = $minutes.'мин.';
+        }
+        elseif($days == 0 and $hours == 0 and $minutes == 0 and $seconds > 0)
+        {
+            $return = $seconds.'с.';
+        }
+        else
+        {
+            $return = '';
+        }
+        return $return;
+    }
+
+    function route_time($seconds, $hour)
+    {
+        $year = floor(date('Y', $seconds));
+        $day = floor(date('d', $seconds));
+        $month = floor(date('m', $seconds));
+        $return = mktime($hour, 0, 0, $month, $day, $year);
+        if ($return < $seconds){$return = mktime($hour, 0, 0, $month, $day+1, $year);}
         return $return;
     }
 

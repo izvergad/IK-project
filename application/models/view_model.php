@@ -80,6 +80,7 @@ class View_Model extends Model
             case 'demolition':
             case 'armyGarrisonEdit':
             case 'tradeAdvisor':
+            case 'tradeAdvisorTradeRoute':
             case 'error':
             case 'fleetGarrisonEdit':
             case 'cityMilitary':
@@ -190,6 +191,7 @@ class View_Model extends Model
             case 'cityMilitary': $caption = 'Военный обзор'; $file = 'town'; break;
             case 'buildingDetail': $caption = 'Информация о здании'; $file = 'world'; break;
             case 'researchAdvisor': $caption = 'Советник по исследованиям'; $file = 'world'; break;
+            case 'tradeAdvisorTradeRoute':
             case 'tradeAdvisor': $caption = 'Мэр'; $file = 'world'; break;
             case 'militaryAdvisorMilitaryMovements': $caption = 'Военный советник'; $file = 'world'; break;
             case 'error': $caption = 'Ошибка!'; $file = 'null'; break;

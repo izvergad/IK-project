@@ -413,6 +413,11 @@ class Game extends Controller {
         $this->show('tradeAdvisor', $message_id);
     }
 
+    function tradeAdvisorTradeRoute($action = '')
+    {
+        $this->show('tradeAdvisorTradeRoute', $action);
+    }
+
     function error()
     {
         $this->show('error');
@@ -443,7 +448,7 @@ class Game extends Controller {
 
     function wall()
     {
-        if ($position == 0)
+        if ($this->Player_Model->now_town->pos14_type != 7)
         {
             $this->show('error','Городская стена еще не построена!');
         }
