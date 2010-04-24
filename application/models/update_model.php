@@ -177,29 +177,31 @@ class Update_Model extends Model
                                         $this->CI->$model->towns[$i]->sulfur = $sulfur;
                                     }
                                     // Если есть очередь
-                                    if (SizeOf($buildings) > 1 and $step > 0)
+                                    if (SizeOf($buildings) > 1)
                                     {
-                                        // уменьшаем настоящую очередь
-                                        if ($buildings[0]['position'] < 10)
+                                        if ($step > 0)
                                         {
-                                            $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 4) : substr($this->CI->$model->towns[$i]->build_line, 5);
+                                            // уменьшаем настоящую очередь
+                                            if ($buildings[0]['position'] < 10)
+                                            {
+                                                $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 4) : substr($this->CI->$model->towns[$i]->build_line, 5);
+                                            }
+                                            else
+                                            {
+                                                $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 5) : substr($this->CI->$model->towns[$i]->build_line, 6);
+                                            }
+                                            $this->CI->$model->towns[$i]->build_start = $this->CI->$model->towns[$i]->build_start + $cost['time'];
+                                            // и псевдо очередь
+                                            if ($buildings[0]['position'] < 10)
+                                            {
+                                                $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 4) : substr($while_line, 5);
+                                            }
+                                            else
+                                            {
+                                                $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 5) : substr($while_line, 6);
+                                            }
+                                            $buildings = $this->Data_Model->load_build_line($this->CI->$model->towns[$i]->build_line);
                                         }
-                                        else
-                                        {
-                                            $this->CI->$model->towns[$i]->build_line = ($buildings[0]['type'] < 10) ? substr($this->CI->$model->towns[$i]->build_line, 5) : substr($this->CI->$model->towns[$i]->build_line, 6);
-                                        }
-                                        $this->CI->$model->towns[$i]->build_start = $this->CI->$model->towns[$i]->build_start + $cost['time'];
-                                        // и псевдо очередь
-                                        if ($buildings[0]['position'] < 10)
-                                        {
-                                            $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 4) : substr($while_line, 5);
-                                        }
-                                        else
-                                        {
-                                            $while_line = ($buildings[0]['type'] < 10) ? substr($while_line, 5) : substr($while_line, 6);
-                                        }
-                                        $buildings = $this->Data_Model->load_build_line($this->CI->$model->towns[$i]->build_line);
-
                                     }
                                     else
                                     {
