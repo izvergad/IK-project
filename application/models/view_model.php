@@ -44,8 +44,8 @@ class View_Model extends Model
             case 14: $this->load->view('tut/8',array('location' => $location, 'active' => true, 'id' => $id)); break;
             case 15: $this->load->view('tut/8',array('location' => $location, 'active' => false, 'id' => $id)); break;
             // Нападение на варваров
-            case 16: $this->load->view('tut/9',array('location' => $location, 'active' => true, 'id' => $id)); break;
-            case 17: $this->load->view('tut/9',array('location' => $location, 'active' => false, 'id' => $id)); break;
+            //case 16: $this->load->view('tut/9',array('location' => $location, 'active' => true, 'id' => $id)); break;
+            //case 17: $this->load->view('tut/9',array('location' => $location, 'active' => false, 'id' => $id)); break;
 
         }
     }
@@ -90,17 +90,26 @@ class View_Model extends Model
             case 'wall':
             case 'tavern':
             case 'palace':
+            case 'palaceColony':
             case 'plunder':
             case 'finances':
             case 'port':
             case 'merchantNavy':
             case 'militaryAdvisorMilitaryMovements':
             case 'transport':
+            case 'sendSpy':
             case 'premiumTradeAdvisor':
             case 'carpentering':
             case 'branchOffice':
             case 'takeOffer':
             case 'researchOverview':
+            case 'safehouse':
+            case 'abolishColony':
+            case 'safehouseMissions':
+            case 'safehouseReports':
+            case 'diplomacyAdvisor':
+            case 'diplomacyAdvisorOutBox':
+            case 'sendIKMessage':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/null'); break;
@@ -113,6 +122,10 @@ class View_Model extends Model
      */
     function show_sidebox($location = 'city', $param1, $param2, $param3)
     {
+        switch($location)
+        {
+            case 'diplomacyAdvisorOutBox': $location = 'diplomacyAdvisor'; break;
+        }
         switch($location)
         {
             case 'demolition': $this->load->view('sidebox/'.$location, array('position' => $param1)); break;
@@ -130,9 +143,11 @@ class View_Model extends Model
             case 'wall':
             case 'tavern':
             case 'palace':
+            case 'palaceColony':
             case 'port':
             case 'carpentering':
             case 'branchOffice':
+            case 'safehouse':
                 $this->load->view('sidebox/update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island':
@@ -152,11 +167,15 @@ class View_Model extends Model
             case 'premiumTradeAdvisor':
             case 'takeOffer':
             case 'researchOverview':
+            case 'safehouseMissions':
+            case 'safehouseReports':
+            case 'diplomacyAdvisor':
                 $this->load->view('sidebox/'.$location);
             break;
             case 'plunder':
             case 'colonize':
             case 'transport':
+            case 'sendSpy':
                 $this->load->view('sidebox/back_to_island');
             default: break;
         }
@@ -170,18 +189,22 @@ class View_Model extends Model
             case 'fleetGarrisonEdit': $location = 'shipyard'; break;
         }
         $caption = $this->Data_Model->building_name_by_type($this->Data_Model->building_type_by_class($location));
-        $pos_text = 'pos'.$param1.'_type';
-        $type = ($param1 > 0 and $param1 <= 15) ? $this->Player_Model->now_town->$pos_text : $this->Data_Model->building_type_by_class($location);
+        @$pos_text = 'pos'.$param1.'_type';
+        @$type = ($param1 > 0 and $param1 <= 15) ? $this->Player_Model->now_town->$pos_text : $this->Data_Model->building_type_by_class($location);
         switch($location)
         {
             case 'demolition': $caption = 'Подтверждение'; $file = 'building';break;
             case 'renameCity': $caption = 'Переименовать город'; $file = 'building'; $type = 1; break;
+            case 'abolishColony': $caption = 'Покинуть колонию'; $file = 'building'; $type = 1; break;
             case 'researchOverview': $caption = 'Библиотека'; $file = 'building'; $type = 3; break;
+            case 'safehouseMissions': $caption = 'Миссии'; $file = 'building'; $type = 14; break;
+            case 'safehouseReports': $caption = 'Шпионский доклад'; $file = 'building'; $type = 14; break;
             case 'takeOffer': if ($param2 == 0) { $caption = 'Принять ставку'; } else { $caption = 'Принять предложение'; } $file = 'building'; $type = 12; break;
             case 'academy':
             case 'barracks':
             case 'buildingGround':
             case 'palace':
+            case 'palaceColony':
             case 'port':
             case 'shipyard':
             case 'tavern':
@@ -189,10 +212,14 @@ class View_Model extends Model
             case 'wall':
             case 'carpentering':
             case 'branchOffice':
+            case 'safehouse':
             case 'warehouse': $file = 'town'; break;
             case 'cityMilitary': $caption = 'Военный обзор'; $file = 'town'; break;
             case 'buildingDetail': $caption = 'Информация о здании'; $file = 'world'; break;
             case 'researchAdvisor': $caption = 'Советник по исследованиям'; $file = 'world'; break;
+            case 'diplomacyAdvisorOutBox':
+            case 'diplomacyAdvisor': $caption = 'Советник по дипломатии'; $file = 'world'; break;
+            case 'sendIKMessage': $caption = 'Создать сообщение'; $file = 'world'; break;
             case 'tradeAdvisorTradeRoute':
             case 'tradeAdvisor': $caption = 'Мэр'; $file = 'world'; break;
             case 'militaryAdvisorMilitaryMovements': $caption = 'Военный советник'; $file = 'world'; break;
@@ -205,6 +232,7 @@ class View_Model extends Model
             case 'researchDetail': $caption = 'Подробно об исследовании'; $file = 'null'; break;
             case 'merchantNavy': $caption = 'Торговый флот'; $file = 'null'; break;
             case 'transport': $caption = 'Транспорт'; $file = '_island'; break;
+            case 'sendSpy': $caption = 'Отправить шпиона'; $file = '_island'; break;
             case 'colonize': $caption = 'Колонизация'; $file = '_island'; break;
             case 'premiumTradeAdvisor': $caption = 'Обзор построек'; $file = 'tradeAdvisor'; break;
             default:

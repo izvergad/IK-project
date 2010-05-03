@@ -102,7 +102,7 @@
                             <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="Рекрутировать максимум">
                                 <span class="textLabel">макс.</span>
                             </a>
-                            <input class="button" type=submit value="нанять!">
+                            <input class="button" type=submit value="Нанять!">
                         </div>
 <?}}?>
 

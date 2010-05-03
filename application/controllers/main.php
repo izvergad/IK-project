@@ -38,6 +38,11 @@ class Main extends Controller {
                 $this->load->view('main_index', array('page' => 'error'));
         }
 
+        function xd_receiver()
+        {
+            $this->load->view('main/xd_receiver');
+        }
+
         function page($page = 'index')
         {
             $errors = array();

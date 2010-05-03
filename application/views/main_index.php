@@ -40,19 +40,13 @@
         $(document).ready(function(){
             $('#text').load('<?=$this->config->item('base_url')?>main/page/<?=$page?>/');
             $("#main_index").click(function(){
-                $('#text').hide();
                 $('#text').load('<?=$this->config->item('base_url')?>main/page/index/');
-                $('#text').fadeIn();
             });
             $("#main_register").click(function(){
-                $('#text').hide();
                 $('#text').load('<?=$this->config->item('base_url')?>main/page/register/');
-                $('#text').fadeIn();
             });
             $("#main_tour").click(function(){
-                $('#text').hide();
                 $('#text').load('<?=$this->config->item('base_url')?>main/page/tour/');
-                $('#text').fadeIn();
             });
         });
         </script>

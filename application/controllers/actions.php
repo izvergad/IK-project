@@ -216,8 +216,10 @@ class Actions extends Controller
         $already_position = $this->Data_Model->get_position($id, $this->Player_Model->now_town);
         if ((($already_position == 0 or $already_position == $position) or $id == 6) and
             $class != 'buildingGround' and
+            ($id != 4 or ($id == 4 and $this->Player_Model->armys[$this->Player_Model->town_id]->ships_line == '')) and
             ($id != 5 or ($id == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line == '')) and
             ($id != 13 or $this->Player_Model->research->res2_13 > 0) and
+            ($id != 14 or ($id == 14 and $this->Player_Model->now_town->spyes_start == 0)) and
             ($type == 0 or $type == $id) and
             (SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) <= $this->config->item('town_queue_size')) and (SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) > 0 and $this->Player_Model->user->premium_account > 0) or SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]) == 0)
         {
@@ -1322,7 +1324,8 @@ class Actions extends Controller
                 $time = floor($_POST['time']);
                 $number = floor($_POST['number']);
                 $update_time = route_time(time(), $time);
-                if ($from > 0 and $to > 0 and $tradegood > 0 and $tradegood <= 4 and $time >= 0 and $time <= 24 and $number > 0)
+
+                if ($from > 0 and $to > 0 and $tradegood >= 0 and $tradegood <= 4 and $time >= 0 and $time <= 24 and $number > 0)
                 {
                     if(!isset($_POST['save']))
                     {
@@ -1363,6 +1366,383 @@ class Actions extends Controller
             }
         }
         redirect($this->config->item('base_url').'game/tradeAdvisorTradeRoute/', 'refresh');
+    }
+
+    function spyes($action = 'buy', $island = 0, $town = 0)
+    {
+        $all_spyes = SizeOf($this->Player_Model->spyes[$this->Player_Model->town_id])+$this->Player_Model->now_town->spyes;
+        if ($action == 'buy' and $this->Player_Model->user->gold >= 150 and $this->Player_Model->now_town->crystal >= 80 and $this->Player_Model->now_town->spyes_start == 0 and ($this->Player_Model->levels[$this->Player_Model->town_id][14]-$all_spyes) > 0)
+        {
+            $this->db->set('gold', $this->Player_Model->user->gold - 150);
+            $this->db->where(array('id' => $this->Player_Model->user->id));
+            $this->db->update($this->session->userdata('universe').'_users');
+            $this->db->set('crystal', $this->Player_Model->now_town->crystal - 80);
+            $this->db->set('spyes_start', time());
+            $this->db->where(array('id' => $this->Player_Model->now_town->id));
+            $this->db->update($this->session->userdata('universe').'_towns');
+        }
+        if ($action == 'send' and $this->Player_Model->user->gold >= 30 and $this->Player_Model->now_town->spyes > 0)
+        {
+            if ($island == 0)
+            {
+                $island = $this->Player_Model->island_id;
+            }
+            $this->load->model('Island_Model');
+            $this->Island_Model->Load_Island($island);
+            $this->Data_Model->Load_Town($town);
+            if(isset($this->Data_Model->temp_towns_db[$town]) and $this->Data_Model->temp_towns_db[$town]->island == $this->Island_Model->island->id)
+            {
+                $this->db->insert($this->session->userdata('universe').'_spyes', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'mission_type' => 1, 'mission_start' => time()));
+                $this->db->set('spyes', $this->Player_Model->now_town->spyes-1);
+                $this->db->where(array('id' => $this->Player_Model->now_town->id));
+                $this->db->update($this->session->userdata('universe').'_towns');
+                $this->db->set('gold', $this->Player_Model->user->gold-30);
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+            }
+        }
+        if ($action == 'return' and isset($this->Player_Model->spyes[$town][$island]))
+        {
+            $this->db->set('mission_type', 2);
+            $this->db->set('mission_start', time());
+            $this->db->where(array('id' => $island));
+            $this->db->update($this->session->userdata('universe').'_spyes');
+        }
+        redirect($this->config->item('base_url').'game/safehouse/', 'refresh');
+    }
+
+    function abolishColony()
+    {
+        if($this->Player_Model->town_id != $this->Player_Model->capital_id and SizeOf($this->Player_Model->missions) == 0)
+        {
+            $this->db->delete($this->session->userdata('universe').'_towns', array('id' => $this->Player_Model->town_id));
+            $this->db->delete($this->session->userdata('universe').'_army', array('city' => $this->Player_Model->town_id));
+            $this->db->delete($this->session->userdata('universe').'_town_messages', array('town' => $this->Player_Model->town_id));
+            $this->db->delete($this->session->userdata('universe').'_town_messages', array('town' => $this->Player_Model->town_id));
+            $this->db->set('city'.$this->Player_Model->now_town->position, 0);
+            $this->db->where(array('id' => $this->Player_Model->now_town->island));
+            $this->db->update($this->session->userdata('universe').'_islands');
+            $this->db->query('UPDATE '.$this->session->userdata('universe').'_trade_routes SET `from`=0, `send_count`=0, `send_resource`=0, `send_time`=0 WHERE `from`='.$this->Player_Model->town_id);
+            $this->db->query('UPDATE '.$this->session->userdata('universe').'_trade_routes SET `to`=0, `send_count`=0, `send_resource`=0, `send_time`=0 WHERE `to`='.$this->Player_Model->town_id);
+            $this->db->set('town', $this->Player_Model->capital_id);
+            $this->db->where(array('id' => $this->Player_Model->user->id));
+            $this->db->update($this->session->userdata('universe').'_users');
+        }
+        else
+        {
+            $this->Error('Не возможно сейчас покинуть колонию!');
+        }
+        redirect($this->config->item('base_url').'game/city/', 'refresh');
+    }
+
+    function changeCapital($town = 0)
+    {
+        if($town > 0 and isset($this->Player_Model->towns[$town]) and $town != $this->Player_Model->capital_id)
+        {
+            $palace_position = $this->Data_Model->get_position(10, $this->Player_Model->towns[$this->Player_Model->capital_id]);
+            $colony_position = $this->Data_Model->get_position(15, $this->Player_Model->towns[$town]);
+            if ($palace_position > 0 and $colony_position > 0)
+            {
+                $building_line = array();
+                if (SizeOf($this->Player_Model->build_line[$town]) > 1)
+                    for ($i = 0; $i < SizeOf($this->Player_Model->build_line[$town]); $i++)
+                    {
+                        if ($this->Player_Model->build_line[$town][$i]['type'] != 10)
+                        {
+                            $building = array($this->Player_Model->build_line[$town][$i]['position'], $this->Player_Model->build_line[$town][$i]['type']);
+                            $building_line[] = implode(",", $building);
+                        }
+                    }
+                $buildings_line = implode(";", $building_line);
+                $this->db->set('build_line', $buildings_line);
+                $this->db->set('pos'.$colony_position.'_type', 10);
+                $this->db->where(array('id' => $town));
+                $this->db->update($this->session->userdata('universe').'_towns');
+                $this->db->set('pos'.$palace_position.'_type', 0);
+                $this->db->set('pos'.$palace_position.'_level', 0);
+                $this->db->where(array('id' => $this->Player_Model->capital_id));
+                $this->db->update($this->session->userdata('universe').'_towns');
+                $this->db->set('capital', $town);
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+                redirect($this->config->item('base_url').'game/palace/', 'refresh');
+            }
+            else
+            {
+                redirect($this->config->item('base_url').'game/palaceColony/', 'refresh');
+            }
+        }
+        else
+        {
+            redirect($this->config->item('base_url').'game/palaceColony/', 'refresh');
+        }
+    }
+
+    function espionage($town = 0, $spy = 0, $mission = 0)
+    {
+        $msg_id = 0;
+        $town = floor($town);
+        $spy = floor($spy);
+        $mission = floor($mission);
+        if (isset($this->Player_Model->spyes[$town][$spy]) and $mission >= 3 and $mission <= 10)
+        {
+            if($this->Player_Model->user->gold >= $this->Data_Model->spy_gold_by_mission($mission))
+            {
+                $this->Data_Model->Load_Town($this->Player_Model->spyes[$town][$spy]->to);
+                $spy = $this->Player_Model->spyes[$town][$spy];
+                $town = $this->Data_Model->temp_towns_db[$spy->to];
+                $to_position = $this->Data_Model->get_position(14, $town);
+                $to_text = 'pos'.$to_position.'_level';
+                $to_level = ($to_position > 0) ? $town->$to_text : 0;
+                $risk = (5*$town->spyes)+(2*$to_level)-(2*$town->pos0_level)-(2*$this->Player_Model->levels[$this->Player_Model->town_id][14]);
+                if ($risk < 0){ $risk = 0; }
+                $risk = $risk + $this->Data_Model->spy_risk_by_mission($spy->mission_type) + $spy->risk;
+                $chance = rand(0, 100);
+                if ($chance >= $risk)
+                {
+                    $time = time();
+                    $text = '';
+                    switch($mission)
+                    {
+                        case 3:
+                            $this->Data_Model->Load_User($town->user);
+                            $user = $this->Data_Model->temp_users_db[$town->user];
+                            $text = 'Доступно в этом городе '.number_format($user->gold).' <img alt="Золото" src="'.$this->config->item('style_url').'skin/resources/icon_gold.gif">';
+                        break;
+                        case 4:
+                            $text = '<table cellpadding="0" cellspacing="0" class="reportTable" id="resources"><tr><th class="unitname">Ресурс</th><th class="count">Кол-во</th></tr><tr><td class="unitname"><img src="'.$this->config->item('style_url').'skin/resources/icon_wood.gif" alt="Стройматериалы" title="Стройматериалы"></td><td class="count">'.number_format($town->wood).'</td></tr><tr><td class="unitname"><img src="'.$this->config->item('style_url').'skin/resources/icon_wine.gif" alt="Виноград" title="Виноград"></td><td class="count">'.number_format($town->wine).'</td></tr><tr><td class="unitname"><img src="'.$this->config->item('style_url').'skin/resources/icon_marble.gif" alt="Мрамор" title="Мрамор"></td><td class="count">'.number_format($town->marble).'</td></tr><tr><td class="unitname"><img src="'.$this->config->item('style_url').'skin/resources/icon_glass.gif" alt="Хрусталь" title="Хрусталь"></td><td class="count">'.number_format($town->crystal).'</td></tr><tr><td class="unitname"><img src="'.$this->config->item('style_url').'skin/resources/icon_sulfur.gif" alt="Сера" title="Сера"></td><td class="count">'.number_format($town->sulfur).'</td></tr></table>';
+                        break;
+                        case 5:
+                            $this->Data_Model->Load_Research($town->user);
+                            $this->research = $this->Data_Model->temp_research_db[$town->user];
+                            for($i = 1; $i < 14; $i++){
+                                $parametr = 'res1_'.$i;
+                                if ($this->research->$parametr == 0){$this->ways[1] = $this->Data_Model->get_research(1,$i,$this->research);break;}}
+                            if ($this->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
+                            if(isset($this->ways[1]) and $this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
+                            for($i = 1; $i < 15; $i++){
+                                $parametr = 'res2_'.$i;
+                                if ($this->research->$parametr == 0){$this->ways[2] = $this->Data_Model->get_research(2,$i,$this->research);break;}}
+                            if ($this->research->res2_15 > 0){$this->ways[2] = $this->Data_Model->get_research(2,15,$this->research);}
+                            if(isset($this->ways[2]) and $this->ways[2]['points'] <= $this->research->points and $this->research->way2_checked == 0){$this->research_advisor = true;}
+                            for($i = 1; $i < 16; $i++){
+                                $parametr = 'res3_'.$i;
+                                if ($this->research->$parametr == 0){$this->ways[3] = $this->Data_Model->get_research(3,$i,$this->research);break;}}
+                            if ($this->research->res3_16 > 0){$this->ways[3] = $this->Data_Model->get_research(3,16,$this->research);}
+                            if(isset($this->ways[3]) and $this->ways[3]['points'] <= $this->research->points and $this->research->way3_checked == 0){$this->research_advisor = true;}
+                            for($i = 1; $i < 14; $i++){
+                                $parametr = 'res4_'.$i;
+                                if ($this->research->$parametr == 0){$this->ways[4] = $this->Data_Model->get_research(4,$i,$this->research);break;}}
+                            if ($this->research->res4_14 > 0){$this->ways[4] = $this->Data_Model->get_research(4,14,$this->research);}
+                            if(isset($this->ways[4]) and $this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
+                            $ways = array();
+                            for ($i = 1; $i <= 4; $i++)
+                            if ($this->ways[$i]['need_id'] > 0)
+                            {
+                                $need = $this->Data_Model->get_research($this->ways[$i]['need_way'],$this->ways[$i]['need_id'],$this->research);
+                                $ways_names[$i] = $need['name'];
+                            }
+                            else
+                            {
+                                $ways_names[$i] = $this->ways[$i]['name'];
+                            }
+                            $text = '<table cellpadding="0" cellspacing="0" class="reportTable"><tr><th class="unitname">Область исследований</th><th class="count">Текущее исследование</th></tr><tr><td class="unitname">Мореходство</td><td class="count">'.$ways_names[1].'</td></tr><tr><td class="unitname">Экономика</td><td class="count">'.$ways_names[2].'</td></tr><tr><td class="unitname">Наука</td><td class="count">'.$ways_names[3].'</td></tr><tr><td class="unitname">Милитаризм</td><td class="count">'.$ways_names[4].'</td></tr></table>';
+                        break;
+                        case 6:
+                            $this->Data_Model->Load_User($town->user);
+                            $user = $this->Data_Model->temp_users_db[$town->user];
+                            $text = ((time() - $user->last_visit) <= 300) ? 'Предводитель находится в режиме онлайн.' : 'Предводитель находится в режиме оффлайн, поэтому он не сможет принять никаких мер для отражения нашего нападения!';
+                        break;
+                        case 7:
+                            $this->Data_Model->Load_Army($town->id);
+                            $army = $this->Data_Model->temp_army_db[$town->id];
+                            $army_names = '';
+                            $army_counts = '';
+                            $ship_names = '';
+                            $ship_counts = '';
+                            $text = 'Войска в '.$town->name.'<table cellpadding="0" cellspacing="0" class="reportTable"><tr><th class="unitname">Единица</th><th class="count">Кол-во</th></tr><tr>';
+
+                            for ($i = 1; $i <= 14; $i++)
+                            {
+                                $class = $this->Data_Model->army_class_by_type($i);
+                                if ($army->$class > 0)
+                                {
+                                    $army_names .= '<p>'.$this->Data_Model->army_name_by_type($i).'</p>';
+                                    $army_counts .= '<p>'.$army->$class.'</p>';
+                                }
+                            }
+                            for ($i = 16; $i <= 22; $i++)
+                            {
+                                $class = $this->Data_Model->army_class_by_type($i);
+                                if ($army->$class > 0)
+                                {
+                                    $ship_names .= '<p>'.$this->Data_Model->army_name_by_type($i).'</p>';
+                                    $ship_counts .= '<p>'.$army->$class.'</p>';
+                                }
+                            }
+                            if ($army_names == '')
+                            {
+                                $text .= '<td class="unitname">Нет войск.</td>';
+                                $text .= '<td class="count"></td>';
+                            }
+                            else
+                            {
+                                $text .= '<td class="unitname">'.$army_names.'</td>';
+                                $text .= '<td class="count">'.$army_counts.'</td>';
+                            }
+                            $text .= '</tr></table><tr><td></td><td></td></tr></td></tr><tr><td></td><td class="report">Флоты в '.$town->name.'<table cellpadding="0" cellspacing="0" class="reportTable"><tr><th class="unitname">Корабль</th><th class="count">Кол-во</th></tr><tr>';
+                            if ($ship_names == '')
+                            {
+                                $text .= '<td class="unitname">Нет войск.</td>';
+                                $text .= '<td class="count"></td>';
+                            }
+                            else
+                            {
+                                $text .= '<td class="unitname">'.$ship_names.'</td>';
+                                $text .= '<td class="count">'.$ship_counts.'</td>';
+                            }
+                            $text .= '</tr></table><tr><td></td><td class="report">Блокирующий флот в '.$town->name.'<table cellpadding="0" cellspacing="0" class="reportTable"><tr><th class="unitname">Корабль</th><th class="count">Кол-во</th></tr><tr><td class="unitname">Нет войск.</td><td class="count"></td></tr></table> ';
+                        break;
+                        case 8:
+                            $text = '<table cellpadding="0" cellspacing="0" class="reportTable"><tr><th>Нет перемещений флотов!</th></tr></table>';
+                        break;
+                        case 9:
+                            $text = '<table cellpadding="0" cellspacing="0" class="reportTable" width="100%"><tr><th class="unitname"><strong>Отправитель:</strong></th><th class="unitname"><strong>Тема:</strong></th><th class="unitname"><strong>Дата:</strong></th><th class="unitname"><strong>Получатель:</strong></th></tr>';
+                            $text .= '<tr><td>Нет сообщений.</td><td></td><td></td><td></td></tr> ';
+                            $text .= '</table>';
+                        break;
+                        case 10:
+                            $this->db->set('mission_start', time());
+                            $this->db->set('mission_type', 2);
+                            $this->db->where(array('id' => $spy->id));
+                            $this->db->update($this->session->userdata('universe').'_spyes');
+                        break;
+                    }
+                    if ($mission < 10)
+                    {
+                        $desc = $this->Data_Model->spy_mission_name_by_type($mission);
+                        if ($mission == 6) { $desc .= ' '.$town->name; }
+                        $spy_message= array(
+                            'user' => $spy->user,
+                            'spy' => $spy->id,
+                            'from' => $spy->from,
+                            'to' => $spy->to,
+                            'mission' => $mission,
+                            'date' => $time,
+                            'desc' => $desc,
+                            'text' => $text
+                        );
+                        $this->db->insert($this->session->userdata('universe').'_spy_messages', $spy_message);
+                    }
+                    $this->db->set('risk', $risk);
+                    $this->db->where(array('id' => $spy->id));
+                    $this->db->update($this->session->userdata('universe').'_spyes');
+                    $spy_query = $this->db->get_where($this->session->userdata('universe').'_spy_messages', array('spy' => $spy->id, 'date' => $time));
+                    if ($spy_query->num_rows == 1)
+                    {
+                        $spy_msg = $spy_query->row();
+                        $msg_id = $spy_msg->id;
+                    }
+                }
+                else
+                {
+                        $chance = rand(0, 1);
+                        if($chance)
+                        {
+                            $chance = (100-$risk) < 0 ? 0 : 100-$risk;
+                            $spy_message= array(
+                                'user' => $spy->user,
+                                'spy' => $spy->id,
+                                'from' => $spy->from,
+                                'to' => $spy->to,
+                                'mission' => 0,
+                                'date' => time(),
+                                'desc' => 'Ваш шпион не выходит на связь.',
+                                'text' => 'Ваш шпион не выходит на связь. Возможно, его раскрыли. Шанс на удачу: '.$chance.' %.'
+                            );
+                            $this->db->insert($this->session->userdata('universe').'_spy_messages', $spy_message);
+                            $this->db->delete($this->session->userdata('universe').'_spyes', array('id' => $spy->id));
+                            unset($this->Player_Model->spyes[$this->Player_Model->town_id][$spy->id]);
+                        }
+                        else
+                        {
+                            $spy_message = array(
+                                'user' => $spy->user,
+                                'spy' => $spy->id,
+                                'from' => $spy->from,
+                                'to' => $spy->to,
+                                'mission' => 0,
+                                'date' => time(),
+                                'desc' => 'Задание отменено...',
+                                'text' => 'Шпион был обнаружен, но сумел вовремя скрыться. Он возвращается домой...'
+                                );
+                            $this->db->insert($this->session->userdata('universe').'_spy_messages', $spy_message);
+                                $this->Player_Model->spyes[$this->Player_Model->town_id][$spy->id]->mission_type = 2;
+                                $this->db->set('mission_start', time());
+                                $this->db->set('mission_type', 2);
+                                $this->db->where(array('id' => $spy->id));
+                                $this->db->update($this->session->userdata('universe').'_spyes');
+                        }
+                }
+                $this->db->set('gold', $this->Player_Model->user->gold - $this->Data_Model->spy_gold_by_mission($mission));
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+            }
+        }
+        if ($msg_id > 0)
+        {
+            redirect($this->config->item('base_url').'game/safehouseReports/'.$msg_id.'/', 'refresh');
+
+        }
+        else
+        {
+            redirect($this->config->item('base_url').'game/safehouse/', 'refresh');
+        }
+    }
+
+    function messages($action = '', $id = 0, $relocation = 'diplomacyAdvisor')
+    {
+        $this->Player_Model->Load_User_Messages();
+        switch($action)
+        {
+           case 'send':
+                if (isset($_POST['msgType']) and isset($_POST['content']))
+                {
+                    $msg_type = floor($_POST['msgType']);
+                    $content = strip_tags($_POST['content']);
+                    $this->Data_Model->Load_User($id);
+                    if ($msg_type > 0 and $msg_type <= 1 and isset($this->Data_Model->temp_users_db[$id]))
+                    {
+                        $this->db->insert($this->session->userdata('universe').'_user_messages', array('from' => $this->Player_Model->user->id, 'to' => $id, 'type' => $msg_type, 'date' => time(), 'text' => $content));
+                    }
+                }
+           break;
+           case 'delete':
+                if (isset($this->Player_Model->to_user_messages[$id]))
+                {
+                    
+                    $this->db->set('deleted', time());
+                    $this->db->where(array('id' => $id));
+                    $this->db->update($this->session->userdata('universe').'_user_messages');
+                }
+                else
+                {
+                    if(isset($_POST['deleteId']))
+                    {
+                        foreach($this->Player_Model->to_user_messages as $message)
+                        {
+                            if(isset($_POST['deleteId'][$message->id]) and $_POST['deleteId'][$message->id] == 'read')
+                            {
+                                $this->db->set('deleted', time());
+                                $this->db->where(array('id' => $message->id));
+                                $this->db->update($this->session->userdata('universe').'_user_messages');
+                            }
+                        }
+                    }
+                }
+           break;
+        }
+        redirect($this->config->item('base_url').'game/'.$relocation.'/', 'refresh');
     }
 
 }

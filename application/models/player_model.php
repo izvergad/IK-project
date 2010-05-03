@@ -67,6 +67,7 @@ class Player_Model extends Model
                     $towns_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('user' => $id));
                     foreach ($towns_query->result() as $town)
                     {
+                        $this->warehouses_levels[$town->id] = array();
                         if ($town->pos0_level == 0){ continue; }
                         $this->capacity[$town->id] = $this->config->item('standart_capacity');
                         // Уровни зданий
@@ -79,6 +80,7 @@ class Player_Model extends Model
                         $this->army_gold_need[$town->id] = 0;
                         $this->corruption[$town->id] = 0;
                         $this->units_count[$town->id] = 0;
+                        $this->spyes[$town->id] = array();
                         // Загружаем город
                         $this->Data_Model->temp_towns_db[$town->id] = $town;
                         $this->towns[$town->id] =& $this->Data_Model->temp_towns_db[$town->id];
@@ -101,7 +103,7 @@ class Player_Model extends Model
                         for ($i = 0; $i <= 14; $i++)
                         {
                             $pos_type = 'pos'.$i.'_type'; $pos_level = 'pos'.$i.'_level';
-                            if ($town->$pos_type == 6){ $this->capacity[$town->id] = $this->capacity[$town->id] + ($town->$pos_level*8000); $this->warehouses[$town->id]++; $this->warehouses_levels[$town->id] = $town->$pos_level; }
+                            if ($town->$pos_type == 6){ $this->capacity[$town->id] = $this->capacity[$town->id] + ($town->$pos_level*8000); $this->warehouses[$town->id]++; $this->warehouses_levels[$town->id][] = $town->$pos_level; }
                             // Если здание построено заносим в построенные
                             if ($town->$pos_level > 0){ $this->already_build[$town->id][$town->$pos_type] = true; }
                             $this->levels[$town->id][$town->$pos_type] = $town->$pos_level;
@@ -166,8 +168,13 @@ class Player_Model extends Model
                         // Очереди армии и флота
                         $this->army_line[$town->id] = $this->Data_Model->load_army_line($this->armys[$town->id]->army_line);
                         $this->ships_line[$town->id] = $this->Data_Model->load_army_line($this->armys[$town->id]->ships_line);
-                    
                         $this->my_fleets[$town->id] = 0;
+                        // Загружаем шпионов
+                        $this->Data_Model->Load_Spyes($town->id);
+                        if (isset($this->Data_Model->temp_spyes_db[$town->id]))
+                        {
+                            $this->spyes[$town->id] =& $this->Data_Model->temp_spyes_db[$town->id];
+                        }else $this->spyes[$town->id] = array();
                     }
                     // Вычисляем коррупцию
                     foreach($this->towns as $town)
@@ -295,12 +302,38 @@ class Player_Model extends Model
     {
         // Загрузка сообщений
         $this->towns_messages = array();
-        $this->db->order_by("date", "desc");
-        $where_array = array();
-            $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('user' => $this->session->userdata('id')));
+            $town_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_town_messages` WHERE `user`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' ORDER BY date DESC');
             if ($town_messages->num_rows() > 0)
                 foreach ($town_messages->result() as $row)
                     $this->towns_messages[] = $row;
+    }
+
+    function Load_Spyes_Messages()
+    {
+        // Загрузка шпионских докладов
+        $this->spyes_messages = array();
+            $spyes_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_spy_messages` WHERE `from`='.$this->town_id.' and `date`>'.(time()-604800).' ORDER BY date DESC');
+            if ($spyes_messages->num_rows() > 0)
+                foreach ($spyes_messages->result() as $row)
+                    $this->spyes_messages[$row->from][] = $row;
+    }
+
+    function Load_User_Messages()
+    {
+        $this->new_user_messages = 0;
+        $this->from_user_messages = array();
+        $this->to_user_messages = array();
+            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `from`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 ORDER BY date DESC');
+            if ($user_messages->num_rows() > 0)
+                foreach ($user_messages->result() as $row)
+                    $this->from_user_messages[$row->id] = $row;
+            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 ORDER BY date DESC');
+            if ($user_messages->num_rows() > 0)
+                foreach ($user_messages->result() as $row)
+                {
+                    $this->to_user_messages[$row->id] = $row;
+                    if ($row->checked == 0){ $this->new_user_messages++; }
+                }
     }
     
     function Load_New_Messages()

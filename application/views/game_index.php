@@ -369,7 +369,7 @@
             </a>
 	</li>
 	<li id="advDiplomacy">
-            <a href="<?=$this->config->item('base_url')?>game/advisors/diplomacy/" title="Обзор сообщений и дипломатии" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
+            <a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisor/" title="Обзор сообщений и дипломатии" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_user_messages > 0){?>active<?}?>">
                 <span class="textLabel">Дипломатия</span>
             </a>
 <?if($this->Player_Model->user->premium_account > 0){?>
@@ -684,6 +684,9 @@ function getCookie ( check_name, def_val ) {
         return def_val;
     }
 }
+<?if(!$_POST){?>
+//document.getElementsByTagName("DIV")[0].style.display = 'none';
+<?}?>
 </script>
         </body>
 </html>

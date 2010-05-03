@@ -116,6 +116,22 @@
         }
     }
 
+    function spy_mission_icon($type)
+    {
+        switch($type)
+        {
+            case 1: return 'arrived'; break;
+            case 2: return 'return'; break;
+            case 3: return 'money'; break;
+            case 4: return 'money'; break;
+            case 5: return 'research'; break;
+            case 6: return 'online'; break;
+            case 7: return 'garrison'; break;
+            case 8: return 'fleet'; break;
+            case 9: return 'message'; break;
+        }
+    }
+
 
 /* End of file ikariam_helper.php */
 /* Location: ./system/application/helpers/ikariam_helper.php */

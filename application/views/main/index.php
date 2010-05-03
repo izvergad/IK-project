@@ -35,6 +35,49 @@
                                     <td style="font-size:10px; text-align:left; padding:4px 0px 0px 16px;"></td>
                                 </tr>
 <?}?>
+<!--
+                                <tr>
+                                    <td colspan="4"><img src="design/fb_login_divider.gif" alt=" " /></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <label for="welt" class="labelwelt">Мир</label></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+
+                                <tr>
+                                    <td>
+                                        <select name="universe" class="uni" size="1">
+                                            <option value="alpha">Alpha</option>
+                                        </select>
+                                    </td>
+                                    <td colspan="2" style="vertical-align: top;">
+<script src="http://vkontakte.ru/js/common.js"></script>
+
+<div id="vk_api_transport"></div>
+<script type="text/javascript">
+  window.vkAsyncInit = function() {
+    VK.init({
+      apiId: 1868320,
+      nameTransportPath: "main/page/xd_receiver/"
+    });
+  };
+
+  (function() {
+    var el = document.createElement("script");
+    el.type = "text/javascript";
+    el.charset = "utf8";
+    el.src = "http://vkontakte.ru/js/api/openapi.js";
+    el.async = true;
+    document.getElementById("vk_api_transport").appendChild(el);
+  }());
+</script>
+<div id="vk_login" style="margin: 0 auto 20px auto;" onclick="doLogin();"></div> 
+                                    </td>
+                                </tr>
+-->
                             </table>
                         </div>
                     </form>
@@ -42,15 +85,11 @@
 <script>
 $(document).ready(function(){
     $("#index_register").click(function(){
-        $('#text').hide();
         $('#text').load('<?=$this->config->item('base_url')?>main/page/register/');
-        $('#text').fadeIn();
     });
 <?if ($this->config->item('game_email')){?>
     $("#lost_password").click(function(){
-        $('#text').hide();
         $('#text').load('<?=$this->config->item('base_url')?>main/page/password/');
-        $('#text').fadeIn();
     });
 <?}?>
 });

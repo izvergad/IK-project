@@ -14,14 +14,10 @@
 <script>
 $(document).ready(function(){
     $(".back").click(function(){
-        $('#text').hide();
         $('#text').load('<?=$this->config->item('base_url')?>main/page/index/');
-        $('#text').fadeIn();
     });
     $(".next").click(function(){
-        $('#text').hide();
         $('#text').load('<?=$this->config->item('base_url')?>main/page/tour_2/');
-        $('#text').fadeIn();
     });
 });
 </script>

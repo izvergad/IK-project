@@ -33,6 +33,7 @@ class Game extends Controller {
                     // Отмечаем здания в очереди на карте
                     $this->Player_Model->correct_buildings();
                     $this->Player_Model->Load_New_Messages();
+                    $this->Player_Model->Load_User_Messages();
                     $this->load->model('View_Model');
                     
                 }
@@ -253,7 +254,7 @@ class Game extends Controller {
         }
     }
 
-    function palace($position = 0)
+    function palace()
     {
         $position = $this->Data_Model->get_position(10, $this->Player_Model->now_town);
         if ($position == 0)
@@ -263,6 +264,19 @@ class Game extends Controller {
         else
         {
             $this->show('palace', $position);
+        }
+    }
+
+    function palaceColony($action = '')
+    {
+        $position = $this->Data_Model->get_position(15, $this->Player_Model->now_town);
+        if ($position == 0)
+        {
+            $this->show('error','Резиденция губернатора еще не построена!');
+        }
+        else
+        {
+            $this->show('palaceColony', $position, $action);
         }
     }
 
@@ -276,6 +290,25 @@ class Game extends Controller {
         else
         {
             $this->show('carpentering', $position);
+        }
+    }
+
+    function safehouse($page = 'safehouse')
+    {
+        $position = $this->Data_Model->get_position(14, $this->Player_Model->now_town);
+        foreach($this->Player_Model->spyes[$this->Player_Model->town_id] as $spy)
+        {
+            $this->Data_Model->Load_Town($spy->to);
+            $this->Data_Model->Load_Island($this->Data_Model->temp_towns_db[$spy->to]->island);
+        }
+        if ($position == 0)
+        {
+            $this->show('error','Укрытие еще не построено!');
+        }
+        else
+        {
+            if ($page == 'reports') { $this->Player_Model->Load_Spyes_Messages(); }
+            $this->show('safehouse', $position, $page);
         }
     }
 
@@ -423,6 +456,36 @@ class Game extends Controller {
         $this->show('tradeAdvisorTradeRoute', $action);
     }
 
+    function diplomacyAdvisor()
+    {
+        $this->show('diplomacyAdvisor');
+    }
+
+    function diplomacyAdvisorOutBox()
+    {
+        $this->show('diplomacyAdvisorOutBox');
+    }
+
+    function sendIKMessage($id = 0, $island = 0)
+    {
+        if ($id > 0 and $id != $this->Player_Model->user->id)
+        {
+            $this->Data_Model->Load_User($id);
+            if (isset($this->Data_Model->temp_users_db[$id]))
+            {
+                $this->show('sendIKMessage', $id, $island);
+            }
+            else
+            {
+                $this->show('error','Игрок не найден!');
+            }
+        }
+        else
+        {
+            $this->show('error','Вы не сможете отправить сообщение самому себе!');
+        }
+    }
+
     function error()
     {
         $this->show('error');
@@ -537,6 +600,25 @@ class Game extends Controller {
         }
     }
 
+    function sendSpy($island = 0, $id = 0)
+    {
+        if ($island == 0)
+        {
+            $island = $this->Player_Model->island_id;
+        }
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($island);
+        $this->Data_Model->Load_Town($id);
+        if(!isset($this->Data_Model->temp_towns_db[$id]) or $this->Data_Model->temp_towns_db[$id]->island != $this->Island_Model->island->id)
+        {
+            $this->show('error','Город не найден!');
+        }
+        else
+        {
+            $this->show('sendSpy', $id);
+        }
+    }
+
     function premiumTradeAdvisor($page = 'resources')
     {
         if($this->Player_Model->user->premium_account > 0)
@@ -565,6 +647,39 @@ class Game extends Controller {
         else
         {
             $this->show('researchOverview');
+        }
+    }
+
+    function abolishColony()
+    {
+        $this->show('abolishColony');
+    }
+
+    function safehouseMissions($spy = 0)
+    {
+        if ($spy > 0 and isset($this->Player_Model->spyes[$this->Player_Model->town_id][$spy]))
+        {
+            $this->Data_Model->Load_Town($this->Player_Model->spyes[$this->Player_Model->town_id][$spy]->to);
+            $this->show('safehouseMissions', $spy);
+        }
+        else
+        {
+            $this->show('error','Шпион не найден!');
+        }
+    }
+
+    function safehouseReports($id = 0)
+    {
+        $message_query = $this->db->get_where($this->session->userdata('universe').'_spy_messages', array('id' => $id), 1, '');
+        $message = $message_query->row();
+        if ($id > 0 and $message_query->num_rows == 1 and $message->user == $this->Player_Model->user->id)
+        {
+            $this->Data_Model->Load_Town($message->to);
+            $this->show('safehouseReports', $message);
+        }
+        else
+        {
+            $this->show('error','Доклад не найден!');
         }
     }
 

@@ -45,7 +45,11 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
         </ul>
         <ul class="actions">
             <li class="upgrade">
-<?if(($this->Player_Model->now_town->build_line != '' and $this->Player_Model->user->premium_account == 0) or ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '') or ($real_level >= $cost['max_level'])){?>
+<?if(($this->Player_Model->now_town->build_line != '' and $this->Player_Model->user->premium_account == 0) or
+     ($class == 4 and $this->Player_Model->armys[$this->Player_Model->town_id]->ships_line != '') or
+     ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '') or
+     ($class == 14 and $this->Player_Model->towns[$this->Player_Model->town_id]->spyes_start > 0) or
+     ($real_level > $cost['max_level'])){?>
                 <a class="disabled" href="#" title="Улучшение не доступно!"></a>
 <?}else{?>
                 <a href="<?=$this->config->item('base_url')?>actions/upgrade/<?=$position?>/" title="Повысить уровень"><span class="textLabel"><?if($real_level != $level){?>Уже в очереди<?}else{?>Улучшить<?}?></span></a>
@@ -54,7 +58,9 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
             <li class="downgrade">
 <?if (($this->Player_Model->now_town->build_line != '' and $this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'] == $position) or
         ($position == 0) or
-        ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '')){?>
+        ($class == 4 and $this->Player_Model->armys[$this->Player_Model->town_id]->ships_line != '') or
+        ($class == 5 and $this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '') or
+        ($class == 14 and $this->Player_Model->towns[$this->Player_Model->town_id]->spyes_start > 0) ){?>
                 <a class="disabled" href="#" title="Невозможно разрушить в данный момент!"></a>
 <?}else{?>
                 <a href="<?=$this->config->item('base_url')?>game/demolition/<?=$position?>/" title="Понизить уровень"><span class="textLabel">Снести</span></a>

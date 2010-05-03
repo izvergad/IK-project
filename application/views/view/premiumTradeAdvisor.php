@@ -127,7 +127,7 @@
         $all_workers = $all_workers + $town->tradegood;
         $all_add = $all_add + $town->tradegood*(1-$this->Player_Model->corruption[$town->id])*$this->Player_Model->plus_crystal;
     }
-    $all_remove = $all_remove + $this->Data_Model->wine_by_tavern_level($this->Player_Model->levels[$town->id][8]);
+    $all_remove = $all_remove + $this->Data_Model->wine_by_tavern_level($this->Player_Model->towns[$town->id]->tavern_wine);
 ?>
 <?if($this->Player_Model->islands[$town->island]->trade_resource == 1){?>
                 <tr class='<?if (($town_id % 2) == 0){?>normal<?}else{?>alt<?}?>'>
@@ -139,7 +139,7 @@
                     <td><?=number_format($town->tradegood)?>/<?=number_format($trade['workers'])?></td>
                     <td><?=number_format($town->tradegood*(1-$this->Player_Model->corruption[$town->id])*$this->Player_Model->plus_wine)?> в час</td>
                     <td><?if($town->tradegood>0){?><?=format_time((($this->Player_Model->capacity[$town->id]-$town->wine)/($town->tradegood*(1-$this->Player_Model->corruption[$town->id])*$this->Player_Model->plus_wine))*3600)?><?}else{?>-<?}?></td>
-                    <td><?=$this->Data_Model->wine_by_tavern_level($this->Player_Model->levels[$town->id][8])?> в час</td>
+                    <td><?=$this->Data_Model->wine_by_tavern_level($this->Player_Model->towns[$town->id]->tavern_wine)?> в час</td>
                     <td><?if($town->wine > 0 and $this->Player_Model->levels[$town->id][8] > 0){?><?=format_time(($town->wine/$this->Data_Model->wine_by_tavern_level($this->Player_Model->levels[$town->id][8]))*3600)?><?}else{?>-<?}?></td>
                 </tr>
 <?}else{?>

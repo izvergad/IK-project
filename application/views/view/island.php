@@ -31,12 +31,20 @@
             <ul class="cityinfo">
                 <li class="name"><span class="textLabel">Имя: </span><?=$this->Island_Model->towns[$i]->name?></li>
                 <li class="citylevel"><span class="textLabel">Размер: </span><?=$level?></li>
-                <li class="owner"><span class="textLabel">Игрок: </span><?=$this->Island_Model->users[$i]->login?></li>
+                <li class="owner"><span class="textLabel">Игрок: </span><?=$this->Island_Model->users[$i]->login?>
+<?if($this->Island_Model->users[$i]->id != $this->Player_Model->user->id){?>
+                        <a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->users[$i]->id?>/" class="messageSend" title="Отправить сообщение"><img src="<?=$this->config->item('style_url')?>skin/interface/icon_message_write.gif" alt="Отправить сообщение"></a>
+                        <a href="<?=$this->config->item('base_url')?>game/reportPlayer/<?=$this->Island_Model->users[$i]->id?>/" class="reportPlayer" title="Доложить об этом игроке Игровому Оператору..."><img src="<?=$this->config->item('style_url')?>skin/layout/icon-kick.gif" alt="Пожаловаться"></a>
+<?}?>
+                </li>
                 <li class="name"><span class="textLabel">Баллы: </span>0</li>
                 <li class="ally"><span class="textLabel">Альянс: </span>-</li>
                 <!--<li class="noobModeInfo">Игрок под защитой богов.</li>-->
             </ul>
             <ul class="cityactions">
+<?if($this->Island_Model->users[$i]->id != $this->Player_Model->user->id){?>
+                <li class="diplomacy"><a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->users[$i]->id?>/" title="Дипломатия"><span class="textLabel">Дипломатия</span></a></li>
+<?}?>
 <?if($this->Island_Model->towns[$i]->id != $this->Player_Model->town_id){?>
 <?if($this->Player_Model->user->transports == 0){?>
                 <li class="transport disabled" title="Сухогрузы для транспортировки недоступны!">
@@ -49,6 +57,17 @@
                     </a>
                 </li>
 <?}}?>
+<?if($this->Player_Model->now_town->spyes == 0){?>
+                <li class="espionage disabled" title="Шпионы недоступны!">
+                    <span class="textLabel">Отправить шпиона</span>
+                </li>
+<?}else{?>
+                <li class="espionage">
+                    <a href="<?=$this->config->item('base_url')?>game/sendSpy/<?=$this->Island_Model->island->id?>/<?=$this->Island_Model->towns[$i]->id?>/" title="Отправить шпиона">
+                        <span class="textLabel">Отправить шпиона</span>
+                    </a>
+                </li>
+<?}?>
             </ul>
         </li>
 

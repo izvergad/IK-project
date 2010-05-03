@@ -32,6 +32,7 @@ class Update_Model extends Model
            $this->Update_Missions('Update_Player');
            $this->Update_Trade_Routes('Update_Player');
            $this->Update_Missions('Update_Player');
+          
            
            // Последнее посещение
            $this->db->set('last_visit', time());
@@ -79,7 +80,7 @@ class Update_Model extends Model
                $elapsed = time() - $this->CI->$model->towns[$i]->last_update;
                $this->db->set('last_update', time());
                // Вычитаем виноград за вино
-               $wine_need = $this->Data_Model->wine_by_tavern_level($this->CI->$model->levels[$i][8]);
+               $wine_need = $this->Data_Model->wine_by_tavern_level($this->CI->$model->towns[$i]->tavern_wine);
                $this->CI->$model->towns[$i]->wine = $this->CI->$model->towns[$i]->wine - (($wine_need/3600)*$elapsed);
                if ($this->CI->$model->towns[$i]->wine < 0){ $this->CI->$model->towns[$i]->wine = 0; $this->CI->$model->towns[$i]->tavern_wine = 0; }
                // Прирост жителей
@@ -351,6 +352,23 @@ class Update_Model extends Model
                             $this->db->update($this->session->userdata('universe').'_army');
                    }
                }
+               // Тренируем шпионов
+               if($this->CI->$model->towns[$i]->spyes_start > 0)
+               {
+                   $safehouse_position = $this->Data_Model->get_position(14, $this->CI->$model->towns[$i]);
+                   $safehouse_text = 'pos'.$safehouse_position.'_level';
+                   $safehouse_level = $this->CI->$model->towns[$i]->$safehouse_text;
+                   $spy_time = $this->Data_Model->spyes_time_by_level($safehouse_level);
+                   if (time() >= ($this->CI->$model->towns[$i]->spyes_start+$spy_time))
+                   {
+                       $this->CI->$model->towns[$i]->spyes++;
+                       $this->CI->$model->towns[$i]->spyes_start = 0;
+                       $this->db->set('spyes', $this->CI->$model->towns[$i]->spyes);
+                       $this->db->set('spyes_start', 0);
+                       $this->db->where(array('id' => $i));
+                       $this->db->update($this->session->userdata('universe').'_towns');
+                   }
+               }
                // Вычисляем золото за армию
                $ARMY_GOLD = 0;
                for ($a = 1; $a <= 22; $a ++)
@@ -361,6 +379,7 @@ class Update_Model extends Model
                }
                $this->CI->$model->user->gold = $this->CI->$model->user->gold - $ARMY_GOLD;
 
+               $this->Update_Spyes('Update_Player', $town->id);
            }
            $this->Send_Messages($towns_messages);
     }
@@ -859,9 +878,11 @@ class Update_Model extends Model
                                    $this->CI->$model->towns[$mission->from]->crystal = $this->CI->$model->towns[$mission->from]->crystal +  $mission->crystal;
                                    $this->CI->$model->towns[$mission->from]->sulfur = $this->CI->$model->towns[$mission->from]->sulfur +  $mission->sulfur;
                                    $this->CI->$model->towns[$mission->from]->peoples = $this->CI->$model->towns[$mission->from]->peoples +  $mission->peoples;
+                                   $this->CI->$model->user->gold = $this->CI->$model->user->gold + $mission->gold;
                                }
                                $this->db->query('UPDATE '.$this->session->userdata('universe').'_towns SET `wood`=`wood`+'.$mission->wood.',`wine`=`wine`+'.$mission->wine.',`marble`=`marble`+'.$mission->marble.',`crystal`=`crystal`+'.$mission->crystal.',`sulfur`=`sulfur`+'.$mission->sulfur.',`peoples`=`peoples`+'.$mission->peoples.' WHERE `id`='.$mission->from);
-                               
+                               $this->db->query('UPDATE '.$this->session->userdata('universe').'_users SET `gold`=`gold`+'.$mission->gold.' WHERE `id`='.$mission->user);
+
                                // Отправляем сообщение
                                $text = 'Ваш торговый флот из <a href="'.$this->config->item('base_url').'game/island/'.$this->Data_Model->temp_towns_db[$mission->from]->island.'/'.$mission->from.'/">'.$this->CI->Data_Model->temp_towns_db[$mission->from]->name.'</a> вернулся';
                                if ($mission->gold > 0 or $mission->wood > 0 or $mission->wine > 0 or $mission->marble > 0 or $mission->crystal > 0 or $mission->sulfur > 0)
@@ -908,6 +929,16 @@ class Update_Model extends Model
            foreach($towns_messages as $message_data)
            {
                $this->db->insert($this->session->userdata('universe').'_town_messages', $message_data);
+           }
+    }
+
+    function Send_Spyes_Messages($spyes_messages)
+    {
+           // Отправляем сообщения
+           if (SizeOf($spyes_messages) > 0)
+           foreach($spyes_messages as $message_data)
+           {
+               $this->db->insert($this->session->userdata('universe').'_spy_messages', $message_data);
            }
     }
 
@@ -958,6 +989,124 @@ class Update_Model extends Model
         $this->Send_Messages($towns_messages);
     }
 
+    function Update_Spyes($model, $town_id)
+    {
+        $spyes_messages = array();
+        foreach($this->CI->$model->spyes[$town_id] as $spy)
+        {
+            if($spy->mission_type > 0)
+            {
+                $this->Data_Model->Load_Town($spy->to);
+                $town = $this->Data_Model->temp_towns_db[$spy->to];
+                $this->Data_Model->Load_Island($town->island);
+                $island = $this->Data_Model->temp_islands_db[$town->island];
+                $x1 = $this->CI->$model->islands[$this->CI->$model->towns[$town_id]->island]->x;
+                $x2 = $island->x;
+                $y1 = $this->CI->$model->islands[$this->CI->$model->towns[$town_id]->island]->y;
+                $y2 = $island->y;
+                $time = $this->Data_Model->spy_time_by_coords($x1,$x2,$y1,$y2);
+                $to_position = $this->Data_Model->get_position(14, $town);
+                $to_text = 'pos'.$to_position.'_level';
+                $to_level = ($to_position > 0) ? $town->$to_text : 0;
+                $risk = ($spy->mission_type == 2) ? 0 :$this->Data_Model->spy_risk_by_mission($spy->mission_type)+$spy->risk+(5*$town->spyes)+(2*$to_level)-(2*$town->pos0_level)-(2*$this->CI->$model->levels[$town_id][14]);
+                if ($spy->mission_type == 1)
+                {
+                    $risk = ($risk < 5) ? 5 : $risk;
+                }
+                else
+                {
+                    $risk = ($risk < 0) ? 0 : $risk;
+                }
+                if (($time+$spy->mission_start) <= time())
+                {
+                    $chance = rand(0, 100);
+                    if ($chance >= $risk)
+                    {
+                        switch($spy->mission_type)
+                        {
+                            case 1:
+                                $spyes_messages[] = array(
+                                    'user' => $spy->user,
+                                    'spy' => $spy->id,
+                                    'from' => $spy->from,
+                                    'to' => $spy->to,
+                                    'mission' => $spy->mission_type,
+                                    'date' => $spy->mission_start + $time,
+                                    'desc' => 'Ваш шпион прибыл в '.$town->name.'.',
+                                    'text' => 'Ваш шпион прибыл в '.$town->name.'.'
+                                );
+                                $this->CI->$model->spyes[$town_id][$spy->id]->mission_type = 0;
+                                $this->CI->$model->spyes[$town_id][$spy->id]->mission_start = 0;
+                                $this->CI->$model->spyes[$town_id][$spy->id]->risk = $risk;
+                                $this->db->set('mission_type', $this->CI->$model->spyes[$town_id][$spy->id]->mission_type);
+                                $this->db->set('mission_start', $this->CI->$model->spyes[$town_id][$spy->id]->mission_start);
+                                $this->db->set('risk', $this->CI->$model->spyes[$town_id][$spy->id]->risk);
+                                $this->db->where(array('id' => $spy->id));
+                                $this->db->update($this->session->userdata('universe').'_spyes');
+                            break;
+                            case 2:
+                                $spyes_messages[] = array(
+                                    'user' => $spy->user,
+                                    'spy' => $spy->id,
+                                    'from' => $spy->from,
+                                    'to' => $spy->to,
+                                    'mission' => $spy->mission_type,
+                                    'date' => $spy->mission_start + $time,
+                                    'desc' => 'Доклад о возвращении из '.$town->name.'.',
+                                    'text' => 'Шпион вернулся.'
+                                );
+                                $this->CI->$model->towns[$town_id]->spyes++;
+                                $this->db->set('spyes', $this->CI->$model->towns[$town_id]->spyes);
+                                $this->db->where(array('id' => $town_id));
+                                $this->db->update($this->session->userdata('universe').'_towns');
+                                $this->db->delete($this->session->userdata('universe').'_spyes', array('id' => $spy->id));
+                                unset($this->CI->$model->spyes[$town_id][$spy->id]);
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        $chance = rand(0, 2);
+                        if($chance == 0)
+                        {
+                            $chance = (100-$risk) < 0 ? 0 : 100-$risk;
+                            $spyes_messages[] = array(
+                                'user' => $spy->user,
+                                'spy' => $spy->id,
+                                'from' => $spy->from,
+                                'to' => $spy->to,
+                                'mission' => 0,
+                                'date' => $spy->mission_start + $time,
+                                'desc' => 'Ваш шпион не выходит на связь.',
+                                'text' => 'Ваш шпион не выходит на связь. Возможно, его раскрыли. Шанс на удачу: '.$chance.' %.'
+                            );
+                            $this->db->delete($this->session->userdata('universe').'_spyes', array('id' => $spy->id));
+                            unset($this->CI->$model->spyes[$town_id][$spy->id]);
+                        }
+                        else
+                        {
+                            $spyes_messages[] = array(
+                                'user' => $spy->user,
+                                'spy' => $spy->id,
+                                'from' => $spy->from,
+                                'to' => $spy->to,
+                                'mission' => 0,
+                                'date' => $spy->mission_start + $time,
+                                'desc' => 'Задание отменено...',
+                                'text' => 'Шпион был обнаружен, но сумел вовремя скрыться. Он возвращается домой...'
+                                );
+                                $this->CI->$model->spyes[$town_id][$spy->id]->mission_type = 2;
+                                $this->db->set('mission_type', $this->CI->$model->spyes[$town_id][$spy->id]->mission_type);
+                                $this->db->set('mission_start', $spy->mission_start + $time);
+                                $this->db->where(array('id' => $spy->id));
+                                $this->db->update($this->session->userdata('universe').'_spyes');
+                        }
+                    }
+                }
+            }
+        }
+        $this->Send_Spyes_Messages($spyes_messages);
+    }
 }
 
 /* End of file update_model.php */

@@ -17,7 +17,7 @@
 <?}else{?>
 <?
     $plus_text = 'plus_'.$this->Data_Model->resource_class_by_type($this->Island_Model->island->trade_resource);
-    $cost = $this->Data_Model->island_cost($this->Island_Model->island->trade_resource, $this->Island_Model->island->trade_level-1);
+    $cost = $this->Data_Model->island_cost($this->Island_Model->island->trade_resource, $this->Island_Model->island->trade_level);
     $peoples = floor($this->Player_Model->now_town->peoples);
     $all = $this->Player_Model->now_town->peoples + $this->Player_Model->now_town->tradegood;
     $max = ($cost['workers'] < $all) ? $cost['workers'] : $all;

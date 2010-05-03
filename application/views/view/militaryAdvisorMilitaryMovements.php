@@ -46,13 +46,17 @@
                         <?if ($mission->mission_start == 0){?>
                             Погрузка
                         <?}else{?>
-                            <?if($mission_end > 0){?>
+                            <?if($mission_end > 0 and $mission->return_start == 0){?>
                                 <?=format_time($mission_end)?>
-                            <?}else{?>
+                            <?}elseif($mission_end == 0 and $mission->return_start > 0){?>
                                 <?if($mission->return_start == 0){?>
                                     Погрузка
-                                <?}else{?>
+                                <?}?>
+                            <?}elseif($mission->loading_to_start == 0 and $mission->return_start> 0){?>
+                                <?if($mission->loading_to_start > 0){?>
                                     <?=format_time($loading_end + $time)?>
+                                <?}elseif($mission->mission_start == 0){?>
+                                    <?=format_time($return_end)?>
                                 <?}?>
                             <?}?>
                         <?}?>
@@ -122,7 +126,7 @@
                 <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_left_green.gif">
 <?}?>
             </td>
-            <td style="text-align: center; width: 35px" title="<?=$this->Data_Model->mission_name_by_type($mission->mission_type)?> <?if($mission->return_start == 0){?><?if($mission->mission_start > 0 and $loading_end > 0 AND $mission->loading_to_start == 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?><?if($mission->percent < 1){?>(отмена)<?}else{?>(возвращение)<?}}?>">
+            <td style="text-align: center; width: 35px" title="<?=$this->Data_Model->mission_name_by_type($mission->mission_type)?>  <?if($mission->return_start == 0){?><?if($mission->mission_start > 0 and $loading_end > 0){?>(в дороге)<?}else{?>(погрузка)<?}?><?}else{?><?if($mission->percent < 1){?>(отмена)<?}else{?>(возвращение)<?}}?>">
 <?if($mission->mission_type <=2){?>
                 <img src="<?=$this->config->item('style_url')?>skin/interface/mission_transport.gif">
 <?}elseif($mission->mission_type > 2 and $mission->mission_type <= 4){?>
@@ -130,7 +134,7 @@
 <?}?>
             </td>
             <td style='width: 12px; padding-left: 0px; padding-right: 0px'>
-<?if($mission->return_start == 0 and $mission->mission_start > 0 and $loading_end > 0  and $mission->loading_to_start == 0){?>
+<?if($mission->return_start == 0 and $mission->mission_start > 0 and $loading_end > 0){?>
                 <img style="padding-bottom: 5px;" src="<?=$this->config->item('style_url')?>skin/interface/arrow_right_green.gif">
 <?}?>
             </td>

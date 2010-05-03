@@ -82,6 +82,17 @@ class Data_Model extends Model
         }}
     }
 
+    function Load_Spyes($id = 0)
+    {
+        if ($id > 0){if (!isset($temp_spyes_routes_db[$id])){
+                $query = $this->db->get_where($this->session->userdata('universe').'_spyes', array('from' => $id));
+                foreach ($query->result() as $return)
+                {
+                    $this->temp_spyes_db[$id][$return->id]= $return;
+                }
+        }}
+    }
+
     /**
      * Имя шахты по типу
      * @param <int> $id
@@ -652,6 +663,7 @@ class Data_Model extends Model
      */
     function island_cost($id = 0, $level = 0)
     {
+        $level = $level - 1;
         $wood = ''; $workers = ''; $time = ''; $max_level = 0;
         switch($id)
         {
@@ -758,6 +770,12 @@ class Data_Model extends Model
                 $wood = '48 173 346 581 896 1314 1863 2580 3509 4706 6241 8203 10699 13866 17872 22926 29286 37272 47282 59806 75446 94954 119245 149453 186977';
                 $marble = '0 0 0 0 540 792 1123 1555 2115 2837 3762 4945 6450 8359 10774 13820 17654 22469 28502 36051 45481 57240 71883 90092 112712';
                 $time = '1440 2520 3660 4980 6420 7980 9720 11640 13740 16080 18600 21420 24480 27900 31620 35700 40260 45180 50640 56640 63240 70560 78540 87300 93600';
+            break;
+
+            case 14:
+                $wood = '113 248 402 578 779 1007 1267 1564 1903 2288 2728 3230 3801 4453 5195 6042 7008 8108 9363 10793 12423 14282 16401 18816 21570 24709 28288 32368 37019 42321 48365 55255';
+                $marble = '0 0 0 129 197 275 366 471 593 735 900 1090 1312 1569 1866 2212 2613 3078 3617 4243 4968 5810 6787 7919 9233 10758 12526 14577 16956 19716 22917 26631';
+                $time = '1440 2160 2916 3660 4500 5400 6300 7260 8280 9360 10440 11640 12900 14160 15540 16920 18420 20040 21660 23400 25247 27120 29160 31260 33480 35760 38220 40800 43440 46260 49260 52380';
             break;
 
             case 21:
@@ -1534,6 +1552,14 @@ class Data_Model extends Model
         return $time;
     }
 
+    function spy_time_by_coords($x1, $x2, $y1, $y2)
+    {
+        $distance = sqrt((($x1-$x2)*($x1-$x2))+(($y1-$y2)*($y1-$y2)));
+        if ($distance < 0){ $distance = 0; }
+        $time = ($distance+1)*300;
+        return $time;
+    }
+
     function mission_name_by_type($type = 0)
     {
         switch($type)
@@ -1542,6 +1568,23 @@ class Data_Model extends Model
             case 2: return 'Транспорт'; break;
             case 3: return 'Торговля'; break;
             case 4: return 'Торговля'; break;
+        }
+    }
+
+    function spy_mission_name_by_type($type = 0)
+    {
+        switch($type)
+        {
+            case 0: return 'Шпион ждет новых приказаний'; break;
+            case 1: return 'Прибытие'; break;
+            case 2: return 'Шпион возвращается'; break;
+            case 3: return 'Шпионаж за казной'; break;
+            case 4: return 'Шпионаж за складскими запасами'; break;
+            case 5: return 'Шпионаж за исследованиями'; break;
+            case 6: return 'Онлайн статус'; break;
+            case 7: return 'Шпионаж за гарнизоном'; break;
+            case 8: return 'Шпионаж за флотом'; break;
+            case 9: return 'Шпионаж за обменом сообщениями'; break;
         }
     }
 
@@ -1561,6 +1604,49 @@ class Data_Model extends Model
         $points = ($level > 0) ? 3 : 0;
         $points = $points + floor($level/4);
         return $points;
+    }
+
+    function spyes_time_by_level($level)
+    {
+        $time = '855 855 812 772 733 696 662 629 597 567 539 512 486 462 439 417 396 376 357 340 332 307 291 277 263 250 237 225 214 203 193 184 174';
+        $array_time = explode(' ',$time);
+        $return = $array_time[$level];
+        return $return;
+    }
+
+    function spy_risk_by_mission($mission)
+    {
+        switch($mission)
+        {
+            case 1: return 5; break;
+            case 2: return 0; break;
+            case 3: return 5; break;
+            case 4: return 10; break;
+            case 5: return 20; break;
+            case 6: return 30; break;
+            case 7: return 50; break;
+            case 8: return 60; break;
+            case 9: return 70; break;
+            case 10: return 10; break;
+        }
+    }
+
+    function spy_gold_by_mission($mission)
+    {
+        switch($mission)
+        {
+            case 1: return 30; break;
+            case 2: return 0; break;
+            case 3: return 45; break;
+            case 4: return 75; break;
+            case 5: return 90; break;
+            case 6: return 240; break;
+            case 7: return 150; break;
+            case 8: return 750; break;
+            case 9: return 360; break;
+            case 10: return 0; break;
+
+        }
     }
 
 }
