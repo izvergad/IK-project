@@ -1741,6 +1741,15 @@ class Actions extends Controller
                     }
                 }
            break;
+           case 'read':
+                if (isset($this->Player_Model->to_user_messages[$id]))
+                {
+                    $this->db->set('checked', time());
+                    $this->db->where(array('id' => $id));
+                    $this->db->update($this->session->userdata('universe').'_user_messages');
+                }
+
+           break;
         }
         redirect($this->config->item('base_url').'game/'.$relocation.'/', 'refresh');
     }

@@ -32,8 +32,8 @@ class Game extends Controller {
                     $this->load->model('Update_Model');
                     // Отмечаем здания в очереди на карте
                     $this->Player_Model->correct_buildings();
-                    $this->Player_Model->Load_New_Messages();
-                    $this->Player_Model->Load_User_Messages();
+                    $this->Player_Model->Load_New_Town_Messages();
+                    $this->Player_Model->Load_New_User_To_Messages();
                     $this->load->model('View_Model');
                     
                 }
@@ -458,11 +458,13 @@ class Game extends Controller {
 
     function diplomacyAdvisor()
     {
+        $this->Player_Model->Load_User_Messages();
         $this->show('diplomacyAdvisor');
     }
 
     function diplomacyAdvisorOutBox()
     {
+        $this->Player_Model->Load_User_Messages();
         $this->show('diplomacyAdvisorOutBox');
     }
 

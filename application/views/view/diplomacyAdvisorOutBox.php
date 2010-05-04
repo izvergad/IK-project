@@ -45,14 +45,6 @@ function imgtoggle(obj){
 		obj.src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif";
 	}
 }
-function markAsRead(mid, funcname) {
-    var newClass = 'entry globalmessage';
-    if (!funcname) { funcname = 'markMessageAsRead'; newClass = 'entry'; }
-    callback = null;
-    sUrl = '?action=Messages&function='+funcname+'&id='+ mid;
-    ajaxSendUrl(sUrl);
-    document.getElementById('message'+mid).className=newClass;
-}
 function markAll(command) {
     var allInputs = document.getElementById('deleteMessages').getElementsByTagName('input');
     for (var i=0; i<allInputs.length; i++) {
@@ -91,7 +83,7 @@ function markAll(command) {
                             <tr title="Нажмите здесь, чтобы показать/скрыть сообщение!" class="entry " onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" >
                                 <td><input type="checkbox"  name="deleteId[<?=$message->id?>]" value="1"></td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));">
-                                    <p><img class="open" alt="" id="button<?=$message->id?>" name="button<?=$message->id?>" src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif"></p>
+                                    <img class="open" alt="" id="button<?=$message->id?>" name="button<?=$message->id?>" src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif">
                                 </td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));"><a href="#"><?=$this->Data_Model->temp_users_db[$message->to]->login?></a></td>
                                 <td class="subject" onclick="show_hide_menus('mail<?=$message->id?>'); imgtoggle(getElementById('button<?=$message->id?>'));">Сообщение</td>
@@ -101,7 +93,7 @@ function markAll(command) {
                                 <td colspan="5" class="msgText">
                                     <div style="overflow: auto; width: 100%;"><?=$message->text?></div>
                                     <br>
-                                    <span style="float:right;padding:5px;margin-right:5px;"><a style="bottom:3px;" href="<?=$this->config->item('base_url')?>messages/archive/<?=$message->id?>/" class="button center">Поместить в архив</a>
+                                    <span style="float:right;padding:5px;margin-right:5px;"><a style="bottom:3px;" href="<?=$this->config->item('base_url')?>actions/messages/archive/<?=$message->id?>/" class="button center">Поместить в архив</a>
                                             &nbsp; (<span class="costAmbrosia" style="padding-top:5px;padding-bottom:5px;font-weight:bold;paddig-left:5px;padding-right:22px;background-image:url(<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif);background-repeat:no-repeat;background-position:100% 50%;###">1</span>)
                                     </span>
                                 </td>
@@ -134,8 +126,8 @@ function markAll(command) {
                 <div class="content">
                     <div class="centerButton">
                         <div>
-                            <a class="button" href="?view=diplomacyAdvisorArchive" title="Входящие"><b>Входящие</b></a>
-                            <a class="button" href="?view=diplomacyAdvisorArchiveOutBox" title="Исходящие"><b>Исходящие</b></a>
+                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchive/" title="Входящие"><b>Входящие</b></a>
+                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchiveOutBox/" title="Исходящие"><b>Исходящие</b></a>
                         </div>
                     </div>
                 </div>

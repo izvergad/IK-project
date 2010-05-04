@@ -19,7 +19,7 @@ if ($position > 0 or ($position == 0 and $page == 'townHall')){
         </a>
     </h3>
     <div class="content">
-        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$real_level?></div>
+        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$level?></div>
 
         <h4>Необходимо для уровня <?=$real_level+1?>:</h4>
 

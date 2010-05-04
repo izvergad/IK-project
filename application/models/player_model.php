@@ -182,7 +182,7 @@ class Player_Model extends Model
                         $colonys = SizeOf($this->towns) - 1;
                         if ($colonys > 0)
                         {
-                            $this->corruption[$town->id] = (1 - ($this->levels[$town->id][10] + 1) / ($colonys + 1));
+                            $this->corruption[$town->id] = (1 - ($this->levels[$town->id][10] + $this->levels[$town->id][15] + 1) / ($colonys + 1));
                             if ($this->corruption[$town->id] > 0)
                             {
                                 $this->good[$town->id] = $this->good[$town->id] - (($town->peoples + $this->good[$town->id]) * $this->corruption[$town->id] );
@@ -320,26 +320,42 @@ class Player_Model extends Model
 
     function Load_User_Messages()
     {
-        $this->new_user_messages = 0;
-        $this->from_user_messages = array();
         $this->to_user_messages = array();
-            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `from`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 ORDER BY date DESC');
-            if ($user_messages->num_rows() > 0)
-                foreach ($user_messages->result() as $row)
-                    $this->from_user_messages[$row->id] = $row;
-            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 ORDER BY date DESC');
+        $this->from_user_messages = array();
+            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 and `archived`=0 ORDER BY date DESC');
             if ($user_messages->num_rows() > 0)
                 foreach ($user_messages->result() as $row)
                 {
                     $this->to_user_messages[$row->id] = $row;
                     if ($row->checked == 0){ $this->new_user_messages++; }
                 }
+        $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `from`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 and `archived`=0 ORDER BY date DESC');
+            if ($user_messages->num_rows() > 0)
+                foreach ($user_messages->result() as $row)
+                    $this->from_user_messages[$row->id] = $row;
     }
-    
-    function Load_New_Messages()
+
+    function Load_Archived_User_To_Messages()
+    {
+        
+    }
+
+    function Load_Archived_User_From_Messages()
+    {
+        
+    }
+
+    function Load_New_Town_Messages()
     {
             $town_messages = $this->db->get_where($this->session->userdata('universe').'_town_messages', array('user' => $this->session->userdata('id'), 'checked' => 0));
             $this->new_towns_messages = $town_messages->num_rows;
+    }
+    
+    function Load_New_User_To_Messages()
+    {
+        $this->new_user_messages = 0;
+            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `checked`=0 ORDER BY date DESC');
+            $this->new_user_messages = $user_messages->num_rows;
     }
 
     function correct_buildings()

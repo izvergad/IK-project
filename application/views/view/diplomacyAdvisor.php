@@ -49,7 +49,7 @@ function markAsRead(mid, funcname) {
     var newClass = 'entry globalmessage';
     if (!funcname) { funcname = 'markMessageAsRead'; newClass = 'entry'; }
     callback = null;
-    sUrl = '?action=Messages&function='+funcname+'&id='+ mid;
+    sUrl = '<?=$this->config->item('base_url')?>actions/messages/read/' + mid + '/';
     ajaxSendUrl(sUrl);
     document.getElementById('message'+mid).className=newClass;
 }
@@ -101,10 +101,10 @@ function markAll(command) {
     $island = $this->Data_Model->temp_islands_db[$town->island];
 ?>
 
-                            <tr id="message<?=$message->id?>" onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" title="Нажмите для развертывания/свертывания сообщения" class="entry ";">
+                            <tr id="message<?=$message->id?>" onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" title="Нажмите для развертывания/свертывания сообщения" class="entry <?if($message->checked == 0){?>new<?}?>" <?if($message->checked == 0){?>onClick ="markAsRead(<?=$message->id?>);"<?}?>>
                              	<td><input type="checkbox" name="deleteId[<?=$message->id?>]" value="read" /></td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));">
-                                    <p><img class="open" alt="" id="button<?=$message->id?>" name="button<?=$message->id?>" src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif"></p>
+                                    <img class="open" alt="" id="button<?=$message->id?>" name="button<?=$message->id?>" src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif">
                                 </td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));"><a href="#"><?=$user->login?></a></td>
                                 <td class="subject" onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));">Сообщение</td>
@@ -159,8 +159,8 @@ function markAll(command) {
                 <div class="content">
                     <div class="centerButton">
                         <div>
-                            <a class="button" href="?view=diplomacyAdvisorArchive" title="Входящие"><b>Входящие</b></a>
-                            <a class="button" href="?view=diplomacyAdvisorArchiveOutBox" title="Исходящие"><b>Исходящие</b></a>
+                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchive/" title="Входящие"><b>Входящие</b></a>
+                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchiveOutBox/" title="Исходящие"><b>Исходящие</b></a>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@ function markAll(command) {
     </div>
 </div>
 <?
-    $this->db->set('checked', 1);
-    $this->db->where(array('to' => $this->Player_Model->user->id));
-    $this->db->update($this->session->userdata('universe').'_user_messages');
+    //$this->db->set('checked', 1);
+    //$this->db->where(array('to' => $this->Player_Model->user->id));
+    //$this->db->update($this->session->userdata('universe').'_user_messages');
 ?>
