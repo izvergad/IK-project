@@ -222,7 +222,11 @@ class Data_Model extends Model
      */
     function army_cost_by_type($type, $research, $levels)
     {
-        $type = $type-1;
+        $type = floor($type)-1;
+        if ($type < 0)
+        {
+            $type = 0;
+        }
         // Цены
         $peoples = '1 2 1 1 1 1 1 5 5 5 3 5 1 1 0 5 4 2 6 5 5 6 0';
         $wood = '40 130 30 30 20 30 50 220 260 300 25 40 50 50 0 220 80 300 180 180 220 160 0';

@@ -1,7 +1,11 @@
 <?php
+
+require_once "game.php";
+
 /**
  * Контроллер действий
  */
+
 class Actions extends Controller
 {
 
@@ -17,8 +21,21 @@ class Actions extends Controller
         {
             // Загружаем пользователя
             $this->Player_Model->Load_Player($this->session->userdata('id'));
+
+            $this->Player_Model->Load_New_Town_Messages();
+            $this->Player_Model->Load_New_User_To_Messages();
+
+            $this->load->model('View_Model');
         }
+
+        //$this->game = new Game;
     }
+
+    function show($location, $param1 = 0, $param2 = 0, $param3 = 0)
+    {
+        $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2, 'param3' => $param3));
+    }
+
 
     /**
      * Переход на страницу ошибок
@@ -26,8 +43,7 @@ class Actions extends Controller
      */
     function Error($error = '')
     {
-                $this->session->set_flashdata(array('game_error' => $error));
-                redirect($this->config->item('base_url').'game/error/', 'refresh');
+                $this->show('error', $error);
     }
     
     /**
@@ -66,7 +82,7 @@ class Actions extends Controller
         }
         else
         {
-            redirect($this->config->item('base_url').'game/', 'refresh');
+            $this->Error('На позиции '.$position.' отсутствует здание для улучшения!');
         }
     }
 
@@ -173,12 +189,22 @@ class Actions extends Controller
                 if (strlen($build_line) < 3){ $build_line = ''; }
                 if ($build_line == ''){ $build_start = 0; }
                 // Пишем в БД
+                $this->Player_Model->now_town->build_line = $build_line;
+                $this->Player_Model->now_town->build_start = $build_start;
                 $this->db->set('build_line', $build_line);
                 $this->db->set('build_start', $build_start);
             }
             // Если уровеня нет, то сносим с карты
             if ($level <= 0){ $this->Player_Model->now_town->$type_text = 0; }
             // Пишем в БД
+            $level_text = 'pos'.$position.'_level';
+            $this->Player_Model->now_town->$level_text = $level;
+            $this->Player_Model->now_town->wood = $wood;
+            $this->Player_Model->now_town->wine = $wine;
+            $this->Player_Model->now_town->marble = $marble;
+            $this->Player_Model->now_town->crystal = $crystal;
+            $this->Player_Model->now_town->sulfur = $sulfur;
+            
             $this->db->set('pos'.$position.'_level', $level);
             $this->db->set('pos'.$position.'_type', $this->Player_Model->now_town->$type_text);
             $this->db->set('wood', $wood);
@@ -188,13 +214,14 @@ class Actions extends Controller
             $this->db->set('sulfur', $sulfur);
             $this->db->where(array('id' => $this->Player_Model->town_id));
             $this->db->update($this->session->userdata('universe').'_towns');
+
+            $this->Player_Model->correct_buildings();
+            $this->show('city');
         }
         else
         {
             $this->Error('Невозможно понизить уровень Ратуши!');
-        }
-        // Возвращаемся в игру
-        redirect($this->config->item('base_url').'game/', 'refresh');
+        } 
     }
 
     /**
@@ -238,28 +265,34 @@ class Actions extends Controller
                 if ($this->Player_Model->now_town->build_line == '')
                 {
                     // Обновляем ресурсы в базе и в модели
-                    $this->db->set('wood', $wood); //$this->Town_Model->resources['wood'] = $wood;
-                    $this->db->set('wine', $wine); //$this->Town_Model->resources['wine'] = $wine;
-                    $this->db->set('marble', $marble); //$this->Town_Model->resources['marble'] = $marble;
-                    $this->db->set('crystal', $crystal); //$this->Town_Model->resources['crystal'] = $crystal;
-                    $this->db->set('sulfur', $sulfur); //$this->Town_Model->resources['sulfur'] = $sulfur;
+                    $this->Player_Model->now_town->wood = $wood;
+                    $this->Player_Model->now_town->wine = $wine;
+                    $this->Player_Model->now_town->marble = $marble;
+                    $this->Player_Model->now_town->crystal = $crystal;
+                    $this->Player_Model->now_town->sulfur = $sulfur;
+                    
+                    $this->db->set('wood', $wood); 
+                    $this->db->set('wine', $wine);
+                    $this->db->set('marble', $marble);
+                    $this->db->set('crystal', $crystal);
+                    $this->db->set('sulfur', $sulfur);
                 }
                 // Строка текста прямо как в базе
                 if ($this->Player_Model->now_town->build_line != '')
                 {
                     $this->db->set('build_line', $this->Player_Model->now_town->build_line.';'.$position.','.$id);
-                    //$this->Town_Model->build_text = $this->Town_Model->build_text.';'.$position.','.$id;
+                    $this->Player_Model->now_town->build_line = $this->Player_Model->now_town->build_line.';'.$position.','.$id;
                 }
                 else
                 {
                     $this->db->set('build_line', $position.','.$id);
-                    //$this->Town_Model->build_text = $this->Town_Model->build_text.$position.','.$id;
+                    $this->Player_Model->now_town->build_line = $position.','.$id;
                 }
                 // Устанавливаем время старта если его нету
                 if ($this->Player_Model->now_town->build_start == 0)
                 {
                     $this->db->set('build_start', time());
-                    //$this->Town_Model->build_start = time();
+                    $this->Player_Model->now_town->build_start = time();
                 }
                 $this->db->where(array('id' => $this->Player_Model->town_id));
                 $this->db->update($this->session->userdata('universe').'_towns');
@@ -291,22 +324,12 @@ class Actions extends Controller
                             $this->tutorials('set', 16);
                         }
 
-            }
-        }
-        // Переход на страницу игры
-        if ($redirect == 'city')
-        {
-
-        }
-        if ($redirect)
-        {
-            if ($redirect == 'warehouse')
-            {
-                redirect($this->config->item('base_url').'game/'.$redirect.'/'.$position.'/', 'refresh'); 
+                        $this->Player_Model->correct_buildings();
+                        $this->show($redirect, $position);
             }
             else
             {
-                redirect($this->config->item('base_url').'game/'.$redirect.'/', 'refresh'); 
+                $this->Error('Для постройки здания не хватает ресурсов!');
             }
         }
     }
@@ -318,11 +341,12 @@ class Actions extends Controller
     {
         if (isset($_POST['name']) and strip_tags($_POST['name']) != '')
         {
+           $this->Player_Model->now_town->name = strip_tags($_POST['name']);
            $this->db->set('name', strip_tags($_POST['name']));
            $this->db->where(array('id' => $this->Player_Model->town_id));
            $this->db->update($this->session->userdata('universe').'_towns');
+           $this->show('townHall', 0);
         }
-        redirect($this->config->item('base_url').'game/townHall/', 'refresh');
     }
 
     /**
@@ -400,8 +424,12 @@ class Actions extends Controller
                 }
             }
         }
-        // Возвращаемся в игру
-        redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
+        if (isset($_POST['rw']) or isset($_POST['tw']))
+        {
+            $this->load->model('Island_Model');
+            $this->Island_Model->Load_Island($id);
+        }
+        $this->show($type, $id);
     }
 
     function resources($type = 'resource', $id = 0)
@@ -412,13 +440,16 @@ class Actions extends Controller
             // Обновляем город
             if ($type == 'resource')
             {
-                $this->db->set('workers_wood', $this->Player_Model->now_town->workers_wood + $count);
+                $this->Player_Model->now_town->workers_wood = $this->Player_Model->now_town->workers_wood + $count;
+                $this->db->set('workers_wood', $this->Player_Model->now_town->workers_wood);
             }
             else
             {
+                $this->Player_Model->now_town->tradegood_wood = $this->Player_Model->now_town->tradegood_wood + $count;
                 $this->db->set('tradegood_wood', $this->Player_Model->now_town->tradegood_wood + $count);
             }
-            $this->db->set('wood', $this->Player_Model->now_town->wood - $count);
+            $this->Player_Model->now_town->wood = $this->Player_Model->now_town->wood - $count;
+            $this->db->set('wood', $this->Player_Model->now_town->wood);
             $this->db->where(array('id' => $this->Player_Model->town_id));
             $this->db->update($this->session->userdata('universe').'_towns');
             // Обновляем остров
@@ -431,7 +462,9 @@ class Actions extends Controller
                 $this->db->query('UPDATE `'.$this->session->userdata('universe').'_islands'.'` SET `trade_count`=`trade_count`+'.$count.' WHERE `id`="'.$id.'"');
             }
         }
-        redirect($this->config->item('base_url').'game/'.$type.'/'.$id.'/', 'refresh');
+        $this->load->model('Island_Model');
+        $this->Island_Model->Load_Island($id);
+        $this->show($type, $id);
     }
 
     function doResearch($way = 0, $id = 0)
@@ -444,25 +477,36 @@ class Actions extends Controller
             $data = $this->Data_Model->get_research($way,$id,$this->Player_Model->research);
             if ($this->Player_Model->research->points >= $data['points'])
             {
-                $this->db->set('points', $this->Player_Model->research->points - $data['points']);
+                $this->Player_Model->research->points = $this->Player_Model->research->points - $data['points'];
+                $way_text = 'way'.$way.'_checked';
+                $this->Player_Model->research->$way_text = 0;
+                $this->db->set('points', $this->Player_Model->research->points);
                 $this->db->set('way'.$way.'_checked', 0);
-                $this->db->set($parametr, $this->Player_Model->research->$parametr + 1);
+                $this->Player_Model->research->$parametr = $this->Player_Model->research->$parametr + 1;
+                $this->db->set($parametr, $this->Player_Model->research->$parametr);
                 $this->db->where(array('user' => $this->Player_Model->user->id));
                 $this->db->update($this->session->userdata('universe').'_research');
                 // Благосостояние
                 if($way == 2 and $id == 3)
                 {
-                    $this->db->set('wood', $this->Player_Model->now_town->wood + 130);
-                    $this->db->set('marble', $this->Player_Model->now_town->marble + 130);
-                    $this->db->set('wine', $this->Player_Model->now_town->wine + 130);
-                    $this->db->set('crystal', $this->Player_Model->now_town->crystal + 130);
-                    $this->db->set('sulfur', $this->Player_Model->now_town->sulfur + 130);
+                    $this->Player_Model->now_town->wood = $this->Player_Model->now_town->wood + 130;
+                    $this->Player_Model->now_town->marble = $this->Player_Model->now_town->marble + 130;
+                    $this->Player_Model->now_town->wine = $this->Player_Model->now_town->wine + 130;
+                    $this->Player_Model->now_town->crystal = $this->Player_Model->now_town->crystal + 130;
+                    $this->Player_Model->now_town->sulfur = $this->Player_Model->now_town->sulfur + 130;
+                    
+                    $this->db->set('wood', $this->Player_Model->now_town->wood);
+                    $this->db->set('marble', $this->Player_Model->now_town->marble);
+                    $this->db->set('wine', $this->Player_Model->now_town->wine);
+                    $this->db->set('crystal', $this->Player_Model->now_town->crystal);
+                    $this->db->set('sulfur', $this->Player_Model->now_town->sulfur);
                     $this->db->where(array('id' => $this->Player_Model->town_id));
                     $this->db->update($this->session->userdata('universe').'_towns');
                 }
             }
         }
-        redirect($this->config->item('base_url').'game/researchAdvisor/', 'refresh');
+        $this->Player_Model->Load_Ways();
+        $this->show('researchAdvisor');
     }
 
     /**
@@ -558,6 +602,12 @@ class Actions extends Controller
                 if ($wood >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0 and $peoples >= 0)
                 {
                     // обновляем город
+                    $this->Player_Model->now_town->wood = $wood;
+                    $this->Player_Model->now_town->wine = $wine;
+                    $this->Player_Model->now_town->crystal = $crystal;
+                    $this->Player_Model->now_town->sulfur = $sulfur;
+                    $this->Player_Model->now_town->peoples = $peoples;
+
                         $this->db->set('wood', $wood);
                         $this->db->set('wine', $wine);
                         $this->db->set('crystal', $crystal);
@@ -566,6 +616,10 @@ class Actions extends Controller
                         $this->db->where(array('id' => $this->Player_Model->town_id));
                         $this->db->update($this->session->userdata('universe').'_towns');
                     // обновляем армию
+                    $this->Player_Model->armys[$this->Player_Model->town_id]->army_line = $army_line;
+                    $this->Player_Model->armys[$this->Player_Model->town_id]->army_start = $army_start;
+                    $this->Player_Model->army_line[$this->Player_Model->town_id] = $this->Data_Model->load_army_line($this->Player_Model->armys[$this->Player_Model->town_id]->army_line);
+
                         $this->db->set('army_line', $army_line);
                         $this->db->set('army_start', $army_start);
                         $this->db->where(array('city' => $this->Player_Model->town_id));
@@ -578,7 +632,7 @@ class Actions extends Controller
                 }
             }
         }
-        redirect($this->config->item('base_url').'game/barracks/'.$id.'/', 'refresh');
+        $this->show('barracks',$id);
     }
 
     function fleet($id = 0)
@@ -627,6 +681,12 @@ class Actions extends Controller
                 if ($wood >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0 and $peoples >= 0)
                 {
                     // обновляем город
+                    $this->Player_Model->now_town->wood = $wood;
+                    $this->Player_Model->now_town->wine = $wine;
+                    $this->Player_Model->now_town->crystal = $crystal;
+                    $this->Player_Model->now_town->sulfur = $sulfur;
+                    $this->Player_Model->now_town->peoples = $peoples;
+
                         $this->db->set('wood', $wood);
                         $this->db->set('wine', $wine);
                         $this->db->set('crystal', $crystal);
@@ -635,6 +695,10 @@ class Actions extends Controller
                         $this->db->where(array('id' => $this->Player_Model->town_id));
                         $this->db->update($this->session->userdata('universe').'_towns');
                     // обновляем армию
+                    $this->Player_Model->armys[$this->Player_Model->town_id]->ships_line = $army_line;
+                    $this->Player_Model->armys[$this->Player_Model->town_id]->ships_start = $army_start;
+                    $this->Player_Model->ships_line[$this->Player_Model->town_id] = $this->Data_Model->load_army_line($this->Player_Model->armys[$this->Player_Model->town_id]->ships_line);
+
                         $this->db->set('ships_line', $army_line);
                         $this->db->set('ships_start', $army_start);
                         $this->db->where(array('city' => $this->Player_Model->town_id));
@@ -642,7 +706,7 @@ class Actions extends Controller
                 }
             }
         }
-        redirect($this->config->item('base_url').'game/shipyard/'.$id.'/', 'refresh');
+        $this->show('shipyard',$id);
     }
 
     function armyEdit($type = '')
@@ -667,33 +731,39 @@ class Actions extends Controller
         $this->db->set('peoples', $this->Player_Model->now_town->peoples);
         $this->db->where(array('id' => $this->Player_Model->town_id));
         $this->db->update($this->session->userdata('universe').'_towns');
-        redirect($this->config->item('base_url').'game/'.$type.'/', 'refresh');
+        $this->show($type);
     }
 
     function abortUnits($position = 0)
     {
-        if($this->Player_Model->armys[$this->Player_Model->town]->army_line != '')
+        if($this->Player_Model->armys[$this->Player_Model->town_id]->army_line != '')
         {
                 // обновляем армию
+                $this->Player_Model->armys[$this->Player_Model->town_id]->army_line = '';
+                $this->Player_Model->armys[$this->Player_Model->town_id]->army_start = 0;
+                $this->Player_Model->army_line[$this->Player_Model->town_id] = $this->Data_Model->load_army_line($this->Player_Model->armys[$this->Player_Model->town_id]->army_line);
                 $this->db->set('army_line', '');
                 $this->db->set('army_start', 0);
                 $this->db->where(array('city' => $this->Player_Model->town_id));
                 $this->db->update($this->session->userdata('universe').'_army');
         }
-        redirect($this->config->item('base_url').'game/barracks/'.$position.'/', 'refresh');
+        $this->show('barracks', $position);
     }
 
     function abortShips($position = 0)
     {
-        if($this->Player_Model->armys[$this->Player_Model->town]->ships_line != '')
+        if($this->Player_Model->armys[$this->Player_Model->town_id]->ships_line != '')
         {
                 // обновляем армию
+                $this->Player_Model->armys[$this->Player_Model->town_id]->ships_line = '';
+                $this->Player_Model->armys[$this->Player_Model->town_id]->ships_start = 0;
+                $this->Player_Model->ships_line[$this->Player_Model->town_id] = $this->Data_Model->load_army_line($this->Player_Model->armys[$this->Player_Model->town_id]->army_line);
                 $this->db->set('ships_line', '');
                 $this->db->set('ships_start', 0);
                 $this->db->where(array('city' => $this->Player_Model->town_id));
                 $this->db->update($this->session->userdata('universe').'_army');
         }
-        redirect($this->config->item('base_url').'game/shipyard/'.$position.'/', 'refresh');
+        $this->show('shipyard', $position);
     }
 
     function abortBuildings($town = 0)
@@ -705,12 +775,14 @@ class Actions extends Controller
         }
         if($id >= 0 and $this->Player_Model->towns[$id]->build_line != '')
         {
+                $this->Player_Model->now_town->build_line = '';
+                $this->Player_Model->now_town->build_start = 0;
                 $this->db->set('build_line', '');
                 $this->db->set('build_start', 0);
                 $this->db->where(array('id' => $this->Player_Model->town_id));
                 $this->db->update($this->session->userdata('universe').'_towns');
         }
-        redirect($this->config->item('base_url').'game/city/'.$town.'/', 'refresh');
+        $this->show('city', $town);
     }
 
     function premium($type = '')
@@ -720,19 +792,27 @@ class Actions extends Controller
         {
             switch($type)
             {
-                case 'account': if($this->Player_Model->user->premium_account > 0){ $this->db->set('premium_account', $this->Player_Model->user->premium_account+604800); } else { $this->db->set('premium_account', time()+604800); } break;
-                case 'wood': if($this->Player_Model->user->premium_wood > 0){ $this->db->set('premium_wood', $this->Player_Model->user->premium_wood+604800); } else { $this->db->set('premium_wood', time()+604800); } break;
-                case 'wine': if($this->Player_Model->user->premium_wine > 0){ $this->db->set('premium_wine', $this->Player_Model->user->premium_wine+604800); } else { $this->db->set('premium_wine', time()+604800); } break;
-                case 'marble': if($this->Player_Model->user->premium_marble > 0){ $this->db->set('premium_marble', $this->Player_Model->user->premium_marble+604800); } else { $this->db->set('premium_marble', time()+604800); } break;
-                case 'crystal': if($this->Player_Model->user->premium_crystal > 0){ $this->db->set('premium_crystal', $this->Player_Model->user->premium_crystal+604800); } else { $this->db->set('premium_crystal', time()+604800); } break;
-                case 'sulfur': if($this->Player_Model->user->premium_sulfur > 0){ $this->db->set('premium_sulfur', $this->Player_Model->user->premium_sulfur+604800); } else { $this->db->set('premium_sulfur', time()+604800); } break;
-                case 'capacity': if($this->Player_Model->user->premium_capacity > 0){ $this->db->set('premium_capacity', $this->Player_Model->user->premium_capacity+604800); } else { $this->db->set('premium_capacity', time()+604800); } break;
+                case 'account': if($this->Player_Model->user->premium_account > 0){ $this->Player_Model->user->premium_account = $this->Player_Model->user->premium_account+604800; } else { $this->Player_Model->user->premium_account = time()+604800; } break;
+                case 'wood': if($this->Player_Model->user->premium_wood > 0){ $this->Player_Model->user->premium_wood = $this->Player_Model->user->premium_wood+604800; } else { $this->Player_Model->user->premium_wood = time()+604800; } break;
+                case 'wine': if($this->Player_Model->user->premium_wine > 0){ $this->Player_Model->user->premium_wine = $this->Player_Model->user->premium_wine+604800; } else { $this->Player_Model->user->premium_wine = time()+604800; } break;
+                case 'marble': if($this->Player_Model->user->premium_marble > 0){ $this->Player_Model->user->premium_marble = $this->Player_Model->user->premium_marble+604800; } else { $this->Player_Model->user->premium_marble = time()+604800; } break;
+                case 'crystal': if($this->Player_Model->user->premium_crystal > 0){ $this->Player_Model->user->premium_crystal = $this->Player_Model->user->premium_crystal+604800; } else { $this->Player_Model->user->premium_crystal = time()+604800; } break;
+                case 'sulfur': if($this->Player_Model->user->premium_sulfur > 0){ $this->Player_Model->user->premium_sulfur = $this->Player_Model->user->premium_sulfur+604800; } else { $this->Player_Model->user->premium_sulfur = time()+604800; } break;
+                case 'capacity': if($this->Player_Model->user->premium_capacity > 0){ $this->Player_Model->user->premium_capacity = $this->Player_Model->user->premium_capacity+604800; } else { $this->Player_Model->user->premium_capacity = time()+604800; } break;
             }
-            $this->db->set('ambrosy', $this->Player_Model->user->ambrosy - $cost);
+            $this->Player_Model->user->ambrosy = $this->Player_Model->user->ambrosy - $cost;
+            $this->db->set('premium_account', $this->Player_Model->user->premium_account);
+            $this->db->set('premium_wood', $this->Player_Model->user->premium_wood);
+            $this->db->set('premium_wine', $this->Player_Model->user->premium_wine);
+            $this->db->set('premium_marble', $this->Player_Model->user->premium_marble);
+            $this->db->set('premium_crystal', $this->Player_Model->user->premium_crystal);
+            $this->db->set('premium_sulfur', $this->Player_Model->user->premium_sulfur);
+            $this->db->set('premium_capacity', $this->Player_Model->user->premium_capacity);
+            $this->db->set('ambrosy', $this->Player_Model->user->ambrosy);
             $this->db->where(array('id' => $this->Player_Model->user->id));
             $this->db->update($this->session->userdata('universe').'_users');
         }
-        redirect($this->config->item('base_url').'game/premium/', 'refresh');
+        $this->show('premium');
     }
 
     function options($type = '')
@@ -749,6 +829,7 @@ class Actions extends Controller
                         // Если такого игрока нету
                         if ($query->num_rows == 0)
                         {
+                            $this->Player_Model->user->login = $login;
                             $this->db->set('login', $login);
                             $this->db->where(array('id' => $this->Player_Model->user->id));
                             $this->db->update($this->session->userdata('universe').'_users');
@@ -771,6 +852,7 @@ class Actions extends Controller
                         {
                             if ($new == $new2)
                             {
+                                $this->Player_Model->user->password = $new;
                                 $this->db->set('password', $new);
                                 $this->db->where(array('id' => $this->Player_Model->user->id));
                                 $this->db->update($this->session->userdata('universe').'_users');
@@ -793,6 +875,7 @@ class Actions extends Controller
                     $city_select = floor($_POST['citySelectOptions']);
                     if ($city_select != $this->Player_Model->user->options_select and $city_select >=0 and $city_select <= 2)
                     {
+                        $this->Player_Model->user->options_select = $city_select;
                         $this->db->set('options_select', $city_select);
                         $this->db->where(array('id' => $this->Player_Model->user->id));
                         $this->db->update($this->session->userdata('universe').'_users');
@@ -802,6 +885,7 @@ class Actions extends Controller
                 {
                     if ($this->Player_Model->user->tutorial < 999 and $_POST['tutorialOptions'] == -2)
                     {
+                        $this->Player_Model->user->tutorial = 999;
                         $this->db->set('tutorial', 999);
                         $this->db->where(array('id' => $this->Player_Model->user->id));
                         $this->db->update($this->session->userdata('universe').'_users');
@@ -836,8 +920,7 @@ class Actions extends Controller
                  }
             break;
         }
-        
-         redirect($this->config->item('base_url').'game/options/', 'refresh');
+        $this->show('options');
     }
 
     function tavern($position = 0)
@@ -849,12 +932,13 @@ class Actions extends Controller
             $level_text = 'pos'.$position.'_level';
             if ($this->Player_Model->now_town->$type_text == 8 and $this->Player_Model->now_town->$level_text >= floor($_POST['amount']))
             {
-                $this->db->set('tavern_wine', floor($_POST['amount']));
+                $this->Player_Model->now_town->tavern_wine = floor($_POST['amount']);
+                $this->db->set('tavern_wine', $this->Player_Model->now_town->tavern_wine);
                 $this->db->where(array('id' => $this->Player_Model->town_id));
                 $this->db->update($this->session->userdata('universe').'_towns');
             }
         }
-        redirect($this->config->item('base_url').'game/tavern/'.$position.'/', 'refresh');
+        $this->show('tavern', $position);
     }
 
     function transporter($position = 0)
@@ -870,7 +954,7 @@ class Actions extends Controller
             $this->db->where(array('id' => $this->Player_Model->user->id));
             $this->db->update($this->session->userdata('universe').'_users');
         }
-        redirect($this->config->item('base_url').'game/port/'.$position.'/', 'refresh');
+        $this->show('port', $position);
     }
 
     function saveAvatarNotes()
@@ -912,14 +996,23 @@ class Actions extends Controller
                 if(isset($this->Data_Model->temp_towns_db[$town]) and ($this->Player_Model->user->transports >= $transporters) and ($wood >= 0) and ($wine >= 0) and ($crystal >= 0) and ($sulfur >= 0) and ($transports >= 0) and ($transporters*$this->config->item('transport_capacity') >= $cargo_wood + $cargo_wine + $cargo_marble + $cargo_crystal + $cargo_sulfur))
                 {
                     // Вычитаем ресурсы
+                    $this->Player_Model->now_town->wood = $wood;
+                    $this->Player_Model->now_town->wine = $wine;
+                    $this->Player_Model->now_town->marble = $marble;
+                    $this->Player_Model->now_town->crystal = $crystal;
+                    $this->Player_Model->now_town->sulfur = $sulfur;
+                    $this->Player_Model->now_town->actions = $this->Player_Model->now_town->actions - 1;
+                    $this->Player_Model->now_town->wood = $wood;
+                    $this->Player_Model->now_town->wood = $wood;
                     $this->db->set('wood', $wood);
                     $this->db->set('wine', $wine);
                     $this->db->set('marble', $marble);
                     $this->db->set('crystal', $crystal);
                     $this->db->set('sulfur', $sulfur);
-                    $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                    $this->db->set('actions', $this->Player_Model->now_town->actions);
                     $this->db->where(array('id' => $this->Player_Model->now_town->id));
                     $this->db->update($this->session->userdata('universe').'_towns');
+                    $this->Player_Model->user->transports = $transports;
                     $this->db->set('transports', $transports);
                     $this->db->where(array('id' => $this->Player_Model->user->id));
                     $this->db->update($this->session->userdata('universe').'_users');
@@ -927,12 +1020,12 @@ class Actions extends Controller
                     $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_from_start' => time(), 'mission_type' => 2, 'wood' => $cargo_wood, 'wine' => $cargo_wine, 'marble' => $cargo_marble, 'crystal' => $cargo_crystal, 'sulfur' => $cargo_sulfur, 'ship_transport' => $transporters));
                 }
             }
+            $this->show('port');
         }
         else
         {
             $this->Error('Недостаточно баллов действий!');
         }
-        redirect($this->config->item('base_url').'game/port/', 'refresh');
     }
 
     function colonize($id = 0, $position = -1)
@@ -959,20 +1052,27 @@ class Actions extends Controller
                             if($this->Island_Model->island->$city_text == 0 and $now_position >= 0)
                             {
                                 // Удаляем старую отметку
+                                $city_text = 'city'.$now_position;
+                                $this->Player_Model->towns[$_POST['cityId']]->$city_text = 0;
                                 $this->db->set('city'.$now_position, 0);
                                 $this->db->where(array('id' => $this->Player_Model->towns[$_POST['cityId']]->island));
                                 $this->db->update($this->session->userdata('universe').'_islands');
                                 // Пишем новую отметку
+                                $city_text = 'city'.$position;
+                                $this->Player_Model->towns[$_POST['cityId']]->$city_text = $_POST['cityId'];
                                 $this->db->set('city'.$position, $_POST['cityId']);
                                 $this->db->where(array('id' => $id));
                                 $this->db->update($this->session->userdata('universe').'_islands');
                                 // Пишем новый остров в городе
+                                $this->Player_Model->towns[$_POST['cityId']]->island = $id;
+                                $this->Player_Model->towns[$_POST['cityId']]->position = $position;
                                 $this->db->set('island', $id);
                                 $this->db->set('position', $position);
                                 $this->db->where(array('id' => $_POST['cityId']));
                                 $this->db->update($this->session->userdata('universe').'_towns');
                                 // Забираем амброзию
-                                $this->db->set('ambrosy', $this->Player_Model->user->ambrosy-200);
+                                $this->Player_Model->user->ambrosy = $this->Player_Model->user->ambrosy - 200;
+                                $this->db->set('ambrosy', $this->Player_Model->user->ambrosy);
                                 $this->db->where(array('id' => $this->Player_Model->user->id));
                                 $this->db->update($this->session->userdata('universe').'_users');
                             }
@@ -1005,19 +1105,30 @@ class Actions extends Controller
                                         $town_query = $this->db->get_where($this->session->userdata('universe').'_towns', array('island' => $this->Island_Model->island->id, 'position' => $position));
                                         $town = $town_query->row();
                                         // Обновляем остров
+                                        $city_text = 'city'.$position;
+                                        $this->Island_Model->island->$city_text = $town->id;
                                         $this->db->set('city'.$position, $town->id);
                                         $this->db->where(array('id' => $this->Island_Model->island->id));
                                         $this->db->update($this->session->userdata('universe').'_islands');
                                         // Вычитаем ресурсы
+                                        $this->Player_Model->now_town->wood = $wood;
+                                        $this->Player_Model->now_town->wine = $wine;
+                                        $this->Player_Model->now_town->marble = $marble;
+                                        $this->Player_Model->now_town->crystal = $crystal;
+                                        $this->Player_Model->now_town->sulfur = $sulfur;
+                                        $this->Player_Model->now_town->peoples = $peoples;
+                                        $this->Player_Model->now_town->actions = $this->Player_Model->now_town->actions - 1;
                                         $this->db->set('wood', $wood);
                                         $this->db->set('wine', $wine);
                                         $this->db->set('marble', $marble);
                                         $this->db->set('crystal', $crystal);
                                         $this->db->set('sulfur', $sulfur);
                                         $this->db->set('peoples', $peoples);
-                                        $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                                        $this->db->set('actions', $this->Player_Model->now_town->actions);
                                         $this->db->where(array('id' => $this->Player_Model->now_town->id));
                                         $this->db->update($this->session->userdata('universe').'_towns');
+                                        $this->Player_Model->user->gold = $gold;
+                                        $this->Player_Model->user->transports = $transports;
                                         $this->db->set('gold', $gold);
                                         $this->db->set('transports', $transports);
                                         $this->db->where(array('id' => $this->Player_Model->user->id));
@@ -1030,12 +1141,12 @@ class Actions extends Controller
                         }
                 }
             }
+            $this->show('island', $id, $position);
         }
         else
         {
             $this->Error('Недостаточно баллов действий!');
         }
-        redirect($this->config->item('base_url').'game/island/'.$id.'/', 'refresh');
     }
 
     function abortFleet($mission = 0, $position = 0, $redirect = 'port')
@@ -1110,11 +1221,12 @@ class Actions extends Controller
                 }
             }
             $buildings_line = implode(";", $building_line);
+            $this->Player_Model->now_town->build_line = $buildings_line;
             $this->db->set('build_line', $buildings_line);
             $this->db->where(array('id' => $this->Player_Model->town_id));
             $this->db->update($this->session->userdata('universe').'_towns');
         }
-        redirect($this->config->item('base_url').'game/city/', 'refresh');
+        $this->show('city');
     }
 
     function branchOffice($position)
@@ -1130,6 +1242,9 @@ class Actions extends Controller
                 case 4: $resource = 4; break;
                 default: $resource = 0; break;
             }
+            $this->Player_Model->now_town->branch_search_type = $type;
+            $this->Player_Model->now_town->branch_search_resource = $resource;
+            $this->Player_Model->now_town->branch_search_radius = floor($_POST['range']);
             $this->db->set('branch_search_type', $type);
             $this->db->set('branch_search_resource', $resource);
             $this->db->set('branch_search_radius', floor($_POST['range']));
@@ -1211,6 +1326,7 @@ class Actions extends Controller
                     $branch_type = 'branch_trade_'.$resource_name.'_type';
                     $branch_count = 'branch_trade_'.$resource_name.'_count';
                     $branch_cost = 'branch_trade_'.$resource_name.'_cost';
+
                     $this->db->set($resource_name, $this->Player_Model->now_town->$resource_name);
                     $this->db->set($branch_type, $this->Player_Model->now_town->$branch_type);
                     $this->db->set($branch_count, $this->Player_Model->now_town->$branch_count);
@@ -1223,7 +1339,7 @@ class Actions extends Controller
                 $this->db->update($this->session->userdata('universe').'_users');
             }
         }
-        redirect($this->config->item('base_url').'game/branchOffice/'.$position.'/', 'refresh');
+        $this->show('branchOffice', $position);
     }
 
     function trade($town = 0, $type = 0)
@@ -1259,12 +1375,14 @@ class Actions extends Controller
                             if ($this->Player_Model->user->gold > 0)
                             {
                                 $trade_town = $this->Data_Model->temp_towns_db[$town];
+                                $this->Player_Model->user->transports = $transports;
                                 $this->db->set('gold', $this->Player_Model->user->gold);
                                 $this->db->set('transports', $transports);
                                 $this->db->where(array('id' => $this->Player_Model->user->id));
                                 $this->db->update($this->session->userdata('universe').'_users');
                                 $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_from_start' => time(), 'mission_start' => time(), 'mission_type' => 3, 'trade_wood_count' => $wood_count, 'trade_wine_count' => $wine_count, 'trade_marble_count' => $marble_count, 'trade_crystal_count' => $crystal_count, 'trade_sulfur_count' => $sulfur_count, 'gold' => $gold_need, 'trade_wood_cost' => $wood_cost, 'trade_wine_cost' => $wine_cost, 'trade_marble_cost' => $marble_cost, 'trade_crystal_cost' => $crystal_cost, 'trade_sulfur_cost' => $sulfur_cost, 'ship_transport' => $transporters));
-                                $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                                $this->Player_Model->now_town->actions = $this->Player_Model->now_town->actions - 1;
+                                $this->db->set('actions', $this->Player_Model->now_town->actions);
                                 $this->db->where(array('id' => $this->Player_Model->now_town->id));
                                 $this->db->update($this->session->userdata('universe').'_towns');
                             }
@@ -1280,16 +1398,23 @@ class Actions extends Controller
                             $sulfur = $this->Player_Model->now_town->sulfur - $sulfur_count;
                             if ($wood >= 0 and $wine >=0 and $marble >= 0 and $crystal >= 0 and $sulfur >=0)
                             {
+                                $this->Player_Model->user->transports = $transports;
                                 $this->db->set('transports', $transports);
                                 $this->db->where(array('id' => $this->Player_Model->user->id));
                                 $this->db->update($this->session->userdata('universe').'_users');
                                 $this->db->insert($this->session->userdata('universe').'_missions', array('user' => $this->Player_Model->user->id, 'from' => $this->Player_Model->now_town->id, 'to' => $town, 'loading_from_start' => time(), 'mission_type' => 4, 'wood' => $wood_count, 'wine' => $wine_count, 'marble' => $marble_count, 'crystal' => $crystal_count, 'sulfur' => $sulfur_count, 'trade_wood_cost' => $wood_cost, 'trade_wine_cost' => $wine_cost, 'trade_marble_cost' => $marble_cost, 'trade_crystal_cost' => $crystal_cost, 'trade_sulfur_cost' => $sulfur_cost, 'ship_transport' => $transporters));
+                                $this->Player_Model->now_town->wood = $wood;
+                                $this->Player_Model->now_town->wine = $wine;
+                                $this->Player_Model->now_town->marble = $marble;
+                                $this->Player_Model->now_town->crystal = $crystal;
+                                $this->Player_Model->now_town->sulfur = $sulfur;
+                                $this->Player_Model->now_town->aactions = $this->Player_Model->now_town->actions - 1;
                                 $this->db->set('wood', $wood);
                                 $this->db->set('wine', $wine);
                                 $this->db->set('marble', $marble);
                                 $this->db->set('crystal', $crystal);
                                 $this->db->set('sulfur', $sulfur);
-                                $this->db->set('actions', $this->Player_Model->now_town->actions - 1);
+                                $this->db->set('actions', $this->Player_Model->now_town->actions);
                                 $this->db->where(array('id' => $this->Player_Model->now_town->id));
                                 $this->db->update($this->session->userdata('universe').'_towns');
                             }
@@ -1297,12 +1422,12 @@ class Actions extends Controller
                     }
                 }
             }
+            $this->show('branchOffice');
         }
         else
         {
             $this->Error('Недостаточно баллов действий!');
         }
-        redirect($this->config->item('base_url').'game/branchOffice/', 'refresh');
     }
 
     function tradeRoute($delete_id = 0)
@@ -1477,7 +1602,7 @@ class Actions extends Controller
             redirect($this->config->item('base_url').'game/palaceColony/', 'refresh');
         }
     }
-
+    
     function espionage($town = 0, $spy = 0, $mission = 0)
     {
         $msg_id = 0;
@@ -1720,8 +1845,7 @@ class Actions extends Controller
            case 'delete':
                 if (isset($this->Player_Model->to_user_messages[$id]))
                 {
-                    
-                    $this->db->set('deleted', time());
+                    $this->db->set('deleted_to', time());
                     $this->db->where(array('id' => $id));
                     $this->db->update($this->session->userdata('universe').'_user_messages');
                 }
@@ -1729,11 +1853,22 @@ class Actions extends Controller
                 {
                     if(isset($_POST['deleteId']))
                     {
+                        foreach($this->Player_Model->from_user_messages as $message)
+                        {
+                            if (($message->from = $this->Player_Model->user->id) and
+                           (isset($_POST['deleteId'][$message->id]) and $_POST['deleteId'][$message->id] == 1))
+                            {
+                                $this->db->set('deleted_from', time());
+                                $this->db->where(array('id' => $message->id));
+                                $this->db->update($this->session->userdata('universe').'_user_messages');
+                            }
+                        }
                         foreach($this->Player_Model->to_user_messages as $message)
                         {
-                            if(isset($_POST['deleteId'][$message->id]) and $_POST['deleteId'][$message->id] == 'read')
+                            if (($message->to = $this->Player_Model->user->id) and
+                            (isset($_POST['deleteId'][$message->id]) and $_POST['deleteId'][$message->id] == 'read'))
                             {
-                                $this->db->set('deleted', time());
+                                $this->db->set('deleted_to', time());
                                 $this->db->where(array('id' => $message->id));
                                 $this->db->update($this->session->userdata('universe').'_user_messages');
                             }
@@ -1744,7 +1879,7 @@ class Actions extends Controller
            case 'read':
                 if (isset($this->Player_Model->to_user_messages[$id]))
                 {
-                    $this->db->set('checked', time());
+                    $this->db->set('checked_to', time());
                     $this->db->where(array('id' => $id));
                     $this->db->update($this->session->userdata('universe').'_user_messages');
                 }

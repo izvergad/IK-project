@@ -101,7 +101,7 @@ function markAll(command) {
     $island = $this->Data_Model->temp_islands_db[$town->island];
 ?>
 
-                            <tr id="message<?=$message->id?>" onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" title="Нажмите для развертывания/свертывания сообщения" class="entry <?if($message->checked == 0){?>new<?}?>" <?if($message->checked == 0){?>onClick ="markAsRead(<?=$message->id?>);"<?}?>>
+                            <tr id="message<?=$message->id?>" onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" title="Нажмите для развертывания/свертывания сообщения" class="entry <?if($message->checked_to == 0){?>new<?}?>" <?if($message->checked_to == 0){?>onClick ="markAsRead(<?=$message->id?>);"<?}?>>
                              	<td><input type="checkbox" name="deleteId[<?=$message->id?>]" value="read" /></td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));">
                                     <img class="open" alt="" id="button<?=$message->id?>" name="button<?=$message->id?>" src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif">

@@ -37,27 +37,9 @@ class Player_Model extends Model
                 // Загружаем исследования
                 $this->Data_Model->Load_Research($id);
                 $this->research =& $this->Data_Model->temp_research_db[$id];
-                for($i = 1; $i < 14; $i++){
-                    $parametr = 'res1_'.$i;
-                    if ($this->research->$parametr == 0){$this->ways[1] = $this->Data_Model->get_research(1,$i,$this->research);break;}}
-                if ($this->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
-                if(isset($this->ways[1]) and $this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
-                for($i = 1; $i < 15; $i++){
-                    $parametr = 'res2_'.$i;
-                    if ($this->research->$parametr == 0){$this->ways[2] = $this->Data_Model->get_research(2,$i,$this->research);break;}}
-                if ($this->research->res2_15 > 0){$this->ways[2] = $this->Data_Model->get_research(2,15,$this->research);}
-                if(isset($this->ways[2]) and $this->ways[2]['points'] <= $this->research->points and $this->research->way2_checked == 0){$this->research_advisor = true;}
-                for($i = 1; $i < 16; $i++){
-                    $parametr = 'res3_'.$i;
-                    if ($this->research->$parametr == 0){$this->ways[3] = $this->Data_Model->get_research(3,$i,$this->research);break;}}
-                if ($this->research->res3_16 > 0){$this->ways[3] = $this->Data_Model->get_research(3,16,$this->research);}
-                if(isset($this->ways[3]) and $this->ways[3]['points'] <= $this->research->points and $this->research->way3_checked == 0){$this->research_advisor = true;}
-                for($i = 1; $i < 14; $i++)
-                {
-                    $parametr = 'res4_'.$i;
-                    if ($this->research->$parametr == 0){$this->ways[4] = $this->Data_Model->get_research(4,$i,$this->research);break;}}
-                if ($this->research->res4_14 > 0){$this->ways[4] = $this->Data_Model->get_research(4,14,$this->research);}
-                if(isset($this->ways[4]) and $this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
+                
+                $this->Load_Ways();
+                
                 // Всего ученых
                 $this->scientists = 0;
                 // Notes
@@ -322,14 +304,14 @@ class Player_Model extends Model
     {
         $this->to_user_messages = array();
         $this->from_user_messages = array();
-            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 and `archived`=0 ORDER BY date DESC');
+            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted_to`=0 and `archived_to`=0 ORDER BY date DESC');
             if ($user_messages->num_rows() > 0)
                 foreach ($user_messages->result() as $row)
                 {
                     $this->to_user_messages[$row->id] = $row;
-                    if ($row->checked == 0){ $this->new_user_messages++; }
+                    if ($row->checked_to == 0){ $this->new_user_messages++; }
                 }
-        $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `from`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted`=0 and `archived`=0 ORDER BY date DESC');
+        $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `from`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `deleted_from`=0 and `archived_from`=0 ORDER BY date DESC');
             if ($user_messages->num_rows() > 0)
                 foreach ($user_messages->result() as $row)
                     $this->from_user_messages[$row->id] = $row;
@@ -354,7 +336,7 @@ class Player_Model extends Model
     function Load_New_User_To_Messages()
     {
         $this->new_user_messages = 0;
-            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `checked`=0 ORDER BY date DESC');
+            $user_messages = $this->db->query('SELECT * FROM `'.$this->session->userdata('universe').'_user_messages` WHERE `to`='.$this->session->userdata('id').' and `date`>'.(time()-604800).' and `checked_to`=0 ORDER BY date DESC');
             $this->new_user_messages = $user_messages->num_rows;
     }
 
@@ -373,6 +355,32 @@ class Player_Model extends Model
                 $this->now_town->$pos_type = $this->build_line[$this->town_id][$i]['type'];
             }
         }
+    }
+
+    function Load_Ways()
+    {
+                for($i = 1; $i < 14; $i++){
+                    $parametr = 'res1_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[1] = $this->Data_Model->get_research(1,$i,$this->research);break;}}
+                if ($this->research->res1_14 > 0){$this->ways[1] = $this->Data_Model->get_research(1,14,$this->research);}
+                if(isset($this->ways[1]) and $this->ways[1]['points'] <= $this->research->points and $this->research->way1_checked == 0){$this->research_advisor = true;}
+                for($i = 1; $i < 15; $i++){
+                    $parametr = 'res2_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[2] = $this->Data_Model->get_research(2,$i,$this->research);break;}}
+                if ($this->research->res2_15 > 0){$this->ways[2] = $this->Data_Model->get_research(2,15,$this->research);}
+                if(isset($this->ways[2]) and $this->ways[2]['points'] <= $this->research->points and $this->research->way2_checked == 0){$this->research_advisor = true;}
+                for($i = 1; $i < 16; $i++){
+                    $parametr = 'res3_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[3] = $this->Data_Model->get_research(3,$i,$this->research);break;}}
+                if ($this->research->res3_16 > 0){$this->ways[3] = $this->Data_Model->get_research(3,16,$this->research);}
+                if(isset($this->ways[3]) and $this->ways[3]['points'] <= $this->research->points and $this->research->way3_checked == 0){$this->research_advisor = true;}
+                for($i = 1; $i < 14; $i++)
+                {
+                    $parametr = 'res4_'.$i;
+                    if ($this->research->$parametr == 0){$this->ways[4] = $this->Data_Model->get_research(4,$i,$this->research);break;}}
+                if ($this->research->res4_14 > 0){$this->ways[4] = $this->Data_Model->get_research(4,14,$this->research);}
+                if(isset($this->ways[4]) and $this->ways[4]['points'] <= $this->research->points and $this->research->way4_checked == 0){$this->research_advisor = true;}
+
     }
 
 }
