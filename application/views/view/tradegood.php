@@ -29,6 +29,7 @@
         $over_max = ($over_max < $all) ? $over_max : $all;
         $over_max = floor($over_max);
     }
+    $production = $this->Player_Model->tradegood_production[$this->Player_Model->town_id]*3600;
 ?>
 
 <div id="mainview">
@@ -44,7 +45,7 @@
                 <ul>
                     <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens"><?=$peoples?></span></li>
                     <li class="workers"><span class="textLabel">Работников: </span><span class="value" id="valueWorkers"><?=number_format($this->Player_Model->now_town->tradegood)?></span></li>
-                    <li class="gain" title="Производство:<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->$plus_text))?>" alt="Производство:<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->$plus_text))?>">
+                    <li class="gain" title="Производство:<?=number_format($production)?>" alt="Производство:<?=number_format($production)?>">
                         <span class="textLabel">Вместимость: </span>
                         <div id="gainPoints">
                             <div id="resiconcontainer">
@@ -52,7 +53,7 @@
                             </div>
                         </div>
                         <div class="gainPerHour">
-                            <span id="valueResource" >+<?=number_format($this->Player_Model->now_town->tradegood*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->$plus_text))?></span> <span class="timeUnit">в час</span>
+                            <span id="valueResource" >+<?=number_format($production)?></span> <span class="timeUnit">в час</span>
                         </div>
                     </li>
                     <li class="costs">

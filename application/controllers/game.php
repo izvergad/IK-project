@@ -685,6 +685,71 @@ class Game extends Controller {
         }
     }
 
+    function forester($position = 0)
+    {
+        $pos_type = 'pos'.$position.'_type';
+        if ($position == 0 or $this->Player_Model->now_town->$pos_type != 16)
+        {
+            $this->show('error','Хижина лесничего еще не построена!');
+        }
+        else
+        {
+            $this->show('forester', $position);
+        }
+    }
+
+    function glassblowing($position = 0)
+    {
+        $pos_type = 'pos'.$position.'_type';
+        if ($position == 0 or $this->Player_Model->now_town->$pos_type != 18)
+        {
+            $this->show('error','Стеклодувная мастерская еще не построена!');
+        }
+        else
+        {
+            $this->show('glassblowing', $position);
+        }
+    }
+
+    function stonemason($position = 0)
+    {
+        $pos_type = 'pos'.$position.'_type';
+        if ($position == 0 or $this->Player_Model->now_town->$pos_type != 17)
+        {
+            $this->show('error','Каменоломня еще не построена!');
+        }
+        else
+        {
+            $this->show('stonemason', $position);
+        }
+    }
+
+    function winegrower($position = 0)
+    {
+        $pos_type = 'pos'.$position.'_type';
+        if ($position == 0 or $this->Player_Model->now_town->$pos_type != 19)
+        {
+            $this->show('error','Винодельня еще не построена!');
+        }
+        else
+        {
+            $this->show('winegrower', $position);
+        }
+    }
+
+    function alchemist($position = 0)
+    {
+        $pos_type = 'pos'.$position.'_type';
+        if ($position == 0 or $this->Player_Model->now_town->$pos_type != 20)
+        {
+            $this->show('error','Башня алхимика еще не построена!');
+        }
+        else
+        {
+            $this->show('alchemist', $position);
+        }
+    }
+
         function show($location, $param1 = 0, $param2 = 0, $param3 = 0)
         {
             $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2, 'param3' => $param3));

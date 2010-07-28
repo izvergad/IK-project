@@ -110,6 +110,11 @@ class View_Model extends Model
             case 'diplomacyAdvisor':
             case 'diplomacyAdvisorOutBox':
             case 'sendIKMessage':
+            case 'forester':
+            case 'glassblowing':
+            case 'stonemason':
+            case 'winegrower':
+            case 'alchemist':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/null'); break;
@@ -148,6 +153,11 @@ class View_Model extends Model
             case 'carpentering':
             case 'branchOffice':
             case 'safehouse':
+            case 'forester':
+            case 'glassblowing':
+            case 'stonemason':
+            case 'winegrower':
+            case 'alchemist':
                 $this->load->view('sidebox/update', array('type' => $this->Data_Model->building_type_by_class($location), 'position' => $param1));
             case 'city':
             case 'island':
@@ -213,6 +223,11 @@ class View_Model extends Model
             case 'carpentering':
             case 'branchOffice':
             case 'safehouse':
+            case 'forester':
+            case 'glassblowing':
+            case 'stonemason':
+            case 'winegrower':
+            case 'alchemist':
             case 'warehouse': $file = 'town'; break;
             case 'cityMilitary': $caption = 'Военный обзор'; $file = 'town'; break;
             case 'buildingDetail': $caption = 'Информация о здании'; $file = 'world'; break;

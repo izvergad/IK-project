@@ -11,6 +11,7 @@
         $over_max = ($over_max < $all) ? $over_max : $all;
         $over_max = floor($over_max);
     }
+    $production = $this->Player_Model->resource_production[$this->Player_Model->town_id]*3600;
 ?>
 <div id="mainview">
     <div class="buildingDescription">
@@ -25,7 +26,7 @@
                 <ul>
                     <li class="citizens"><span class="textLabel">Граждане: </span><span class="value" id="valueCitizens"><?=$peoples?></span></li>
                     <li class="workers"><span class="textLabel">Работников: </span><span class="value" id="valueWorkers"><?=number_format($this->Player_Model->now_town->workers)?></span></li>
-                    <li class="gain" title="Производство:<?=floor($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->plus_wood))?>" alt="Производство:<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->plus_wood))?>">
+                    <li class="gain" title="Производство:<?=floor($production)?>" alt="Производство:<?=number_format($production)?>">
                         <span class="textLabel">Вместимость: </span>
                         <div id="gainPoints">
                             <div id="resiconcontainer">
@@ -33,7 +34,7 @@
                             </div>
                         </div>
                         <div class="gainPerHour">
-                            <span id="valueResource" >+<?=number_format($this->Player_Model->now_town->workers*(1-$this->Player_Model->corruption[$this->Player_Model->town_id])*($this->Player_Model->plus_wood))?></span> <span class="timeUnit">в час</span>
+                            <span id="valueResource" >+<?=number_format($production)?></span> <span class="timeUnit">в час</span>
                         </div>
                     </li>
                     <li class="costs">
@@ -141,7 +142,7 @@
             this.flagSliderMoved = 1;
             valueWorkers.innerHTML = locaNumberFormat(slider.actualValue);
             valueCitizens.innerHTML = locaNumberFormat(startCitizens+startResourceWorkers - slider.actualValue);
-            var valRes = <?=($this->Player_Model->plus_wood)?> * <?=(1-$this->Player_Model->corruption[$this->Player_Model->town_id])?> * (Math.min(<?=$cost['workers']?>, slider.actualValue) + Math.max(0, 0.25 * (slider.actualValue-196)));
+            var valRes = <?=($this->Player_Model->plus_wood)?> * <?=(1-$this->Player_Model->corruption[$this->Player_Model->town_id])?> * (Math.min(<?=$cost['workers']?>, slider.actualValue) + Math.max(0, 0.25 * (slider.actualValue-<?=$cost['workers']?>)));
             valueResource.innerHTML = '+' + Math.floor(valRes);
             valueWorkCosts.innerHTML = startIncomePerTimeUnit  - 3*(slider.actualValue-startSlider);
         });

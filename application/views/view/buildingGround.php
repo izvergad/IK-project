@@ -26,10 +26,10 @@
         ($i == 14 and $this->Player_Model->research->res3_3 == 0) or
         ($i == 15 and ($this->Player_Model->research->res1_4 == 0 or $this->Player_Model->capital_id == $this->Player_Model->town_id)) or
         ($i == 16 and $this->Player_Model->research->res2_5 == 0) or
-        ($i == 17 and $this->Player_Model->research->res2_5 == 0) or
-        ($i == 18 and $this->Player_Model->research->res2_5 == 0) or
-        ($i == 19 and $this->Player_Model->research->res2_5 == 0) or
-        ($i == 20 and $this->Player_Model->research->res2_5 == 0) or
+        ($i == 17 and ($this->Player_Model->research->res2_5 == 0 or $this->Player_Model->now_island->trade_resource != 2)) or
+        ($i == 18 and ($this->Player_Model->research->res2_5 == 0 or $this->Player_Model->now_island->trade_resource != 3)) or
+        ($i == 19 and ($this->Player_Model->research->res2_5 == 0 or $this->Player_Model->now_island->trade_resource != 1)) or
+        ($i == 20 and ($this->Player_Model->research->res2_5 == 0 or $this->Player_Model->now_island->trade_resource != 4)) or
         ($i == 21 and $this->Player_Model->research->res1_1 == 0) or
         ($i == 22 and $this->Player_Model->research->res2_7 == 0) or
         ($i == 23 and $this->Player_Model->research->res3_9 == 0) or
