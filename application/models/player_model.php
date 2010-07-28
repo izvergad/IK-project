@@ -109,6 +109,7 @@ class Player_Model extends Model
                                 $cost = $this->Data_Model->army_cost_by_type($a, $this->research, $this->levels[$town->id]);
                                 $this->saldo[$town->id] = $this->saldo[$town->id] - ($cost['gold']*$this->armys[$town->id]->$class);
                                 $this->army_gold_need[$town->id] = $this->army_gold_need[$town->id] + ($cost['gold']*$this->armys[$town->id]->$class);
+                                
                                 $this->units_count[$town->id] = ($a <= 14) ? $this->units_count[$town->id] + $this->armys[$town->id]->$class : $this->units_count[$town->id];
                             }
                         }

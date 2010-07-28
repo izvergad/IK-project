@@ -370,9 +370,14 @@ class Actions extends Controller
         {
             $level = $this->Player_Model->now_island->wood_level;
             $cost = $this->Data_Model->island_cost(0, $level);
+            if ($this->Player_Model->research->res2_5 > 0)
+            {
+                $cost['workers'] = $cost['workers']*1.5;
+            }
             if ($cost['workers'] >= $_POST['rw'])
             {
                 $all = $this->Player_Model->now_town->workers + $this->Player_Model->now_town->peoples;
+
                 if ($all >= $_POST['rw'])
                 {
                     $this->Player_Model->now_town->workers = floor($_POST['rw']);
@@ -389,6 +394,10 @@ class Actions extends Controller
         {
             $level = $this->Player_Model->now_island->trade_level;
             $cost = $this->Data_Model->island_cost(1, $level);
+            if ($this->Player_Model->research->res2_5 > 0)
+            {
+                $cost['workers'] = $cost['workers']*1.5;
+            }
             if ($cost['workers'] >= $_POST['tw'])
             {
                 $all = $this->Player_Model->now_town->tradegood + $this->Player_Model->now_town->peoples;

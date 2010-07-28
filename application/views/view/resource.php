@@ -4,6 +4,13 @@
     $all = $this->Player_Model->now_town->peoples + $this->Player_Model->now_town->workers;
     $max = ($cost['workers'] < $all) ? $cost['workers'] : $all;
     $max = floor($max);
+    $over_max = 0;
+    if ($this->Player_Model->research->res2_5 > 0 and $all >= $max)
+    {
+        $over_max = $max + $cost['workers']*0.5;
+        $over_max = ($over_max < $all) ? $over_max : $all;
+        $over_max = floor($over_max);
+    }
 ?>
 <div id="mainview">
     <div class="buildingDescription">
@@ -99,7 +106,7 @@
         dir : 'ltr',
         id : "default",
         maxValue : <?=floor($max)?>,
-        overcharge : 0,
+        overcharge : <?=$over_max-$max?>,
         iniValue : <?=floor($this->Player_Model->now_town->workers)?>,
         bg : "sliderbg",
         thumb : "sliderthumb",

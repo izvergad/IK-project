@@ -220,7 +220,7 @@ class Data_Model extends Model
      * @param <int> $type
      * @return <array>
      */
-    function army_cost_by_type($type, $research, $levels)
+    function army_cost_by_type($type, $research, $levels, $use_research = TRUE)
     {
         $type = floor($type)-1;
         if ($type < 0)
@@ -295,29 +295,32 @@ class Data_Model extends Model
         $minus_crystal = 0;
         $minus_sulfur = 0;
         $minus_gold = 0;
-        // Исследования снижают содержание кораблей
-        if ($type >= 15)
+        if ($use_research)
         {
-            // Ремонт кораблей
-            if ($research->res1_3 > 0) { $minus_gold = $minus_gold +0.02; }
-            // Смола
-            if ($research->res1_6 > 0) { $minus_gold = $minus_gold +0.04; }
-            // Морские карты
-            if ($research->res1_11 > 0) { $minus_gold = $minus_gold +0.08; }
-            // Будущее мореходства
-            if ($research->res1_14 > 0) { $minus_gold = $minus_gold +(0.02*$research->res1_14); }
-        }
-        // Исследования снижают содержание войск
-        if ($type < 15)
-        {
-            // Карты
-            if ($research->res4_2 > 0) { $minus_gold = $minus_gold +0.02; }
-            // Кодекс чести
-            if ($research->res4_5 > 0) { $minus_gold = $minus_gold +0.04; }
-            // Логистика
-            if ($research->res4_10 > 0) { $minus_gold = $minus_gold +0.08; }
-            // Будущее армии
-            if ($research->res4_14 > 0) { $minus_gold = $minus_gold +(0.02*$research->res4_14); }
+            // Исследования снижают содержание кораблей
+            if ($type >= 15)
+            {
+                // Ремонт кораблей
+                if ($research->res1_3 > 0) { $minus_gold = $minus_gold +0.02; }
+                // Смола
+                if ($research->res1_6 > 0) { $minus_gold = $minus_gold +0.04; }
+                // Морские карты
+                if ($research->res1_11 > 0) { $minus_gold = $minus_gold +0.08; }
+                // Будущее мореходства
+                if ($research->res1_14 > 0) { $minus_gold = $minus_gold +(0.02*$research->res1_14); }
+            }
+            // Исследования снижают содержание войск
+            if ($type < 15)
+            {
+                // Карты
+                if ($research->res4_2 > 0) { $minus_gold = $minus_gold +0.02; }
+                // Кодекс чести
+                if ($research->res4_5 > 0) { $minus_gold = $minus_gold +0.04; }
+                // Логистика
+                if ($research->res4_10 > 0) { $minus_gold = $minus_gold +0.08; }
+                // Будущее армии
+                if ($research->res4_14 > 0) { $minus_gold = $minus_gold +(0.02*$research->res4_14); }
+            }
         }
         // плотницкая мастерская
         if ($levels[21] > 0)

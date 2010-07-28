@@ -98,17 +98,39 @@ class Update_Model extends Model
                // Прирост золота
                $this->CI->$model->user->gold = $this->CI->$model->user->gold + (($this->CI->$model->saldo[$i]/3600)*$elapsed);
                // Прирост дерева
-               $this->CI->$model->towns[$i]->wood = $this->CI->$model->towns[$i]->wood + (($this->CI->$model->towns[$i]->workers/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_wood);
+               $resource_level = $this->CI->$model->islands[$this->CI->$model->towns[$i]->island]->wood_level;
+               $tradegood_level = $this->CI->$model->islands[$this->CI->$model->towns[$i]->island]->trade_level;
+               $resource_cost = $this->Data_Model->island_cost(0, $resource_level);
+               $tradegood_cost = $this->Data_Model->island_cost(1, $tradegood_level);
+               if ($this->CI->$model->towns[$i]->workers > $resource_cost['workers'])
+               {
+                   $this->CI->$model->towns[$i]->wood = $this->CI->$model->towns[$i]->wood + (($resource_cost['workers']/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_wood);
+                   $this->CI->$model->towns[$i]->wood = $this->CI->$model->towns[$i]->wood + ((($this->CI->$model->towns[$i]->workers-$resource_cost['workers'])*0.125/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_wood);
+               }
+               else
+               {
+                   $this->CI->$model->towns[$i]->wood = $this->CI->$model->towns[$i]->wood + (($this->CI->$model->towns[$i]->workers/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_wood);
+               }
+               
                // Прирост другого ресурса
+               if ($this->CI->$model->towns[$i]->tradegood > $tradegood_cost['workers'])
+               {
+                   $tradegood_add = (($tradegood_cost['workers']/3600)*$elapsed);
+                   $tradegood_add = $tradegood_add + ((($this->CI->$model->towns[$i]->tradegood-$tradegood_cost['workers'])*0.125/3600)*$elapsed);
+               }
+               else
+               {
+                   $tradegood_add = (($this->CI->$model->towns[$i]->tradegood/3600)*$elapsed);
+               }
                switch($this->CI->$model->islands[$town->island]->trade_resource)
                {
-                   case 1:$this->CI->$model->towns[$i]->wine = $this->CI->$model->towns[$i]->wine + (($this->CI->$model->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_wine);
+                   case 1:$this->CI->$model->towns[$i]->wine = $this->CI->$model->towns[$i]->wine + $tradegood_add*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_wine);
                    break;
-                   case 2:$this->CI->$model->towns[$i]->marble = $this->CI->$model->towns[$i]->marble + (($this->CI->$model->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_marble);
+                   case 2:$this->CI->$model->towns[$i]->marble = $this->CI->$model->towns[$i]->marble + $tradegood_add*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_marble);
                    break;
-                   case 3:$this->CI->$model->towns[$i]->crystal = $this->CI->$model->towns[$i]->crystal + (($this->CI->$model->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_crystal);
+                   case 3:$this->CI->$model->towns[$i]->crystal = $this->CI->$model->towns[$i]->crystal + $tradegood_add*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_crystal);
                    break;
-                   case 4:$this->CI->$model->towns[$i]->sulfur = $this->CI->$model->towns[$i]->sulfur + (($this->CI->$model->towns[$i]->tradegood/3600)*$elapsed)*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_sulfur);
+                   case 4:$this->CI->$model->towns[$i]->sulfur = $this->CI->$model->towns[$i]->sulfur + $tradegood_add*(1-$this->CI->$model->corruption[$i])*($this->CI->$model->plus_sulfur);
                    break;
                }
                // Проверяем не вышли ли мы за пределы вместимости

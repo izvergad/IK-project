@@ -1,7 +1,5 @@
 #finances
 .buildingDescription{}
-#finances
-#balance{width:585px;margin:10px;border-collapse:collapse}
 #finances #balance th,
 #finances #balance
 td{}
@@ -42,3 +40,36 @@ td.city{text-align:left;padding:4px
 10px}
 #finances #container #mainview table#balance tr.result
 td{border-top:1px dotted #c49873}
+#finances
+div.greenBarDiv{background-image:url(bars/20px/bg_24px_lightgreen.gif);height:20px;text-align:left}
+#finances
+div.redBarDiv{background-image:url(bars/20px/bg_24px_red.gif);height:20px;text-align:left}
+#finances
+div.brownBarDiv{background-image:url(bars/20px/bg_24px_lightbrown.gif);height:20px;text-align:left}
+#finances
+div.barBorder{border:1px
+solid #CCA569}
+#finances #upkeepReductionTable
+td.reason{width:25%;text-align:left}
+#finances #upkeepReductionTable
+td.value{width:5%}
+#finances #upkeepReductionTable
+td.costs{width:10%;text-align:right}
+#finances #upkeepReductionTable
+td.hidden{width:10%;border-left:1px solid #C49873;background-color:#FDF7DD;text-align:right}
+#finances #upkeepReductionTable
+td.boldcosts{width:10%;font-weight:bold;text-align:right}
+#finances #upkeepReductionTable tr.result
+td{border-top:1px dotted #C49873}
+#finances #upkeepReductionTable tr.result
+td{font-weight:bold}
+#finances
+tr.bottomLine{border-bottom:1px dotted #C49873}
+#finances
+tr.alt{background-color:#FDF1D4}
+#finances
+tr.altbottomLine{background-color:#FDF1D4;border-bottom:1px dotted #C49873}
+#finances .result
+img{margin-top:4px}
+#finances #balance.table01 tr.result
+td{padding-top:8px}
