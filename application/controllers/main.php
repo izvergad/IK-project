@@ -4,7 +4,8 @@ class Main extends Controller {
 
 	function Main()
 	{
-		parent::Controller();	
+		parent::Controller();
+                $this->lang->load('welcome');
 	}
 	
 	function index()
@@ -38,11 +39,6 @@ class Main extends Controller {
                 $this->load->view('main_index', array('page' => 'error'));
         }
 
-        function xd_receiver()
-        {
-            $this->load->view('main/xd_receiver');
-        }
-
         function page($page = 'index')
         {
             $errors = array();
@@ -61,11 +57,11 @@ class Main extends Controller {
             $config['mailtype'] = 'html';
             $this->email->initialize($config);
             //if (isset($_POST['universe']) and isset($_POST['name']) and $_POST['name'] != '' and isset($_POST['password']) and $_POST['password'] != '' and isset($_POST['email']) and valid_email($_POST['email']) and isset($_POST['agb']) and $_POST['agb'] and $_POST['universe'] == 'alpha')
-            if (!isset($_POST['universe'])){ $errors[] = 'Не выбрана вселенная!'; }
-            if (!isset($_POST['name']) or (isset($_POST['name']) and (strip_tags($_POST['name']) == '' or strlen(strip_tags($_POST['name'])) < 3 or strlen(strip_tags($_POST['name'])) > 30 ))){ $errors[] = 'Имя игрока должно содержать от 3 до 30 символов.'; }
-            if (!isset($_POST['password']) or (isset($_POST['password']) and (strip_tags($_POST['password']) == '' or strlen(strip_tags($_POST['password'])) < 8 or strlen(strip_tags($_POST['password'])) > 30 ))){ $errors[] = 'Пароль должен содержать от 8 до 30 символов.'; }
-            if (!isset($_POST['email']) or !valid_email($_POST['email'])){ $errors[] = 'Неверный e-mail.'; }
-            if (!isset($_POST['agb']) or (isset($_POST['agb']) and !$_POST['agb'])){ $errors[] = 'Вы должны принять Основные Положения для игры в Икариам!'; }
+            if (!isset($_POST['universe'])){ $errors[] = $this->lang->line('error_universe'); }
+            if (!isset($_POST['name']) or (isset($_POST['name']) and (strip_tags($_POST['name']) == '' or strlen(strip_tags($_POST['name'])) < 3 or strlen(strip_tags($_POST['name'])) > 30 ))){ $errors[] = $this->lang->line('error_name_length'); }
+            if (!isset($_POST['password']) or (isset($_POST['password']) and (strip_tags($_POST['password']) == '' or strlen(strip_tags($_POST['password'])) < 8 or strlen(strip_tags($_POST['password'])) > 30 ))){ $errors[] = $this->lang->line('error_password_length'); }
+            if (!isset($_POST['email']) or !valid_email($_POST['email'])){ $errors[] = $this->lang->line('error_email2'); }
+            if (!isset($_POST['agb']) or (isset($_POST['agb']) and !$_POST['agb'])){ $errors[] = $this->lang->line('error_order'); }
             // Регистрируем
             if (count($errors) == 0)
             {
@@ -123,10 +119,10 @@ class Main extends Controller {
                             //Отправляем письмо
                             if ($this->config->item('game_email'))
                             {
-                                $message = '<html><body><p>Привет '.$user->login.',<br><br>Вы решили создать империю в мире Икариам '.$_POST['universe'].'!<br><br>Нажмите на ссылку, чтобы подтвердить Ваш аккаунт:<br><br><a href="'.$this->config->item('base_url').'main/validate/'.$_POST['universe'].'/'.$key.'/" target="_blank">'.$this->config->item('base_url').'main/validate/'.$_POST['universe'].'/'.$key.'</a><br><br>Ваша информация для доступа:<br>Имя игрока: '.$user->login.'<br>Пароль: '.$password.'<br>Сервер: '.$_POST['universe'].'<br><br>Если Вам понадобится помощь, то Вы сможете найти ее на форуме Икариам ('.$this->config->item('forum_url').').<br><br>Удачи в игре,<br>Ваша команда Икариам.</p></body></html>';
-                                $this->email->from($this->config->item('email_from'), 'Гермес');
+                                $message = '<html><body><p>'.$this->lang->line('register_email_text_1').' '.$user->login.',<br><br>'.$this->lang->line('register_email_text_2').' '.$_POST['universe'].'!<br><br>'.$this->lang->line('register_email_text_3').':<br><br><a href="'.$this->config->item('base_url').'main/validate/'.$_POST['universe'].'/'.$key.'/" target="_blank">'.$this->config->item('base_url').'main/validate/'.$_POST['universe'].'/'.$key.'</a><br><br>'.$this->lang->line('register_email_text_4').':<br>'.$this->lang->line('name').': '.$user->login.'<br>'.$this->lang->line('password').': '.$password.'<br>'.$this->lang->line('world').': '.$_POST['universe'].'<br><br>'.$this->lang->line('register_email_text_5').' ('.$this->config->item('forum_url').').<br><br>'.$this->lang->line('register_email_text_6').',<br>'.$this->lang->line('register_email_text_7').'</p></body></html>';
+                                $this->email->from($this->config->item('email_from'), $this->lang->line('register_email_from'));
                                 $this->email->to($_POST['email']);
-                                $this->email->subject($user->login.', Добро пожаловать в Икариам!');
+                                $this->email->subject($user->login.', '.$this->lang->line('register_email_title'));
                                 $this->email->message($message);
                                 $this->email->send();
                             }
@@ -134,7 +130,7 @@ class Main extends Controller {
                             $this->Player_Model->Check_Double_Login($user, $_POST['universe']);
                             if($user->blocked_time > 0)
                             {
-                                $this->Error('Ваш аккаунт заблокирован до '.date("m.d.y H:i:s", $user->blocked_time).'!<br>Причина: '.$user->blocked_why);
+                                $this->Error($this->lang->line('error_blocked_text_1').' '.date("m.d.y H:i:s", $user->blocked_time).'!<br>'.$this->lang->line('error_blocked_text_2').': '.$user->blocked_why);
                             }
                             $this->session->set_userdata(array('id' => $user->id, 'universe' => $_POST['universe'], 'login' => $user->login, 'password' => md5($user->password)));
                             redirect('/game/', 'refresh');
@@ -142,19 +138,19 @@ class Main extends Controller {
                         else
                         {
                             $this->db->query('DELETE FROM '.$_POST['universe'].'_users where `id`="'.$user->id.'"');
-                            $errors[] = 'В мире '.$_POST['universe'].' нет мест для заселения!';
+                            $errors[] = $this->lang->line('error_world_text_1').' '.$_POST['universe'].' '.$this->lang->line('error_world_text_2');
                         }
 
                     }
                     else
                     {
                         $this->db->query('DELETE FROM '.$_POST['universe'].'_users where `id`="'.$user->id.'"');
-                        $errors[] = 'В мире '.$_POST['universe'].' нет мест для заселения!';
+                        $errors[] = $this->lang->line('error_world_text_1').' '.$_POST['universe'].' '.$this->lang->line('error_world_text_2');
                     }
                 }
                 else
                 {
-                    $errors[] = 'Такое имя уже используется!';
+                    $errors[] = $this->lang->line('error_name');
                 }
             }
             $this->session->set_flashdata(array('errors' => $errors));
@@ -182,7 +178,7 @@ class Main extends Controller {
                 }
                 else
                 {
-                    $this->session->set_flashdata(array('error' => 'Неверный ключ активации!'));
+                    $this->session->set_flashdata(array('error' => $this->lang->line('error_activation')));
                     redirect('/main/error/', 'refresh');
                 }
             }
@@ -203,14 +199,14 @@ class Main extends Controller {
             // Тип письма text или html
             $config['mailtype'] = 'html';
             $this->email->initialize($config);
-            if (!isset($_POST['universe'])){ $errors[] = 'Не выбрана вселенная!'; }
-            if (!isset($_POST['email']) or !valid_email($_POST['email'])){ $errors[] = 'Неверный e-mail.'; }
+            if (!isset($_POST['universe'])){ $errors[] = $this->lang->line('error_universe'); }
+            if (!isset($_POST['email']) or !valid_email($_POST['email'])){ $errors[] = $this->lang->line('error_email2'); }
             if (count($errors) == 0)
             {
                 $user_query = $this->db->get_where($_POST['universe'].'_users', array('email' => $_POST['email']));
                 if ($user_query->num_rows == 0)
                 {
-                    $errors[] = 'E-mail не зарегистрирован!';
+                    $errors[] = $this->lang->line('error_email3');
                 }
                 else
                 {
@@ -220,10 +216,10 @@ class Main extends Controller {
                     $this->db->where(array('id' => $user->id));
                     $this->db->update($_POST['universe'].'_users');
                     //Отправляем письмо
-                                $message = '<html><body><p>Привет '.$user->login.',<br><br>Ваш новый пароль для Икариам ('.$_POST['universe'].'):<br><br>'.$password.'<br><br>Вы можете войти на странице <a href="'.$this->config->item('base_url').'" target="_blank">'.$this->config->item('base_url').'</a><br><br>Удачи в игре,<br>Ваша команда Икариам.</p></body></html>';
-                                $this->email->from($this->config->item('email_from'), 'Гермес');
+                                $message = '<html><body><p>'.$this->lang->line('register_email_text_1').' '.$user->login.',<br><br>'.$this->lang->line('password_email_text_1').' ('.$_POST['universe'].'):<br><br>'.$password.'<br><br>'.$this->lang->line('password_email_text_2').' <a href="'.$this->config->item('base_url').'" target="_blank">'.$this->config->item('base_url').'</a><br><br>'.$this->lang->line('register_email_text_6').',<br>'.$this->lang->line('register_email_text_7').'</p></body></html>';
+                                $this->email->from($this->config->item('email_from'), $this->lang->line('register_email_from'));
                                 $this->email->to($_POST['email']);
-                                $this->email->subject('Ваш новый пароль для Икариам!');
+                                $this->email->subject($this->lang->line('password_email_text_1').'!');
                                 $this->email->message($message);
                                 $this->email->send();
                     $sended = true;

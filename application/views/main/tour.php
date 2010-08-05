@@ -1,16 +1,15 @@
 <div id="tour">
-<h3>Тур по игре (1/5) - Ваш город</h3>
+<h3><?=$this->lang->line('tour_1_title')?></h3>
 <div id="imgcontainer">
     <img src="<?=$this->config->item('base_url')?>design/tour/tour_city.jpg" width="530" height="230" alt="" >
 </div>
 <div id="tourtext">
-    <p>В начале игры Икариам у Вас есть только маленький клочок земли.</p>
-    Сможете ли Вы превратить его в процветающую столицу могучей империи? Эти страницы могут Вам помочь.
+    <p><?=$this->lang->line('tour_1_text_1')?></p>
+    <?=$this->lang->line('tour_1_text_2')?>
 </div>
-<a class="back" href="#" title="Назад">&laquo; Назад</a>
-<a class="next" href="#" title="Продолжить">Дальше &raquo;</a>
+<a class="back" href="#" title="<?=$this->lang->line('back')?>">&laquo; <?=$this->lang->line('back')?></a>
+<a class="next" href="#" title="<?=$this->lang->line('next')?>"><?=$this->lang->line('next')?> &raquo;</a>
 </div>
-
 <script>
 $(document).ready(function(){
     $(".back").click(function(){

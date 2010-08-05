@@ -4,10 +4,14 @@
     <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<meta name="language" content="ru">
-		<meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков - управлять своим собственным народом в древнем мире, строить города, вести торговлю, завоевывать острова.">
-		<title>Икариам - Бесплатная браузерная игра</title>
-                <link href="<?=$this->config->item('style_url')?>start.css" rel="stylesheet" type="text/css" media="screen">
+		<meta name="Description" content="<?=$this->lang->line('head_description')?>">
+		<title><?=$this->lang->line('head_title')?></title>
                 <script type="text/javascript" src="<?=$this->config->item('script_url')?>js/jquery.min.js"></script>
+<?if($this->config->item('language')=='russian'){?>
+                <link href="<?=$this->config->item('base_url')?>design/start-ru.css" rel="stylesheet" type="text/css" media="screen">
+<?}else{?>
+                <link href="<?=$this->config->item('base_url')?>design/start.css" rel="stylesheet" type="text/css" media="screen">
+<?}?>
     </head>
     <body>
         <div id="headback">
@@ -17,9 +21,9 @@
             <div id="main">
                 <div id="wrapper">
                     <div id="links">
-                        <a href="#" id="main_index" title="Ко входу">Вход</a>
-                        <a href="#" id="main_register" title="Регистрация!">Регистрация</a>
-                        <a href="#" id="main_tour" title="Небольшой тур по миру Икариам">Тур по игре</a>
+                        <a href="#" id="main_index" title="<?=$this->lang->line('link_login_title')?>"><?=$this->lang->line('link_login_text')?></a>
+                        <a href="#" id="main_register" title="<?=$this->lang->line('link_register_title')?>"><?=$this->lang->line('link_register_text')?></a>
+                        <a href="#" id="main_tour" title="<?=$this->lang->line('link_tour_title')?>"><?=$this->lang->line('link_tour_text')?></a>
                         <!--<a href="/forum/" target="_blank" title="На форум">Форум</a>-->
                     </div>
                 </div>

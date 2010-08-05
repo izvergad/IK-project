@@ -27,6 +27,9 @@ class Update_Model extends Model
 
        if(isset($id) and ($id > 0))
        {
+           // Обнуляем очки
+           $this->CI->Update_Player->user->points_peoples = 0;
+           
            $this->Update_Towns('Update_Player');
            $this->Update_Islands('Update_Player');
            $this->Update_Missions('Update_Player');
@@ -58,6 +61,15 @@ class Update_Model extends Model
            $this->db->set('premium_capacity', $this->CI->Update_Player->user->premium_capacity);
            //  Обучение
            $this->db->set('tutorial', $this->CI->Update_Player->user->tutorial);
+           // Очки
+           $this->CI->Update_Player->user->points_gold = $this->CI->Update_Player->user->gold;
+           $this->db->set('points', $this->CI->Update_Player->user->points_buildings + $this->CI->Update_Player->user->points_peoples + ($this->CI->Update_Player->user->points_research*6) + $this->CI->Update_Player->user->points_army + $this->CI->Update_Player->user->points_transports);
+           $this->db->set('points_buildings', $this->CI->Update_Player->user->points_buildings);
+           $this->db->set('points_levels', $this->CI->Update_Player->user->points_levels);
+           $this->db->set('points_peoples', $this->CI->Update_Player->user->points_peoples);
+           $this->db->set('points_army', $this->CI->Update_Player->user->points_army);
+           $this->db->set('points_gold', $this->CI->Update_Player->user->points_gold);
+
            $this->db->where(array('id' => $id));
            $this->db->update($this->session->userdata('universe').'_users');
            // Обновляем баллы науки
@@ -89,6 +101,7 @@ class Update_Model extends Model
                    $this->CI->$model->towns[$i]->peoples = $this->CI->$model->towns[$i]->peoples + ((($this->CI->$model->good[$i]/50)/3600)*$elapsed);
                    $this->CI->$model->peoples[$i] = $this->CI->$model->towns[$i]->peoples + $this->CI->$model->towns[$i]->scientists + $this->CI->$model->towns[$i]->workers + $this->CI->$model->towns[$i]->tradegood;
                }
+               $this->CI->Update_Player->user->points_peoples = $this->CI->Update_Player->user->points_peoples + floor($this->CI->$model->towns[$i]->peoples + $this->CI->$model->towns[$i]->workers + $this->CI->$model->towns[$i]->tradegood + $this->CI->$model->towns[$i]->scientists);
                if ($this->CI->$model->towns[$i]->peoples < 0){ $this->CI->$model->towns[$i]->peoples = 0; }
                if ($this->CI->$model->peoples[$i] > $this->CI->$model->max_peoples[$i])
                {
@@ -180,6 +193,9 @@ class Update_Model extends Model
                        {
                            if (($step == 0) or ($step > 0 and $wood >= 0 and $marble >= 0 and $wine >= 0 and $crystal >= 0 and $sulfur >= 0))
                            {
+                                    $points = ($cost['wood'] + $cost['wine'] + $cost['marble'] + $cost['crystal'] + $cost['sulfur'])*0.01;
+                                    $this->CI->$model->user->points_buildings = $this->CI->$model->user->points_buildings + $points;
+                                    $this->CI->$model->user->points_levels = $this->CI->$model->user->points_levels + 1;
                                     // Увеличиваем уровень
                                     $this->CI->$model->towns[$i]->$level_text = $this->CI->$model->towns[$i]->$level_text + 1;
                                     $this->CI->$model->towns[$i]->$type_text = $buildings[0]['type'];

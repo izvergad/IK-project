@@ -126,6 +126,8 @@ class Actions extends Controller
             $marble = $this->Player_Model->now_town->marble + ($cost['marble']*0.9);
             $crystal = $this->Player_Model->now_town->crystal + ($cost['crystal']*0.9);
             $sulfur = $this->Player_Model->now_town->sulfur + ($cost['sulfur']*0.9);
+            $points = ($cost['wood'] + $cost['wine'] + $cost['marble'] + $cost['crystal'] + $cost['sulfur'])*0.01;
+
             // Если есть очередь и здание в ней
             if ($this->Player_Model->now_town->build_line != '' and $this->Player_Model->build_line[$this->Player_Model->town_id][0]['type'] == $type)
             {
@@ -160,6 +162,7 @@ class Actions extends Controller
                         $type = $this->Player_Model->now_town->$type_text;
                         $next_level = $this->Player_Model->now_town->$level_text;
                         $cost = $this->Data_Model->building_cost($type, $next_level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
+                        
                         // Если хватает ресурсов
                         if (($wood - $cost['wood']) >= 0 and ($wine - $cost['wine']) >= 0 and ($marble - $cost['marble']) >= 0 and ($crystal - $cost['crystal']) >= 0 and ($sulfur - $cost['sulfur']) >= 0)
                         {
@@ -214,6 +217,13 @@ class Actions extends Controller
             $this->db->set('sulfur', $sulfur);
             $this->db->where(array('id' => $this->Player_Model->town_id));
             $this->db->update($this->session->userdata('universe').'_towns');
+
+            $this->Player_Model->user->points_buildings = $this->Player_Model->user->points_buildings - $points;
+            $this->Player_Model->user->points_levels = $this->Player_Model->user->points_levels - 1;
+            $this->db->set('points_buildings', $this->Player_Model->user->points_buildings);
+            $this->db->set('points_levels', $this->Player_Model->user->points_levels);
+            $this->db->where(array('id' => $this->Player_Model->user->id));
+            $this->db->update($this->session->userdata('universe').'_users');
 
             $this->Player_Model->correct_buildings();
             $this->show('city');
@@ -296,6 +306,7 @@ class Actions extends Controller
                 }
                 $this->db->where(array('id' => $this->Player_Model->town_id));
                 $this->db->update($this->session->userdata('universe').'_towns');
+                
                 // Здание добавлено в очередь
                 // Обновляем обучения если есть
                         if ($id == 3 and $this->Player_Model->user->tutorial <= 4)
@@ -495,6 +506,15 @@ class Actions extends Controller
                 $this->db->set($parametr, $this->Player_Model->research->$parametr);
                 $this->db->where(array('user' => $this->Player_Model->user->id));
                 $this->db->update($this->session->userdata('universe').'_research');
+                
+                $this->Player_Model->user->points_research = $this->Player_Model->user->points_research + $data['points']*0.01;
+                $this->Player_Model->user->points_complete = $this->Player_Model->user->points_complete + 4;
+                $this->db->set('points_research', $this->Player_Model->user->points_research);
+                $this->db->set('points_complete', $this->Player_Model->user->points_complete);
+
+                $this->db->where(array('id' => $this->Player_Model->user->id));
+                $this->db->update($this->session->userdata('universe').'_users');
+
                 // Благосостояние
                 if($way == 2 and $id == 3)
                 {
@@ -956,10 +976,12 @@ class Actions extends Controller
         if ($cost > 0 and $this->Player_Model->user->gold >= $cost)
         {
             $this->Player_Model->user->gold = $this->Player_Model->user->gold - $cost;
+            $this->Player_Model->user->points_transports = $this->Player_Model->user->points_transports + $cost/100;
             $this->Player_Model->user->transports++;
             $this->Player_Model->all_transports++;
             $this->db->set('gold', $this->Player_Model->user->gold);
             $this->db->set('transports', $this->Player_Model->user->transports);
+            $this->db->set('points_transports', $this->Player_Model->user->points_transports);
             $this->db->where(array('id' => $this->Player_Model->user->id));
             $this->db->update($this->session->userdata('universe').'_users');
         }

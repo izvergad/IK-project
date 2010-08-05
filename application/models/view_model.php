@@ -115,6 +115,7 @@ class View_Model extends Model
             case 'stonemason':
             case 'winegrower':
             case 'alchemist':
+            case 'highscore':
                 $this->load->view('view/'.$location);
             break;
             default: $this->load->view('view/null'); break;
@@ -180,6 +181,7 @@ class View_Model extends Model
             case 'safehouseMissions':
             case 'safehouseReports':
             case 'diplomacyAdvisor':
+            case 'highscore':
                 $this->load->view('sidebox/'.$location);
             break;
             case 'plunder':
@@ -250,6 +252,7 @@ class View_Model extends Model
             case 'sendSpy': $caption = 'Отправить шпиона'; $file = '_island'; break;
             case 'colonize': $caption = 'Колонизация'; $file = '_island'; break;
             case 'premiumTradeAdvisor': $caption = 'Обзор построек'; $file = 'tradeAdvisor'; break;
+            case 'highscore': $caption = 'Топ-лист игры'; $file = 'null'; break;
             default:
                  $file = $location; break;
             break;

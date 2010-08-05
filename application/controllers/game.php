@@ -750,6 +750,27 @@ class Game extends Controller {
         }
     }
 
+    function highscore()
+    {
+        $options['offset'] = (isset($_POST['offset']) and $_POST['offset'] > 0) ? $_POST['offset'] : 0;
+        $options['highscoreType'] = isset($_POST['highscoreType']) ? $_POST['highscoreType'] : 'score';
+        $users = $this->db->get($this->session->userdata('universe').'_users');
+        $this->db->order_by("points", "desc");
+        switch($options['highscoreType'])
+        {
+            case 'building_score_main': $this->db->order_by("points_buildings", "desc"); break;
+            case 'building_score_secondary': $this->db->order_by("points_levels", "desc"); break;
+            case 'research_score_main': $this->db->order_by("points_research", "desc"); break;
+            case 'research_score_secondary': $this->db->order_by("points_complete", "desc"); break;
+            case 'army_score_main': $this->db->order_by("points_army", "desc"); break;
+            case 'trader_score_secondary': $this->db->order_by("points_gold", "desc"); break;
+
+            default: $this->db->order_by("points", "desc"); break;
+        }
+        $users100 = $this->db->get($this->session->userdata('universe').'_users', 100, $options['offset']*100);
+        $this->show('highscore', $users, $users100, $options);
+    }
+
         function show($location, $param1 = 0, $param2 = 0, $param3 = 0)
         {
             $this->load->view('game_index',array('page' => $location, 'param1' => $param1, 'param2' => $param2, 'param3' => $param3));

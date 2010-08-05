@@ -1,6 +1,7 @@
 <div id="mainview">
     <h1>Создать сообщение</h1>
     <p>Вы можете написать сообщение другим игрокам или предложить им какой-либо договор - по мере того как Вы исследовали различные типы договоров.</p>
+
     <div id="notice">
         <form action="<?=$this->config->item('base_url')?>actions/messages/send/<?=$param1?>/" method="post">
             <div id="mailRecipient">

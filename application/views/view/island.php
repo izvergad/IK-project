@@ -37,7 +37,7 @@
                         <a href="<?=$this->config->item('base_url')?>game/reportPlayer/<?=$this->Island_Model->users[$i]->id?>/" class="reportPlayer" title="Доложить об этом игроке Игровому Оператору..."><img src="<?=$this->config->item('style_url')?>skin/layout/icon-kick.gif" alt="Пожаловаться"></a>
 <?}?>
                 </li>
-                <li class="name"><span class="textLabel">Баллы: </span>0</li>
+                <li class="name"><span class="textLabel">Баллы: </span><?=floor($this->Island_Model->users[$i]->points)?></li>
                 <li class="ally"><span class="textLabel">Альянс: </span>-</li>
                 <!--<li class="noobModeInfo">Игрок под защитой богов.</li>-->
             </ul>
@@ -57,6 +57,7 @@
                     </a>
                 </li>
 <?}}?>
+<?if($this->Island_Model->users[$i]->id != $this->Player_Model->user->id){?>
 <?if($this->Player_Model->now_town->spyes == 0){?>
                 <li class="espionage disabled" title="Шпионы недоступны!">
                     <span class="textLabel">Отправить шпиона</span>
@@ -67,6 +68,7 @@
                         <span class="textLabel">Отправить шпиона</span>
                     </a>
                 </li>
+<?}?>
 <?}?>
             </ul>
         </li>

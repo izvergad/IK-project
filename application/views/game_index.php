@@ -6,7 +6,19 @@
         <meta name="language" content="ru">
         <meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков заключается в управлении народом в древнем мире, основывая города, ведя торговлю и завоевывая другие острова.">
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
+<?if($this->Player_Model->now_town->build_start > 0){
+    $level_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_level';
+    $type_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_type';
+    $level = $this->Player_Model->now_town->$level_text;
+    $type = $this->Player_Model->now_town->$type_text;
+    $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
+    $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
+    $ostalos = $end_date - time();
+?>
+        <title>Икариам - <?=format_time($ostalos)?> - Мир <?=ucfirst($this->session->userdata('universe'))?></title>
+<?}else{?>
         <title>Икариам - Мир <?=ucfirst($this->session->userdata('universe'))?></title>
+<?}?>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link href="<?=$this->config->item('style_url')?>skin/ik_common_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
         <link href="<?=$this->config->item('style_url')?>skin/ik_<?=$page?>_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
@@ -447,7 +459,7 @@
                     </li>
                     <li class="serverTime">
                         <a>
-                            <span class="textLabel" id="servertime">Обновление времени..</span>
+                            <span class="textLabel" id="servertime"><?=date('d.m.Y H:i:s',time())?></span>
                         </a>
                     </li>
                 </ul>
@@ -499,27 +511,16 @@ Event.onDOMReady( function() {
     ToolTips();
     replaceSelect(Dom.get("citySelect"));
 });
-<?/*
+
 <?
-    $resource_level = $this->Player_Model->now_island->wood_level;
-    $resource_cost = $this->Data_Model->island_cost(0, $resource_level);
-    $resource_add = 0;
-    if ($this->Player_Model->now_town->workers > $resource_cost['workers'])
-    {
-        $resource_add = (($resource_cost['workers']/3600))*(1-$this->Player_Model->corruption[$this->Player_Model->now_town->id])*($this->Player_Model->plus_wood);
-        $resource_add = $resource_add + ((($this->Player_Model->now_town->workers-$resource_cost['workers'])*0.125/3600))*(1-$this->Player_Model->corruption[$this->Player_Model->now_town->id])*($this->Player_Model->plus_wood);
-    }
-    else
-    {
-        $resource_add = (($this->Player_Model->now_town->workers/3600))*(1-$this->Player_Model->corruption[$this->Player_Model->now_town->id])*($this->Player_Model->plus_wood);
-    }
+    
 ?>
 var woodCounter = getResourceCounter({
 	startdate: <?=time()?>,
 	interval: 2000,
 	available: <?=$this->Player_Model->now_town->wood?>,
 	limit: [0, <?=$this->Player_Model->capacity[$this->Player_Model->town_id]?>],
-	production: <?=$resource_add?>,
+	production: <?=$this->Player_Model->resource_production_bonus[$this->Player_Model->town_id]?>,
 	valueElem: "value_wood"
 	});
 if(woodCounter) {
@@ -528,26 +529,12 @@ if(woodCounter) {
 		});
 	}
 <?$res_type = $this->Data_Model->resource_class_by_type($this->Player_Model->now_island->trade_resource)?>
-<?
-    $tradegood_level = $this->Player_Model->now_island->trade_level;
-    $tradegood_cost = $this->Data_Model->island_cost(0, $tradegood_level);
-    $tradegood_add = 0;
-    if ($this->Player_Model->now_town->tradegood > $tradegood_cost['workers'])
-    {
-        $tradegood_add = (($tradegood_cost['workers']/3600))*(1-$this->Player_Model->corruption[$this->Player_Model->now_town->id]);
-        $tradegood_add = $resource_add + ((($this->Player_Model->now_town->tradegood-$tradegood_cost['workers'])*0.125/3600))*(1-$this->Player_Model->corruption[$this->Player_Model->now_town->id]);
-    }
-    else
-    {
-        $tradegood_add = (($this->Player_Model->now_town->tradegood/3600))*(1-$this->Player_Model->corruption[$this->Player_Model->now_town->id]);
-    }
-?>
 var tradegoodCounter = getResourceCounter({
 	startdate: <?=time()?>,
 	interval: 2000,
  	available: <?=$this->Player_Model->now_town->$res_type?>,
 	limit: [0, <?=$this->Player_Model->capacity[$this->Player_Model->town_id]?>],
-	production: <?=$tradegood_add?>,
+	production: <?=$this->Player_Model->tradegood_production_bonus[$this->Player_Model->town_id]?>,
 		valueElem: "value_<?=$res_type?>"
 	});
 if(tradegoodCounter) {
@@ -555,7 +542,7 @@ if(tradegoodCounter) {
 		IKARIAM.currentCity.resources.marble = tradegoodCounter.currentRes;
 		});
 	}
-*/?>
+
 var localTime = new Date();
 var startServerTime = localTime.getTime() - (3600000) - localTime.getTimezoneOffset()*60*1000; // GMT+1+Sommerzeit - offset
 var obj_ServerTime = 0;
@@ -588,14 +575,7 @@ function jsTitleTag(nextETA) {
     return cnt;
 }
 
-<?if($this->Player_Model->now_town->build_start > 0){
-    $level_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_level';
-    $type_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_type';
-    $level = $this->Player_Model->now_town->$level_text;
-    $type = $this->Player_Model->now_town->$type_text;
-    $cost = $this->Data_Model->building_cost($type, $level, $this->Player_Model->research, $this->Player_Model->levels[$this->Player_Model->town_id]);
-    $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
-?>
+<?if($this->Player_Model->now_town->build_start > 0){?>
 titleTag = new jsTitleTag(<?=$end_date?>)
 <?}?>
 

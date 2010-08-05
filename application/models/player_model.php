@@ -37,6 +37,8 @@ class Player_Model extends Model
                 // Загружаем исследования
                 $this->Data_Model->Load_Research($id);
                 $this->research =& $this->Data_Model->temp_research_db[$id];
+                // Очки
+                $this->user->points_army = 0;
                 
                 $this->Load_Ways();
                 
@@ -109,6 +111,7 @@ class Player_Model extends Model
                                 $cost = $this->Data_Model->army_cost_by_type($a, $this->research, $this->levels[$town->id]);
                                 $this->saldo[$town->id] = $this->saldo[$town->id] - ($cost['gold']*$this->armys[$town->id]->$class);
                                 $this->army_gold_need[$town->id] = $this->army_gold_need[$town->id] + ($cost['gold']*$this->armys[$town->id]->$class);
+                                $this->user->points_army = $this->user->points_army + ($cost['wood']+$cost['wine']+$cost['crystal']+$cost['sulfur'])*0.02;
                                 
                                 $this->units_count[$town->id] = ($a <= 14) ? $this->units_count[$town->id] + $this->armys[$town->id]->$class : $this->units_count[$town->id];
                             }
