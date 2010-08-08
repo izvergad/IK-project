@@ -37,6 +37,7 @@ class Game extends Controller {
                     $this->load->model('View_Model');
                     
                 }
+                $this->lang->load('game_index');
 	}
 
 

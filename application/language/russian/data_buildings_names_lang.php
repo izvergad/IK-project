@@ -1,0 +1,29 @@
+<?php
+
+$lang['building1_name'] = 'Ратуша';
+$lang['building2_name'] = 'Торговый порт';
+$lang['building3_name'] = 'Академия';
+$lang['building4_name'] = 'Верфь';
+$lang['building5_name'] = 'Казарма';
+$lang['building6_name'] = 'Склад';
+$lang['building7_name'] = 'Городская стена';
+$lang['building8_name'] = 'Таверна';
+$lang['building9_name'] = 'Музей';
+$lang['building10_name'] = 'Дворец';
+$lang['building11_name'] = 'Посольство';
+$lang['building12_name'] = 'Рынок';
+$lang['building13_name'] = 'Мастерская';
+$lang['building14_name'] = 'Укрытие';
+$lang['building15_name'] = 'Резиденция губернатора';
+$lang['building16_name'] = 'Хижина Лесничего';
+$lang['building17_name'] = 'Каменоломня';
+$lang['building18_name'] = 'Стеклодувная Мастерская';
+$lang['building19_name'] = 'Винодельня';
+$lang['building20_name'] = 'Башня Алхимика';
+$lang['building21_name'] = 'Плотницкая мастерская';
+$lang['building22_name'] = 'Бюро Архитектора';
+$lang['building23_name'] = 'Оптика';
+$lang['building24_name'] = 'Винный погреб';
+$lang['building25_name'] = 'Полигон Пиротехника';
+$lang['building26_name'] = 'Храм';
+$lang['building0_name'] = 'Пустырь';

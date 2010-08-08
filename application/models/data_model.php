@@ -100,13 +100,14 @@ class Data_Model extends Model
      */
     function island_building_by_resource($id)
     {
+        $this->lang->load('data_island_buildings');
         switch($id)
         {
-            case 1: return 'Виноградники'; break;
-            case 2: return 'Карьер'; break;
-            case 3: return 'Шахта добычи хрусталя'; break;
-            case 4: return 'Выработка серы'; break;
-            default: return 'Лес'; break;
+            case 1: return $this->lang->line('island_building_wine'); break;
+            case 2: return $this->lang->line('island_building_marble'); break;
+            case 3: return $this->lang->line('island_building_crystal'); break;
+            case 4: return $this->lang->line('island_building_sulfur'); break;
+            default: return $this->lang->line('island_building_wood'); break;
         }
     }
 
@@ -117,31 +118,32 @@ class Data_Model extends Model
      */
     function army_name_by_type($type)
     {
+        $this->lang->load('data_army_names');
         switch($type)
         {
-            case 1: return 'Гоплит'; break;
-            case 2: return 'Паровой гигант'; break;
-            case 3: return 'Копейщик'; break;
-            case 4: return 'Мечник'; break;
-            case 5: return 'Пращник'; break;
-            case 6: return 'Лучник'; break;
-            case 7: return 'Стрелок'; break;
-            case 8: return 'Таран'; break;
-            case 9: return 'Катапульта'; break;
-            case 10: return 'Мортира'; break;
-            case 11: return 'Гирокоптер'; break;
-            case 12: return 'Бомбардировщик'; break;
-            case 13: return 'Повар'; break;
-            case 14: return 'Доктор'; break;
-            case 15: return 'Варвар с топором'; break;
-            case 16: return 'Корабль с тараном'; break;
-            case 17: return 'Огнеметный корабль'; break;
-            case 18: return 'Пароход с тараном'; break;
-            case 19: return 'Корабль с баллистой'; break;
-            case 20: return 'Корабль с катапультой'; break;
-            case 21: return 'Корабль с мортирой'; break;
-            case 22: return 'Подводная лодка'; break;
-            case 23: return 'Сухогруз'; break;
+            case 1: return $this->lang->line('army1_name'); break;
+            case 2: return $this->lang->line('army2_name'); break;
+            case 3: return $this->lang->line('army3_name'); break;
+            case 4: return $this->lang->line('army4_name'); break;
+            case 5: return $this->lang->line('army5_name'); break;
+            case 6: return $this->lang->line('army6_name'); break;
+            case 7: return $this->lang->line('army7_name'); break;
+            case 8: return $this->lang->line('army8_name'); break;
+            case 9: return $this->lang->line('army9_name'); break;
+            case 10: return $this->lang->line('army10_name'); break;
+            case 11: return $this->lang->line('army11_name'); break;
+            case 12: return $this->lang->line('army12_name'); break;
+            case 13: return $this->lang->line('army13_name'); break;
+            case 14: return $this->lang->line('army14_name'); break;
+            case 15: return $this->lang->line('army15_name'); break;
+            case 16: return $this->lang->line('army16_name'); break;
+            case 17: return $this->lang->line('army17_name'); break;
+            case 18: return $this->lang->line('army18_name'); break;
+            case 19: return $this->lang->line('army19_name'); break;
+            case 20: return $this->lang->line('army20_name'); break;
+            case 21: return $this->lang->line('army21_name'); break;
+            case 22: return $this->lang->line('army22_name'); break;
+            case 23: return $this->lang->line('army23_name'); break;
         }
     }
 
@@ -152,31 +154,32 @@ class Data_Model extends Model
      */
     function army_desc_by_type($type)
     {
+        $this->lang->load('data_army_descs');
         switch($type)
         {
-            case 1: return 'Гоплиты - тяжелобронированные копейщики. Они составляют сердце греческой армии. В боевом режиме "Фаланга" - они представляют собой устрашающую стену копий и щитов.'; break;
-            case 2: return 'Эти крепкие, как сталь, гиганты уже одним своим видом вселяют ужас в самых стойких солдат неприятеля. Один такой монстр способен справиться с десятками обычных солдат. Камни, стрелы и мечи не причиняют ему вреда.'; break;
-            case 3: return 'Копейщики призываются из сельских жителей и имеют примитивную броню и легкое копье в качестве оружия. Они не способны противостоять профессиональной армии.'; break;
-            case 4: return 'Мечники обычно слабо защищены и дерутся без щитов, чтобы сохранить подвижность. Так они могут обходить фаланги, чтобы атаковать их со стороны.'; break;
-            case 5: return 'Пращники очень эффективны на поле боя: их навыки могут часто пригодиться во время сражений, а их содержание не требует специального вооружения и поэтому дешево.'; break;
-            case 6: return 'Луки - популярное охотничье оружие. Не составляет труда найти среди жителей лучников и обучить их военной науке.'; break;
-            case 7: return 'Стрелок попадает без промаха в любую цель. Только одна шеренга может стрелять, пока остальные перезаряжаются.'; break;
-            case 8: return 'Перед мощным тараном задрожат даже самые прочные и надежные городские стены! Кроме высокой разрушительной силы, в этой боевой машине имеется также место для укрытия солдат от стрел, камней и прочих неприятностей.'; break;
-            case 9: return 'Выстрел катапульты вносит страх в ряды противника! Катапульты могут разрушать каменные стены, но почти бесполезны в обороне.'; break;
-            case 10: return 'Мортиры стреляют разрывными снарядами по стенам осажденного города. Ни одно строение не может противостоять им. Боеприпасы к мортирам трудно достать, поэтому необходимо хорошо целиться, чтобы не расходовать их впустую.'; break;
-            case 11: return 'Эта летающая машина надежна и не зависит от направления ветра. Мы можем атаковать трусливых врагов в небесах.'; break;
-            case 12: return 'Наши изобретатели открыли, что солнце такое горячее потому, что оно притягивает теплый воздух. Поэтому шар, наполненный горячим воздухом, поднимается к солнцу, и наши солдаты могут кидать бомбы сверху на врагов.'; break;
-            case 13: return 'Повара точно знают, как поднять боевой дух солдат - стаканом хорошего вина и миской горячей похлебки. Сытый, отдохнувший солдат - нелегкий противник в бою.'; break;
-            case 14: return 'Доктора помогают раненым солдатам во время боя. Удаляют стрелы, перевязывают раны и прикладывают лед к головам пострадавших от камней, пущенных из пращи.'; break;
-            case 15: return 'Основными военными частями варваров являются воины, которые бросаются сквозь битву с громкими криками, сеящие хаос на своем пути. Однако они не способны пробиться сквозь стройные ряды Греческих Фаланг со своей примитивной броней.'; break;
-            case 16: return 'Оснащенный простым тараном укрепленным на носу, этот корабль является основной силой на море. Дюжина сильных гребцов разгоняют его для того, чтобы протаранить корпус противника. Как правило, этого вполне достаточно, чтобы пустить на дно вражеский корабль.'; break;
-            case 17: return 'На носу этого корабля установлен огнемет, который извергает Греческий огонь на врага. Даже на поверхности воды эта смесь продолжает гореть, создавая огненный покров. Эффективное средство для ближнего боя.'; break;
-            case 18: return 'Изобретение, которое бы изумило даже Герона. Пароход с тараном разгоняется за счет гигантской паровой турбины и гребных колес, чтобы протаранить противника с огромной силой и на большой скорости. Кроме того, этому кораблю не требуется большой экипаж.'; break;
-            case 19: return 'На этом корабле установлена баллиста, которая изначально предназначалась для выстреливания абордажных крюков. Тем не менее, баллиста очень полезна и как точное дальнобойное орудие. Она может поразить вражеский корабль прямо под ватерлинию, но, несмотря на это, баллиста наносит небольшие повреждения.'; break;
-            case 20: return 'Катапульта, установленная на палубе, меньше своего сухопутного аналога из-за недостатка места на корабле. Морские волны делают ее очень неточным, однако катапульта стреляет кувшинами с горящей нефтью, которые оставляют опасные горящие пятна на поверхности воды.'; break;
-            case 21: return 'Корабль с мортирой имеет специально расширенный корпус с большим водоизмещением, поэтому он способен выдерживать огромную отдачу мортиры. И если у снаряда правильно рассчитать длину фитиля, то его мощный взрыв прогремит прямо над палубой противника.'; break;
-            case 22: return 'Лодка, которая плавает под водой – это лучшее морское оружие. Корабли абсолютно беззащитны перед ними. Но для того, чтобы противостоять Вашим подводным лодкам, врагу достаточно иметь свои.'; break;
-            case 23: return 'Торговые корабли - один из важнейших элементов для развития империи. Их можно использовать как для перевозки мирных товаров, так и для военных нужд.'; break;
+            case 1: return $this->lang->line('army1_desc'); break;
+            case 2: return $this->lang->line('army2_desc'); break;
+            case 3: return $this->lang->line('army3_desc'); break;
+            case 4: return $this->lang->line('army4_desc'); break;
+            case 5: return $this->lang->line('army5_desc'); break;
+            case 6: return $this->lang->line('army6_desc'); break;
+            case 7: return $this->lang->line('army7_desc'); break;
+            case 8: return $this->lang->line('army8_desc'); break;
+            case 9: return $this->lang->line('army9_desc'); break;
+            case 10: return $this->lang->line('army10_desc'); break;
+            case 11: return $this->lang->line('army11_desc'); break;
+            case 12: return $this->lang->line('army12_desc'); break;
+            case 13: return $this->lang->line('army13_desc'); break;
+            case 14: return $this->lang->line('army14_desc'); break;
+            case 15: return $this->lang->line('army15_desc'); break;
+            case 16: return $this->lang->line('army16_desc'); break;
+            case 17: return $this->lang->line('army17_desc'); break;
+            case 18: return $this->lang->line('army18_desc'); break;
+            case 19: return $this->lang->line('army19_desc'); break;
+            case 20: return $this->lang->line('army20_desc'); break;
+            case 21: return $this->lang->line('army21_desc'); break;
+            case 22: return $this->lang->line('army22_desc'); break;
+            case 23: return $this->lang->line('army23_desc'); break;
         }
     }
 
@@ -377,35 +380,36 @@ class Data_Model extends Model
      */
     function building_name_by_type($type)
     {
+        $this->lang->load('data_buildings_names');
         switch($type)
         {
-            case 1: return 'Ратуша'; break;
-            case 2: return 'Торговый порт'; break;
-            case 3: return 'Академия'; break;
-            case 4: return 'Верфь'; break;
-            case 5: return 'Казарма'; break;
-            case 6: return 'Склад'; break;
-            case 7: return 'Городская стена'; break;
-            case 8: return 'Таверна'; break;
-            case 9: return 'Музей'; break;
-            case 10: return 'Дворец'; break;
-            case 11: return 'Посольство'; break;
-            case 12: return 'Рынок'; break;
-            case 13: return 'Мастерская'; break;
-            case 14: return 'Укрытие'; break;
-            case 15: return 'Резиденция губернатора'; break;
-            case 16: return 'Хижина Лесничего'; break;
-            case 17: return 'Каменоломня'; break;
-            case 18: return 'Стеклодувная Мастерская'; break;
-            case 19: return 'Винодельня'; break;
-            case 20: return 'Башня Алхимика'; break;
-            case 21: return 'Плотницкая мастерская'; break;
-            case 22: return 'Бюро Архитектора'; break;
-            case 23: return 'Оптика'; break;
-            case 24: return 'Винный погреб'; break;
-            case 25: return 'Полигон Пиротехника'; break;
-            case 26: return 'Храм'; break;
-            default: return 'Пустырь'; break;
+            case 1: return $this->lang->line('building1_name'); break;
+            case 2: return $this->lang->line('building2_name'); break;
+            case 3: return $this->lang->line('building3_name'); break;
+            case 4: return $this->lang->line('building4_name'); break;
+            case 5: return $this->lang->line('building5_name'); break;
+            case 6: return $this->lang->line('building6_name'); break;
+            case 7: return $this->lang->line('building7_name'); break;
+            case 8: return $this->lang->line('building8_name'); break;
+            case 9: return $this->lang->line('building9_name'); break;
+            case 10: return $this->lang->line('building10_name'); break;
+            case 11: return $this->lang->line('building11_name'); break;
+            case 12: return $this->lang->line('building12_name'); break;
+            case 13: return $this->lang->line('building13_name'); break;
+            case 14: return $this->lang->line('building14_name'); break;
+            case 15: return $this->lang->line('building15_name'); break;
+            case 16: return $this->lang->line('building16_name'); break;
+            case 17: return $this->lang->line('building17_name'); break;
+            case 18: return $this->lang->line('building18_name'); break;
+            case 19: return $this->lang->line('building19_name'); break;
+            case 20: return $this->lang->line('building120_name'); break;
+            case 21: return $this->lang->line('building21_name'); break;
+            case 22: return $this->lang->line('building22_name'); break;
+            case 23: return $this->lang->line('building23_name'); break;
+            case 24: return $this->lang->line('building24_name'); break;
+            case 25: return $this->lang->line('building25_name'); break;
+            case 26: return $this->lang->line('building26_name'); break;
+            default: return $this->lang->line('building0_name'); break;
         }
     }
 
@@ -416,34 +420,35 @@ class Data_Model extends Model
      */
     function building_desc_by_type($type)
     {
+        $this->lang->load('data_buildings_descs');
         switch($type)
         {
-            case 1: return 'В центре города расположена ратуша, через которую проходят все городские дела. Работники ратуши с удовольствием проинформируют Вас о местном населении. Каждое улучшение ратуши увеличивает максимальное число граждан в этом городе.'; break;
-            case 2: return 'Порт - это Ваши ворота в мир. Здесь можно нанять торговые суда и приготовить их для дальних странствий. Вы можете также получать ценные товары изо всех уголков мира. В больших торговых портах Ваши суда будут загружены быстрее.'; break;
-            case 3: return 'Академия - это источник мудрости, где древние знания применяются в сочетании с современными технологиями. Мудрейшие головы Вашего города толпятся у входа и ждут, когда наконец перед ними распахнутся двери! Но учтите, что каждый ученый нуждается в своей собственной лаборатории, которая стоит денег. Чем больше академия, тем больше ученых Вы можете использовать одновременно.'; break;
-            case 4: return 'Чем была бы островная империя без флота? На верфи могучие боевые корабли готовятся для долгих путешествий по океанам. Пусть все семь морей дрожат перед ними! По мере улучшения верфи появляется возможность закладывать новые виды кораблей и скорость их постройки увеличивается.'; break;
-            case 5: return 'В казарме буйная молодёжь проходит хорошую школу и превращается в смелых бойцов. Ваши солдаты умеют обращаться с мечами, копьями и катапультами, а также в состоянии самостоятельно управлять мощными боевыми машинами. По мере улучшения казармы появляется возможность найма новых видов войск и увеличивается скорость их обучения.'; break;
-            case 6: return 'Часть Ваших ресурсов хранится на складе, предлагая им отличную защиту от воров, а также от неблагоприятных погодных условий, птиц, мелкого зверья и прочих вредителей. Заведующий складом обладает детальной информацией о всех запасах. Улучшение склада позволит защитить большее количество ресурсов от внешних условий.'; break;
-            case 7: return 'Городская стена защитит Ваших граждан не только от солнца, но и от врагов. Но помните, что противник не спит: он будет пытаться пробить бреши в стене или преодолеть ее каким-либо другим образом.'; break;
-            case 8: return 'После окончания работы нет ничего более приятного, чем кувшин вина - поэтому таверна считается очень популярным местом среди Ваших граждан. Улучшив настроение приятной порцией вина, они начинают петь песни, символизируя таким образом конец трудового дня. Каждое улучшение таверны позволяет Вам разливать больше вина для утомившихся граждан.'; break;
-            case 9: return 'В музее Ваши граждане могут подивиться на культурные достижения других народов. Чтобы устраивать большие выставки, необходимо улучшать музей. Каждое улучшение музея позволяет Вам выставлять дополнительные экспонаты.'; break;
-            case 10: return 'Дворец - это место, из которого происходит управление империей. Отсюда можно, помимо занятия имперскими делами, наслаждаться превосходным видом на море. Каждое улучшение дворца Вашей столицы позволяет строить новую колонию.'; break;
-            case 11: return 'Посольство - шумное место, где кипит бурная деятельность: дипломаты со всех континентов договариваются о контрактах, заключают соглашения и создают альянсы. Для увеличения численности альянса Вам необходимо улучшать своё посольство. Каждый уровень посольства увеличивает Ваши баллы дипломатии. Начиная с 3-го уровня у Вас появляется возможность основать свой альянс.'; break;
-            case 12: return 'Торговцы и купцы заключают свои сделки в здании рынка. Там всегда можно найти подходящую сделку или урвать лакомый кусочек. Купцы из дальних стран предпочитают заезжать на крупные и известные рынки. Радиус действия Вашего рынка расширяется с каждым вторым улучшением.'; break;
-            case 13: return 'Наиболее квалифицированные работники города заняты в мастерской, где они внедряют новейшие изобретения в улучшение снаряжения для войск и оборудование для военных кораблей. Каждая стадия улучшения мастерской позволит выполнять больше усовершенствований для войск и судов.'; break;
-            case 14: return 'У мудрого лидера всегда имеется информация как о врагах,так и о союзниках. Укрытие позволяет Вам нанимать шпионов, которые предоставят конфиденциальную информацию о происшествиях в других городах. Чем больше укрытие, тем больше шпионов можно нанять.'; break;
-            case 15: return 'Губернатор колонии гарантирует, что все ежедневные административные задачи выполняются должным образом. Таким образом он понижает уровень упадка Вашей колонии. Резиденция губернатора должна быть улучшена до дворца, если Вы захотите перенести столицу.'; break;
-            case 16: return 'Сильные дровосеки способны вырубать даже самые большие деревья. Но они также знают, что на месте старых нужно сажать новые деревья, чтобы непрерывно получать лучшую древесину для строительства наших зданий. Каждый уровень строения увеличивает добычу стройматериалов на 2%.'; break;
-            case 17: return 'Обученный каменщик подберёт, поломает и принесёт мрамор нужного размера. С помощью него наши строители всегда будут обеспечены нужными каменными блоками для строительства. С каждым уровнем расширения каменоломни добыча мрамора увеличивается на 2%.'; break;
-            case 18: return 'Обработка хрусталя и надувка стекла - вот чем занимаются здесь мастера, знающие все тонкости производства. Именно поэтому наши сверкающие шедевры из стекла настолько прочны, что практически никогда не ломаются. Каждый уровень строения увеличивает добычу хрусталя на 2%.'; break;
-            case 19: return 'Виноделы выбирают только самые солнечные холмы чтобы покрыть их зеленым успокоением из виноградных лоз. Так будет выращен и отобран самый лучший виноград для урожая. С каждым уровнем расширения винодельни добыча винограда увеличится на 2%.'; break;
-            case 20: return 'Когда дует западный ветер, сернистый запах заполняет улицы вокруг лаборатории, и многие жители не покидают дома без затычек для носа. Наши алхимики непрерывно работают над поиском идеальной смеси, чтобы добывать из шахты ещё больше серы. Каждый уровень строения увеличивает добычу серы на 2%.'; break;
-            case 21: return 'Умелыми плотниками используется только самая лучшая древесина, поэтому наши здания крепки и практически не нуждаются в ремонте. Каждый уровень строения уменьшает затраты древесины в городе.'; break;
-            case 22: return 'Компас, линейка и угольник: в Бюро Архитектора есть всё необходимое для построения ровных стен и устойчивых крыш. Правильно спроектированным зданиям потребуется намного меньше мрамора. Каждый уровень строения уменьшает затраты мрамора на 1% в Вашем городе.'; break;
-            case 23: return 'Линзы и лупы позволяют не только чётко видеть нашим учёным или найти важные бумаги на столе, а также они необходимы для изобретения новых технологий, которыми мы так гордимся. У оптика всё в идеальном порядке, что нам может понадобиться, и уж точно ничего не потеряется. С каждым улучшением этого здания расход хрусталя в этом городе уменьшается на 1%.'; break;
-            case 24: return 'Только самые креплёные вина настаиваются в глубоких подвалах нашего города. И винодел проследит, чтобы вино не просочилось никуда и пробежало только по горлам наших жителей. С каждым уровнем расширения погреба потребление вина в городе снижается на 1%.'; break;
-            case 25: return 'Эксперименты пиротехников частенько приводят к воспламенению близлежащих зданий. Но этого не избежать, ведь наши исследователи пробуют новые смеси снова и снова, стараясь оптимизировать расход серы. К счастью, мелкие пожары не очень опасны, поэтому жители, благодарные пиротехникам за красочные фейерверки, зажигающие ночное небо по праздникам, быстро их тушат. Каждый уровень строения уменьшает затраты серы на 1% в городе.'; break;
-            case 26: return 'Храм является местом веры, надежды и размышлений. В нем живут священники, которые превозносят Бога, и распространяют его слова по всему острову. Здесь также можно вызвать чудеса, но лишь в том случае, если Бог получит достаточное уважение.'; break;
+            case 1: return $this->lang->line('building1_desc');
+            case 2: return $this->lang->line('building2_desc');
+            case 3: return $this->lang->line('building3_desc');
+            case 4: return $this->lang->line('building4_desc');
+            case 5: return $this->lang->line('building5_desc');
+            case 6: return $this->lang->line('building6_desc');
+            case 7: return $this->lang->line('building7_desc');
+            case 8: return $this->lang->line('building8_desc');
+            case 9: return $this->lang->line('building9_desc');
+            case 10: return $this->lang->line('building10_desc');
+            case 11: return $this->lang->line('building11_desc');
+            case 12: return $this->lang->line('building12_desc');
+            case 13: return $this->lang->line('building13_desc');
+            case 14: return $this->lang->line('building14_desc');
+            case 15: return $this->lang->line('building15_desc');
+            case 16: return $this->lang->line('building16_desc');
+            case 17: return $this->lang->line('building17_desc');
+            case 18: return $this->lang->line('building18_desc');
+            case 19: return $this->lang->line('building19_desc');
+            case 20: return $this->lang->line('building20_desc');
+            case 21: return $this->lang->line('building21_desc');
+            case 22: return $this->lang->line('building22_desc');
+            case 23: return $this->lang->line('building23_desc');
+            case 24: return $this->lang->line('building24_desc');
+            case 25: return $this->lang->line('building25_desc');
+            case 26: return $this->lang->line('building26_desc');
         }
     }
 
@@ -531,13 +536,14 @@ class Data_Model extends Model
      */
     function resource_name_by_type($type)
     {
+        $this->lang->load('data_resources');
         switch($type)
         {
-            case 1: return 'Виноград'; break;
-            case 2: return 'Мрамор'; break;
-            case 3: return 'Хрусталь'; break;
-            case 4: return 'Сера'; break;
-            default: return 'Стройматериалы'; break;
+            case 1: return $this->lang->line('resource_wine'); break;
+            case 2: return $this->lang->line('resource_marble'); break;
+            case 3: return $this->lang->line('resource_crystal'); break;
+            case 4: return $this->lang->line('resource_sulfur'); break;
+            default: return $this->lang->line('resource_wood'); break;
         }
     }
 
@@ -1030,6 +1036,7 @@ class Data_Model extends Model
      */
     function get_research($way = 1, $id = 1, $research)
     {
+        $this->lang->load('data_researches');
         if ($way == 1 and $id > 14){$id = 14;}
         if ($way == 2 and $id > 15){$id = 15;}
         if ($way == 3 and $id > 16){$id = 16;}
@@ -1047,94 +1054,94 @@ class Data_Model extends Model
                 switch($id)
                 {
                     case 1:
-                        $return['name'] = 'Плотницкое дело';
-                        $return['desc'] = 'Древесина, из зеленых лесов с нашего острова, достаточно крепкая даже для щитов наших фаланг. И деревянные части строения без хлопот выдержат крыши наших зданий. Но чтобы все было должным образом, дерево должно быть тщательно отобрано и обработано! Плотник в нашем городе позаботится об этом и мы будем использовать намного меньше стройматериалов при строительстве! Позволяет: Построение Плотницкой мастерской';
+                        $return['name'] = $this->lang->line('research1_1_name');
+                        $return['desc'] = $this->lang->line('research1_1_desc');
                         $return['points'] = 8;
                     break;
                     case 2:
-                        $return['name'] = 'Палубное вооружение';
-                        $return['desc'] = 'Наши ученые изобрели способ установки больших баллист на корабли. Вращающийся станок со временем сможет нести все более и более мощные типы орудий. Позволяет: Постройка кораблей с баллистой на верфи';
+                        $return['name'] = $this->lang->line('research1_2_name');
+                        $return['desc'] = $this->lang->line('research1_2_desc');
                         $return['points'] = 12;
                         if ($research->res1_1 == 0){ $return['need_way'] = 1; $return['need_id'] = 1; }
                         elseif ($research->res4_1 == 0){ $return['need_way'] = 4; $return['need_id'] = 1;  }
                     break;
                     case 3:
-                        $return['name'] = 'Ремонт кораблей';
-                        $return['desc'] = 'Своевременный ремонт и профилактическое обслуживание кораблей позволит им служить дольше и эффективнее. Эффект: Содержание кораблей стоит на 2% меньше';
+                        $return['name'] = $this->lang->line('research1_3_name');
+                        $return['desc'] = $this->lang->line('research1_3_desc');
                         $return['points'] = 24;
                         if ($research->res1_2 == 0){ $return['need_way'] = 1; $return['need_id'] = 2; }
                     break;
                     case 4:
-                        $return['name'] = 'Экспансия';
-                        $return['desc'] = 'Пришла пора великих открытий! Мы обнаружили другие острова и теперь сможем строить больше городов и добывать больше ресурсов. Наша империя растет! Позволяет: Постройка дворцов, основание колоний';
+                        $return['name'] = $this->lang->line('research1_4_name');
+                        $return['desc'] = $this->lang->line('research1_4_desc');
                         $return['points'] = 336;
                         if ($research->res1_3 == 0){ $return['need_way'] = 1; $return['need_id'] = 3; }
                         elseif ($research->res2_3 == 0){ $return['need_way'] = 2; $return['need_id'] = 3; }
                     break;
                     case 5:
-                        $return['name'] = 'Другие культуры';
-                        $return['desc'] = 'Знакомство с нравами и обычаями других народов позволит нам сделать значительный шаг вперед на пути собственного прогресса. Дружеские встречи и беседы могут сотворить истинные чудеса и способствовать созданию новых союзов и поддержанию дружественных отношений в целом. Для приема послов из других стран и организации банкетов нам необходимо удобное и просторное здание. Позволяет: Строительство Посольств';
+                        $return['name'] = $this->lang->line('research1_5_name');
+                        $return['desc'] = $this->lang->line('research1_5_desc');
                         $return['points'] = 1032;
                         if ($research->res1_4 == 0){ $return['need_way'] = 1; $return['need_id'] = 4; }
                         elseif ($research->res3_3 == 0){ $return['need_way'] = 3; $return['need_id'] = 3; }
                     break;
                     case 6:
-                        $return['name'] = 'Смола';
-                        $return['desc'] = 'Наши ученые открыли новый вид смолы, идеально подходящей для осмолки кораблей и увеличения срока их службы. Эффект: Содержание кораблей стоит на 4% меньше';
+                        $return['name'] = $this->lang->line('research1_6_name');
+                        $return['desc'] = $this->lang->line('research1_6_desc');
                         $return['points'] = 2236;
                         if ($research->res1_5 == 0){ $return['need_way'] = 1; $return['need_id'] = 5; }
                     break;
                     case 7:
-                        $return['name'] = 'Рынок';
-                        $return['desc'] = 'Самые необычные товары с других островов поступают на наши рынки. Здесь мы можем заключать соглашения с торговцами, чтобы получить доступ ко всем необходимым нам ресурсам. Позволяет: Торговые соглашения.';
+                        $return['name'] = $this->lang->line('research1_7_name');
+                        $return['desc'] = $this->lang->line('research1_7_desc');
                         $return['points'] = 3264;
                         if ($research->res1_6 == 0){ $return['need_way'] = 1; $return['need_id'] = 6; }
                         elseif ($research->res2_5 == 0){ $return['need_way'] = 2; $return['need_id'] = 5; }
                     break;
                     case 8:
-                        $return['name'] = 'Греческий огонь';
-                        $return['desc'] = 'Огонь, который невозможно потушить водой, даст нам небывалые преимущества в морских битвах. Скоро все моря станут нашими! Позволяет: Постройка огненных кораблей';
+                        $return['name'] = $this->lang->line('research1_8_name');
+                        $return['desc'] = $this->lang->line('research1_8_desc');
                         $return['points'] = 7020;
                         if ($research->res1_7 == 0){ $return['need_way'] = 1; $return['need_id'] = 7; }
                         elseif ($research->res3_4 == 0){ $return['need_way'] = 3; $return['need_id'] = 4; }
                     break;
                     case 9:
-                        $return['name'] = 'Противовес';
-                        $return['desc'] = 'Наши ученые разработали новый тип кораблей с катапультным противовесом, имеющих высокую огневую мощь. При этом они достаточно надежны и не накреняются при выстреле. Позволяет: Строительство катапультных судов на верфи';
+                        $return['name'] = $this->lang->line('research1_9_name');
+                        $return['desc'] = $this->lang->line('research1_9_desc');
                         $return['points'] = 9936;
                         if ($research->res1_8 == 0){ $return['need_way'] = 1; $return['need_id'] = 8; }
                         elseif ($research->res2_7 == 0){ $return['need_way'] = 2; $return['need_id'] = 7; }
                     break;
                     case 10:
-                        $return['name'] = 'Дипломатия';
-                        $return['desc'] = 'Один из наших философов написал интересный трактат о войне и мире. Он советует заключение альянсов с другими народами, так как намного легче победить врага совместными усилиями, чем в одиночку. Позволяет: Военные договора.';
+                        $return['name'] = $this->lang->line('research1_10_name');
+                        $return['desc'] = $this->lang->line('research1_10_desc');
                         $return['points'] = 17064;
                         if ($research->res1_9 == 0){ $return['need_way'] = 1; $return['need_id'] = 9; }
                         elseif ($research->res4_8 == 0){ $return['need_way'] = 4; $return['need_id'] = 8; }
                    break;
                     case 11:
-                        $return['name'] = 'Морские карты';
-                        $return['desc'] = 'Наши путешествия станут менее рискованными, если мы занесем на карту все опасные места на море - мели, водовороты и морские пучины. Наши моряки будут знать, как избежать происшествий в плаваниях. Эффект: Содержание кораблей стоит на 8% меньше';
+                        $return['name'] = $this->lang->line('research1_11_name');
+                        $return['desc'] = $this->lang->line('research1_11_desc');
                         $return['points'] = 25632;
                         if ($research->res1_10 == 0){ $return['need_way'] = 1; $return['need_id'] = 10; }
                     break;
                     case 12:
-                        $return['name'] = 'Пароходное колесо';
-                        $return['desc'] = 'Прекрасная новость для моряков: наши ученые изобрели пароходное колесо. Теперь наши корабли получат небывалые возможности! Все морские державы будут трепетать перед нашими могучими флотами! Позволяет: Постройка пароходов на верфи';
+                        $return['name'] = $this->lang->line('research1_12_name');
+                        $return['desc'] = $this->lang->line('research1_12_desc');
                         $return['points'] = 38400;
                         if ($research->res1_11 == 0){ $return['need_way'] = 1; $return['need_id'] = 11; }
                         elseif ($research->res3_7 == 0){ $return['need_way'] = 3; $return['need_id'] = 7; }
                     break;
                     case 13:
-                        $return['name'] = 'Корабельная мортира';
-                        $return['desc'] = 'Нам удалось создать гигантские мортиры небывалой мощности. Только бронированный пароход, имеющий достаточно тяги, может нести такую мортиру и боезапас к ней. Позволяет: Постройка мортирных кораблей на верфи';
+                        $return['name'] = $this->lang->line('research1_13_name');
+                        $return['desc'] = $this->lang->line('research1_13_desc');
                         $return['points'] = 93240;
                         if ($research->res1_12 == 0){ $return['need_way'] = 1; $return['need_id'] = 12; }
                         elseif ($research->res3_9 == 0){ $return['need_way'] = 3; $return['need_id'] = 9; }
                     break;
                     case 14:
-                        $return['name'] = 'Будущее мореходства';
-                        $return['desc'] = 'Наконец-то с помощью последних изобретений мы сможем покорить моря! Наши корабли уже сейчас самые мощные и быстроходные, и мы без страха бороздим на них воды океанов! Эффект: Содержание кораблей стоит на 2% меньше.';
+                        $return['name'] = $this->lang->line('research1_14_name');
+                        $return['desc'] = $this->lang->line('research1_14_desc');
                         $return['points'] = 532800;
                         if ($research->res1_13 == 0){ $return['need_way'] = 1; $return['need_id'] = 13; }
                         elseif ($research->res2_14 == 0){ $return['need_way'] = 2; $return['need_id'] = 14; }
@@ -1147,90 +1154,90 @@ class Data_Model extends Model
                 switch($id)
                 {
                     case 1:
-                        $return['name'] = 'Хранение';
-                        $return['desc'] = 'Мы разработали систему хранения и учета товаров и можем теперь уберечь часть ресурсов даже при атаке врага. Позволяет: Строительство складов';
+                        $return['name'] = $this->lang->line('research2_1_name');
+                        $return['desc'] = $this->lang->line('research2_1_desc');
                         $return['points'] = 12;
                     break;
                     case 2:
-                        $return['name'] = 'Шкив';
-                        $return['desc'] = 'Уникальная идея: веревка, перекинутая через шкив, позволит поднимать большие тяжести минимальными усилиями. Теперь наши рабочие смогут самостоятельно передвигать громадные каменные глыбы, что ускорит процесс строительства. Эффект: на 2% меньше затрат на строительство';
+                        $return['name'] = $this->lang->line('research2_2_name');
+                        $return['desc'] = $this->lang->line('research2_2_desc');
                         $return['points'] = 24;
                         if ($research->res2_1 == 0){ $return['need_way'] = 2; $return['need_id'] = 1; }
                     break;
                     case 3:
-                        $return['name'] = 'Благосостояние';
-                        $return['desc'] = 'Земля полна всевозможных сокровищ! Мы изучили как добывать серу и хрусталь и как выбивать мрамор из скал. Мы научились выращивать виноград на плодородных бескрайних холмах и делать вкусное вино! Новая эра процветания начнется для нас, как только мы научимся использовать с умом все эти ресурсы. Мы можем продавать товары через торговый пост и покупать то что требуется у других торговцев. Эффект: Позволяет производить товары, доступен торговый пост и дается 130 единиц роскоши.';
+                        $return['name'] = $this->lang->line('research2_3_name');
+                        $return['desc'] = $this->lang->line('research2_3_desc');
                         $return['points'] = 112;
                         if ($research->res2_2 == 0){ $return['need_way'] = 2; $return['need_id'] = 2; }
                     break;
                     case 4:
-                        $return['name'] = 'Винный пресс';
-                        $return['desc'] = 'Довольным жизнью гражданам следует веселиться и пить вино, дарованное им Дионисом. Пусть на лицах горожан светятся улыбки! Позволяет: Постройка таверн';
+                        $return['name'] = $this->lang->line('research2_4_name');
+                        $return['desc'] = $this->lang->line('research2_4_desc');
                         $return['points'] = 336;
                         if ($research->res2_3 == 0){ $return['need_way'] = 2; $return['need_id'] = 3; }
                         elseif ($research->res3_1 == 0){ $return['need_way'] = 3; $return['need_id'] = 1; }
                     break;
                     case 5:
-                        $return['name'] = 'Увеличение добычи ресурсов';
-                        $return['desc'] = 'Прошло уже какое-то время с тех пор, как мы узнали и научились использовать сокровища наших островов для своих нужд. Теперь нам нужно получить не только сильных, но и квалифицированных рабочих для своих карьеров, виноградников, серных выработок и шахт добычи хрусталя. Таким образом добыча увеличится и наша цивилизация станет еще богаче, чем когда-либо!';
+                        $return['name'] = $this->lang->line('research2_5_name');
+                        $return['desc'] = $this->lang->line('research2_5_desc');
                         $return['points'] = 1204;
                         if ($research->res2_4 == 0){ $return['need_way'] = 2; $return['need_id'] = 4; }
                         elseif ($research->res1_4 == 0){ $return['need_way'] = 1; $return['need_id'] = 4; }
                     break;
                     case 6:
-                        $return['name'] = 'Геометрия';
-                        $return['desc'] = 'Правильные формы при строительстве, строгие углы и изящная архитектура скоро сделают наши города примером для подражания. Эффект: на 4% меньше затраты на строительство';
+                        $return['name'] = $this->lang->line('research2_6_name');
+                        $return['desc'] = $this->lang->line('research2_6_desc');
                         $return['points'] = 2236;
                         if ($research->res2_5 == 0){ $return['need_way'] = 2; $return['need_id'] = 5; }
                     break;
                     case 7:
-                        $return['name'] = 'Архитектура';
-                        $return['desc'] = 'Хороший дом выстоит при любых условиях. Но он может быть ещё крепче, когда кто-то с ясной головой, точными расчётами и планом построения, позаботится об этом, тогда все стены будут прямыми, а крыша ещё прочнее. Благодаря углу и компасу, наши здания будут более устойчивы и хорошо защищены от дождя. Бюро архитектора сэкономило бы для нас затраты мрамора при строении, только думали бы больше о сбережениях, строя новое здание! Позволяет: Построение Бюро архитектора';
+                        $return['name'] = $this->lang->line('research2_7_name');
+                        $return['desc'] = $this->lang->line('research2_7_desc');
                         $return['points'] = 3672;
                         if ($research->res2_6 == 0){ $return['need_way'] = 2; $return['need_id'] = 6; }
                         elseif ($research->res3_4 == 0){ $return['need_way'] = 3; $return['need_id'] = 4; }
                     break;
                     case 8:
-                        $return['name'] = 'Выходной';
-                        $return['desc'] = 'Хорошо отдохнувший рабочий работает гораздо эффективнее, чем усталый. Поэтому каждый должнен брать один выходной в неделю. Это непременно отразится на уровне довольства граждан! Эффект: Повышение уровня довольства жизнью во всех городах';
+                        $return['name'] = $this->lang->line('research2_8_name');
+                        $return['desc'] = $this->lang->line('research2_8_desc');
                         $return['points'] = 7200;
                         if ($research->res2_7 == 0){ $return['need_way'] = 2; $return['need_id'] = 7; }
                     break;
                     case 9:
-                        $return['name'] = 'Фирменные блюда';
-                        $return['desc'] = 'Наша культура достигла необычайных кулинарных высот! Наши солдаты могут получать самую вкусную и полезную пищу, что является основой для поддержания боеготовности армии. Позволяет: Тренировка поваров в казарме';
+                        $return['name'] = $this->lang->line('research2_9_name');
+                        $return['desc'] = $this->lang->line('research2_9_desc');
                         $return['points'] = 10764;
                         if ($research->res2_8 == 0){ $return['need_way'] = 2; $return['need_id'] = 8; }
                         elseif ($research->res1_7 == 0){ $return['need_way'] = 1; $return['need_id'] = 7; }
                     break;
                     case 10:
-                        $return['name'] = 'Помощь';
-                        $return['desc'] = 'Нашим гражданам необходимо проявить больше ответственности: вместо того чтобы прожигать время, лучше помогли бы рабочим - в шахтах, на лесопилках и виноградниках. Тем самым они принесли бы неимоверную пользу! Позволяет: Дополнительные рабочие места.';
+                        $return['name'] = $this->lang->line('research2_10_name');
+                        $return['desc'] = $this->lang->line('research2_10_desc');
                         $return['points'] = 19908;
                         if ($research->res2_9 == 0){ $return['need_way'] = 2; $return['need_id'] = 9; }
                         elseif ($research->res3_7 == 0){ $return['need_way'] = 3; $return['need_id'] = 7; }
                     break;
                     case 11:
-                        $return['name'] = 'Водяной уровень';
-                        $return['desc'] = 'Мы изобрели водяной уровень, с помощью которого наши здания приобретут геометрически правильные формы. А самое главное - это то, что нам потребуется намного меньше строительных материалов для возведения зданий! Эффект: Строительство зданий стоит на 8% дешевле';
+                        $return['name'] = $this->lang->line('research2_11_name');
+                        $return['desc'] = $this->lang->line('research2_11_desc');
                         $return['points'] = 25632;
                         if ($research->res2_10 == 0){ $return['need_way'] = 2; $return['need_id'] = 10; }
                     break;
                     case 12:
-                        $return['name'] = 'Винный погреб';
-                        $return['desc'] = 'Ах эти ежегодные винные пирушки! Ведь это самая лучшая забава для детей - потоптать виноград для вина, жидкое золото плещется везде и весь город находится на ногах! С виноградом, отобранным опытным виноделом для виноградного пресса у нас бы ничего не утекло. Винодел также позаботится о надлежащем хранении, выдержке и крепости вина. Позволяет: Постройка Винного погреба.';
+                        $return['name'] = $this->lang->line('research2_12_name');
+                        $return['desc'] = $this->lang->line('research2_12_desc');
                         $return['points'] = 48000;
                         if ($research->res2_11 == 0){ $return['need_way'] = 2; $return['need_id'] = 11; }
                     break;
                     case 13:
-                        $return['name'] = 'Государственный аппарат';
-                        $return['desc'] = 'В нашем дворце появилась канцелярия, сотрудники ведут точный учет и статистику. Наконец-то мы сможем заняться строительством новых зданий и их управлением! Позволяет: Дополнительное место для строительства в городах';
+                        $return['name'] = $this->lang->line('research2_13_name');
+                        $return['desc'] = $this->lang->line('research2_13_desc');
                         $return['points'] = 106560;
                         if ($research->res2_12 == 0){ $return['need_way'] = 2; $return['need_id'] = 12; }
                     break;
                     case 14:
-                        $return['name'] = 'Утопия';
-                        $return['desc'] = 'Наши граждане живут в богатстве и процветании. Они счастливы, здоровы, не обременены хлопотами - словом, наслаждаются безоблачной жизнью. Эффект: +200 мест жилья, +200 довольство жизнью в столице';
+                        $return['name'] = $this->lang->line('research2_14_name');
+                        $return['desc'] = $this->lang->line('research2_14_desc');
                         $return['points'] = 241200;
                         if ($research->res2_13 == 0){ $return['need_way'] = 2; $return['need_id'] = 13; }
                         elseif ($research->res1_10 == 0){ $return['need_way'] = 1; $return['need_id'] = 10; }
@@ -1238,8 +1245,8 @@ class Data_Model extends Model
                         elseif ($research->res4_11 == 0){ $return['need_way'] = 4; $return['need_id'] = 11; }
                     break;
                     case 15:
-                        $return['name'] = 'Будущее экономики';
-                        $return['desc'] = 'Наши граждане живут в мире и достатке, торговые прилавки ломятся от деликатесов со всего мира! Улицы содержатся в образцовом порядке, подвоз стройматериалов налажен до безупречности. Эффект: +10 к уровню довольства граждан и +20 к максимальному количеству жителей в каждом городе. Многократное исследование. Эффект умножается на его уровень.';
+                        $return['name'] = $this->lang->line('research2_15_name');
+                        $return['desc'] = $this->lang->line('research2_15_desc');
                         $return['points'] = 532800;
                         if ($research->res2_14 == 0){ $return['need_way'] = 2; $return['need_id'] = 14; }
                         elseif ($research->res1_13 == 0){ $return['need_way'] = 1; $return['need_id'] = 13; }
@@ -1252,85 +1259,85 @@ class Data_Model extends Model
                 switch($id)
                 {
                     case 1:
-                        $return['name'] = 'Колодец';
-                        $return['desc'] = 'Эврика! Колодец на нашем острове! Теперь наши граждане получат воду в любых количествах, а наши поля станут еще более плодородными. Эффект: +50 жилых мест, +50 к уровню довольства в столице';
+                        $return['name'] = $this->lang->line('research3_1_name');
+                        $return['desc'] = $this->lang->line('research3_1_desc');
                         $return['points'] = 24;
                     break;
                     case 2:
-                        $return['name'] = 'Бумага';
-                        $return['desc'] = 'Мы открыли секрет производства бумаги, что позволит нам документировать и сохранять наши достижения. Эффект: На 2% больше баллов исследований';
+                        $return['name'] = $this->lang->line('research3_2_name');
+                        $return['desc'] = $this->lang->line('research3_2_desc');
                         $return['points'] = 30;
                         if ($research->res3_1 == 0){ $return['need_way'] = 3; $return['need_id'] = 1; }
                     break;
                     case 3:
-                        $return['name'] = 'Шпионаж';
-                        $return['desc'] = 'Если некоторые из наших граждан поселятся в чужих городах, они смогут оказать помощь в поставке актуальной информации о жизни в местах их нахождения. Например, о проведении нового исследования или о наличие определённых ресурсов в городах. В случае войны они, возможно, даже смогли бы открыть городские ворота для наших войск. Позволяет: Постройка укрытий.';
+                        $return['name'] = $this->lang->line('research3_3_name');
+                        $return['desc'] = $this->lang->line('research3_3_desc');
                         $return['points'] = 420;
                         if ($research->res3_2 == 0){ $return['need_way'] = 3; $return['need_id'] = 2; }
                         elseif ($research->res2_3 == 0){ $return['need_way'] = 2; $return['need_id'] = 3; }
                     break;
                     case 4:
-                        $return['name'] = 'Религия';
-                        $return['desc'] = 'Человек не способен рационально осмыслить все то, что происходит в мире. И когда он не может объяснить что-либо, за вопросом он обращается к богам. Боги похожи на людей с одной стороны, но они очень отличаются от них с другой. Разве может быть что-то необъяснимое иметь рациональное объяснение? Позволяет: Храмы и Чудеса';
+                        $return['name'] = $this->lang->line('research3_4_name');
+                        $return['desc'] = $this->lang->line('research3_4_desc');
                         $return['points'] = 1428;
                         if ($research->res3_3 == 0){ $return['need_way'] = 3; $return['need_id'] = 3; }
                         elseif ($research->res1_4 == 0){ $return['need_way'] = 1; $return['need_id'] = 4; }
                         elseif ($research->res4_3 == 0){ $return['need_way'] = 4; $return['need_id'] = 3; }
                     break;
                     case 5:
-                        $return['name'] = 'Чернила';
-                        $return['desc'] = 'Письменные принадлежности можно получить из окружающей нас среды: птицы дают нам свои перья, чтобы писать; в море водятся особые виды рыб, которые вырабатывают вещество, используемое для чернил. Теперь мы сможем увековечить наши идеи! Эффект: на 4% больше баллов исследований';
+                        $return['name'] = $this->lang->line('research3_5_name');
+                        $return['desc'] = $this->lang->line('research3_5_desc');
                         $return['points'] = 2652;
                         if ($research->res3_4 == 0){ $return['need_way'] = 3; $return['need_id'] = 4; }
                     break;
                     case 6:
-                        $return['name'] = 'Изобретение';
-                        $return['desc'] = 'В последнее время в академиях часто происходят несчастные случаи, связанные с неудачными экспериментами, прежде всего, со взрывами. Поэтому мы оборудовали специальное помещение для опасных экспериментов, где ученые смогут протестировать все самые смелые идеи - ничего страшного, стены выдержат! Позволяет: Строительство мастерских';
+                        $return['name'] = $this->lang->line('research3_6_name');
+                        $return['desc'] = $this->lang->line('research3_6_desc');
                         $return['points'] = 4320;
                         if ($research->res3_5 == 0){ $return['need_way'] = 3; $return['need_id'] = 5; }
                         elseif ($research->res2_5 == 0){ $return['need_way'] = 2; $return['need_id'] = 5; }
                     break;
                     case 7:
-                        $return['name'] = 'Культурный обмен';
-                        $return['desc'] = 'Наши граждане имеют полное право насладиться шедеврами искусства, созданными талантливыми мастерами со всего света. Точно такое же право имеют и другие народы, которые в свою очередь тоже хотели бы ознакомиться с нашими достижениями искусства. Для этого и существуют музеи! Позволяет: Строительство музеев';
+                        $return['name'] = $this->lang->line('research3_7_name');
+                        $return['desc'] = $this->lang->line('research3_7_desc');
                         $return['points'] = 8694;
                         if ($research->res3_6 == 0){ $return['need_way'] = 3; $return['need_id'] = 6; }
                     break;
                     case 8:
-                        $return['name'] = 'Анатомия';
-                        $return['desc'] = 'Нам удалось значительно расширить свои познания в области анатомии! При их использовании наши врачи в состоянии оказать помощь раненым солдатам непосредственно на поле битвы и быстро вернуть их в строй. Но и это еще не все! Некоторые медики обладают секретом изготовления целительной микстуры, которая повышает стойкость и силу духа солдат. Позволяет: Набор Докторов в Казарме';
+                        $return['name'] = $this->lang->line('research3_8_name');
+                        $return['desc'] = $this->lang->line('research3_8_desc');
                         $return['points'] = 14952;
                         if ($research->res3_7 == 0){ $return['need_way'] = 3; $return['need_id'] = 7; }
                     break;
                     case 9:
-                        $return['name'] = 'Оптика';
-                        $return['desc'] = 'Когда наши ученые изобретают новые вещи, то много стекольных изделий могут перебить, либо они затеряются в необъятных лабораториях, поскольку держать всё в порядке – это не приоритет академии. Если бы оптик заботился не только о качестве линз, но и следил за порядком, зная, что каждый прибор будет возвращен на своё место, то мы бы использовали гораздо меньше хрусталя! Позволяет: Построение оптики';
+                        $return['name'] = $this->lang->line('research3_9_name');
+                        $return['desc'] = $this->lang->line('research3_9_desc');
                         $return['points'] = 21360;
                         if ($research->res3_8 == 0){ $return['need_way'] = 3; $return['need_id'] = 8; }
                         elseif ($research->res2_7 == 0){ $return['need_way'] = 2; $return['need_id'] = 7; }
                     break;
                     case 10:
-                        $return['name'] = 'Эксперименты';
-                        $return['desc'] = 'Наши исследователи хотят проверить свои теории на практике. Эти эксперименты могут значительно ускорить ход исследований, но может потребоваться дополнительное оборудование. Разрешается: приобретение пунктов исследования за хрусталь';
+                        $return['name'] = $this->lang->line('research3_10_name');
+                        $return['desc'] = $this->lang->line('research3_10_desc');
                         $return['points'] = 21360;
                         if ($research->res3_9 == 0){ $return['need_way'] = 3; $return['need_id'] = 9; }
                     break;
                     case 11:
-                        $return['name'] = 'Механическая ручка';
-                        $return['desc'] = 'Гениальное изобретение: механическая ручка! Одному из ученых удалось совершить прорыв в науке и изобрести механизм, который может записывать устную речь. Теперь мы сможем быстро создавать копии нужных документов, а также более эффективно обмениваться идеями ! Эффект: На 8% больше очков исследований';
+                        $return['name'] = $this->lang->line('research3_11_name');
+                        $return['desc'] = $this->lang->line('research3_11_desc');
                         $return['points'] = 31968;
                         if ($research->res3_10 == 0){ $return['need_way'] = 3; $return['need_id'] = 10; }
                     break;
                     case 12:
-                        $return['name'] = 'Полет птицы';
-                        $return['desc'] = 'Теперь мы можем летать, как птицы! Мы научились создавать летательные аппараты, которые поднимут человека в небо. Мы сможем обстреливать врага с высоты птичьего полета. Позволяет: Постройка Гирокоптеров в Казарме.';
+                        $return['name'] = $this->lang->line('research3_12_name');
+                        $return['desc'] = $this->lang->line('research3_12_desc');
                         $return['points'] = 46848;
                         if ($research->res3_11 == 0){ $return['need_way'] = 3; $return['need_id'] = 11; }
                         elseif ($research->res4_6 == 0){ $return['need_way'] = 4; $return['need_id'] = 6; }
                     break;
                     case 13:
-                        $return['name'] = 'Почтовые трубы';
-                        $return['desc'] = 'Чудо свершилось! Теперь мы можем передавать свитки быстро и по назначению с помощью системы почтовых труб. Мы сможем сэкономить на обмене информацией между учеными! Эффект: На 3 ед. золота меньше содержания на каждого ученого';
+                        $return['name'] = $this->lang->line('research3_13_name');
+                        $return['desc'] = $this->lang->line('research3_13_desc');
                         $return['points'] = 144720;
                         if ($research->res3_12 == 0){ $return['need_way'] = 3; $return['need_id'] = 12; }
                         elseif ($research->res1_9 == 0){ $return['need_way'] = 1; $return['need_id'] = 9; }
@@ -1338,22 +1345,22 @@ class Data_Model extends Model
                         elseif ($research->res4_9 == 0){ $return['need_way'] = 4; $return['need_id'] = 9; }
                     break;
                     case 14:
-                        $return['name'] = 'Напорная камера';
-                        $return['desc'] = 'Мы научились строить подводные корабли. Теперь все моря станут нашими! Враги даже не заметят тех, кто топит их корабли! Позволяет: Постройка Подлодок на Верфи';
+                        $return['name'] = $this->lang->line('research3_14_name');
+                        $return['desc'] = $this->lang->line('research3_14_desc');
                         $return['points'] = 209880;
                         if ($research->res3_13 == 0){ $return['need_way'] = 3; $return['need_id'] = 13; }
                         elseif ($research->res1_12 == 0){ $return['need_way'] = 1; $return['need_id'] = 12; }
                         elseif ($research->res4_12 == 0){ $return['need_way'] = 4; $return['need_id'] = 12; }
                     break;
                     case 15:
-                        $return['name'] = 'Принцип Архимеда';
-                        $return['desc'] = 'Нам удалось построить летательный аппарат! Теперь мы сможем запускать в воздух огромные воздушные шары, которые закружат над головами ошеломлённых противников. Мы забросаем их незащищённые головы пчелиными ульями и огненными стрелами! Позволяет: Постройка Бомбардировщиков в Казарме.';
+                        $return['name'] = $this->lang->line('research3_15_name');
+                        $return['desc'] = $this->lang->line('research3_15_desc');
                         $return['points'] = 444000;
                         if ($research->res3_14 == 0){ $return['need_way'] = 3; $return['need_id'] = 14; }
                     break;
                     case 16:
-                        $return['name'] = 'Будущее науки';
-                        $return['desc'] = 'Лучшие умы империи пытаются найти ответы на вечные вопросы, которые с давних времен интересовали человечество: Кто мы? В чем смысл жизни? Каков истинный порядок вещей? Эффект: На 2% больше баллов исследований.';
+                        $return['name'] = $this->lang->line('research3_16_name');
+                        $return['desc'] = $this->lang->line('research3_16_desc');
                         $return['points'] = 610560;
                         if ($research->res3_15 == 0){ $return['need_way'] = 3; $return['need_id'] = 15; }
                         elseif ($research->res1_13 == 0){ $return['need_way'] = 3; $return['need_id'] = 13; }
@@ -1366,91 +1373,91 @@ class Data_Model extends Model
                 switch($id)
                 {
                     case 1:
-                        $return['name'] = 'Сухой док';
-                        $return['desc'] = 'Мы научились строить корабли в доках и спускать их на воду с минимальными трудозатратами. Наши враги будут повержены на всех морях! Позволяет: Строительство верфей';
+                        $return['name'] = $this->lang->line('research4_1_name');
+                        $return['desc'] = $this->lang->line('research4_1_desc');
                         $return['points'] = 8;
                     break;
                     case 2:
-                        $return['name'] = 'Карты';
-                        $return['desc'] = 'Долгие марши по крутым горным склонам или через топкие болота измотают любую армию. Теперь нашим войскам нечего бояться - они попадут в нужное место в нужное время, не потеряв в болоте свое оружие. Эффект: Содержание солдат стоит на 2% меньше';
+                        $return['name'] = $this->lang->line('research4_2_name');
+                        $return['desc'] = $this->lang->line('research4_2_desc');
                         $return['points'] = 24;
                         if ($research->res4_1 == 0){ $return['need_way'] = 4; $return['need_id'] = 1; }
                     break;
                     case 3:
-                        $return['name'] = 'Профессиональная армия';
-                        $return['desc'] = 'Сражаться с врагами - пиратами, варварами и прочими сомнительными личностями - гораздо проще профессионально обученным солдатам. Тренировка стоит недешево, но победы в войнах оправдают все затраты. Позволяет: Тренировка Мечников и Гоплитов в Казарме';
+                        $return['name'] = $this->lang->line('research4_3_name');
+                        $return['desc'] = $this->lang->line('research4_3_desc');
                         $return['points'] = 336;
                         if ($research->res4_2 == 0){ $return['need_way'] = 4; $return['need_id'] = 2; }
                         elseif ($research->res2_3 == 0){ $return['need_way'] = 2; $return['need_id'] = 3; }
                     break;
                     case 4:
-                        $return['name'] = 'Осада';
-                        $return['desc'] = 'С помощью мощных таранов наши солдаты смогут сокрушить любые стены и быстро захватить любой город! Позволяет: Постройка Таранов в Казарме.';
+                        $return['name'] = $this->lang->line('research4_4_name');
+                        $return['desc'] = $this->lang->line('research4_4_desc');
                         $return['points'] = 1032;
                         if ($research->res4_3 == 0){ $return['need_way'] = 4; $return['need_id'] = 3; }
                         elseif ($research->res3_3 == 0){ $return['need_way'] = 3; $return['need_id'] = 3; }
                     break;
                     case 5:
-                        $return['name'] = 'Кодекс чести';
-                        $return['desc'] = 'Наши солдаты считают за честь служить в имперской армии! Поэтому они хорошо следят за своим снаряжением, что соответственно уменьшает расходы на содержание. Эффект: на 4% меньше расходов на содержание';
+                        $return['name'] = $this->lang->line('research4_5_name');
+                        $return['desc'] = $this->lang->line('research4_5_desc');
                         $return['points'] = 2236;
                         if ($research->res4_4 == 0){ $return['need_way'] = 4; $return['need_id'] = 4; }
                     break;
                     case 6:
-                        $return['name'] = 'Баллистика';
-                        $return['desc'] = 'Теперь мы знаем, как поразить врага, используя лук и стрелы! Нужно срочно начать обучение солдат этим навыкам, чтобы лучники присоединились к нашей армии! Позволяет: Тренировка Лучников в Казарме.';
+                        $return['name'] = $this->lang->line('research4_6_name');
+                        $return['desc'] = $this->lang->line('research4_6_desc');
                         $return['points'] = 3264;
                         if ($research->res4_5 == 0){ $return['need_way'] = 4; $return['need_id'] = 5; }
                     break;
                     case 7:
-                        $return['name'] = 'Закон рычага';
-                        $return['desc'] = 'С применением этой новой технологии мы можем построить мощные метательные машины, которые в состоянии разбить даже городские стены. Позволяет: Постройка Катапульт в Казарме.';
+                        $return['name'] = $this->lang->line('research4_7_name');
+                        $return['desc'] = $this->lang->line('research4_7_desc');
                         $return['points'] = 7020;
                         if ($research->res4_6 == 0){ $return['need_way'] = 4; $return['need_id'] = 6; }
                         elseif ($research->res3_6 == 0){ $return['need_way'] = 3; $return['need_id'] = 6; }
                     break;
                     case 8:
-                        $return['name'] = 'Губернатор';
-                        $return['desc'] = 'Отсылка управленческого аппарата на места поможет рациональному управлению захваченным городом. Мы можем не только грабить, но и умело использовать награбленное! Богатство других поможет процветанию наших собственных городов. Позволяет: Оккупация.';
+                        $return['name'] = $this->lang->line('research4_8_name');
+                        $return['desc'] = $this->lang->line('research4_8_desc');
                         $return['points'] = 11592;
                         if ($research->res4_7 == 0){ $return['need_way'] = 4; $return['need_id'] = 7; }
                         elseif ($research->res2_4 == 0){ $return['need_way'] = 2; $return['need_id'] = 4; }
                     break;
                     case 9:
-                        $return['name'] = 'Пиротехника';
-                        $return['desc'] = 'Сера - действительно опасное вещество! И с каждым новым составом смеси мы можем получить намного больше пользы от этого драгоценного ресурса. А безопасное осваивание практики позволит нашим пиротехникам проверять свои изобретения без включения близлежащих зданий, как ненамеренные цели в их эксперименты. У нас будет лучший порох и взрывчатые вещества, что позволит сохранить нам огромное количество серы! Позволит: Построение Полигона пиротехника';
+                        $return['name'] = $this->lang->line('research4_9_name');
+                        $return['desc'] = $this->lang->line('research4_9_desc');
                         $return['points'] = 19908;
                         if ($research->res4_8 == 0){ $return['need_way'] = 4; $return['need_id'] = 8; }
                         elseif ($research->res2_5 == 0){ $return['need_way'] = 2; $return['need_id'] = 5; }
                     break;
                     case 10:
-                        $return['name'] = 'Логистика';
-                        $return['desc'] = 'Сохранность снаряжения и бодрость наших солдат напрямую зависит от обеспечения армейских грузоперевозок. Эффект: Содержание армии стоит на 8% меньше';
+                        $return['name'] = $this->lang->line('research4_10_name');
+                        $return['desc'] = $this->lang->line('research4_10_desc');
                         $return['points'] = 25632;
                         if ($research->res4_9 == 0){ $return['need_way'] = 4; $return['need_id'] = 9; }
                     break;
                     case 11:
-                        $return['name'] = 'Порох';
-                        $return['desc'] = 'Черная пороховая смесь, изобретенная алхимиками, имеет огромную силу. Теперь мы можем строить ружья, которые принесут врагу смерть и разрушение. Позволяет: Тренировка Стрелков в Казарме.';
+                        $return['name'] = $this->lang->line('research4_11_name');
+                        $return['desc'] = $this->lang->line('research4_11_desc');
                         $return['points'] = 38400;
                         if ($research->res4_10 == 0){ $return['need_way'] = 4; $return['need_id'] = 10; }
                         elseif ($research->res3_9 == 0){ $return['need_way'] = 3; $return['need_id'] = 9; }
                     break;
                     case 12:
-                        $return['name'] = 'Робототехника';
-                        $return['desc'] = 'Наши учёные построили огромного человекоподобного робота с гигантскими железными мускулами и сердцем, функционирующим при помощи парового двигателя. Враги задрожат от страха только от одного вида этого гиганта! Позволяет: Постройка Паровых гигантов в Казарме.';
+                        $return['name'] = $this->lang->line('research4_12_name');
+                        $return['desc'] = $this->lang->line('research4_12_desc');
                         $return['points'] = 106560;
                         if ($research->res4_11 == 0){ $return['need_way'] = 4; $return['need_id'] = 11; }
                     break;
                     case 13:
-                        $return['name'] = 'Литье пушек';
-                        $return['desc'] = 'Качество нашего металла улучшается с каждым днем: уже стало возможным изготавливать орудия из металла, с помощью которых мы можем нанести более точные удары по врагу, а также больший урон. А если мы начнем бомбардировку, то под раскатами канонады задрожат вражеские стены! Позволяет: Постройка Мортир в Казарме.';
+                        $return['name'] = $this->lang->line('research4_13_name');
+                        $return['desc'] = $this->lang->line('research4_13_desc');
                         $return['points'] = 209040;
                         if ($research->res4_12 == 0){ $return['need_way'] = 4; $return['need_id'] = 12; }
                     break;
                     case 14:
-                        $return['name'] = 'Будущее армии';
-                        $return['desc'] = 'Наши военные машины потрясают своей мощью, наши солдаты хорошо обучены и дисциплинированы! Наш тыл великолепно организован. Все работает четко и без сбоев, что позволяет сэкономить на содержании. Эффект: Содержание войск стоит на 2% меньше.';
+                        $return['name'] = $this->lang->line('research4_14_name');
+                        $return['desc'] = $this->lang->line('research4_14_desc');
                         $return['points'] = 532800;
                         if ($research->res4_13 == 0){ $return['need_way'] = 4; $return['need_id'] = 13; }
                         elseif ($research->res1_13 == 0){ $return['need_way'] = 1; $return['need_id'] = 13; }
@@ -1472,16 +1479,17 @@ class Data_Model extends Model
      */
     function get_wonder_by_type($type)
     {
+        $this->lang->load('data_wonders');
         switch($type)
         {
-            case 1: return 'Кузница Гефеста'; break;
-            case 2: return 'Святая Роща Аида'; break;
-            case 3: return 'Сады Деметры'; break;
-            case 4: return 'Храм Афины'; break;
-            case 5: return 'Храм Гермеса'; break;
-            case 6: return 'Крепость Ареса'; break;
-            case 7: return 'Храм Посейдона'; break;
-            case 8: return 'Колосс'; break;
+            case 1: return $this->lang->line('wonder_1'); break;
+            case 2: return $this->lang->line('wonder_2'); break;
+            case 3: return $this->lang->line('wonder_3'); break;
+            case 4: return $this->lang->line('wonder_4'); break;
+            case 5: return $this->lang->line('wonder_5'); break;
+            case 6: return $this->lang->line('wonder_6'); break;
+            case 7: return $this->lang->line('wonder_7'); break;
+            case 8: return $this->lang->line('wonder_8'); break;
         }
     }
 
@@ -1582,29 +1590,31 @@ class Data_Model extends Model
 
     function mission_name_by_type($type = 0)
     {
+        $this->lang->load('data_missions');
         switch($type)
         {
-            case 1: return 'Колонизация'; break;
-            case 2: return 'Транспорт'; break;
-            case 3: return 'Торговля'; break;
-            case 4: return 'Торговля'; break;
+            case 1: return $this->lang->line('mission_1'); break;
+            case 2: return $this->lang->line('mission_2'); break;
+            case 3: return $this->lang->line('mission_3'); break;
+            case 4: return $this->lang->line('mission_4'); break;
         }
     }
 
     function spy_mission_name_by_type($type = 0)
     {
+        $this->lang->load('data_spy_missions');
         switch($type)
         {
-            case 0: return 'Шпион ждет новых приказаний'; break;
-            case 1: return 'Прибытие'; break;
-            case 2: return 'Шпион возвращается'; break;
-            case 3: return 'Шпионаж за казной'; break;
-            case 4: return 'Шпионаж за складскими запасами'; break;
-            case 5: return 'Шпионаж за исследованиями'; break;
-            case 6: return 'Онлайн статус'; break;
-            case 7: return 'Шпионаж за гарнизоном'; break;
-            case 8: return 'Шпионаж за флотом'; break;
-            case 9: return 'Шпионаж за обменом сообщениями'; break;
+            case 0: return $this->lang->line('spy_mission_0_name'); break;
+            case 1: return $this->lang->line('spy_mission_1_name'); break;
+            case 2: return $this->lang->line('spy_mission_2_name'); break;
+            case 3: return $this->lang->line('spy_mission_3_name'); break;
+            case 4: return $this->lang->line('spy_mission_4_name'); break;
+            case 5: return $this->lang->line('spy_mission_5_name'); break;
+            case 6: return $this->lang->line('spy_mission_6_name'); break;
+            case 7: return $this->lang->line('spy_mission_7_name'); break;
+            case 8: return $this->lang->line('spy_mission_8_name'); break;
+            case 9: return $this->lang->line('spy_mission_9_name'); break;
         }
     }
 

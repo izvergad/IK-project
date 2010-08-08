@@ -3,7 +3,7 @@
 <html>
     <head>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="language" content="ru">
+		<meta name="language" content="<?=$this->lang->line('content')?>">
 		<meta name="Description" content="<?=$this->lang->line('head_description')?>">
 		<title><?=$this->lang->line('head_title')?></title>
                 <script type="text/javascript" src="<?=$this->config->item('script_url')?>js/jquery.min.js"></script>

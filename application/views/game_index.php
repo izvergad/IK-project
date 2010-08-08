@@ -3,8 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="language" content="ru">
-        <meta name="Description" content="Икариам - это бесплатная браузерная игра. Задача игроков заключается в управлении народом в древнем мире, основывая города, ведя торговлю и завоевывая другие острова.">
+        <meta name="language" content="<?=$this->lang->line('content')?>">
+        <meta name="Description" content="<?=$this->lang->line('head_description')?>">
         <meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7">
 <?if($this->Player_Model->now_town->build_start > 0){
     $level_text = 'pos'.$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'].'_level';
@@ -15,9 +15,9 @@
     $end_date = $this->Player_Model->now_town->build_start + $cost['time'];
     $ostalos = $end_date - time();
 ?>
-        <title>Икариам - <?=format_time($ostalos)?> - Мир <?=ucfirst($this->session->userdata('universe'))?></title>
+        <title><?=$this->lang->line('ikariam')?> - <?=format_time($ostalos)?> - <?=$this->lang->line('world')?> <?=ucfirst($this->session->userdata('universe'))?></title>
 <?}else{?>
-        <title>Икариам - Мир <?=ucfirst($this->session->userdata('universe'))?></title>
+        <title><?=$this->lang->line('ikariam')?> - <?=$this->lang->line('world')?> <?=ucfirst($this->session->userdata('universe'))?></title>
 <?}?>
 	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
         <link href="<?=$this->config->item('style_url')?>skin/ik_common_<?=$this->config->item('style_version')?>.css" rel="stylesheet" type="text/css" media="screen">
@@ -35,19 +35,19 @@
 		var LocalizationStrings = {};
 		LocalizationStrings['timeunits'] = {};
 		LocalizationStrings['timeunits']['short'] = {};
-		LocalizationStrings['timeunits']['short']['day'] = 'Д.';
-		LocalizationStrings['timeunits']['short']['hour'] = 'ч.';
-		LocalizationStrings['timeunits']['short']['minute'] = 'мин.';
-		LocalizationStrings['timeunits']['short']['second'] = 'с.';
-		LocalizationStrings['language']                     = 'ru';
+		LocalizationStrings['timeunits']['short']['day'] = '<?=$this->lang->line('d_mini')?>';
+		LocalizationStrings['timeunits']['short']['hour'] = '<?=$this->lang->line('h_mini')?>';
+		LocalizationStrings['timeunits']['short']['minute'] = '<?=$this->lang->line('m_mini')?>';
+		LocalizationStrings['timeunits']['short']['second'] = '<?=$this->lang->line('s_mini')?>';
+		LocalizationStrings['language']                     = '<?=$this->lang->line('content')?>';
 		LocalizationStrings['decimalPoint']               = '.';
 		LocalizationStrings['thousandSeperator']     = ',';
 		LocalizationStrings['resources'] = {};
-		LocalizationStrings['resources']['wood'] = 'Стройматериалы';
-		LocalizationStrings['resources']['wine'] = 'Виноград';
-		LocalizationStrings['resources']['marble'] = 'Мрамор';
-		LocalizationStrings['resources']['crystal'] = 'Хрусталь';
-		LocalizationStrings['resources']['sulfur'] = 'Сера';
+		LocalizationStrings['resources']['wood'] = '<?=$this->lang->line('wood')?>';
+		LocalizationStrings['resources']['wine'] = '<?=$this->lang->line('wine')?>';
+		LocalizationStrings['resources']['marble'] = '<?=$this->lang->line('marble')?>';
+		LocalizationStrings['resources']['crystal'] = '<?=$this->lang->line('crystal')?>';
+		LocalizationStrings['resources']['sulfur'] = '<?=$this->lang->line('sulfur')?>';
 		LocalizationStrings['resources'][0] = LocalizationStrings['resources']['wood'];
 		LocalizationStrings['resources'][1] = LocalizationStrings['resources']['wine'];
 		LocalizationStrings['resources'][2] = LocalizationStrings['resources']['marble'];
@@ -56,7 +56,7 @@
 		LocalizationStrings['warnings'] = {};
 		LocalizationStrings['warnings']['premiumTrader_lackingStorage'] = "F?r folgende Rohstoffe fehlt dir Speicherplatz: $res";
 		LocalizationStrings['warnings']['premiumTrader_negativeResource'] = "Du hast zuwenig $res f?r diesen Handel";
-		LocalizationStrings['warnings']['tolargeText'] = 'Внимание! Ваш текст слишком длинный!';
+		LocalizationStrings['warnings']['tolargeText'] = '<?=$this->lang->line('large_text')?>';
 		IKARIAM = {
 				phpSet : {
 						serverTime : "<?=time()?>",
@@ -202,8 +202,8 @@
                     </div>
 <?}?>
                     <div id="header">
-                        <h1>Икариам</h1>
-                        <h2>Древний мир!</h2>
+                        <h1><?=$this->lang->line('ikariam')?></h1>
+                        <h2><?=$this->lang->line('ansient_world')?></h2>
                     </div>
                     <div id="avatarNotes"></div>
                     <?=$this->View_Model->show_bread($page, $param1, $param2, $param3)?>
@@ -218,10 +218,10 @@
             <input type="hidden" name="oldView" value="<?=$page?>">
         </fieldset>
 
-        <h3>Навигация по городам</h3>
+        <h3><?=$this->lang->line('navigation')?></h3>
         <ul>
             <li>
-                <label for="citySelect">Выбранный город:</label>
+                <label for="citySelect"><?=$this->lang->line('current_town')?>:</label>
                 <select	id="citySelect"	class="citySelect smallFont" name="cityId" tabindex="1" onchange="this.form.submit()">
 <?foreach($this->Player_Model->towns as $town){?>
 <?$island = $this->Player_Model->islands[$town->island]?>
@@ -231,7 +231,7 @@
                     <option class="" value="<?=$town->id?>" <?=$selected?> title="" ><p><?=$town->name?></p></option>
 <?break;?>
 <?case 1:?>
-                    <option class="coords" value="<?=$town->id?>" <?=$selected?> title="Торговля: <?=$this->Data_Model->resource_name_by_type($island->trade_resource)?>" ><p>[<?=$island->x?>:<?=$island->y?>]&nbsp;<?=$town->name?></p></option>
+                    <option class="coords" value="<?=$town->id?>" <?=$selected?> title="<?=$this->lang->line('trade_resource')?>: <?=$this->Data_Model->resource_name_by_type($island->trade_resource)?>" ><p>[<?=$island->x?>:<?=$island->y?>]&nbsp;<?=$town->name?></p></option>
 <?break;?>
 <?case 2:?>
                     <option class="tradegood<?=$island->trade_resource?>" value="<?=$town->id?>" <?=$selected?> title="[<?=$island->x?>:<?=$island->y?>]" ><p><?=$town->name?></p></option>
@@ -242,18 +242,18 @@
             </li>
 
             <li class="viewWorldmap">
-                <a href="<?=$this->config->item('base_url')?>game/worldmap_iso/" tabindex="4" title="Центрировать выбранный город на карте мира">
-                    <span class="textLabel">Мир</span>
+                <a href="<?=$this->config->item('base_url')?>game/worldmap_iso/" tabindex="4" title="<?=$this->lang->line('button_world_title')?>">
+                    <span class="textLabel"><?=$this->lang->line('button_world_name')?></span>
                 </a>
             </li>
             <li class="viewIsland">
-                <a href="<?=$this->config->item('base_url')?>game/island/" tabindex="5" title="Перейти на островную карту выбранного города">
-                    <span class="textLabel">Остров</span>
+                <a href="<?=$this->config->item('base_url')?>game/island/" tabindex="5" title="<?=$this->lang->line('button_island_title')?>">
+                    <span class="textLabel"><?=$this->lang->line('button_island_name')?></span>
                 </a>
             </li>
             <li class="viewCity">
-                <a href="<?=$this->config->item('base_url')?>game/city/" tabindex="6" title="Инспектировать выбранный город">
-                    <span class="textLabel">Город</span>
+                <a href="<?=$this->config->item('base_url')?>game/city/" tabindex="6" title="<?=$this->lang->line('button_town_title')?>">
+                    <span class="textLabel"><?=$this->lang->line('button_town_name')?></span>
                 </a>
             </li>
         </ul>
@@ -261,21 +261,21 @@
 </div>
 
 <div id="globalResources">
-    <h3>Ресурсы империи</h3>
+    <h3><?=$this->lang->line('resources_of_empire')?></h3>
     <ul>
-        <li class="transporters" title="Сухогрузов доступно (всего)">
+        <li class="transporters" title="<?=$this->lang->line('button_transporters_title')?>">
             <a href="<?=$this->config->item('base_url')?>game/merchantNavy/">
-                <span class="textLabel">Торговые корабли:</span><span><?=$this->Player_Model->user->transports?> (<?=$this->Player_Model->all_transports?>)</span>
+                <span class="textLabel"><?=$this->lang->line('button_transporters_name')?>:</span><span><?=$this->Player_Model->user->transports?> (<?=$this->Player_Model->all_transports?>)</span>
             </a>
         </li>
-	<li class="ambrosia" title="<?=number_format($this->Player_Model->user->ambrosy)?> Амброзия">
+	<li class="ambrosia" title="<?=number_format($this->Player_Model->user->ambrosy)?> <?=$this->lang->line('ambrosy')?>">
             <a href="<?=$this->config->item('base_url')?>game/premium/">
-                <span class="textLabel">Амброзия:</span><span><?=number_format($this->Player_Model->user->ambrosy)?></span>
+                <span class="textLabel"><?=$this->lang->line('ambrosy')?>:</span><span><?=number_format($this->Player_Model->user->ambrosy)?></span>
             </a>
         </li>
-	<li class="gold" title="<?=number_format($this->Player_Model->user->gold)?> Золото">
+	<li class="gold" title="<?=number_format($this->Player_Model->user->gold)?> <?=$this->lang->line('gold')?>">
             <a href="<?=$this->config->item('base_url')?>game/finances/">
-                <span class="textLabel">Золото:</span><span id="value_gold"><?=number_format($this->Player_Model->user->gold)?></span>
+                <span class="textLabel"><?=$this->lang->line('gold')?>:</span><span id="value_gold"><?=number_format($this->Player_Model->user->gold)?></span>
             </a>
         </li>
     </ul>
@@ -283,57 +283,57 @@
 
 <?$all_peoples = $this->Player_Model->peoples[$this->Player_Model->town_id]?>
 
-<div id="cityResources"><h3>Ресурсы города</h3>
+<div id="cityResources"><h3><?=$this->lang->line('resources_of_town')?></h3>
     <ul class="resources">
-        <li class="population" title="Население">
-            <span class="textLabel">Население: </span><span id="value_inhabitants" style="display: block; width: 80px;"><?=floor($this->Player_Model->now_town->peoples)?> (<?=floor($all_peoples)?>)</span>
+        <li class="population" title="<?=$this->lang->line('population')?>">
+            <span class="textLabel"><?=$this->lang->line('population')?>: </span><span id="value_inhabitants" style="display: block; width: 80px;"><?=floor($this->Player_Model->now_town->peoples)?> (<?=floor($all_peoples)?>)</span>
 	</li>
-	<li class="actions" title="Баллы действия">
-            <span class="textLabel">Баллы действия: </span><span id="value_maxActionPoints"><?=number_format($this->Player_Model->now_town->actions)?></span>
+	<li class="actions" title="<?=$this->lang->line('points_of_action')?>">
+            <span class="textLabel"><?=$this->lang->line('points_of_action')?>: </span><span id="value_maxActionPoints"><?=number_format($this->Player_Model->now_town->actions)?></span>
 	</li>
 	<li class="wood">
-            <span class="textLabel">Стройматериалы: </span><span id="value_wood" class="<?if(($this->Player_Model->now_town->wood*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wood >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wood))?></span>
+            <span class="textLabel"><?=$this->lang->line('wood')?>: </span><span id="value_wood" class="<?if(($this->Player_Model->now_town->wood*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wood >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wood))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Стройматериалы: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel"><?=$this->lang->line('capacity')?> <?=$this->lang->line('wood')?>: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
                 <?if($this->Player_Model->now_town->branch_trade_wood_type == 1 and $this->Player_Model->now_town->branch_trade_wood_count > 0){?>
-                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_wood_count)?>
+                <br><span class="textLabel"><?=$this->lang->line('market')?>: </span><?=number_format($this->Player_Model->now_town->branch_trade_wood_count)?>
                 <?}?>
             </div>
 	</li>
 <?$disabled = ($this->Player_Model->research->res2_3 == 0) ? 'disabled' : ''?>
 	<li class="wine <?if($this->Player_Model->now_town->wine==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Виноград: </span><span id="value_wine" class="<?if(($this->Player_Model->now_town->wine*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wine >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wine))?></span>
+            <span class="textLabel"><?=$this->lang->line('wine')?>: </span><span id="value_wine" class="<?if(($this->Player_Model->now_town->wine*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->wine >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->wine))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Виноград: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel"><?=$this->lang->line('capacity')?> <?=$this->lang->line('wine')?>: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
                 <?if($this->Player_Model->now_town->branch_trade_wine_type == 1 and $this->Player_Model->now_town->branch_trade_wine_count > 0){?>
-                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_wine_count)?>
+                <br><span class="textLabel"><?=$this->lang->line('market')?>: </span><?=number_format($this->Player_Model->now_town->branch_trade_wine_count)?>
                 <?}?>
             </div>
 	</li>
 	<li class="marble <?if($this->Player_Model->now_town->marble==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Мрамор: </span><span id="value_marble" class="<?if(($this->Player_Model->now_town->marble*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->marble >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->marble))?></span>
+            <span class="textLabel"><?=$this->lang->line('marble')?>: </span><span id="value_marble" class="<?if(($this->Player_Model->now_town->marble*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->marble >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->marble))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Мрамор: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel"><?=$this->lang->line('capacity')?> <?=$this->lang->line('marble')?>: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
                 <?if($this->Player_Model->now_town->branch_trade_marble_type == 1 and $this->Player_Model->now_town->branch_trade_marble_count > 0){?>
-                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_marble_count)?>
+                <br><span class="textLabel"><?=$this->lang->line('market')?>: </span><?=number_format($this->Player_Model->now_town->branch_trade_marble_count)?>
                 <?}?>
             </div>
 	</li>
         <li class="glass <?if($this->Player_Model->now_town->crystal==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Хрусталь: </span><span id="value_crystal" class="<?if(($this->Player_Model->now_town->crystal*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->crystal >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->crystal))?></span>
+            <span class="textLabel"><?=$this->lang->line('crystal')?>: </span><span id="value_crystal" class="<?if(($this->Player_Model->now_town->crystal*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->crystal >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->crystal))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Хрусталь: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel"><?=$this->lang->line('capacity')?> <?=$this->lang->line('crystal')?>: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
                 <?if($this->Player_Model->now_town->branch_trade_crystal_type == 1 and $this->Player_Model->now_town->branch_trade_crystal_count > 0){?>
-                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_crystal_count)?>
+                <br><span class="textLabel"><?=$this->lang->line('market')?>: </span><?=number_format($this->Player_Model->now_town->branch_trade_crystal_count)?>
                 <?}?>
             </div>
 	</li>
         <li class="sulfur <?if($this->Player_Model->now_town->sulfur==0){?><?=$disabled?><?}?>">
-            <span class="textLabel">Сера: </span><span id="value_sulfur" class="<?if(($this->Player_Model->now_town->sulfur*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->sulfur >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->sulfur))?></span>
+            <span class="textLabel"><?=$this->lang->line('sulfur')?>: </span><span id="value_sulfur" class="<?if(($this->Player_Model->now_town->sulfur*1.25) > $this->Player_Model->capacity[$this->Player_Model->town_id]){?><?if($this->Player_Model->now_town->sulfur >= $this->Player_Model->capacity[$this->Player_Model->town_id]){?>storage_full<?}else{?>storage_danger<?}}?>"><?=number_format(floor($this->Player_Model->now_town->sulfur))?></span>
             <div class="tooltip">
-                <span class="textLabel">Вместимость Сера: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
+                <span class="textLabel"><?=$this->lang->line('capacity')?> <?=$this->lang->line('sulfur')?>: </span><?=number_format($this->Player_Model->capacity[$this->Player_Model->town_id])?>
                 <?if($this->Player_Model->now_town->branch_trade_sulfur_type == 1 and $this->Player_Model->now_town->branch_trade_sulfur_count > 0){?>
-                <br><span class="textLabel">Рынок: </span><?=number_format($this->Player_Model->now_town->branch_trade_sulfur_count)?>
+                <br><span class="textLabel"><?=$this->lang->line('market')?>: </span><?=number_format($this->Player_Model->now_town->branch_trade_sulfur_count)?>
                 <?}?>
             </div>
 	</li>
@@ -342,54 +342,54 @@
 
 <div id="advisors">
 
-    <h3>Обзоры</h3>
+    <h3><?=$this->lang->line('overviews')?></h3>
     <ul>
         <li id="advCities">
-            <a href="<?=$this->config->item('base_url')?>game/tradeAdvisor/" title="Обзор городов и финансов" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_towns_messages > 0){?>active<?}?>">
-                <span class="textLabel">Города</span>
+            <a href="<?=$this->config->item('base_url')?>game/tradeAdvisor/" title="<?=$this->lang->line('trade_advisor_title')?>" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_towns_messages > 0){?>active<?}?>">
+                <span class="textLabel"><?=$this->lang->line('trade_advisor_name')?></span>
             </a>
 <?if($this->Player_Model->user->premium_account > 0){?>
-            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumTradeAdvisor/" title="К обзору">
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumTradeAdvisor/" title="<?=$this->lang->line('to_view')?>">
 <?}else{?>
-            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="<?=$this->lang->line('to_view')?>">
 <?}?>
-                <span class="textLabel">К обзору</span>
+                <span class="textLabel"><?=$this->lang->line('to_view')?></span>
             </a>
         </li>
 	<li id="advMilitary">
-            <a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="Военный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
-                <span class="textLabel">Войска</span>
+            <a href="<?=$this->config->item('base_url')?>game/militaryAdvisorMilitaryMovements/" title="<?=$this->lang->line('military_advisor_title')?>" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?>">
+                <span class="textLabel"><?=$this->lang->line('military_advisor_name')?></span>
             </a>
 <?if($this->Player_Model->user->premium_account > 0){?>
-            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumMilitaryAdvisor/" title="К обзору">
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumMilitaryAdvisor/" title="<?=$this->lang->line('to_view')?>">
 <?}else{?>
-            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="<?=$this->lang->line('to_view')?>">
 <?}?>
-                <span class="textLabel">К обзору</span>
+                <span class="textLabel"><?=$this->lang->line('to_view')?></span>
             </a>
         </li>
 	<li id="advResearch">
-            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="Научный обзор" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->research_advisor){?>active<?}?>">
-                <span class="textLabel">Исследования</span>
+            <a href="<?=$this->config->item('base_url')?>game/researchAdvisor/" title="<?=$this->lang->line('research_advisor_title')?>" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->research_advisor){?>active<?}?>">
+                <span class="textLabel"><?=$this->lang->line('research_advisor_name')?></span>
             </a>
 <?if($this->Player_Model->user->premium_account > 0){?>
-            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumResearchAdvisor/" title="К обзору">
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumResearchAdvisor/" title="<?=$this->lang->line('to_view')?>">
 <?}else{?>
-            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="<?=$this->lang->line('to_view')?>">
 <?}?>
-                <span class="textLabel">К обзору</span>
+                <span class="textLabel"><?=$this->lang->line('to_view')?></span>
             </a>
 	</li>
 	<li id="advDiplomacy">
-            <a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisor/" title="Обзор сообщений и дипломатии" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_user_messages > 0){?>active<?}?>">
-                <span class="textLabel">Дипломатия</span>
+            <a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisor/" title="<?=$this->lang->line('diplomacy_advisor_title')?>" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_user_messages > 0){?>active<?}?>">
+                <span class="textLabel"><?=$this->lang->line('diplomacy_advisor_title')?></span>
             </a>
 <?if($this->Player_Model->user->premium_account > 0){?>
-            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumDiplomacyAdvisor/" title="К обзору">
+            <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumDiplomacyAdvisor/" title="<?=$this->lang->line('to_view')?>">
 <?}else{?>
-            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="К обзору">
+            <a class="plusteaser" href="<?=$this->config->item('base_url')?>game/premiumDetails/" title="<?=$this->lang->line('to_view')?>">
 <?}?>
-                <span class="textLabel">К обзору</span>
+                <span class="textLabel"><?=$this->lang->line('to_view')?></span>
             </a>
 	</li>
     </ul>
@@ -400,7 +400,7 @@
 <?}?>
 
 <div id="footer">
-    <span class="copyright">&copy; 2010 by Nexus. Страница сгенерирована за {elapsed_time} сек.</span>
+    <span class="copyright">&copy; 2010 by Nexus. <?=$this->lang->line('generated')?> {elapsed_time} <?=$this->lang->line('s_mini')?></span>
 </div>
 
 <div id="conExtraDiv1"><span></span></div>
@@ -415,45 +415,45 @@
 
 
             <div id="GF_toolbar">
-                <h3>Другие опции</h3>
+                <h3><?=$this->lang->line('other_options')?></h3>
                 <ul>
                     <li class="help">
-                        <a href="<?=$this->config->item('base_url')?>game/informations/" title="Помощь">
-                            <span class="textLabel">Помощь</span>
+                        <a href="<?=$this->config->item('base_url')?>game/informations/" title="<?=$this->lang->line('help')?>">
+                            <span class="textLabel"><?=$this->lang->line('help')?></span>
                         </a>
                     </li>
                     <li class="premium">
-                        <a href="<?=$this->config->item('base_url')?>game/premium/" title="Икариам ПЛЮС">
-                            <span class="textLabel">Икариам ПЛЮС (<?=number_format($this->Player_Model->user->ambrosy)?>)</span>
+                        <a href="<?=$this->config->item('base_url')?>game/premium/" title="<?=$this->lang->line('ikariam_plus')?>">
+                            <span class="textLabel"><?=$this->lang->line('ikariam_plus')?> (<?=number_format($this->Player_Model->user->ambrosy)?>)</span>
                         </a>
                     </li>
                     <li class="highscore">
-                        <a href="<?=$this->config->item('base_url')?>game/highscore/" title="Топ-лист игры">
-                            <span class="textLabel">Топ-лист</span>
+                        <a href="<?=$this->config->item('base_url')?>game/highscore/" title="<?=$this->lang->line('top_list')?>">
+                            <span class="textLabel"><?=$this->lang->line('top_list')?></span>
                         </a>
                     </li>
                     <li class="options">
-                        <a href="<?=$this->config->item('base_url')?>game/options/" title="Настройки">
-                            <span class="textLabel">Настройки</span>
+                        <a href="<?=$this->config->item('base_url')?>game/options/" title="<?=$this->lang->line('options')?>">
+                            <span class="textLabel"><?=$this->lang->line('options')?></span>
                         </a>
                     </li>
                     <li class="notes">
-                        <a href="javascript:switchNoteDisplay()" title="Заметки">
-                            <span class="textLabel">Заметки</span>
+                        <a href="javascript:switchNoteDisplay()" title="<?=$this->lang->line('notes')?>">
+                            <span class="textLabel"><?=$this->lang->line('notes')?></span>
                         </a>
                     </li>
                     <li class="forum">
-                        <a href="/forum/" title="Официальный форум" target="_blank">
-                            <span class="textLabel">Форум</span>
+                        <a href="/forum/" title="<?=$this->lang->line('board')?>" target="_blank">
+                            <span class="textLabel"><?=$this->lang->line('board')?></span>
                         </a>
                     </li>
                     <li class="logout">
-                        <a href="<?=$this->config->item('base_url')?>game/logout/" title="Выйти из игры">
-                            <span class="textLabel">Выход</span>
+                        <a href="<?=$this->config->item('base_url')?>game/logout/" title="<?=$this->lang->line('logout_title')?>">
+                            <span class="textLabel"><?=$this->lang->line('logout_name')?></span>
                         </a>
                     </li>
                     <li class="version">
-                        <a href="<?=$this->config->item('base_url')?>game/version/" title="Версия игры">
+                        <a href="<?=$this->config->item('base_url')?>game/version/" title="<?=$this->lang->line('version')?>">
                             <span class="textLabel">v.<?=$this->config->item('game_version')?></span>
                         </a>
                     </li>
@@ -562,14 +562,14 @@ function jsTitleTag(nextETA) {
     var cnt = new Timer(nextETA, <?=time()?>, 1);
     cnt.subscribe("update", function() {
         var timeargs = this.enddate - Math.floor(this.currenttime/1000) *1000;
-        var title = "Икариам - ";
+        var title = "<?=$this->lang->line('ikariam')?> - ";
         if (timeargs != "")
             title += getTimestring(timeargs, 3, undefined, undefined, undefined, true) + " - ";
-        title += "Мир <?=ucfirst($this->session->userdata('universe'))?>";
+        title += "<?=$this->lang->line('world')?> <?=ucfirst($this->session->userdata('universe'))?>";
         top.document.title = title;
     })
     cnt.subscribe("finished", function() {
-        top.document.title = "Икариам" + " - Мир <?=ucfirst($this->session->userdata('universe'))?>";
+        top.document.title = "<?=$this->lang->line('ikariam')?>" + " - <?=$this->lang->line('world')?> <?=ucfirst($this->session->userdata('universe'))?>";
     });
     cnt.startTimer();
     return cnt;
