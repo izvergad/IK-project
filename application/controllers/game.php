@@ -12,10 +12,11 @@ class Game extends Controller {
                 header("Cache-Control: max-age=0", false);
                 header("Pragma: no-cache");
 
+                $this->lang->load('game_errors');
                 $this->load->model('Player_Model');
                 if (!$this->session->userdata('login'))
                 {
-                    $this->Player_Model->Error('Ваша сессия истекла, войдите снова!');
+                    $this->Player_Model->Error($this->lang->line('error_session'));
                 }
                 else
                 {
@@ -191,7 +192,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(3, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Академия еще не построена!');
+            $this->show('error',$this->lang->line('error_academy_null'));
         }
         else
         {
@@ -204,7 +205,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(2, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Порт еще не построен!');
+            $this->show('error',$this->lang->line('error_port_null'));
         }
         else
         {
@@ -221,7 +222,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(5, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Казарма еще не построена!');
+            $this->show('error',$this->lang->line('error_barracks_null'));
         }
         else
         {
@@ -234,7 +235,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(8, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Таверна еще не построена!');
+            $this->show('error',$this->lang->line('error_tavern_null'));
         }
         else
         {
@@ -247,7 +248,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(4, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Верфь еще не построена!');
+            $this->show('error',$this->lang->line('error_shipyard_null'));
         }
         else
         {
@@ -260,7 +261,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(10, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Дворец еще не построен!');
+            $this->show('error',$this->lang->line('error_palace_null'));
         }
         else
         {
@@ -273,7 +274,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(15, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Резиденция губернатора еще не построена!');
+            $this->show('error',$this->lang->line('error_palace_colony_null'));
         }
         else
         {
@@ -286,7 +287,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(21, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Плотницкая мастерская еще не построена!');
+            $this->show('error',$this->lang->line('error_carpentering_null'));
         }
         else
         {
@@ -304,7 +305,7 @@ class Game extends Controller {
         }
         if ($position == 0)
         {
-            $this->show('error','Укрытие еще не построено!');
+            $this->show('error',$this->lang->line('error_safehouse_null'));
         }
         else
         {
@@ -318,7 +319,7 @@ class Game extends Controller {
         $position = $this->Data_Model->get_position(12, $this->Player_Model->now_town);
         if ($position == 0)
         {
-            $this->show('error','Рынок еще не построен!');
+            $this->show('error',$this->lang->line('error_branch_office_null'));
         }
         else
         {
