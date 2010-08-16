@@ -382,7 +382,7 @@
 	</li>
 	<li id="advDiplomacy">
             <a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisor/" title="<?=$this->lang->line('diplomacy_advisor_title')?>" class="<?if($this->Player_Model->user->premium_account > 0){?>premium<?}else{?>normal<?}?><?if($this->Player_Model->new_user_messages > 0){?>active<?}?>">
-                <span class="textLabel"><?=$this->lang->line('diplomacy_advisor_title')?></span>
+                <span class="textLabel"><?=$this->lang->line('diplomacy_advisor_name')?></span>
             </a>
 <?if($this->Player_Model->user->premium_account > 0){?>
             <a class="pluslink" href="<?=$this->config->item('base_url')?>game/premiumDiplomacyAdvisor/" title="<?=$this->lang->line('to_view')?>">

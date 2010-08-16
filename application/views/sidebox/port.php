@@ -4,19 +4,19 @@
     $speed = $this->Data_Model->speed_by_port_level($level);
 ?>
 <div class="dynamic">
-    <h3 class="header">Грузоподъемность<a class="help" href="<?=$this->config->item('base_url')?>game/shipDescription/23/" title="Помощь"><span class="textLabel">Помощь?</span></a></h3>
+    <h3 class="header"><?=$this->lang->line('transport_capacity')?><a class="help" href="<?=$this->config->item('base_url')?>game/shipDescription/23/" title="<?=$this->lang->line('help')?>"><span class="textLabel"><?=$this->lang->line('help')?>?</span></a></h3>
     <div class="content">
-    	<p>Торговые судна всегда доступны в тех местах, где они требуются.</p>
-        <p><strong>Вместимость торгового судна: </strong>500</p>
+    	<p><?=$this->lang->line('transport_capacity_text')?></p>
+        <p><strong><?=$this->lang->line('capacity_ship')?>: </strong><?=number_format($this->config->item('transport_capacity'))?></p>
     </div>
     <div class="footer"></div>
 </div>
 
 <div class="dynamic">
-    <h3 class="header">Время загрузки</h3>
+    <h3 class="header"><?=$this->lang->line('loading_speed')?></h3>
     <div class="content">
-    	<p>Скорость погрузки показывает, как быстро торговые судна могут быть загружены и разгружены в Вашем порту.</p>
-        <p><strong>Время загрузки:</strong><br> <?=number_format($speed)?> Товаров в мин.</p>
+    	<p><?=$this->lang->line('loading_speed_text')?></p>
+        <p><strong><?=$this->lang->line('loading_speed')?>:</strong><br> <?=number_format($speed)?> <?=$this->lang->line('goods_min')?></p>
     </div>
     <div class="footer"></div>
 </div>

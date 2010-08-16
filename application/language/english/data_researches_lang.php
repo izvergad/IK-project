@@ -122,3 +122,7 @@ $lang['research4_13_desc'] = 'Our iron is getting heavier and harder: Now we can
 $lang['research4_14_name'] = 'Militaristic Future';
 $lang['research4_14_desc'] = 'Our war machines are stronger and mightier than ever before and our armies are perfectly organised! Our civil servants managing the military have everything under control and thus the upkeep costs can be lowered. Effect: 2% less upkeep for units';
 
+$lang['way1_name'] = 'Seafaring';
+$lang['way2_name'] = 'Economy';
+$lang['way3_name'] = 'Science';
+$lang['way4_name'] = 'Military';

@@ -6,13 +6,13 @@
     }
 ?>
 <div id="information" class="dynamic" style="z-index:1;">        
-    <h3 class="header">Город</h3>
+    <h3 class="header"><?=$this->lang->line('city')?></h3>
     <div class="content">
         <ul class="cityinfo">
-            <li class="name"><span class="textLabel">Имя: </span><?=$this->Player_Model->now_town->name?></li>
-            <li class="citylevel"><span class="textLabel">Размер: </span><?=$this->Player_Model->now_town->pos0_level?></li>
+            <li class="name"><span class="textLabel"><?=$this->lang->line('name')?>: </span><?=$this->Player_Model->now_town->name?></li>
+            <li class="citylevel"><span class="textLabel"><?=$this->lang->line('city_level')?>: </span><?=$this->Player_Model->now_town->pos0_level?></li>
             <div class="centerButton">
-                <a href="<?=$this->config->item('base_url')?>game/cityMilitary/" class="button">Войска в городе</a>
+                <a href="<?=$this->config->item('base_url')?>game/cityMilitary/" class="button"><?=$this->lang->line('army_in_city')?></a>
             </div>
         </ul>
     </div>
@@ -20,7 +20,7 @@
 </div>
 
 <div class="dynamic" id="unitConstructionList">
-    <h3 class="header">Очередь на строительство</h3>
+    <h3 class="header"><?=$this->lang->line('buildings_construction_list')?></h3>
     <div class="content">
 <?if($this->Player_Model->user->premium_account > 0){?>
 <?if($this->Player_Model->now_town->build_line != ''){
@@ -40,12 +40,12 @@
         $one_percent = ($cost['time']/100);
         $percent = 100 - floor($ostalos/$one_percent);
 ?>
-    <h4>В процессе создания:</h4>
+    <h4><?=$this->lang->line('in_process')?>:</h4>
     <div class="currentUnit <?=$this->Data_Model->building_class_by_type($type)?>">
-        <div class="abortdiv"><a class="abort" title="Отменить" href="<?=$this->config->item('base_url')?>game/demolition/<?=$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position']?>/"></a></div>
+        <div class="abortdiv"><a class="abort" title="<?=$this->lang->line('cancel')?>" href="<?=$this->config->item('base_url')?>game/demolition/<?=$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position']?>/"></a></div>
         <div class="amount"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($type)?> (<?=$levels[$this->Player_Model->build_line[$this->Player_Model->town_id][0]['position']]+1?>)</span></div>
         <div class="progressbar"><div class="bar" id="buildProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div></div>
-        <div class="time" id="buildCountDown"><?=format_time($ostalos_all)?><span class="textLabel"> до завершения</span></div>
+        <div class="time" id="buildCountDown"><?=format_time($ostalos_all)?><span class="textLabel"> <?=$this->lang->line('to_complete')?></span></div>
     </div>
 
 <script type="text/javascript">
@@ -69,7 +69,7 @@
 		});
 </script>
 
-    <h4>В очереди:</h4>
+    <h4><?=$this->lang->line('in_turn')?>:</h4>
     <ul>
 <?for($i = 1; $i < SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id]); $i++){?>
 <?
@@ -87,18 +87,18 @@
         $percent = 100 - floor($ostalos/$one_percent);
 ?>
     <li class="<?=$this->Data_Model->building_class_by_type($type)?>">
-        <div class="abortdiv"><a class="abort"  title="Отменить" href="<?=$this->config->item('base_url')?>actions/leaveConstructionList/<?=$i?>/"></a></div>
+        <div class="abortdiv"><a class="abort"  title="<?=$this->lang->line('cancel')?>" href="<?=$this->config->item('base_url')?>actions/leaveConstructionList/<?=$i?>/"></a></div>
         <div class="amount"><span class="textLabel"> <?=$this->Data_Model->building_name_by_type($type)?> (<?=$levels[$this->Player_Model->build_line[$this->Player_Model->town_id][$i]['position']]+1?>)</span></div>
-        <div class="time" id="queueEntry1"><?=format_time($ostalos_all)?><span class="textLabel"> до завершения</span></div>
+        <div class="time" id="queueEntry1"><?=format_time($ostalos_all)?><span class="textLabel"> <?=$this->lang->line('to_complete')?></span></div>
     </li>
 <?}?>
     </ul>
 <?}?>
 <?}else{?>
         <img width="203" height="85" src="<?=$this->config->item('style_url')?>skin/research/area_economy.jpg">
-        <p>Чтобы воспользоваться очередью на строительство Вам нужен Премиум-аккаунт.</p>
+        <p><?=$this->lang->line('premium_turn')?></p>
         <div class="centerButton">
-            <a href="<?=$this->config->item('base_url')?>game/premium/" class="button">Икариам ПЛЮС</a>
+            <a href="<?=$this->config->item('base_url')?>game/premium/" class="button"><?=$this->lang->line('ikariam_plus')?></a>
         </div>
 <?}?>
     </div>

@@ -15,11 +15,11 @@
 ?>
 
 <div id="buildingUpgrade" class="dynamic upgrading">
-    <h3 class="header">Улучшение <a class="help" href="<?=$this->config->item('base_url')?>game/buildingDetail/<?=$type?>/" title="Помощь"><span class="textLabel">Нужна помощь?</span></a></h3>
+    <h3 class="header"><?=$this->lang->line('upgrade')?> <a class="help" href="<?=$this->config->item('base_url')?>game/buildingDetail/<?=$type?>/" title="<?=$this->lang->line('help')?>"><span class="textLabel"><?=$this->lang->line('need_help')?>?</span></a></h3>
     <div class="content">
-        <div class="isUpgrading">В процессе улучшения!</div>
-        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$level?></div>
-        <div class="nextLevel"><span class="textLabel">след. уровень </span><?=$level+1?></div>
+        <div class="isUpgrading"><?=$this->lang->line('is_upgrading')?></div>
+        <div class="buildingLevel"><span class="textLabel"><?=$this->lang->line('level')?> </span><?=$level?></div>
+        <div class="nextLevel"><span class="textLabel"><?=$this->lang->line('next_level')?> </span><?=$level+1?></div>
 
         <div class="progressBar"><div class="bar" id="upgradeProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div></div>
 			<script type="text/javascript">
@@ -39,7 +39,7 @@
 					setTimeout(function() { location.href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($type)?>/<?=$position?>/";},2000); });
 				});
 			</script>
-		<a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>game/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
+		<a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>game/demolition/<?=$position?>/" title="<?=$this->lang->line('cancel')?>"><span class="textLabel"><?=$this->lang->line('cancel')?></span></a>
 	</div>
 	<div class="footer"></div>
 </div>
@@ -49,9 +49,9 @@
 <div id="backTo" class="dynamic">
 	<h3 class="header"><?=$this->Data_Model->building_name_by_type($type)?></h3>
 	<div class="content">
-		<a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($type)?>/<?=$position?>/" title="Назад к Казарма">
+		<a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($type)?>/<?=$position?>/" title="<?=$this->lang->line('back_to')?> <?=$this->Data_Model->building_name_by_type($type)?>">
 		<img src="<?=$this->config->item('style_url')?>skin/buildings/y100/<?=$this->Data_Model->building_class_by_type($type)?>.gif" width="160" height="100">
-		<span class="textLabel">&lt;&lt; Назад к <?=$this->Data_Model->building_name_by_type($type)?></span></a>
+		<span class="textLabel">&lt;&lt; <?=$this->lang->line('back_to')?> <?=$this->Data_Model->building_name_by_type($type)?></span></a>
 	</div>
 	<div class="footer"></div>
 </div>

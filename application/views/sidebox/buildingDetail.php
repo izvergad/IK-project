@@ -1,109 +1,109 @@
 <div id="civilopedia_menu" class="dynamic" style="margin-bottom:10px;">
-    <h3 class="header">Икипедия</h3>
+    <h3 class="header"><?=$this->lang->line('ikapedia')?></h3>
     <div class="main">
         <ul>
             <li>
-                <a title="Узнать больше о FAQ - Строительство, стройматериалы и население..." href="<?=$this->config->item('base_url')?>game/informations/1/">FAQ - Строительство, стройматериалы и население</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_1_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/1/"><?=$this->lang->line('information_1_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Первые Шаги - Что такое браузерная игра?..." href="<?=$this->config->item('base_url')?>game/informations/5/">Первые Шаги - Что такое браузерная игра?</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_5_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/5/"><?=$this->lang->line('information_5_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Навигация..." href="<?=$this->config->item('base_url')?>game/informations/12/">Навигация</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_12_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/12/"><?=$this->lang->line('information_12_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Население и довольство жизнью..." href="<?=$this->config->item('base_url')?>game/informations/13/">Население и довольство жизнью</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_13_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/13/"><?=$this->lang->line('information_13_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Золото и финансы..." href="<?=$this->config->item('base_url')?>game/informations/14/">Золото и финансы</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_14_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/14/"><?=$this->lang->line('information_14_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Ресурсы - Строительный материал..." href="<?=$this->config->item('base_url')?>game/informations/15/">Ресурсы - Строительный материал</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_15_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/15/"><?=$this->lang->line('information_15_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Ресурсы - Добыча..." href="<?=$this->config->item('base_url')?>game/informations/16/">Ресурсы - Добыча</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_16_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/16/"><?=$this->lang->line('information_16_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Искусство войны - Оккупация..." href="<?=$this->config->item('base_url')?>game/informations/17/">Искусство войны - Оккупация</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_17_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/17/"><?=$this->lang->line('information_17_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Битва..." href="<?=$this->config->item('base_url')?>game/informations/18/">Битва</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_18_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/18/"><?=$this->lang->line('information_18_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Искусство войны..." href="<?=$this->config->item('base_url')?>game/informations/27/">Искусство войны</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_27_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/27/"><?=$this->lang->line('information_27_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Шпионаж..." href="<?=$this->config->item('base_url')?>game/informations/35/">Шпионаж</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_35_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/35/"><?=$this->lang->line('information_35_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Альянсы и договоры..." href="<?=$this->config->item('base_url')?>game/informations/36/">Альянсы и договоры</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_36_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/36/"><?=$this->lang->line('information_36_title')?></a>
             </li>
             <li>
-                <a title="Узнать больше о Религия..." href="<?=$this->config->item('base_url')?>game/informations/41/">Религия</a>
+                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_41_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/41/"><?=$this->lang->line('information_41_title')?></a>
             </li>
-                    <li><a title="Узнать больше о Исследования..." href="<?=$this->config->item('base_url')?>game/researchDetail/">Исследования</a></li>
-                    <li><a title="Узнать больше о Войсковые части..." href="<?=$this->config->item('base_url')?>game/unitDescription/">Войсковые части</a></li>
-                    <li><a title="Узнать больше о Корабли..." href="<?=$this->config->item('base_url')?>game/shipDescription/">Корабли</a></li>
-                    <li><a title="Узнать больше о Здания..." href="<?=$this->config->item('base_url')?>game/buildingDetail/">Здания</a>
+                    <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('researches')?>..." href="<?=$this->config->item('base_url')?>game/researchDetail/"><?=$this->lang->line('researches')?></a></li>
+                    <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('units')?>..." href="<?=$this->config->item('base_url')?>game/unitDescription/"><?=$this->lang->line('units')?></a></li>
+                    <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('ships')?>..." href="<?=$this->config->item('base_url')?>game/shipDescription/"><?=$this->lang->line('ships')?></a></li>
+                    <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('buildings')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/"><?=$this->lang->line('buildings')?></a>
               <ul>
 
-              <li><a title="Узнать больше о Ратуша..." href="<?=$this->config->item('base_url')?>game/buildingDetail/1/">Ратуша</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building1_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/1/"><?=$this->lang->line('building1_name')?></a></li>
 
-              <li><a title="Узнать больше о Академия..." href="<?=$this->config->item('base_url')?>game/buildingDetail/3/">Академия</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building3_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/3/"><?=$this->lang->line('building3_name')?></a></li>
 
-              <li><a title="Узнать больше о Склад..." href="<?=$this->config->item('base_url')?>game/buildingDetail/6/">Склад</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building6_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/6/"><?=$this->lang->line('building6_name')?></a></li>
 
-              <li><a title="Узнать больше о Таверна..." href="<?=$this->config->item('base_url')?>game/buildingDetail/8/">Таверна</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building8_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/8/"><?=$this->lang->line('building8_name')?></a></li>
 
-              <li><a title="Узнать больше о Дворец..." href="<?=$this->config->item('base_url')?>game/buildingDetail/10/">Дворец</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building10_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/10/"><?=$this->lang->line('building10_name')?></a></li>
 
-              <li><a title="Узнать больше о Резиденция губернатора..." href="<?=$this->config->item('base_url')?>game/buildingDetail/15/">Резиденция губернатора</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building15_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/15/"><?=$this->lang->line('building15_name')?></a></li>
 
-              <li><a title="Узнать больше о Музей..." href="<?=$this->config->item('base_url')?>game/buildingDetail/9/">Музей</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building9_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/9/"><?=$this->lang->line('building9_name')?></a></li>
 
-              <li><a title="Узнать больше о Торговый порт..." href="<?=$this->config->item('base_url')?>game/buildingDetail/2/">Торговый порт</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building2_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/2/"><?=$this->lang->line('building2_name')?></a></li>
 
-              <li><a title="Узнать больше о Верфь..." href="<?=$this->config->item('base_url')?>game/buildingDetail/4/">Верфь</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building4_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/4/"><?=$this->lang->line('building4_name')?></a></li>
 
-              <li><a title="Узнать больше о Казарма..." href="<?=$this->config->item('base_url')?>game/buildingDetail/5/">Казарма</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building5_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/5/"><?=$this->lang->line('building5_name')?></a></li>
 
-              <li><a title="Узнать больше о Городская стена..." href="<?=$this->config->item('base_url')?>game/buildingDetail/7/">Городская стена</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building7_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/7/"><?=$this->lang->line('building7_name')?></a></li>
 
-              <li><a title="Узнать больше о Посольство..." href="<?=$this->config->item('base_url')?>game/buildingDetail/11/">Посольство</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building11_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/11/"><?=$this->lang->line('building11_name')?></a></li>
 
-              <li><a title="Узнать больше о Рынок..." href="<?=$this->config->item('base_url')?>game/buildingDetail/12/">Рынок</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building12_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/12/"><?=$this->lang->line('building12_name')?></a></li>
 
-              <li><a title="Узнать больше о Мастерская..." href="<?=$this->config->item('base_url')?>game/buildingDetail/13/">Мастерская</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building13_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/13/"><?=$this->lang->line('building13_name')?></a></li>
 
-              <li><a title="Узнать больше о Укрытие..." href="<?=$this->config->item('base_url')?>game/buildingDetail/14/">Укрытие</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building14_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/14/"><?=$this->lang->line('building14_name')?></a></li>
 
-              <li><a title="Узнать больше о Хижина Лесничего..." href="<?=$this->config->item('base_url')?>game/buildingDetail/16/">Хижина Лесничего</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building16_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/16/"><?=$this->lang->line('building16_name')?></a></li>
 
-              <li><a title="Узнать больше о Стеклодувная Мастерская..." href="<?=$this->config->item('base_url')?>game/buildingDetail/18/">Стеклодувная Мастерская</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building18_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/18/"><?=$this->lang->line('building18_name')?></a></li>
 
-              <li><a title="Узнать больше о Башня Алхимика..." href="<?=$this->config->item('base_url')?>game/buildingDetail/20/">Башня Алхимика</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building20_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/20/"><?=$this->lang->line('building20_name')?></a></li>
 
-              <li><a title="Узнать больше о Винодельня..." href="<?=$this->config->item('base_url')?>game/buildingDetail/19/">Винодельня</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building19_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/19/"><?=$this->lang->line('building19_name')?></a></li>
 
-              <li><a title="Узнать больше о Каменоломня..." href="<?=$this->config->item('base_url')?>game/buildingDetail/17/">Каменоломня</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building17_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/17/"><?=$this->lang->line('building17_name')?></a></li>
 
-              <li><a title="Узнать больше о Плотницкая мастерская..." href="<?=$this->config->item('base_url')?>game/buildingDetail/21/">Плотницкая мастерская</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building21_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/21/"><?=$this->lang->line('building21_name')?></a></li>
 
-              <li><a title="Узнать больше о Оптика..." href="<?=$this->config->item('base_url')?>game/buildingDetail/23/">Оптика</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building23_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/23/"><?=$this->lang->line('building23_name')?></a></li>
 
-              <li><a title="Узнать больше о Полигон Пиротехника..." href="<?=$this->config->item('base_url')?>game/buildingDetail/25/">Полигон Пиротехника</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building25_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/25/"><?=$this->lang->line('building25_name')?></a></li>
 
-              <li><a title="Узнать больше о Винный погреб..." href="<?=$this->config->item('base_url')?>game/buildingDetail/24/">Винный погреб</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building24_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/24/"><?=$this->lang->line('building24_name')?></a></li>
 
-              <li><a title="Узнать больше о Бюро Архитектора..." href="<?=$this->config->item('base_url')?>game/buildingDetail/22/">Бюро Архитектора</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building22_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/22/"><?=$this->lang->line('building22_name')?></a></li>
 
-              <li><a title="Узнать больше о Храм..." href="<?=$this->config->item('base_url')?>game/buildingDetail/26/">Храм</a></li>
+              <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('building26_name')?>..." href="<?=$this->config->item('base_url')?>game/buildingDetail/26/"><?=$this->lang->line('building26_name')?></a></li>
                      
               </ul>
 
                     </li>
 
-            <li><a title="Узнать больше о Чудеса..." href="<?=$this->config->item('base_url')?>game/wonderDetail/">Чудеса</a></li>
+            <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('wonders')?>..." href="<?=$this->config->item('base_url')?>game/wonderDetail/"><?=$this->lang->line('wonders')?></a></li>
 
 
 

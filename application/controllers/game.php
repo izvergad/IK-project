@@ -390,6 +390,7 @@ class Game extends Controller {
      */
     function worldmap_iso($x = 0, $y = 0)
     {
+        $this->lang->load('data_wonders');
         $id = $this->Player_Model->island_id;
         $this->load->model('Island_Model');
         $this->Island_Model->Load_Island($id);

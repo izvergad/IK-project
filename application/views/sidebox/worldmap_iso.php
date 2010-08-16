@@ -23,24 +23,24 @@ city_status=1;
 IE = (navigator.appName!='Microsoft Internet Explorer')?0:1;
 
 tradegoodText = new Array();
-tradegoodText[1] = 'Виноград';
-tradegoodText[2] = 'Мрамор';
-tradegoodText[3] = 'Хрусталь';
-tradegoodText[4] = 'Сера';
+tradegoodText[1] = '<?=$this->lang->line('wine')?>';
+tradegoodText[2] = '<?=$this->lang->line('marble')?>';
+tradegoodText[3] = '<?=$this->lang->line('crystal')?>';
+tradegoodText[4] = '<?=$this->lang->line('resource')?>';
 
 wonderText = new Array();
-wonderText[1] = 'Кузница Гефеста';
-wonderText[2] = 'Святая Роща Аида';
-wonderText[3] = 'Сады Деметры';
-wonderText[4] = 'Храм Афины';
-wonderText[5] = 'Храм Гермеса';
-wonderText[6] = 'Крепость Ареса';
-wonderText[7] = 'Храм Посейдона';
-wonderText[8] = 'Колосс';
+wonderText[1] = '<?=$this->lang->line('wonder_1')?>';
+wonderText[2] = '<?=$this->lang->line('wonder_2')?>';
+wonderText[3] = '<?=$this->lang->line('wonder_3')?>';
+wonderText[4] = '<?=$this->lang->line('wonder_4')?>';
+wonderText[5] = '<?=$this->lang->line('wonder_5')?>';
+wonderText[6] = '<?=$this->lang->line('wonder_6')?>';
+wonderText[7] = '<?=$this->lang->line('wonder_7')?>';
+wonderText[8] = '<?=$this->lang->line('wonder_8')?>';
 
 
 var mapText = new Array();
-mapText['markedislandlink'] = 'Центрировать карту на этом острове';
+mapText['markedislandlink'] = '<?=$this->lang->line('center_map')?>';
 
 markCoordX = -1;
 markCoordY = -1;
@@ -839,7 +839,7 @@ function showIslandAddDialog(islandId, islandX, islandY, islandName) {
 	box.style.display='block';
 	var closeButton = box.firstChild;
 	var header = Dom.get('annotationHeader');
-	header.innerHTML = "Добавить остров в лист доступа: "+islandName;
+	header.innerHTML = "<?=$this->lang->line('add_island')?>: "+islandName;
 	var content = Dom.get('annotationText');
 	//content.innerHTML = "Insel Anfügen und so";
 	document.addIslandForm.islandX.value = islandX;
@@ -876,7 +876,7 @@ Event.onDOMReady( function() {
  
 
 <div id="navigation" class="dynamic" style="z-index:10000">
-		<h3 class="header">Навигация</h3>
+		<h3 class="header"><?=$this->lang->line('world_navigation')?></h3>
 		<div class="content">
 
 			<form name="navInputForm" action="javaScript:void(null);" onsubmit="map.jumpToCoord();">
@@ -910,7 +910,7 @@ Event.onDOMReady( function() {
 
 
 			<form name="navShortcutForm" action="javaScript:void(null);" onsubmit="map.jumpToShortcut();">
-			<div id="mapShortcutInput"  style="position:relative;" title="Ссылки острова">
+			<div id="mapShortcutInput"  style="position:relative;" title="<?=$this->lang->line('island_shortcuts')?>">
 
 				<select id="homeCitySelect"
                                class="citySpecialSelect smallFont"
@@ -927,15 +927,15 @@ Event.onDOMReady( function() {
 	</div>
 
 	<div id="information" class="dynamic">
-		<h3 id="islandName" class="header">Инфо</h3>
+		<h3 id="islandName" class="header"><?=$this->lang->line('info')?></h3>
 		<div class="content">
             <table id="islandInfos">
-                <tr><th>Торговля:</th><td id="tradegoodLabel" class=label></td></tr>
-                <tr><th>Чудо:</th><td id="wonderLabel"  class="label"></td></tr>
+                <tr><th><?=$this->lang->line('trade')?>:</th><td id="tradegoodLabel" class=label></td></tr>
+                <tr><th><?=$this->lang->line('wonder')?>:</th><td id="wonderLabel"  class="label"></td></tr>
             </table>
 
-            <div class="centerButton"><p><a class="button" id="islandAddButton" href="#" title="Добавить этот остров в лист доступа">Добавить ярлык</a>
-            <a class="button" id="islandRemoveButton" href="#"  title="Удалить этот остров из списка быстрого доступа">Удалить ссылку</a></p>
+            <div class="centerButton"><p><a class="button" id="islandAddButton" href="#" title="<?=$this->lang->line('add_island')?>"><?=$this->lang->line('add_shortcut')?></a>
+            <a class="button" id="islandRemoveButton" href="#"  title="<?=$this->lang->line('remove_island')?>"><?=$this->lang->line('delete_shortcut')?></a></p>
             </div>
 
 		</div>

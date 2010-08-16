@@ -1,4 +1,4 @@
 <div id="breadcrumbs">
-	<h3>Вы здесь:</h3>
-	<span class="textLabel">Подробно об исследовании</span>
+	<h3><?=$this->lang->line('you_here')?>:</h3>
+	<span class="textLabel"><?=$this->lang->line('research_info')?></span>
 </div> 

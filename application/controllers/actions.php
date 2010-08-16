@@ -343,6 +343,10 @@ class Actions extends Controller
                 $this->Error('Для постройки здания не хватает ресурсов!');
             }
         }
+        else
+        {
+            $this->show($redirect, $position);
+        }
     }
 
     /**

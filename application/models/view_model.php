@@ -128,6 +128,7 @@ class View_Model extends Model
      */
     function show_sidebox($location = 'city', $param1, $param2, $param3)
     {
+        $this->lang->load('game_sidebox');
         switch($location)
         {
             case 'diplomacyAdvisorOutBox': $location = 'diplomacyAdvisor'; break;
@@ -195,6 +196,7 @@ class View_Model extends Model
 
     function show_bread($location = 'city', $param1, $param2, $param3)
     {
+        $this->lang->load('game_bread');
         switch($location)
         {
             case 'armyGarrisonEdit': $location = 'barracks'; break;
@@ -205,13 +207,13 @@ class View_Model extends Model
         @$type = ($param1 > 0 and $param1 <= 15) ? $this->Player_Model->now_town->$pos_text : $this->Data_Model->building_type_by_class($location);
         switch($location)
         {
-            case 'demolition': $caption = 'Подтверждение'; $file = 'building';break;
-            case 'renameCity': $caption = 'Переименовать город'; $file = 'building'; $type = 1; break;
-            case 'abolishColony': $caption = 'Покинуть колонию'; $file = 'building'; $type = 1; break;
-            case 'researchOverview': $caption = 'Библиотека'; $file = 'building'; $type = 3; break;
-            case 'safehouseMissions': $caption = 'Миссии'; $file = 'building'; $type = 14; break;
-            case 'safehouseReports': $caption = 'Шпионский доклад'; $file = 'building'; $type = 14; break;
-            case 'takeOffer': if ($param2 == 0) { $caption = 'Принять ставку'; } else { $caption = 'Принять предложение'; } $file = 'building'; $type = 12; break;
+            case 'demolition': $caption = $this->lang->line('confirm'); $file = 'building';break;
+            case 'renameCity': $caption = $this->lang->line('rename_city'); $file = 'building'; $type = 1; break;
+            case 'abolishColony': $caption = $this->lang->line('leave_colony'); $file = 'building'; $type = 1; break;
+            case 'researchOverview': $caption = $this->lang->line('library'); $file = 'building'; $type = 3; break;
+            case 'safehouseMissions': $caption = $this->lang->line('missions'); $file = 'building'; $type = 14; break;
+            case 'safehouseReports': $caption = $this->lang->line('esp_report'); $file = 'building'; $type = 14; break;
+            case 'takeOffer': if ($param2 == 0) { $caption = $this->lang->line('accept_rate'); } else { $caption = $this->lang->line('accept_offer'); } $file = 'building'; $type = 12; break;
             case 'academy':
             case 'barracks':
             case 'buildingGround':
@@ -231,28 +233,28 @@ class View_Model extends Model
             case 'winegrower':
             case 'alchemist':
             case 'warehouse': $file = 'town'; break;
-            case 'cityMilitary': $caption = 'Военный обзор'; $file = 'town'; break;
-            case 'buildingDetail': $caption = 'Информация о здании'; $file = 'world'; break;
-            case 'researchAdvisor': $caption = 'Советник по исследованиям'; $file = 'world'; break;
+            case 'cityMilitary': $caption = $this->lang->line('military_advisor_title'); $file = 'town'; break;
+            case 'buildingDetail': $caption = $this->lang->line('building_info'); $file = 'world'; break;
+            case 'researchAdvisor': $caption = $this->lang->line('research_advisor'); $file = 'world'; break;
             case 'diplomacyAdvisorOutBox':
-            case 'diplomacyAdvisor': $caption = 'Советник по дипломатии'; $file = 'world'; break;
-            case 'sendIKMessage': $caption = 'Создать сообщение'; $file = 'world'; break;
+            case 'diplomacyAdvisor': $caption = $this->lang->line('diplomatic_advisor'); $file = 'world'; break;
+            case 'sendIKMessage': $caption = $this->lang->line('create_message'); $file = 'world'; break;
             case 'tradeAdvisorTradeRoute':
-            case 'tradeAdvisor': $caption = 'Мэр'; $file = 'world'; break;
-            case 'militaryAdvisorMilitaryMovements': $caption = 'Военный советник'; $file = 'world'; break;
-            case 'error': $caption = 'Ошибка!'; $file = 'null'; break;
-            case 'options': $caption = 'Настройки'; $file = 'null'; break;
-            case 'finances': $caption = 'Сводный отчет по финансам'; $file = 'null'; break;
+            case 'tradeAdvisor': $caption = $this->lang->line('mayor'); $file = 'world'; break;
+            case 'militaryAdvisorMilitaryMovements': $caption = $this->lang->line('military_advisor'); $file = 'world'; break;
+            case 'error': $caption = $this->lang->line('error'); $file = 'null'; break;
+            case 'options': $caption = $this->lang->line('options'); $file = 'null'; break;
+            case 'finances': $caption = $this->lang->line('finances'); $file = 'null'; break;
             case 'premium':
             case 'premiumDetails':
-            case 'premiumPayment': $caption = 'Икариам ПЛЮС'; $file = 'null'; break;
-            case 'researchDetail': $caption = 'Подробно об исследовании'; $file = 'null'; break;
-            case 'merchantNavy': $caption = 'Торговый флот'; $file = 'null'; break;
-            case 'transport': $caption = 'Транспорт'; $file = '_island'; break;
-            case 'sendSpy': $caption = 'Отправить шпиона'; $file = '_island'; break;
-            case 'colonize': $caption = 'Колонизация'; $file = '_island'; break;
-            case 'premiumTradeAdvisor': $caption = 'Обзор построек'; $file = 'tradeAdvisor'; break;
-            case 'highscore': $caption = 'Топ-лист игры'; $file = 'null'; break;
+            case 'premiumPayment': $caption = $this->lang->line('ikariam_plus'); $file = 'null'; break;
+            case 'researchDetail': $caption = $this->lang->line('research_detail'); $file = 'null'; break;
+            case 'merchantNavy': $caption = $this->lang->line('merchant_navy'); $file = 'null'; break;
+            case 'transport': $caption = $this->lang->line('transport'); $file = '_island'; break;
+            case 'sendSpy': $caption = $this->lang->line('send_spy'); $file = '_island'; break;
+            case 'colonize': $caption = $this->lang->line('colonize'); $file = '_island'; break;
+            case 'premiumTradeAdvisor': $caption = $this->lang->line('constructions_review'); $file = 'tradeAdvisor'; break;
+            case 'highscore': $caption = $this->lang->line('top_list'); $file = 'null'; break;
             default:
                  $file = $location; break;
             break;
