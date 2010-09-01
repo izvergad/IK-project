@@ -26,8 +26,8 @@ for ($i = 0; $i <= 14; $i++)
 
         <li id="position<?=$i?>" class="<?=$this->Data_Model->building_class_by_type($type)?>">
             <div class="constructionSite"></div>
-            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($type)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($type)?> Уровень <?=$level?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($type)?> Уровень <?=$level?> (В процессе строительства)</span></a>
-            <div class="timetofinish"><span class="before"></span><span class="textLabel">Время до завершения: </span><span id="cityCountdown"><?=format_time($ostalos)?></span><span class="after"></span></div>
+            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($type)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($type)?> <?=$this->lang->line('level')?> <?=$level?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($type)?> <?=$this->lang->line('level')?> <?=$level?> (<?=$this->lang->line('under_construction')?>)</span></a>
+            <div class="timetofinish"><span class="before"></span><span class="textLabel"><?=$this->lang->line('time_till')?>: </span><span id="cityCountdown"><?=format_time($ostalos)?></span><span class="after"></span></div>
 
         <script type="text/javascript">
             var tmpCnt =    getCountdown({
@@ -36,7 +36,7 @@ for ($i = 0; $i <= 14; $i++)
                 el: "cityCountdown"
             });
             tmpCnt.subscribe("finished", function() {
-                top.document.title = "Икариам";
+                top.document.title = "<?=$this->lang->line('ikariam')?>";
                 setTimeout(function() {
                     location.href="<?=$this->config->item('base_url')?>game/city/";
                 },2000);
@@ -47,10 +47,10 @@ for ($i = 0; $i <= 14; $i++)
         <li id="position<?=$i?>" class="<?=$this->Data_Model->building_class_by_type($class)?> <?if ($level == 0 and $class == 0){?><?=$sub_class?><?}?>">
 <?if ($i == 13 and $this->Player_Model->research->res2_13 == 0) {?>
             <div></div>
-            <a href="#" title="Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!"><span class="textLabel">Прежде чем построить на этом месте, Вам необходимо исследовать государственный аппарат!</span></a>
+            <a href="#" title="<?=$this->lang->line('research_bureaucracy')?>"><span class="textLabel"><?=$this->lang->line('research_bureaucracy')?></span></a>
 <?}else{?>
             <div class="<?if($class > 0){?><?if($level > 0){?><?=$image?><?}else{?>constructionSite<?}?><?}else{?><?=$image?><?}?>"></div>
-            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> <?if($class > 0){?>Уровень <?=$level?><?}?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($class)?>  <?if($class > 0){?>Уровень <?=$level?><?}?></span></a>
+            <a href="<?=$this->config->item('base_url')?>game/<?=$this->Data_Model->building_class_by_type($class)?>/<?=$i?>/" title="<?=$this->Data_Model->building_name_by_type($class)?> <?if($class > 0){?><?=$this->lang->line('level')?> <?=$level?><?}?>"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($class)?>  <?if($class > 0){?>Уровень <?=$level?><?}?></span></a>
 <?$line_id=1?>
 <?if(SizeOf($this->Player_Model->build_line[$this->Player_Model->town_id])>1){?>
 <?foreach($this->Player_Model->build_line[$this->Player_Model->town_id] as $build_line){?>
@@ -65,7 +65,7 @@ for ($i = 0; $i <= 14; $i++)
 }
 ?>
 <?if($this->Player_Model->good[$this->Player_Model->town_id] < 0){?>
-        <li class="protester" title="Граждане города сердятся!"></li>
+        <li class="protester"></li>
 <?}else{?>
 <?if($this->Player_Model->good[$this->Player_Model->town_id] >= 50){?>
         <li class="beachboys"></li>

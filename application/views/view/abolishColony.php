@@ -1,11 +1,9 @@
 <div id="mainview">
-    <h1>Покинуть колонию</h1>
-    <p>Покинуть свой город вы можете здесь. Однако, обращаем ваше внимание: Если Вы покинете город, все находящиеся в нем ресурсы, а также все живущие и работающие там граждане, все построенные Вами здания,  войска и флот будут потеряны безвозвратно. Поэтому, прежде чем пойти на этот шаг, примите соответствующие меры по эвакуации ресурсов и людей из города.
-
-Вы уверены, что хотите покинуть колонию?</p>
+    <h1><?=$this->lang->line('leave_colony')?></h1>
+    <p><?=$this->lang->line('leave_colony_text')?></p>
     <form action="<?=$this->config->item('base_url')?>actions/abolishColony/"  method="POST">
         <div class="centerButton">
-            <input type="submit" class="button" value="Покинуть колонию">
+            <input type="submit" class="button" value="<?=$this->lang->line('leave_colony')?>">
         </div>
     </form>
     <br><br><br>

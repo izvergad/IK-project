@@ -1,5 +1,5 @@
 <?php
-
+    
     /**
      * Форматирование времени
      * @param <int> $seconds
@@ -7,6 +7,8 @@
      */
     function format_time($seconds)
     {
+        $CI =& get_instance();
+        
         $days = floor($seconds/86400);
         $hours = floor(($seconds-($days*86400))/3600);
         $minutes = floor(($seconds-($days*86400)-($hours*3600))/60);
@@ -16,22 +18,22 @@
         if ($days > 0 and $times_count < 2)
         {
             $times_count++;
-            $return .= $days.'д. ';
+            $return .= $days.$CI->lang->line('d_mini').' ';
         }
         if ($hours > 0 and $times_count < 2)
         {
             $times_count++;
-            $return .= $hours.'ч. ';
+            $return .= $hours.$CI->lang->line('h_mini').' ';
         }
         if ($minutes > 0 and $times_count < 2)
         {
             $times_count++;
-            $return .= $minutes.'мин. ';
+            $return .= $minutes.$CI->lang->line('m_mini').' ';
         }
         if ($seconds > 0 and $times_count < 2)
         {
             $times_count++;
-            $return .= $seconds.'с. ';
+            $return .= $seconds.$CI->lang->line('s_mini').' ';
         }
         
         return $return;
@@ -39,26 +41,28 @@
 
     function premium_time($seconds)
     {
+        $CI =& get_instance();
+
         $days = floor($seconds/86400);
         $hours = floor(($seconds-($days*86400))/3600);
         $minutes = floor(($seconds-($days*86400)-($hours*3600))/60);
         $seconds = floor($seconds-($days*86400)-($hours*3600)-($minutes*60));
-        $return = ($days > 0) ? $days.'д. ' : '';
+        $return = ($days > 0) ? $days.$CI->lang->line('d_mini').' ' : '';
         if ($days > 0)
         {
-            $return = $days.'д.';
+            $return = $days.$CI->lang->line('d_mini');
         }
         elseif($days == 0 and $hours > 0)
         {
-            $return = $hours.'ч.';
+            $return = $hours.$CI->lang->line('h_mini');
         }
         elseif($days == 0 and $hours == 0 and $minutes > 0)
         {
-            $return = $minutes.'мин.';
+            $return = $minutes.$CI->lang->line('m_mini');
         }
         elseif($days == 0 and $hours == 0 and $minutes == 0 and $seconds > 0)
         {
-            $return = $seconds.'с.';
+            $return = $seconds.$CI->lang->line('s_mini');
         }
         else
         {

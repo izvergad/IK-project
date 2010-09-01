@@ -6,6 +6,14 @@ class Data_Model extends Model
     {
         // Call the Model constructor
         parent::Model();
+                if ($this->session->userdata('language'))
+                {
+                    $this->lang->load('ikariam', $this->session->userdata('language'));
+                }
+                else
+                {
+                    $this->lang->load('ikariam');
+                }
     }
 
     function Load_User($id = 0)
@@ -100,7 +108,6 @@ class Data_Model extends Model
      */
     function island_building_by_resource($id)
     {
-        $this->lang->load('data_island_buildings');
         switch($id)
         {
             case 1: return $this->lang->line('island_building_wine'); break;
@@ -118,7 +125,6 @@ class Data_Model extends Model
      */
     function army_name_by_type($type)
     {
-        $this->lang->load('data_army_names');
         switch($type)
         {
             case 1: return $this->lang->line('army1_name'); break;
@@ -154,7 +160,6 @@ class Data_Model extends Model
      */
     function army_desc_by_type($type)
     {
-        $this->lang->load('data_army_descs');
         switch($type)
         {
             case 1: return $this->lang->line('army1_desc'); break;
@@ -380,7 +385,6 @@ class Data_Model extends Model
      */
     function building_name_by_type($type)
     {
-        $this->lang->load('data_buildings_names');
         switch($type)
         {
             case 1: return $this->lang->line('building1_name'); break;
@@ -402,7 +406,7 @@ class Data_Model extends Model
             case 17: return $this->lang->line('building17_name'); break;
             case 18: return $this->lang->line('building18_name'); break;
             case 19: return $this->lang->line('building19_name'); break;
-            case 20: return $this->lang->line('building120_name'); break;
+            case 20: return $this->lang->line('building20_name'); break;
             case 21: return $this->lang->line('building21_name'); break;
             case 22: return $this->lang->line('building22_name'); break;
             case 23: return $this->lang->line('building23_name'); break;
@@ -420,7 +424,6 @@ class Data_Model extends Model
      */
     function building_desc_by_type($type)
     {
-        $this->lang->load('data_buildings_descs');
         switch($type)
         {
             case 1: return $this->lang->line('building1_desc');
@@ -536,7 +539,6 @@ class Data_Model extends Model
      */
     function resource_name_by_type($type)
     {
-        $this->lang->load('data_resources');
         switch($type)
         {
             case 1: return $this->lang->line('resource_wine'); break;
@@ -1036,7 +1038,6 @@ class Data_Model extends Model
      */
     function get_research($way = 1, $id = 1, $research)
     {
-        $this->lang->load('data_researches');
         if ($way == 1 and $id > 14){$id = 14;}
         if ($way == 2 and $id > 15){$id = 15;}
         if ($way == 3 and $id > 16){$id = 16;}
@@ -1479,7 +1480,6 @@ class Data_Model extends Model
      */
     function get_wonder_by_type($type)
     {
-        $this->lang->load('data_wonders');
         switch($type)
         {
             case 1: return $this->lang->line('wonder_1'); break;
@@ -1590,7 +1590,6 @@ class Data_Model extends Model
 
     function mission_name_by_type($type = 0)
     {
-        $this->lang->load('data_missions');
         switch($type)
         {
             case 1: return $this->lang->line('mission_1'); break;
@@ -1602,7 +1601,6 @@ class Data_Model extends Model
 
     function spy_mission_name_by_type($type = 0)
     {
-        $this->lang->load('data_spy_missions');
         switch($type)
         {
             case 0: return $this->lang->line('spy_mission_0_name'); break;

@@ -12,6 +12,7 @@ class Actions extends Controller
     function Actions()
     {
         parent::Controller();
+
         $this->load->model('Player_Model');
         if (!$this->session->userdata('login'))
         {

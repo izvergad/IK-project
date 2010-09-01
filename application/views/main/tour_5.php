@@ -13,10 +13,12 @@
 <script>
 $(document).ready(function(){
     $(".back").click(function(){
-        $('#text').load('<?=$this->config->item('base_url')?>main/page/tour_4/');
+        $("#fuzz").fadeIn();
+        $('#text').load('<?=$this->config->item('base_url')?>main/page/tour_4/',function(){$("#fuzz").fadeOut()});
     });
     $(".next").click(function(){
-        $('#text').load('<?=$this->config->item('base_url')?>main/page/register/');
+        $("#fuzz").fadeIn();
+        $('#text').load('<?=$this->config->item('base_url')?>main/page/register/',function(){$("#fuzz").fadeOut()});
     });
 });
 </script>

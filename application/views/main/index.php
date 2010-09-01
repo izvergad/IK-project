@@ -37,11 +37,13 @@
 <script>
 $(document).ready(function(){
     $("#index_register").click(function(){
-        $('#text').load('<?=$this->config->item('base_url')?>main/page/register/');
+        $("#fuzz").fadeIn();
+        $('#text').load('<?=$this->config->item('base_url')?>main/page/register/',function(){$("#fuzz").fadeOut()});
     });
 <?if ($this->config->item('game_email')){?>
     $("#lost_password").click(function(){
-        $('#text').load('<?=$this->config->item('base_url')?>main/page/password/');
+        $("#fuzz").fadeIn();
+        $('#text').load('<?=$this->config->item('base_url')?>main/page/password/',function(){$("#fuzz").fadeOut()});
     });
 <?}?>
 });

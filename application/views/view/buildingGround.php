@@ -1,11 +1,11 @@
 <?$position = $param1?>
 <div id="mainview">			
     <div class="buildingDescription">
-        <h1>Участок для постройки</h1>
-        <p>Перед Вами находится обширный пустырь. Какое здание Вы хотите здесь построить?</p>
+        <h1><?=$this->lang->line('empty_building_ground')?></h1>
+        <p><?=$this->lang->line('empty_building_text')?></p>
     </div>
     <div class="contentBox01h">
-        <h3 class="header">Построить здание</h3>
+        <h3 class="header"><?=$this->lang->line('build_building')?></h3>
         <div class="content">
             <ul id="buildings">
 <?$buildings_count = 0?>
@@ -52,57 +52,57 @@
         $this->Player_Model->now_town->marble < $cost['marble'] or
         $this->Player_Model->now_town->crystal < $cost['crystal'] or
       $this->Player_Model->now_town->sulfur < $cost['sulfur']){?>
- <p class="cannotbuild">Недостаточно ресурсов!</p>
+ <p class="cannotbuild"><?=$this->lang->line('not_resources')?></p>
  <?}else{?>
 <?if($this->Player_Model->now_town->build_line == ''){?>
                     <div class="centerButton">
                         <a class="button build" style="padding-left:3px;padding-right:3px;" href="<?=$this->config->item('base_url')?>actions/build/<?=$position?>/<?=$building_id?>/">
-                            <span class="textLabel">Построить</span>
+                            <span class="textLabel"><?=$this->lang->line('build_now')?></span>
                         </a>
                     </div>
 <?}else{?>
 <?if($this->Player_Model->user->premium_account > 0){?>
                     <div class="centerButton">
                         <a class="button build" style="padding-left:3px;padding-right:3px;" href="<?=$this->config->item('base_url')?>actions/build/<?=$position?>/<?=$building_id?>/">
-                            <span class="textLabel">В очередь</span>
+                            <span class="textLabel"><?=$this->lang->line('to_queue')?></span>
                         </a>
                     </div>
 <?}else{?>
-    <p class="cannotbuild">Уже имеется строящееся или улучшаемое здание. (<a href="<?=$this->config->item('base_url')?>game/premiumDetails/">Поместить в очередь на постройку?</a>)</p>
+    <p class="cannotbuild"><?=$this->lang->line('already_building')?> (<a href="<?=$this->config->item('base_url')?>game/premiumDetails/"><?=$this->lang->line('carry_building')?></a>)</p>
 <?}?>
 <?}?>
 <?}?>
                     <div class="costs">
-                        <h5>Стоимость:</h5>
+                        <h5><?=$this->lang->line('cost')?>:</h5>
                         <ul class="resources">
 <?if($cost['wood'] > 0){?>
-                            <li class="wood" title="Стройматериалы">
-                                <span class="textLabel">Стройматериалы: </span><?=number_format($cost['wood'])?>
+                            <li class="wood" title="<?=$this->lang->line('wood')?>">
+                                <span class="textLabel"><?=$this->lang->line('wood')?>: </span><?=number_format($cost['wood'])?>
                             </li>
 <?}?>
 <?if($cost['wine'] > 0){?>
-                            <li class="wine" title="Виноград">
-                                <span class="textLabel">Виноград: </span><?=number_format($cost['wine'])?>
+                            <li class="wine" title="<?=$this->lang->line('wine')?>">
+                                <span class="textLabel"><?=$this->lang->line('wine')?>: </span><?=number_format($cost['wine'])?>
                             </li>
 <?}?>
 <?if($cost['marble'] > 0){?>
-                            <li class="marble" title="Мрамор">
-                                <span class="textLabel">Мрамор: </span><?=number_format($cost['marble'])?>
+                            <li class="marble" title="<?=$this->lang->line('marble')?>">
+                                <span class="textLabel"><?=$this->lang->line('marble')?>: </span><?=number_format($cost['marble'])?>
                             </li>
 <?}?>
 <?if($cost['crystal'] > 0){?>
-                            <li class="crystal" title="Хрусталь">
-                                <span class="textLabel">Хрусталь: </span><?=number_format($cost['crystal'])?>
+                            <li class="crystal" title="<?=$this->lang->line('crystal')?>">
+                                <span class="textLabel"><?=$this->lang->line('cystal')?>: </span><?=number_format($cost['crystal'])?>
                             </li>
 <?}?>
 <?if($cost['sulfur'] > 0){?>
-                            <li class="sulfur" title="Сера">
-                                <span class="textLabel">Сера: </span><?=number_format($cost['sulfur'])?>
+                            <li class="sulfur" title="<?=$this->lang->line('sulfur')?>">
+                                <span class="textLabel"><?=$this->lang->line('sulfur')?>: </span><?=number_format($cost['sulfur'])?>
                             </li>
 <?}?>
 
-                            <li class="time" title="Время постройки">
-                                <span class="textLabel">Время постройки: </span><?=format_time($cost['time'])?>
+                            <li class="time" title="<?=$this->lang->line('build_time')?>">
+                                <span class="textLabel"><?=$this->lang->line('build_time')?>: </span><?=format_time($cost['time'])?>
                             </li>
                         </ul>
                     </div>
@@ -112,7 +112,7 @@
 <?}?>
             </ul>
 <?if($buildings_count == 0){?>
-<div><br><center><p>Невозможно построить новые здания.</p></center></div>
+<div><br><center><p><?=$this->lang->line('no_buildings')?></p></center></div>
 <?}?>
 
         </div>

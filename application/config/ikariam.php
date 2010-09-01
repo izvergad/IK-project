@@ -1,40 +1,50 @@
 <?php
 
 /**
- * Версия игры
+ * Game version
  */
-$config['game_version'] = '0.0.1';                   // Версия игры
-/**
- * URL адреса
- */
-$config['style_url'] = 'http://127.0.0.1/design/';   // URL сервера со скином
-$config['style_version'] = $config['game_version'];  // URL сервера со скином
-$config['script_url'] = 'http://127.0.0.1/design/';  // URL сервера со скриптом
-$config['script_version'] = $config['game_version']; // URL сервера со скриптом
-$config['forum_url'] = 'http://127.0.0.1/forum/';    // URL сервера со скриптом
-$config['easter'] = FALSE;                           // Активировать пасхальное оформление
+$config['game_version'] = '0.0.1';
 
 /**
- * Настройки почты
+ * URLs
  */
-$config['game_email'] = FALSE;            // Разрешение на отправку писем (Настройте SMTP)
-$config['email_from'] = 'hermes@game.ru'; // Адрес, с которого приходит письмо
+$config['style_url'] = 'http://127.0.0.1/design/';   // URL - skin
+$config['style_version'] = $config['game_version'];  // Skin version
+$config['script_url'] = 'http://127.0.0.1/design/';  // URL - scripts
+$config['script_version'] = $config['game_version']; // Scripts version
+$config['forum_url'] = 'http://127.0.0.1/forum/';    // URL - forum
 
 /**
- * Безопасность
+ * Designs
  */
-$config['double_login'] = FALSE;     // Активировать проверку на мультоводство
+$config['easter'] = FALSE;                           // Easter design
+$config['design_4'] = TRUE;                          // 0.4.0 design
 
 /**
- * Игровые настройки
- * Рекомендуется не изменять их
+ * Mail config
  */
-$config['standart_capacity'] = 1500;  // Стандартная вместимость склада
-$config['transport_capacity'] = 500;  // Стандартная вместимость сухогруза
-$config['town_queue_size'] = 3;       // Длина очереди построек
-$config['army_queue_size'] = 3;       // Длина очереди армии
-$config['notes_default'] = 200;       // Длина заметок в символах
-$config['notes_premium'] = 8192;      // Длина заметок с премиум аккуантом
-$config['trade_route_time'] = 604800; // Длительность торгового маршрута
+$config['game_email'] = FALSE;                       // To resolve sending of letters (Adjust SMTP)
+$config['email_from'] = 'hermes@game.ru';            // The address from which the letter comes
+
+/**
+ * Safe
+ */
+$config['double_login'] = FALSE;                     // Multi-Accounting check
+
+/**
+ * Game options
+ */
+$config['standart_capacity'] = 1500;                 // Default storage capacity
+$config['transport_capacity'] = 500;                 // Default cargo capacity
+$config['town_queue_size'] = 3;                      // Buildings - construction list size
+$config['army_queue_size'] = 3;                      // Army -  construction list size
+$config['notes_default'] = 200;                      // Notes length
+$config['notes_premium'] = 8192;                     // Premium notes length
+$config['trade_route_time'] = 604800;                // Duration of a trading route
+
+/**
+ * News
+ */
+$config['head_news'] = 'Welcome to Ikariam!';
 
 ?>

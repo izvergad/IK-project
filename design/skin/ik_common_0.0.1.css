@@ -236,6 +236,21 @@ a{top:33px;width:98px;height:29px;background:url(layout/btn_ambrosia.jpg) no-rep
 a.down{background-position:0px -58px}
 #globalResources
 .goldBalance{display:none}
+
+#globalResources
+li{position:absolute}#globalResources li
+a{position:absolute;font-weight:bold;color:#906646}#globalResources li a:hover{text-decoration:none}#globalResources .ambrosiaNoSpin
+a{top:-36px;left:0px;width:98px;height:70px;background:url(premium/premiumsymbol_a_no_spin.gif) no-repeat 0px 0px;text-align:right;padding-right:12px;line-height:108px}#globalResources .ambrosia
+a{top:-36px;left:0px;width:98px;height:70px;background:url(premium/premiumsymbol_a.gif) no-repeat 0px 0px;text-align:right;padding-right:12px;line-height:108px}#globalResources .ambrosia a:hover, #globalResources .ambrosiaNoSpin a:hover{background:url(premium/premiumsymbol_b.gif) no-repeat 0px 0px}#globalResources .ambrosia a.down, #globalResources .ambrosiaNoSpin
+a.down{background:url(premium/premiumsymbol_c.gif) no-repeat 0px 0px}#globalResources .ambrosia .transSum, #globalResources .transporters
+.transAvail{display:block;margin-left:64px}#globalResources .ambrosia
+.transAvail{margin-top:9px;font-size:18px}#globalResources .gold
+a{top:62px;width:98px;height:29px;background:url(layout/btn_gold.jpg) no-repeat 0px 0px;padding-right:12px;line-height:29px;text-align:right}#globalResources .gold a:hover{background-position:0px -29px}#globalResources .gold
+a.down{background-position:0px -58px}#globalResources .transporters
+a{top:33px;width:98px;height:29px;background:url(layout/btn_ship2.jpg) no-repeat 0px 0px;padding-right:12px;line-height:29px;text-align:right}#globalResources .transporters a:hover{background-position:0px -29px}#globalResources .transporters
+a.down{background-position:0px -58px}#globalResources
+.goldBalance{display:none}
+
 #advisors
 li{position:absolute}
 #advisors

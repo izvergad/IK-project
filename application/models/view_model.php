@@ -128,7 +128,6 @@ class View_Model extends Model
      */
     function show_sidebox($location = 'city', $param1, $param2, $param3)
     {
-        $this->lang->load('game_sidebox');
         switch($location)
         {
             case 'diplomacyAdvisorOutBox': $location = 'diplomacyAdvisor'; break;
@@ -196,7 +195,6 @@ class View_Model extends Model
 
     function show_bread($location = 'city', $param1, $param2, $param3)
     {
-        $this->lang->load('game_bread');
         switch($location)
         {
             case 'armyGarrisonEdit': $location = 'barracks'; break;

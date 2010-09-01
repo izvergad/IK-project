@@ -3,7 +3,7 @@
     <form id="buildForm"  action="<?=$this->config->item('base_url')?>actions/army/<?=$position?>/" method="POST">
         <input type=hidden name="action" value="buildUnits">
         <div class="contentBox01h">
-            <h3 class="header">Нанять войска</h3>
+            <h3 class="header"><?=$this->lang->line('recruit_units')?></h3>
             <div class="content">
                 <ul id="units">
 <?for($i = 1; $i <= 14; $i++){?>
@@ -46,13 +46,13 @@
                     <li class="unit <?=$class?>">
                         <div class="unitinfo">
                             <h4><?=$this->Data_Model->army_name_by_type($i)?></h4>
-                            <a title="К описанию <?=$this->Data_Model->army_name_by_type($i)?>" href="<?=$this->config->item('base_url')?>game/unitDescription/<?=$i?>">
+                            <a title="<?=$this->lang->line('to_description')?> <?=$this->Data_Model->army_name_by_type($i)?>" href="<?=$this->config->item('base_url')?>game/unitDescription/<?=$i?>">
                                 <img src="<?=$this->config->item('style_url')?>skin/characters/military/120x100/<?=$class?>_r_120x100.gif">
                             </a>
-                            <div class="unitcount"><span class="textLabel">Доступно: </span><?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?></div>
+                            <div class="unitcount"><span class="textLabel"><?=$this->lang->line('available')?>: </span><?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?></div>
                             <p><?=$this->Data_Model->army_desc_by_type($i)?></p>
                         </div>
-                        <label for="textfield_<?=$class?>">Нанять <?=$this->Data_Model->army_name_by_type($i)?></label>
+                        <label for="textfield_<?=$class?>"><?=$this->lang->line('recruit')?> <?=$this->Data_Model->army_name_by_type($i)?></label>
                         <div class="sliderinput">
                             <div class="sliderbg" id="sliderbg_<?=$class?>">
                                 <div class="actualValue" id="actualValue_<?=$class?>"></div>
@@ -74,12 +74,12 @@
     });
     var slider = sliders["default"];
 </script>
-                            <a class="setMin" href="#reset" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(0); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
-                            <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="Рекрутировать максимум"><span class="textLabel">макс.</span></a>
+                            <a class="setMin" href="#reset" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(0); return false;" title="<?=$this->lang->line('reset_entry')?>"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+                            <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="<?=$this->lang->line('recruit_max')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
 			</div>
 <?if ($this->Player_Model->now_town->build_line != '' and $this->Player_Model->build_line[$this->Player_Model->town_id][0]['position'] == $position){?>
                         <div class="forminput">
-                            Здание в процессе улучшения!
+                            <?=$this->lang->line('is_upgrading')?>
                         </div>
 <?}else{?>
 <?if(   ($i == 1 and $level < 4) or // 4
@@ -95,14 +95,14 @@
         ($i == 12 and $level < 11) or // 11
         ($i == 13 and $level < 5) or // 5
         ($i == 14 and $level < 9)){ // 9?>
-                        <div class="forminput">Уровень здания слишком низкий!</div>
+                        <div class="forminput"><?=$this->lang->line('building_low')?></div>
 <?}else{?>
                         <div class="forminput">
                             <input class="textfield" id="textfield_<?=$this->Data_Model->army_class_by_type($i)?>" type="text" name="<?=$i?>"  value="0" size="4" maxlength="4">
-                            <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="Рекрутировать максимум">
-                                <span class="textLabel">макс.</span>
+                            <a class="setMax" href="#max" onClick="sliders['slider_<?=$this->Data_Model->army_class_by_type($i)?>'].setActualValue(<?=$max?>); return false;" title="<?=$this->lang->line('recruit_max')?>">
+                                <span class="textLabel"><?=$this->lang->line('max')?></span>
                             </a>
-                            <input class="button" type=submit value="Нанять!">
+                            <input class="button" type=submit value="<?=$this->lang->line('recruit')?>!">
                         </div>
 <?}}?>
 
@@ -110,25 +110,25 @@
                             <h5>Стоимость:</h5>
                             <ul class="resources">
 <?if($cost['peoples'] > 0){?>
-                                <li class="citizens" title="Граждане"><span class="textLabel">Граждане: </span><?=$cost['peoples']?></li>
+                                <li class="citizens" title="<?=$this->lang->line('peoples')?>"><span class="textLabel"><?=$this->lang->line('peoples')?>: </span><?=$cost['peoples']?></li>
 <?}?>
 <?if($cost['wood'] > 0){?>
-                                <li class="wood" title="Стройматериалы"><span class="textLabel">Стройматериалы: </span><?=number_format($cost['wood'])?></li>
+                                <li class="wood" title="<?=$this->lang->line('wood')?>"><span class="textLabel"><?=$this->lang->line('wood')?>: </span><?=number_format($cost['wood'])?></li>
 <?}?>
 <?if($cost['sulfur'] > 0){?>
-                                <li class="sulfur" title="Сера"><span class="textLabel">Сера: </span><?=number_format($cost['sulfur'])?></li>
+                                <li class="sulfur" title="<?=$this->lang->line('sulfur')?>"><span class="textLabel"><?=$this->lang->line('sulfur')?>: </span><?=number_format($cost['sulfur'])?></li>
 <?}?>
 <?if($cost['wine'] > 0){?>
-                                <li class="wine" title="Виноград"><span class="textLabel">Виноград: </span><?=number_format($cost['wine'])?></li>
+                                <li class="wine" title="<?=$this->lang->line('wine')?>"><span class="textLabel"><?=$this->lang->line('wine')?>: </span><?=number_format($cost['wine'])?></li>
 <?}?>
 <?if($cost['crystal'] > 0){?>
-                                <li class="glass" title="Хрусталь"><span class="textLabel">Хрусталь: </span><?=number_format($cost['crystal'])?></li>
+                                <li class="glass" title="<?=$this->lang->line('crystal')?>"><span class="textLabel"><?=$this->lang->line('crystal')?>: </span><?=number_format($cost['crystal'])?></li>
 <?}?>
 <?if($cost['gold'] > 0){?>
-                                <li class="upkeep" title="Содержание в час"><span class="textLabel">Содержание в час: </span><?=number_format($cost['gold'])?></li>
+                                <li class="upkeep" title="<?=$this->lang->line('upkeep_hour')?>"><span class="textLabel"><?=$this->lang->line('upkeep_hour')?>: </span><?=number_format($cost['gold'])?></li>
 <?}?>
 <?if($cost['time'] > 0){?>
-                                <li class="time" title="Время постройки"><span class="textLabel">Время постройки: </span><?=format_time($cost['time'])?></li>
+                                <li class="time" title="<?=$this->lang->line('build_time')?>"><span class="textLabel"><?=$this->lang->line('build_time')?>: </span><?=format_time($cost['time'])?></li>
 <?}?>
                             </ul>
                         </div>

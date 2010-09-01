@@ -2,7 +2,7 @@
 <?if($id > 0 and $id <= 26){?>
 <div id="mainview">
     <div class="buildingDescription">
-        <h1>Описание здания</h1>
+        <h1><?=$this->lang->line('building_description')?></h1>
     </div>
     <div class="contentBox01h">
         <h3 class="header"><span class="textLabel"><?=$this->Data_Model->building_name_by_type($id)?></span></h3>
@@ -11,7 +11,7 @@
             <p><?=$this->Data_Model->building_desc_by_type($id)?></p>
             <!--<p><b>Требования</b> <p>Исследования : нет</p></p>-->
             <div class="centerButton">
-                <a class="button" href="javascript:history.back()">Назад</a>
+                <a class="button" href="javascript:history.back()"><?=$this->lang->line('back')?></a>
             </div>
 <?
     $position = $this->Data_Model->get_position($id, $this->Player_Model->now_town);
@@ -28,7 +28,7 @@
 ?>
             <table id="overview">
                 <tr>
-                    <th>Уровень</th>
+                    <th><?=$this->lang->line('level')?></th>
 <?if ($wood) {?>
                     <th class="costs"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif"></th>
 <?}?>
@@ -47,24 +47,24 @@
                     <th class="costs"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_time.gif" /></th>
 <?switch($id){?>
 <?case 1:?>
-                    <th class="allow">макс. граждан</th>
+                    <th class="allow"><?=$this->lang->line('maximal_citizens')?></th>
 <?break;?>
 <?case 2:?>
-                    <th class="allow">Скорость загрузки</th>
+                    <th class="allow"><?=$this->lang->line('loading_speed')?></th>
 <?break;?>
 <?case 3:?>
-                    <th class="allow">Ученые</th>
+                    <th class="allow"><?=$this->lang->line('scientists')?></th>
 <?break;?>
 <?case 6:?>
-                    <th colspan="5" class="warehouseCapacity">Вместимость</th>
+                    <th colspan="5" class="warehouseCapacity"><?=$this->lang->line('capacity')?></th>
 <?break;?>
 <?case 8:?>
-                    <th class="allow">Макс. кол-во вина</th>
-                    <th class="allow"><img src="<?=$this->config->item('style_url')?>skin/ikipedia/tavern_bonus.GIF" alt="Базовый бонус довольства" title="Базовый бонус довольства"></th>
-                    <th class="allow"><img src="<?=$this->config->item('style_url')?>skin/ikipedia/wine_bonus.gif" alt="Макс. бонус вина" title="Макс. бонус вина"></th>
+                    <th class="allow"><?=$this->lang->line('max_wine')?></th>
+                    <th class="allow"><img src="<?=$this->config->item('style_url')?>skin/ikipedia/tavern_bonus.GIF" alt="<?=$this->lang->line('base_wine_bonus')?>" title="<?=$this->lang->line('base_wine_bonus')?>"></th>
+                    <th class="allow"><img src="<?=$this->config->item('style_url')?>skin/ikipedia/wine_bonus.gif" alt="<?=$this->lang->line('max_wine_bonus')?>" title="<?=$this->lang->line('max_wine_bonus')?>"></th>
 <?break;?>
 <?case 12:?>
-                    <th class="allow">Вместимость</th>
+                    <th class="allow"><?=$this->lang->line('capacity')?></th>
 <?break;?>
 
 <?}?>
@@ -72,11 +72,11 @@
 <?if($id==6){?>
                 <tr>
                     <td colspan="4"></td>
-                    <td title="Стройматериалы" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"></td>
-                    <td title="Хрусталь" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif" alt="Хрусталь"></td>
-                    <td title="Мрамор" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif" alt="Мрамор"></td>
-                    <td title="Сера" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif" alt="Сера"></td>
-                    <td title="Виноград" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" alt="Виноград"></td>
+                    <td title="<?=$this->lang->line('wood')?>" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы"></td>
+                    <td title="<?=$this->lang->line('crystal')?>" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif" alt="Хрусталь"></td>
+                    <td title="<?=$this->lang->line('marble')?>" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif" alt="Мрамор"></td>
+                    <td title="<?=$this->lang->line('sulfur')?>" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif" alt="Сера"></td>
+                    <td title="<?=$this->lang->line('wine')?>" class="warehouseMaterial"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" alt="Виноград"></td>
                 </tr>
 <?}?>
 
@@ -135,7 +135,7 @@
 <?}?>
             </table>
             <div class="centerButton">
-                <a class="button" href="javascript:history.back()">Назад</a>
+                <a class="button" href="javascript:history.back()"><?=$this->lang->line('back')?></a>
             </div>
         </div>
         <div class="footer"></div>

@@ -5,7 +5,14 @@ class Main extends Controller {
 	function Main()
 	{
 		parent::Controller();
-                $this->lang->load('welcome');
+                if ($this->session->userdata('language'))
+                {
+                    $this->lang->load('welcome', $this->session->userdata('language'));
+                }
+                else
+                {
+                    $this->lang->load('welcome');
+                }
 	}
 	
 	function index()
@@ -29,7 +36,14 @@ class Main extends Controller {
             }
             else
             {
-		$this->load->view('main_index', array('page' => 'index'));
+                if ($this->config->item('design_4'))
+                {
+                    $this->load->view('main_index_4', array('page' => 'index'));
+                }
+                else
+                {
+                    $this->load->view('main_index', array('page' => 'index'));
+                }
             }
 	}
 
@@ -228,6 +242,18 @@ class Main extends Controller {
             $this->session->set_flashdata(array('errors' => $errors));
             $this->session->set_flashdata(array('sended' => $sended));
             $this->load->view('main_index', array('page' => 'password', 'errors' => $errors));
+        }
+
+        function language($lang = 'english')
+        {
+            switch($lang)
+            {
+                case 'russian':
+                    $this->session->set_userdata(array('language' => $lang));
+                break;
+                default: $this->session->set_userdata(array('language' => 'english'));
+            }
+            redirect($this->config->item('base_url'),'refresh');
         }
 }
 

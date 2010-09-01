@@ -2,7 +2,7 @@
     <h3 class="header"></h3>
     <div class="content">
         <div class="centerButton">
-            <a href="<?=$this->config->item('base_url')?>game/armyGarrisonEdit/" class="button"><?=$this->lang->line('unit_fire')?></a>
+            <a href="<?=$this->config->item('base_url')?>game/armyGarrisonEdit/" class="button"><?=$this->lang->line('fire_units')?></a>
         </div>
     </div>
     <div class="footer"></div>
@@ -24,7 +24,7 @@
         $one_percent = ($cost['time']/100);
         $percent = 100 - floor($ostalos/$one_percent);
 ?>
-    <h4><?=$this->lang->line('in_pocess')?>:</h4>
+    <h4><?=$this->lang->line('in_process')?>:</h4>
     <div class="currentUnit <?=$this->Data_Model->army_class_by_type($type)?>">
         <div class="amount"><span class="textLabel"><?=$this->Data_Model->army_name_by_type($type)?></span></div>
         <div class="progressbar"><div class="bar" id="buildProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div></div>

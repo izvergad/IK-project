@@ -1,16 +1,16 @@
 <div id="mainview">
 
     <div id="diplomacyDescription" class="buildingDescription">
-        <h1>Советник по дипломатии</h1>
+        <h1><?=$this->lang->line('diplomatic_advisor')?></h1>
         <p></p>
     </div>
     <div class="diplomacyAdvisorTabs">
         <table cellpadding="0" cellspacing="0" id="tabz">
             <tr>
-                <td class="selected"><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisor/" title="Входящие"><em>Входящие (<?=SizeOf($this->Player_Model->to_user_messages)?>)</em></a></td>
-                <td><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorOutBox/" title="Исходящие"><em>Исходящие  (<?=SizeOf($this->Player_Model->from_user_messages)?>)</em></a></td>
-                <td><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorTreaty/" title="Обзор договоров"><em>Договор</em></a></td>
-                <td><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorAlly/" title="Информация об альянсе"><em>Альянс</em></a></td>
+                <td class="selected"><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisor/" title="<?=$this->lang->line('inbox')?>"><em><?=$this->lang->line('inbox')?> (<?=SizeOf($this->Player_Model->to_user_messages)?>)</em></a></td>
+                <td><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorOutBox/" title="<?=$this->lang->line('outbox')?>"><em><?=$this->lang->line('outbox')?>  (<?=SizeOf($this->Player_Model->from_user_messages)?>)</em></a></td>
+                <td><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorTreaty/" title="<?=$this->lang->line('treaty_overview')?>"><em><?=$this->lang->line('treaty')?></em></a></td>
+                <td><a href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorAlly/" title="<?=$this->lang->line('ally_info')?>"><em><?=$this->lang->line('ally')?></em></a></td>
                <!--   <td><a href="?view=diplomacyAdvisorArchive" title="Входящие"><em>Входящие</em></a></td>
                 <td><a href="?view=diplomacyAdvisorArchiveOutBox" title="Исходящие"><em>Исходящие</em></a></td>-->
             </tr>
@@ -78,17 +78,17 @@ function markAll(command) {
         
         <div id="messages">
             <div class="contentBox01">
-                <h3 class="header"><span class="textLabel">Сообщения</span></h3>
+                <h3 class="header"><span class="textLabel"><?=$this->lang->line('messages')?></span></h3>
                 <div class="content">
                     <form action="<?=$this->config->item('base_url')?>actions/messages/delete/0/diplomacyAdvisor/" method="post" name="deleteMessages" id="deleteMessages">
                         <table cellpadding="0" cellspacing="0" class="table01" id="messages"  style="width:100%;margin:0px;border:none;">
                             <tr>
-                                <th>Действие</th>
+                                <th><?=$this->lang->line('action')?></th>
                                 <th></th>
-                                <th>Отправитель</th>
-                                <th>Тема</th>
-                                <th>Город</th>
-                                <th>Дата</th>
+                                <th><?=$this->lang->line('sender')?></th>
+                                <th><?=$this->lang->line('subject')?></th>
+                                <th><?=$this->lang->line('town')?></th>
+                                <th><?=$this->lang->line('date')?></th>
                             </tr>
 
 <?foreach($this->Player_Model->to_user_messages as $message){?>
@@ -101,14 +101,14 @@ function markAll(command) {
     $island = $this->Data_Model->temp_islands_db[$town->island];
 ?>
 
-                            <tr id="message<?=$message->id?>" onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" title="Нажмите для развертывания/свертывания сообщения" class="entry <?if($message->checked_to == 0){?>new<?}?>" <?if($message->checked_to == 0){?>onClick ="markAsRead(<?=$message->id?>);"<?}?>>
+                            <tr id="message<?=$message->id?>" onMouseOver="this.bgColor='#ECD5AC'" onMouseOut="this.bgColor='#FDF7DD'" title="<?=$this->lang->line('expand_hide')?>" class="entry <?if($message->checked_to == 0){?>new<?}?>" <?if($message->checked_to == 0){?>onClick ="markAsRead(<?=$message->id?>);"<?}?>>
                              	<td><input type="checkbox" name="deleteId[<?=$message->id?>]" value="read" /></td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));">
                                     <img class="open" alt="" id="button<?=$message->id?>" name="button<?=$message->id?>" src="<?=$this->config->item('style_url')?>skin/layout/down-arrow.gif">
                                 </td>
                                 <td onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));"><a href="#"><?=$user->login?></a></td>
-                                <td class="subject" onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));">Сообщение</td>
-                                <td title="К городу отправителя"><a href="<?=$this->config->item('base_url')?>game/island/<?=$island->id?>/<?=$town->id?>/"><?=$town->name?> [<?=$island->x?>:<?=$island->y?>]</a></td>
+                                <td class="subject" onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));"><?=$this->lang->line('message')?></td>
+                                <td title="<?=$this->lang->line('to_city_sender')?>"><a href="<?=$this->config->item('base_url')?>game/island/<?=$island->id?>/<?=$town->id?>/"><?=$town->name?> [<?=$island->x?>:<?=$island->y?>]</a></td>
                                 <td  onclick="show_hide_menus('mail<?=$message->id?>');show_hide_menus('reply<?=$message->id?>');imgtoggle(getElementById('button<?=$message->id?>'));"><?=date("d.m.Y G:i",$message->date)?></td>
                             </tr>
                             <tr id="tbl_mail<?=$message->id?>" style="display:none;" class="text">

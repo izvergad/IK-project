@@ -1,12 +1,12 @@
 <div id="mainview">
     <div class="buildingDescription">
-        <h1>Колонизация</h1>
-        <p>Это место идеально подходит для основания нового города! Покатый берег обеспечивает выход к морю, а плодородные зеленые холмы могут накормить много людей.</p>
+        <h1><?=$this->lang->line('mission_1')?></h1>
+        <p><?=$this->lang->line('colonize_text')?></p>
     </div>
     <div id="moveCity" class="contentBox01h" style="z-index:55">
-        <h3 class="header">Переместить город на <?=$this->Island_Model->island->name?></h3>
+        <h3 class="header"><?=$this->lang->line('move_town_to')?> <?=$this->Island_Model->island->name?></h3>
         <div class="content" id="relatedCities">
-            <p>За небольшое количество Амброзии, вы можете переместить свои города со всеми жителями и постройками на пустое место.</p>
+            <p><?=$this->lang->line('move_town_text')?></p>
             <div style="padding:5px 10px 10px 10px;">
                 <form action="<?=$this->config->item('base_url')?>actions/colonize/<?=$id?>/<?=$position?>/" method="post">
                     <div style="height:100px">
@@ -15,21 +15,21 @@
                             <tr>
                                 <td  style="width:250px;">
                                     <select id="moveCitySelect" class="citySpecialSelect smallFont" name="cityId" tabindex="1" >
-                                        <option>-- Выберите город --</option>
+                                        <option>-- <?=$this->lang->line('choose_town')?> --</option>
 <?foreach($this->Player_Model->towns as $town){?>
 <?$island = $this->Player_Model->islands[$town->island]?>
 <?$selected = ($this->Player_Model->town_id == $town->id) ? 'selected="selected"' : ''?>
-                    <option class="coords" value="<?=$town->id?>" <?=$selected?> title="Торговля: <?=$this->Data_Model->resource_name_by_type($island->trade_resource)?>" ><p>[<?=$island->x?>:<?=$island->y?>]&nbsp;<?=$town->name?></p></option>
+                    <option class="coords" value="<?=$town->id?>" <?=$selected?> title="<?=$this->lang->line('trade')?>: <?=$this->Data_Model->resource_name_by_type($island->trade_resource)?>" ><p>[<?=$island->x?>:<?=$island->y?>]&nbsp;<?=$town->name?></p></option>
 <?}?>
                                     </select>
                                 </td>
-                                <td>200<img height="20" width="24" title="Амброзия" alt="Амброзия" src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif"/></td>
+                                <td>200<img height="20" width="24" title="<?=$this->lang->line('ambrosy')?>" alt="<?=$this->lang->line('ambrosy')?>" src="<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif"/></td>
                                 <td style="padding-bottom:10px;">
 <?if($this->Player_Model->user->ambrosy < 200){?>
-                                    <a class="notenough" style="color:#999;font-weight:normal;font-size:11px;text-decoration:none" href="<?=$this->config->item('base_url')?>game/premium/">Не хватает 200 ед. амброзии!<br><span class="buyNow" style="text-decoration:underline">Купить!</span></a>
+                                    <a class="notenough" style="color:#999;font-weight:normal;font-size:11px;text-decoration:none" href="<?=$this->config->item('base_url')?>game/premium/">200 <?=$this->lang->line('ambrosy_missing')?><br><span class="buyNow" style="text-decoration:underline"><?=$this->lang->line('acquire_now')?></span></a>
 <?}else{?>
             <div class="centerButton">
-                <input class="button" name="action" type=submit value="Переместить">
+                <input class="button" name="action" type=submit value="<?=$this->lang->line('move')?>">
             </div>
 <?}?>
                                 </td>
@@ -53,29 +53,28 @@ Event.onDOMReady( function() {
 
 
     <div id="createColony" class="contentBox01h" style="z-index:50">
-        <h3 class="header">Основать колонию на <?=$this->Island_Model->island->name?></h3>
+        <h3 class="header"><?=$this->lang->line('found_colony')?> <?=$this->Island_Model->island->name?></h3>
         <div class="content">
-            <p>Вы можете <em>основать колонию</em> здесь. Колонии - такие же города, как и Ваша столица, хотя она ими управляет. <em>Уровень дворца столицы</em> определяет количество колоний, которые Вы можете основать. Чтобы основать больше городов, необходимо улучшить дворец!</p>
+            <p><?=$this->lang->line('found_colony_text')?></p>
             <div class="costs">			
                 <img src="<?=$this->config->item('style_url')?>skin/img/colony_build.jpg">
-                <p>Для основания колонии требуется:</p>
+                <p><?=$this->lang->line('colony_need')?>:</p>
                 <ul class="resources">
-                    <li class="citizens"><span class="textLabel">Граждане: </span>40</li>
-                    <li class="gold"><span class="textLabel">Золото: </span>9,000</li>
-                    <li class="wood"><span class="textLabel">Стройматериалы: </span>1,250</li>
+                    <li class="citizens"><span class="textLabel"><?=$this->lang->line('peoples')?>: </span>40</li>
+                    <li class="gold"><span class="textLabel"><?=$this->lang->line('gold')?>: </span>9,000</li>
+                    <li class="wood"><span class="textLabel"><?=$this->lang->line('wood')?>: </span>1,250</li>
                 </ul>
             </div>
 <?$errors = array()?>
-<?if($this->Player_Model->now_town->peoples < 40){ $errors[] = 'У Вас недостаточно граждан для новой колонии. Вам нужно <strong>'.number_format(40-$this->Player_Model->now_town->peoples).' гр.</strong>.
-<em>Внимание: рабочие и ученые не посчитаны! Возможно Вы могли бы отозвать некоторых рабочих или ученых и получить количество граждан, в котором Вы нуждаетесь?</em>';} ?>
-<?if($this->Player_Model->user->gold < 9000){ $errors[] = 'Недостаточно золота! Вам необходимо <strong>'.number_format(9000-$this->Player_Model->user->gold).' золота</strong>!';} ?>
-<?if($this->Player_Model->now_town->wood < 1250){ $errors[] = 'Недостаточно стройматериалов! Вам необходимо <strong>'.number_format(1250-$this->Player_Model->now_town->wood).' стройматериалов</strong>!';} ?>
-<?if($this->Player_Model->user->transports < 3){ $errors[] = 'Недостаточно сухогрузов! Вам необходимо <strong>'.number_format(3-$this->Player_Model->user->transports).' сухогрузов</strong>!';} ?>
-<?if(SizeOf($this->Player_Model->towns)-1 >= $this->Player_Model->levels[$this->Player_Model->capital_id][10]){ $errors[] = 'У Вас уже есть '.(SizeOf($this->Player_Model->towns)-1).' колоний и уровень дворца '.$this->Player_Model->levels[$this->Player_Model->capital_id][10].'! Улучшайте дворец в своем родном городе!';} ?>
+<?if($this->Player_Model->now_town->peoples < 40){ $errors[] = $this->lang->line('not_peoples_1').' <strong>'.number_format(40-$this->Player_Model->now_town->peoples).' '.$this->lang->line('not_peoples_2').'</strong>.<em>'.$this->lang->line('not_peoples_3').'</em>';} ?>
+<?if($this->Player_Model->user->gold < 9000){ $errors[] = $this->lang->line('not_gold_1').' <strong>'.number_format(9000-$this->Player_Model->user->gold).' '.$this->lang->line('not_gold_2').'</strong>!';} ?>
+<?if($this->Player_Model->now_town->wood < 1250){ $errors[] = $this->lang->line('not_wood_1').' <strong>'.number_format(1250-$this->Player_Model->now_town->wood).' '.$this->lang->line('not_wood_2').'</strong>!';} ?>
+<?if($this->Player_Model->user->transports < 3){ $errors[] = $this->lang->line('not_tradeships_1').' <strong>'.number_format(3-$this->Player_Model->user->transports).' '.$this->lang->line('not_tradeships_2').'</strong>!';} ?>
+<?if(SizeOf($this->Player_Model->towns)-1 >= $this->Player_Model->levels[$this->Player_Model->capital_id][10]){ $errors[] = $this->lang->line('not_palace_1').' '.(SizeOf($this->Player_Model->towns)-1).' '.$this->lang->line('not_palace_2').' '.$this->Player_Model->levels[$this->Player_Model->capital_id][10].$this->lang->line('not_palace_3');} ?>
 
 <?if(SizeOf($errors)> 0){?>
             <div class="errors">
-                <h4>Пока еще не все требования выполнены для основания колонии: </h4>
+                <h4><?=$this->lang->line('colony_error')?></h4>
                 <ul>
 <?foreach($errors as $error){?>
                     <li><span><?=$error?></span></li>
@@ -99,11 +98,11 @@ Event.onDOMReady( function() {
 var transporterDisplay;
 Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$this->Player_Model->user->transports?>, <?=$this->config->item('transport_capacity')?>, Dom.get("transporterCount"), 40+1250);});
 </script>
-<p>Вы можете отправить больше ресурсов для ускоренного развития новой колонии.:</p>
+<p><?=$this->lang->line('more_resources')?></p>
 <form action="<?=$this->config->item('base_url')?>actions/colonize/<?=$id?>/<?=$position?>/" method="post">
 <ul class="resourceAssign">
     <li class="wood">
-        <label for="textfield_resource">Отправить стройматериалы::</label>
+        <label for="textfield_resource"><?=$this->lang->line('send')?> <?=$this->lang->line('wood')?>:</label>
         <div class="sliderinput">
             <div class="sliderbg" id="sliderbg_resource">
                 <div class="actualValue" id="actualValue_resource"></div>
@@ -135,13 +134,13 @@ Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$th
                     transporterDisplay.registerSlider(slider);
 		});
         </script>
-            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_resource'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
-            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_resource'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_resource'); return false;" title="<?=$this->lang->line('reset_entry')?>"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_resource'); return false;" title="<?=$this->lang->line('send_all')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
         </div>
         <input class="textfield" id="textfield_resource" type="text" name="sendresource" value="0" size="4" maxlength="9">
     </li>
     <li class="wine">					
-        <label for="textfield_wine">Отправить вино::</label>
+        <label for="textfield_wine"><?=$this->lang->line('send')?> <?=$this->lang->line('wine')?>:</label>
         <div class="sliderinput">
             <div class="sliderbg" id="sliderbg_wine">
                 <div class="actualValue" id="actualValue_wine"></div>
@@ -173,13 +172,13 @@ Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$th
                     transporterDisplay.registerSlider(slider);
 		});
         </script>
-            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_wine'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
-            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_wine'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_wine'); return false;" title="<?=$this->lang->line('reset_entry')?>"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_wine'); return false;" title="<?=$this->lang->line('send_all')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
         </div>
         <input class="textfield" id="textfield_wine" type="text" name="sendwine"  value="0" size="4" maxlength="9">
     </li>
     <li class="marble">
-        <label for="textfield_marble">Отправить мрамор::</label>
+        <label for="textfield_marble"><?=$this->lang->line('send')?> <?=$this->lang->line('marble')?>:</label>
         <div class="sliderinput">
             <div class="sliderbg" id="sliderbg_marble">
                 <div class="actualValue" id="actualValue_marble"></div>
@@ -211,13 +210,13 @@ Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$th
                     transporterDisplay.registerSlider(slider);
 		});
         </script>
-            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_marble'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
-            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_marble'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_marble'); return false;" title="<?=$this->lang->line('reset_entry')?>"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_marble'); return false;" title="<?=$this->lang->line('send_all')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
         </div>
         <input class="textfield" id="textfield_marble" type="text" name="sendmarble"  value="0" size="4" maxlength="9">
     </li>
     <li class="glass">
-        <label for="textfield_crystal">Отправить хрусталь::</label>
+        <label for="textfield_crystal"><?=$this->lang->line('send')?> <?=$this->lang->line('crystal')?>:</label>
         <div class="sliderinput">
             <div class="sliderbg" id="sliderbg_crystal">
                 <div class="actualValue" id="actualValue_crystal"></div>
@@ -249,13 +248,13 @@ Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$th
                     transporterDisplay.registerSlider(slider);
 		});
         </script>					
-            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_crystal'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
-            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_crystal'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_crystal'); return false;" title="<?=$this->lang->line('reset_entry')?>"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_crystal'); return false;" title="<?=$this->lang->line('send_all')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
         </div>
         <input class="textfield" id="textfield_crystal" type="text" name="sendcrystal"  value="0" size="4" maxlength="9">
     </li>
     <li class="sulfur">
-        <label for="textfield_sulfur">Отправить серу:</label>
+        <label for="textfield_sulfur"><?=$this->lang->line('send')?> <?=$this->lang->line('sulfur')?>:</label>
         <div class="sliderinput">
             <div class="sliderbg" id="sliderbg_sulfur">
                 <div class="actualValue" id="actualValue_sulfur"></div>
@@ -287,8 +286,8 @@ Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$th
                     transporterDisplay.registerSlider(slider);
 		});
         </script>
-            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_sulfur'); return false;" title="Сбросить ввод"><span class="textLabel">мин.</span></a>
-            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_sulfur'); return false;" title="Отправить все"><span class="textLabel">макс.</span></a>
+            <a class="setMin" href="#reset" onClick="setColonizeMinValue('slider_sulfur'); return false;" title="<?=$this->lang->line('reset_entry')?>"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+            <a class="setMax" href="#max" onClick="setColonizeMaxValue('slider_sulfur'); return false;" title="<?=$this->lang->line('send_all')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
         </div>
         <input class="textfield" id="textfield_sulfur" type="text" name="sendsulfur"  value="0" size="4" maxlength="9">
     </li>
@@ -319,23 +318,23 @@ Event.onDOMReady(function() {transporterDisplay = new transportController(<?=$th
                 Dom.get('sendSummary').innerHTML = sum + '/<?=$capacity?>';
             }
         </script>
-        <div class="summaryText">Свободное место:</div>
+        <div class="summaryText"><?=$this->lang->line('empty_seat')?>:</div>
         <div class="summary" id="sendSummary">0/<?=$capacity?></div>
     </li>
 </ul>
 <hr>
 <div id="missionSummary">
     <div class="common">
-        <div class="journeyTarget"><span class="textLabel">Пункт назначения: </span><?=$this->Island_Model->island->name?></div>
-        <div class="journeyTime"><span class="textLabel">Время в пути: </span><?=format_time($time)?></div>
+        <div class="journeyTarget"><span class="textLabel"><?=$this->lang->line('destination')?>:</span><?=$this->Island_Model->island->name?></div>
+        <div class="journeyTime"><span class="textLabel"><?=$this->lang->line('duration_journey')?>:</span><?=format_time($time)?></div>
     </div>
     <div class="transporters">
-        <span class="textLabel">Торговые корабли: </span>
+        <span class="textLabel"><?=$this->lang->line('button_transporters_name')?>: </span>
         <span><input id="transporterCount" name="transporters" size="3" maxlength="3" readonly="readonly" value="3" /> / <?=number_format($this->Player_Model->user->transports)?></span>
     </div>
 </div>
 <div class="centerButton">			 
-    <input id="colonizeBtn" name="action" class="button" type="submit" value="Основать колонию!">
+    <input id="colonizeBtn" name="action" class="button" type="submit" value="<?=$this->lang->line('base_colony')?>">
 </div>
 </form>
 <?}?>

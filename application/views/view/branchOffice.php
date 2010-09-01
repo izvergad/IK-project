@@ -3,18 +3,18 @@
 
 
     <div class="contentBox01h">
-        <h3 class="header"><span class="textLabel">Предложения от торговых партнеров</span></h3>
+        <h3 class="header"><span class="textLabel"><?=$this->lang->line('trade_partners')?></span></h3>
         <div class="content">
             <div>
 		<table cellpadding="0" cellspacing="0" border="0" class="tablekontor">
                     <tr>
-                        <th>Город</th>
-                        <th>Уровень порта</th>
-                        <th>ед.</th>
-                        <th>Ресурс</th>
-                        <th>Цена покупки</th>
-                        <th>Дистанция</th>
-                        <th>Торговать?</th>
+                        <th><?=$this->lang->line('city')?></th>
+                        <th><?=$this->lang->line('port_level')?></th>
+                        <th><?=$this->lang->line('piece')?></th>
+                        <th><?=$this->lang->line('resource')?></th>
+                        <th><?=$this->lang->line('purchase_price')?></th>
+                        <th><?=$this->lang->line('distance')?></th>
+                        <th><?=$this->lang->line('trade')?>?</th>
                     </tr>
                 </table>
             </div>
@@ -24,27 +24,27 @@
 
     <form action="<?=$this->config->item('base_url')?>actions/branchOffice/<?=$position?>/" method="POST">
         <div class="contentBox01h" id="finder">
-            <h3 class="header"><span class="textLabel">Торговец</span></h3>
+            <h3 class="header"><span class="textLabel"><?=$this->lang->line('trader')?></span></h3>
             <div class="content">
                 <div>
                     <table class="search">
                         <tr>
                             <td><input type="radio" name="type" value="1" <?if($this->Player_Model->now_town->branch_search_type == 1){?>checked<?}?>></td>
-                            <td class="text">Купить</td>
+                            <td class="text"><?=$this->lang->line('buy')?></td>
                             <td><input type="radio" name="type" value="0" <?if($this->Player_Model->now_town->branch_search_type == 0){?>checked<?}?>></td>
-                            <td class="text">Продать</td>
+                            <td class="text"><?=$this->lang->line('sell')?></td>
                             <td>
                                 <div>
                                     <select name="searchResource">
-                                        <option value="resource" <?if($this->Player_Model->now_town->branch_search_resource == 0){?>selected<?}?>>Стройматериалы</option>
-                                        <option value="1" <?if($this->Player_Model->now_town->branch_search_resource == 1){?>selected<?}?>>Виноград</option>
-                                        <option value="2" <?if($this->Player_Model->now_town->branch_search_resource == 2){?>selected<?}?>>Мрамор</option>
-                                        <option value="3" <?if($this->Player_Model->now_town->branch_search_resource == 3){?>selected<?}?>>Хрусталь</option>
-                                        <option value="4" <?if($this->Player_Model->now_town->branch_search_resource == 4){?>selected<?}?>>Сера</option>
+                                        <option value="resource" <?if($this->Player_Model->now_town->branch_search_resource == 0){?>selected<?}?>><?=$this->lang->line('wood')?></option>
+                                        <option value="1" <?if($this->Player_Model->now_town->branch_search_resource == 1){?>selected<?}?>><?=$this->lang->line('wine')?></option>
+                                        <option value="2" <?if($this->Player_Model->now_town->branch_search_resource == 2){?>selected<?}?>><?=$this->lang->line('marble')?></option>
+                                        <option value="3" <?if($this->Player_Model->now_town->branch_search_resource == 3){?>selected<?}?>><?=$this->lang->line('crystal')?></option>
+                                        <option value="4" <?if($this->Player_Model->now_town->branch_search_resource == 4){?>selected<?}?>><?=$this->lang->line('sulfur')?></option>
                                     </select>
                                 </div>
                             </td>
-                            <td>Радиус поиска:</td>
+                            <td><?=$this->lang->line('search_radius')?>:</td>
                             <td>
 <?$radius = $this->Data_Model->branchOffice_radius_by_level($this->Player_Model->levels[$this->Player_Model->town_id][12])?>
                                 <select size="1" name="range">
@@ -53,12 +53,12 @@
 <?}?>
                                 </select>
                             </td>
-                            <td>Острова в радиусе</td>
+                            <td><?=$this->lang->line('islands_radius')?></td>
                         </tr>
                     </table>
                 </div>
                 <div>
-                    <div class="centerButton"><input type="submit" class="button" style="clear:right;" value="Найти сделку"></div>
+                    <div class="centerButton"><input type="submit" class="button" style="clear:right;" value="<?=$this->lang->line('find_trade')?>"></div>
                 </div>
             </div>
             <div class="footer"></div>
@@ -67,34 +67,34 @@
     </form>
 
     <div class="contentBox01h">
-        <h3 class="header"><span class="textLabel">Результаты</span></h3>
+        <h3 class="header"><span class="textLabel"><?=$this->lang->line('results')?></span></h3>
         <div class="content">
             <div>
                 <table cellpadding="0" cellspacing="0" border="0" class="tablekontor">
 
                     <tr>
-                        <th>Город
+                        <th><?=$this->lang->line('city')?>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/cityAsc/" class="unicode">&uArr;</a>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/cityDesc/" class="unicode">&dArr;</a>
                         </th>
-			<th>Уровень порта
+			<th><?=$this->lang->line('port_level')?>
                             <?/*<a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/portLevelAsc/" class="unicode">&uArr;</a>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/portLevelDesc/" class="unicode">&dArr;</a>*/?>
                         </th>
-                        <th>ед.
+                        <th><?=$this->lang->line('piece')?>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/ressAsc/" class="unicode">&uArr;</a>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/ressDesc/" class="unicode">&dArr;</a>
                         </th>
-                        <th>Ресурс</th>
-                        <th>Цена покупки
+                        <th><?=$this->lang->line('resource')?></th>
+                        <th><?=$this->lang->line('purchase_price')?>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/sellAsc/" class="unicode">&uArr;</a>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/sellDesc/" class="unicode">&dArr;</a>
                         </th>
-                        <th>Дистанция
+                        <th><?=$this->lang->line('distance')?>
                             <?/*<a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/distanceAsc/" class="unicode">&uArr;</a>
                             <a href="<?=$this->config->item('base_url')?>game/branchOffice/<?=$position?>/distanceDesc/" class="unicode">&dArr;</a>*/?>
                         </th>
-                        <th>Торговать?</th>
+                        <th><?=$this->lang->line('trade')?>?</th>
                     </tr>
 <?
 $resource_name = $this->Data_Model->resource_class_by_type($this->Player_Model->now_town->branch_search_resource);
@@ -134,17 +134,17 @@ switch($param2)
                         <td><?=$port_level?></td>
                         <td><?=$trade_town->$branch_count?></td>
                         <td><img src="<?=$this->config->item('style_url')?>skin/resources/icon_<?=resource_icon($this->Player_Model->now_town->branch_search_resource)?>.gif" alt="<?=$this->Data_Model->resource_name_by_type($this->Player_Model->now_town->branch_search_resource)?>" title="<?=$this->Data_Model->resource_name_by_type($this->Player_Model->now_town->branch_search_resource)?>"></td>
-                        <td><?=$trade_town->$branch_cost?> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"> за ед.</td>
+                        <td><?=$trade_town->$branch_cost?> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"> <?=$this->lang->line('per_piece')?></td>
                         <td><?=ceil($distance)?></td>
                         <td><a href="<?=$this->config->item('base_url')?>game/takeOffer/<?=$trade_town->id?>/<?=$this->Player_Model->now_town->branch_search_type?>/<?=$this->Player_Model->now_town->branch_search_resource?>/"><img src="<?=$this->config->item('style_url')?>skin/layout/icon-kiste.gif" alt="" title=""></a></td>
                     </tr>
 <?}else{?>
                     <tr>
-                        <td colspan="6" class="paginator">В настоящий момент предложений нет</td>
+                        <td colspan="6" class="paginator"><?=$this->lang->line('no_offers')?></td>
                     </tr>
 <?}}}else{?>
                     <tr>
-                        <td colspan="6" class="paginator">В настоящий момент предложений нет</td>
+                        <td colspan="6" class="paginator"><?=$this->lang->line('no_offers')?></td>
                     </tr>
 <?}?>
                 </table>
@@ -155,41 +155,41 @@ switch($param2)
 				
     <form name="formkontor"  action="<?=$this->config->item('base_url')?>actions/branchOffice/<?=$position?>/" method="POST">
         <div class="contentBox01h">
-            <h3 class="header"><span class="textLabel">Мои предложения</span></h3>
+            <h3 class="header"><span class="textLabel"><?=$this->lang->line('own_offers')?></span></h3>
             <div class="content">
                 <table cellpadding="0" cellspacing="0" border="0" class="tablekontor">
                    <tr>
-                        <th colspan="2">Тип предложения</th><th>Кол-во</th><th>Цена</th>
+                        <th colspan="2"><?=$this->lang->line('type_offer')?></th><th><?=$this->lang->line('amount')?></th><th><?=$this->lang->line('price')?></th>
                     </tr>
                     <tr>
-                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="Стройматериалы" title="Лесопилка"/></td>
-                        <td class="select"><select name="resourceTradeType" id="resourceTradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_wood_type == 0){?>selected<?}?>>Купить</option><option value="1" <?if($this->Player_Model->now_town->branch_trade_wood_type == 1){?>selected<?}?>>Продать</option></select></td>
+                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wood.gif" alt="<?=$this->lang->line('wood')?>" title="<?=$this->lang->line('ialsnd_building_wood')?>"/></td>
+                        <td class="select"><select name="resourceTradeType" id="resourceTradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_wood_type == 0){?>selected<?}?>><?=$this->lang->line('own_buy')?></option><option value="1" <?if($this->Player_Model->now_town->branch_trade_wood_type == 1){?>selected<?}?>><?=$this->lang->line('own_sell')?></option></select></td>
                         <td><input type="text" size="4" name="resource" id="resource" value="<?=$this->Player_Model->now_town->branch_trade_wood_count?>" /></td>
-                        <td><input type="text" size="2" name="resourcePrice"  id="resourcePrice"  maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_wood_cost?>" /><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> за ед.</td>
+                        <td><input type="text" size="2" name="resourcePrice"  id="resourcePrice"  maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_wood_cost?>" /><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> <?=$this->lang->line('per_piece')?></td>
                     </tr>
                     <tr class="alt">
-                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" alt="Виноград" title="Виноградники"/></td>
-                        <td class="select"><select name="tradegood1TradeType" id="tradegood1TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_wine_type == 0){?>selected<?}?>>Купить</option><option value="1" <?if($this->Player_Model->now_town->branch_trade_wine_type == 1){?>selected<?}?>>Продать</option></select></td>
+                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_wine.gif" alt="<?=$this->lang->line('wine')?>" title="<?=$this->lang->line('ialsnd_building_wine')?>"/></td>
+                        <td class="select"><select name="tradegood1TradeType" id="tradegood1TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_wine_type == 0){?>selected<?}?>><?=$this->lang->line('own_buy')?></option><option value="1" <?if($this->Player_Model->now_town->branch_trade_wine_type == 1){?>selected<?}?>><?=$this->lang->line('own_sell')?></option></select></td>
                         <td><input type="text" size="4" name="tradegood1" id="tradegood1" value="<?=$this->Player_Model->now_town->branch_trade_wine_count?>" /></td>
-                        <td><input type="text" size="2" name="tradegood1Price" id="tradegood1Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_wine_cost?>" /><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif" /> за ед.</td>
+                        <td><input type="text" size="2" name="tradegood1Price" id="tradegood1Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_wine_cost?>" /><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif" /> <?=$this->lang->line('per_piece')?></td>
                     </tr>
                     <tr>
-                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif" alt="Мрамор" title="Карьер"/></td>
-                        <td class="select"><select name="tradegood2TradeType" id="tradegood2TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_marble_type == 0){?>selected<?}?>>Купить</option><option value="1" <?if($this->Player_Model->now_town->branch_trade_marble_type == 1){?>selected<?}?>>Продать</option></select></td>
+                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_marble.gif" alt="<?=$this->lang->line('marble')?>" title="<?=$this->lang->line('ialsnd_building_marble')?>"/></td>
+                        <td class="select"><select name="tradegood2TradeType" id="tradegood2TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_marble_type == 0){?>selected<?}?>><?=$this->lang->line('own_buy')?></option><option value="1" <?if($this->Player_Model->now_town->branch_trade_marble_type == 1){?>selected<?}?>><?=$this->lang->line('own_sell')?></option></select></td>
                         <td><input type="text" size="4" name="tradegood2" id="tradegood2" value="<?=$this->Player_Model->now_town->branch_trade_marble_count?>" /></td>
-                        <td><input type="text" size="2" name="tradegood2Price" id="tradegood2Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_marble_cost?>"/><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> за ед.</td>
+                        <td><input type="text" size="2" name="tradegood2Price" id="tradegood2Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_marble_cost?>"/><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> <?=$this->lang->line('per_piece')?></td>
                     </tr>
                     <tr class="alt">
-                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif" alt="Хрусталь" title="Шахта хрусталя"></td>
-                        <td class="select"><select name="tradegood3TradeType" id="tradegood3TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_crystal_type == 0){?>selected<?}?>>Купить</option><option value="1" <?if($this->Player_Model->now_town->branch_trade_crystal_type == 1){?>selected<?}?>>Продать</option></select></td>
+                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_glass.gif" alt="<?=$this->lang->line('crystal')?>" title="<?=$this->lang->line('ialsnd_building_crystal')?>"></td>
+                        <td class="select"><select name="tradegood3TradeType" id="tradegood3TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_crystal_type == 0){?>selected<?}?>><?=$this->lang->line('own_buy')?></option><option value="1" <?if($this->Player_Model->now_town->branch_trade_crystal_type == 1){?>selected<?}?>><?=$this->lang->line('own_sell')?></option></select></td>
                         <td><input type="text" size="4" name="tradegood3" id="tradegood3" value="<?=$this->Player_Model->now_town->branch_trade_crystal_count?>"></td>
-                        <td><input type="text" size="2" name="tradegood3Price" id="tradegood3Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_crystal_cost?>"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> за ед.</td>
+                        <td><input type="text" size="2" name="tradegood3Price" id="tradegood3Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_crystal_cost?>"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> <?=$this->lang->line('per_piece')?></td>
                     </tr>
                     <tr>
-                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif" alt="Сера" title="Добыча серы"/></td>
-                        <td class="select"><select name="tradegood4TradeType" id="tradegood4TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_sulfur_type == 0){?>selected<?}?>>Купить</option><option value="1" <?if($this->Player_Model->now_town->branch_trade_sulfur_type == 1){?>selected<?}?>>Продать</option></select></td>
+                        <td class="icon"><img src="<?=$this->config->item('style_url')?>skin/resources/icon_sulfur.gif" alt="<?=$this->lang->line('sulfur')?>" title="<?=$this->lang->line('ialsnd_building_sulfur')?>"/></td>
+                        <td class="select"><select name="tradegood4TradeType" id="tradegood4TradeType" size="1"><option value="0" <?if($this->Player_Model->now_town->branch_trade_sulfur_type == 0){?>selected<?}?>><?=$this->lang->line('own_buy')?></option><option value="1" <?if($this->Player_Model->now_town->branch_trade_sulfur_type == 1){?>selected<?}?>><?=$this->lang->line('own_sell')?></option></select></td>
                         <td><input type="text" size="4" name="tradegood4" id="tradegood4" value="<?=$this->Player_Model->now_town->branch_trade_sulfur_count?>" /></td>
-                        <td><input type="text" size="2" name="tradegood4Price" id="tradegood4Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_sulfur_cost?>" /><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> за ед.</td>
+                        <td><input type="text" size="2" name="tradegood4Price" id="tradegood4Price" maxlength="2" value="<?=$this->Player_Model->now_town->branch_trade_sulfur_cost?>" /><img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif"/> <?=$this->lang->line('per_piece')?></td>
                     </tr>
                 </table>
 <?
@@ -200,7 +200,7 @@ switch($param2)
     if ($this->Player_Model->now_town->branch_trade_crystal_type == 0){$reserved = $reserved + $this->Player_Model->now_town->branch_trade_crystal_count*$this->Player_Model->now_town->branch_trade_crystal_cost;}
     if ($this->Player_Model->now_town->branch_trade_sulfur_type == 0){$reserved = $reserved + $this->Player_Model->now_town->branch_trade_sulfur_count*$this->Player_Model->now_town->branch_trade_sulfur_cost;}
 ?>
-                <div><p>Зарезервированное золото: <span id="reservedGold"><?=floor($reserved)?></span> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif" /></p><input type="submit" class="button" value="Обновить предложения"/></div>
+                <div><p><?=$this->lang->line('reserved_gold')?>: <span id="reservedGold"><?=floor($reserved)?></span> <img src="<?=$this->config->item('style_url')?>skin/resources/icon_gold.gif" /></p><input type="submit" class="button" value="<?=$this->lang->line('update_offers')?>"/></div>
             </div>
             <div class="footer"></div>
         </div>

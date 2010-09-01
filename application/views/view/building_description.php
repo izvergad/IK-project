@@ -15,12 +15,12 @@
     $percent = 100 - floor($ostalos/$one_percent);
 ?>
     <div id="upgradeInProgress">
-        <div class="isUpgrading">В процессе улучшения!</div>
-        <div class="buildingLevel"><span class="textLabel">Уровень </span><?=$level?></div>
-        <div class="nextLevel"><span class="textLabel">след. уровень </span><?=$level+1?></div>
+        <div class="isUpgrading"><?=$this->lang->line('is_upgrading')?></div>
+        <div class="buildingLevel"><span class="textLabel"><?=$this->lang->line('level')?> </span><?=$level?></div>
+        <div class="nextLevel"><span class="textLabel"><?=$this->lang->line('next_level')?> </span><?=$level+1?></div>
         <div class="progressBar">
             <div class="bar" id="upgradeProgress" title="<?=$percent?>%" style="width:<?=$percent?>%;"></div>
-            <a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>game/demolition/<?=$position?>/" title="Отменить"><span class="textLabel">Отменить</span></a>
+            <a class="cancelUpgrade" href="<?=$this->config->item('base_url')?>game/demolition/<?=$position?>/" title="<?=$this->lang->line('cancel')?>"><span class="textLabel"><?=$this->lang->line('cancel')?></span></a>
         </div>
 
                                 <script type="text/javascript">

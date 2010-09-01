@@ -34,7 +34,7 @@ body {
 #headback {
 	background: url('headerback2.jpg') repeat-x scroll center top;
 	position:absolute;
-	top: 0px;
+	top: 30px;
 	left: 0px;
 	width:100%;
 	}
@@ -306,4 +306,9 @@ div#demand {
 #no-login-umod #main #text a {
 	color:#502604;
 	}
-	
+#fuzz{ position:absolute; top:0; left:0; width:100%; z-index:100; background: url('dark-bg.png'); display:none; text-align:left; }
+.msgbox{ position:absolute; width:300px; height:200px; z-index:200; border:5px solid #222; background: #FFF; top: 50%; left: 50%; margin-top: -100px; margin-left: -150px; }
+.msgbox img {border:none; margin:5px;}
+.close{ top:0px; float:right; }
+.loadbox{ position:absolute; width:300px; height:200px; z-index:200; top: 50%; left: 50%; }
+.loadbox img {border:none; top: 50%; left: 50%; }
