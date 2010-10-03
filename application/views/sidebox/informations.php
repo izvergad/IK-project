@@ -41,24 +41,6 @@
                 <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_16_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/16/"><?=$this->lang->line('information_16_title')?></a>
             </li>
             <li>
-                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_17_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/17/"><?=$this->lang->line('information_17_title')?></a>
-            </li>
-            <li>
-                <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_18_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/18/"><?=$this->lang->line('information_18_title')?></a>
-<?if($id >= 18 and $id <= 26){?>
-                    <ul>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_19_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/19/"><?=$this->lang->line('information_19_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_20_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/20/"><?=$this->lang->line('information_20_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_21_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/21/"><?=$this->lang->line('information_21_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_22_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/22/"><?=$this->lang->line('information_22_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_23_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/23/"><?=$this->lang->line('information_23_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_24_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/24/"><?=$this->lang->line('information_24_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_25_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/25/"><?=$this->lang->line('information_25_title')?></a></li>
-                      <li><a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_26_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/26/"><?=$this->lang->line('information_26_title')?></a></li>
-                    </ul>
-<?}?>
-            </li>
-            <li>
                 <a title="<?=$this->lang->line('learn_more')?> <?=$this->lang->line('information_27_title')?>..." href="<?=$this->config->item('base_url')?>game/informations/27/"><?=$this->lang->line('information_27_title')?></a>
 <?if($id >= 27 and $id <= 34){?>
                     <ul>

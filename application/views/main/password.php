@@ -3,8 +3,9 @@
     	<img class="bild2" src="<?=$this->config->item('base_url')?>design/bild2.jpg" width="173" height="85">
         <h1><?=$this->lang->line('request_password')?></h1>
         <p class="desc">
-<?if(SizeOf($this->session->flashdata('errors')) > 0){?>
-<?foreach ($this->session->flashdata('errors') as $error){?>
+<?$errors = $this->session->flashdata('errors')?>
+<?if(SizeOf($errors) >= 0){?>
+<?foreach ($errors as $error){?>
         <div class="warning"><?=$error?></div>
 <?}?>
 <?}elseif($this->session->flashdata('sended') == true){?>

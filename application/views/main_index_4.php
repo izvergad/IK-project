@@ -49,6 +49,7 @@
     <div id="wrapper">
         <div id="page" >
             <div id="header">
+                
                 <a id="btn-login" class="btn-login" href="javascript:void(0)" title="<?=$this->lang->line('login')?>"><?=$this->lang->line('login')?></a>
                     <div id="loginWrapper">
                         <div class="boxTop"></div>
@@ -71,6 +72,7 @@
                                     <input id="loginPassword" name="password" type="password" value="" class="validate[required]" />
                                 </div>
                                 <button type="submit" id="loginBtn" class="btn-login btn-big"><?=$this->lang->line('login')?></button>
+                                
 <?if ($this->config->item('game_email')){?>
                                 <a id="pwLost" class="login-lnk" href="javascript:void(0)" title="<?=$this->lang->line('link_lost_title')?>"><?=$this->lang->line('link_lost_text')?></a>
 <?}else{?><br><br><br><?}?>
@@ -222,7 +224,7 @@
             });
 
     $('#pwLost').click(function(){
-        showPasswordLost('http://us.ikariam.com/ajax/main/passwordlost') ;
+        showPasswordLost('<?=$this->config->item('base_url')?>main/page/password/') ;
         $('#btn-login').removeClass('open').text(window.txt_login);
     });
 
@@ -236,10 +238,7 @@
 
 
     <script type="text/javascript">
-    function fbConnect() {
-            FB.init("", "xd_receiver.htm",{"reloadIfSessionStateChanged":true});
-    }
-
+   
     function agbCheck() {
 
         if(document.getElementById('agb').checked != true) {
@@ -249,34 +248,7 @@
         }
     }
 
-    function extendedEmailPermission() {
-        //alert(FB);
-        FB.Connect.showPermissionDialog("email", extendedEmailPermissionCallback);
-    }
-
-    function extendedEmailPermissionCallback(perms) {
-        //alert("great! "+perms);
-        //agbCheck();
-        //window.location.href = 'http://' + document.getElementById('universe').value + '/index.php?action=newPlayer&function=createFBAvatar';
-        redirectToCreateAvatar()    }
-
-    function redirectToCreateAvatar() {
-        window.location.href = 'http://' + document.getElementById('fbRegisterServer').value + '/index.php?action=newPlayer&function=createFBAvatar';
-    }
-
-    function fbLoginAndEmailPermission() {
-
-        FB.Connect.requireSession( function() {
-            // callback session success
-            extendedEmailPermission() ;
-        }, function() {
-            // callback session fail
-            //alert( 'false' ) ;
-        } ) ;
-    }
-
 </script>
 
-
-<!-- BEGIN: Tracking --><img src="http://analytics.gameforge.de/cp.php?game=ikariam&lang=us&gr=1&action=visit&kid=" style="display:none" /><img src="http://adsm.gameforge.de/init.gif?kid=" style="display:none" /><img src="http://adsm2.gameforge.de/init.gif?kid=" style="display:none" /><!-- END: Tracking -->    </body>
+</body>
 </html> 

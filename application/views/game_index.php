@@ -171,7 +171,7 @@
 	<body id="<?=$page?>">
             <div id="container">
                 <div id="container2">
-<?$banner_query = $this->db->query("SELECT * FROM `".$this->session->userdata('universe')."_banners` ORDER BY RAND() LIMIT 1")?>
+<?$banner_query = $this->db->query("SELECT * FROM `".$this->session->userdata('universe')."_banners_right` ORDER BY RAND() LIMIT 1")?>
 <?if($banner_query->num_rows > 0){?>
 <?$banner = $banner_query->row()?>
 <style type="text/css">

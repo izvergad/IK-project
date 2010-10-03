@@ -66,7 +66,7 @@ if(child==parent){return true;}else{return false;}},hidePanel:function(panel,lin
                     <div id="mmoLangSelect" class="mmoSelectbox">
                         <div id="mmoSarea1" onclick="mmoShowOptions(1)" class="mmoSelectArea">
                             <div class="mmoSelectText" id="mmoMySelectContent1">
-                                <div id="mmoMySelectText1" class="mmoflag mmo_US"><?if($this->session->userdata('language')!=''){?><?=ucfirst($this->session->userdata('language'))?><?}else{?><?=ucfirst($this->config->item('language'))?><?}?></div>
+                                <div id="mmoMySelectText1" class="mmoflag mmo_<?=strtoupper($this->lang->line('content'))?>"><?if($this->session->userdata('language')!=''){?><?=ucfirst($this->session->userdata('language'))?><?}else{?><?=ucfirst($this->config->item('language'))?><?}?></div>
                             </div>
                             <div class="mmoSelectButton"></div>
                         </div>

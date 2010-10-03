@@ -5,12 +5,12 @@
 ?>
 <div id="mainview">
     <div class="buildingDescription">
-        <h1>Инспектировать гарнизон</h1>
-        <p>Здесь Вы можете распустить войска, которые Вам больше не нужны.</p>
+        <h1><?=$this->lang->line('inspect_garisson')?></h1>
+        <p><?=$this->lang->line('inspect_garisson_text')?></p>
     </div>
     <form id="fireForm"  action="<?=$this->config->item('base_url')?>actions/armyEdit/shipyard/" method="post">
         <div class="contentBox01h">
-            <h3 class="header">Роспуск кораблей</h3>
+            <h3 class="header"><?=$this->lang->line('fire_ships')?></h3>
             <div class="content">
                 <br>
                 <ul id="units">
@@ -22,10 +22,10 @@
                         <div class="unitinfo">
                             <h4><?=$this->Data_Model->army_name_by_type($i)?></h4>
                             <img src="<?=$this->config->item('style_url')?>skin/characters/fleet/120x100/<?=$class?>_r_120x100.gif">
-                            <div class="unitcount"><span class="textLabel">Доступно: </span><?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?></div>
+                            <div class="unitcount"><span class="textLabel"><?=$this->lang->line('available')?>: </span><?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?></div>
                             <p><?=$this->Data_Model->army_desc_by_type($i)?></p>
                         </div>
-                        <label for="<?=$class?>"><?=$this->Data_Model->army_name_by_type($i)?> распустить:</label>
+                        <label for="<?=$class?>"><?=$this->Data_Model->army_name_by_type($i)?> <?=$this->lang->line('dismiss_ships')?>:</label>
                         <div class="sliderinput">
                             <div class="sliderbg" id="sliderbg_<?=$class?>">
                                 <div class="actualValue" id="actualValue_<?=$class?>"></div>
@@ -49,20 +49,20 @@
 							var slider = sliders["default"];
 							</script>
 
-                            <a class="setMin" href="#reset" onClick="sliders['slider_<?=$class?>'].setActualValue(0); return false;" title="Eingabe zurücksetzen"><span class="textLabel">мин.</span></a>
-                            <a class="setMax" href="#max" onClick="sliders['slider_<?=$class?>'].setActualValue(<?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?>); return false;" title="Möglichst viele entlassen"><span class="textLabel">макс.</span></a>
+                            <a class="setMin" href="#reset" onClick="sliders['slider_<?=$class?>'].setActualValue(0); return false;" title="Eingabe zurücksetzen"><span class="textLabel"><?=$this->lang->line('min')?></span></a>
+                            <a class="setMax" href="#max" onClick="sliders['slider_<?=$class?>'].setActualValue(<?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?>); return false;" title="Möglichst viele entlassen"><span class="textLabel"<?=$this->lang->line('max')?></span></a>
                         </div>
                         <div class="forminput">
-                            <input class="textfield" id="textfield_<?=$class?>" type="text" name="<?=$i?>"  value="0" size="4" maxlength="4"> <a class="setMax" href="#max" onClick="sliders['slider_<?=$class?>'].setActualValue(<?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?>); return false;" title="Рекрутировать максимум"><span class="textLabel">макс.</span></a>
+                            <input class="textfield" id="textfield_<?=$class?>" type="text" name="<?=$i?>"  value="0" size="4" maxlength="4"> <a class="setMax" href="#max" onClick="sliders['slider_<?=$class?>'].setActualValue(<?=$this->Player_Model->armys[$this->Player_Model->town_id]->$class?>); return false;" title="<?=$this->lang->line('recruit_max')?>"><span class="textLabel"><?=$this->lang->line('max')?></span></a>
                             <div class="centerButton">
-                                <input title="Роспуск войск!" class="button" type="submit" value="распустить!">
+                                <input title="<?=$this->lang->line('fire_ships')?>!" class="button" type="submit" value="<?=$this->lang->line('dismiss_ships')?>!">
                             </div>
                         </div>
                         <div class="costs">
-                            <h5>Стоимость:</h5>
+                            <h5><?=$this->lang->line('cost')?>:</h5>
                             <ul class="resources">
 <?if($cost['gold'] > 0){?>
-                                <li class="upkeep" title="Содержание в час"><span class="textLabel">Содержание в час: </span><?=number_format($cost['gold'])?></li>
+                                <li class="upkeep" title="<?=$this->lang->line('upkeep_hour')?>"><span class="textLabel"><?=$this->lang->line('upkeep_hour')?>: </span><?=number_format($cost['gold'])?></li>
 <?}?>
                             </ul>
                         </div>

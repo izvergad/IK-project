@@ -81,6 +81,7 @@ function markAll(command) {
                 <h3 class="header"><span class="textLabel"><?=$this->lang->line('messages')?></span></h3>
                 <div class="content">
                     <form action="<?=$this->config->item('base_url')?>actions/messages/delete/0/diplomacyAdvisor/" method="post" name="deleteMessages" id="deleteMessages">
+<? if(Count($this->Player_Model->to_user_messages) > 0){?>
                         <table cellpadding="0" cellspacing="0" class="table01" id="messages"  style="width:100%;margin:0px;border:none;">
                             <tr>
                                 <th><?=$this->lang->line('action')?></th>
@@ -119,10 +120,10 @@ function markAll(command) {
                             <tr id="tbl_reply<?=$message->id?>" style="display:none;" class="text">
                                  <td colspan="6" class="reply">
                                     <span style="float:left;padding:5px;margin-left:5px;">
-                                            <a class="button" href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$message->from?>/<?=$message->id?>/">Ответ</a>
-                                            <a class="button" href="<?=$this->config->item('base_url')?>actions/messages/delete/<?=$message->id?>/diplomacyAdvisor/">Удалить</a>
+                                            <a class="button" href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$message->from?>/<?=$message->id?>/"><?=$this->lang->line('send_message')?></a>
+                                            <a class="button" href="<?=$this->config->item('base_url')?>actions/messages/delete/<?=$message->id?>/diplomacyAdvisor/"><?=$this->lang->line('delete')?></a>
                                     </span>
-                                     <span style="float:right;padding:5px;margin-right:5px;"><a href="<?=$this->config->item('base_url')?>actions/messages/archive/<?=$message->id?>/" class="button">Поместить в архив</a>
+                                     <span style="float:right;padding:5px;margin-right:5px;"><a href="<?=$this->config->item('base_url')?>actions/messages/archive/<?=$message->id?>/" class="button"><?=$this->lang->line('in_archive')?></a>
                                             &nbsp; (<span class="costAmbrosia" style="padding-top:5px;padding-bottom:5px;font-weight:bold;paddig-left:5px;padding-right:22px;background-image:url(<?=$this->config->item('style_url')?>skin/premium/ambrosia_icon.gif);background-repeat:no-repeat;background-position:100% 50%;###">1</span>)
                                      </span>
                                  </td>
@@ -136,31 +137,38 @@ function markAll(command) {
                             </tr>
                             <tr>
                                 <td colspan="6" style="text-align:left;">
-                                    <a href="javascript:markAll('all');">Все</a> |
-                                    <a href="javascript:markAll('read');">Читать</a> |
-                                    <a href="javascript:markAll('unread');">Не прочитано</a> |
-                                    <a href="javascript:markAll('none');">Никто</a>
+                                    <a href="javascript:markAll('all');"><?=$this->lang->line('all')?></a> |
+                                    <a href="javascript:markAll('read');"><?=$this->lang->line('read')?></a> |
+                                    <a href="javascript:markAll('unread');"><?=$this->lang->line('unread')?></a> |
+                                    <a href="javascript:markAll('none');"><?=$this->lang->line('none')?></a>
                                 </td>
                             </tr>
                             <tr>
                                 <td class="selection" colspan="6" style="text-align:left;" width="50%">
                                     <input type="hidden" name="pos" value="inbox">
-                                    <input type="submit" name="666" value="Удалить"         class="button">
+                                    <input type="submit" name="666" value="<?=$this->lang->line('delete')?>"         class="button">
                                 </td>
                             </tr>
                         </table>
+<?}else{?>
+
+                        <table cellpadding="0" cellspacing="0" class="table01" id="messages"  style="width:100%;margin:0px;border:none;">
+                            <tr><th colspan="6"><p><?=$this->lang->line('no_messages')?></p></th></tr>
+                            <!--<div style="margin:0 auto; text-align:center;"-->
+                        </table>
+<?}?>
                     </form>
                 </div>
                 <div class="footer"></div>
             </div>
 
             <div class="dynamic" id="viewDiplomacyImperium" style="z-index:1;">
-                <h3 class="header">Архив сообщений</h3>
+                <h3 class="header"><?=$this->lang->line('message_archive')?></h3>
                 <div class="content">
                     <div class="centerButton">
                         <div>
-                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchive/" title="Входящие"><b>Входящие</b></a>
-                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchiveOutBox/" title="Исходящие"><b>Исходящие</b></a>
+                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchive/" title="<?=$this->lang->line('inbox')?>"><b><?=$this->lang->line('inbox')?></b></a>
+                            <a class="button" href="<?=$this->config->item('base_url')?>game/diplomacyAdvisorArchiveOutBox/" title="<?=$this->lang->line('outbox')?>"><b><?=$this->lang->line('outbox')?></b></a>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 <?php
 
-$lang['content'] = 'en';
+$lang['content'] = 'US';
 
 $lang['head_description'] = 'Ikariam is a free browser game. The player`s challenge is to lead a people through the ancient world. To build towns, trade and conquer islands.';
 $lang['head_title'] = 'Ikariam - The free browser game';

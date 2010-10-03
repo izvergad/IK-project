@@ -8,7 +8,7 @@
 ?>
     <div class="contentBox01h">
         <div class="buildingPictureImg"><img src="<?=$this->config->item('style_url')?>skin/img/city/small/building_forester.gif" /></div>
-        <h3 class="header"><span class="textLabel">Добыча стройматериалов</span></h3>
+        <h3 class="header"><span class="textLabel"><?=$this->lang->line('forester_statistic')?></span></h3>
         <div class="content">
             <table cellspacing="0" cellspacing="0" border="0" style="margin:0 auto 0px;">
                 <colgroup><col width="150"/><col width="70"/><col width="%"/></colgroup>
@@ -18,11 +18,11 @@
                 <tr>
                     <td class="col1Style">
 
-                        <label>Основное производство: </label>
+                        <label><?=$this->lang->line('basic_production')?>: </label>
 
                     </td>
                     <td class="col2Style">
-                        <span title="Основное производство"><?=number_format($production)?></span>
+                        <span title="<?=$this->lang->line('basic_production')?>"><?=number_format($production)?></span>
                     </td>
                     <td class="col3Style">
                         <div class="green" style="width:<?=99-($level*2)?>%" title="100.00%"></div>
@@ -30,10 +30,10 @@
                 </tr>
                 <tr class='alt'>
                     <td class="col1Style">
-                        <label>Хижина Лесничего: </label>
+                        <label><?=$this->lang->line('building16_name')?>: </label>
                     </td>
                     <td class="col2Style">
-                        <span title="Хижина Лесничего"><?=number_format($bonus)?></span>
+                        <span title="<?=$this->lang->line('building16_name')?>"><?=number_format($bonus)?></span>
                     </td>
                     <td class="col3Style">
                         <div class="yellow" style="width:<?=($level*2)-1?>%" title="+<?=$level*2?>.00%"></div>
@@ -44,7 +44,7 @@
                         <img src="<?=$this->config->item('style_url')?>skin/layout/sigma.gif"/>
                     </td>
                     <td class="col2Style">
-                        <span title="Всего"><b><?=number_format($summ)?></b></span>
+                        <span title="<?=$this->lang->line('total')?>"><b><?=number_format($summ)?></b></span>
                     </td>
                     <td class="col3Style">
                         <div class="green" style="width:99%" title="<?=100+($level*2)?>.00%"></div>

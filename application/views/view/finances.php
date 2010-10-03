@@ -1,9 +1,9 @@
 <div id="mainview">
-<h1>Баланс</h1>
+<h1><?=$this->lang->line('balances')?></h1>
 
 <table cellspacing="0" cellspacing="0" id="balance" class="table01">
     <tr>
-        <td class="sigma">Золото</td>
+        <td class="sigma"><?=$this->lang->line('amount_gold')?></td>
         <td class="value res"></td>
         <td class="value res"></td>
         <td class="value res"><?=number_format($this->Player_Model->user->gold)?></td>
@@ -13,9 +13,9 @@
 <table cellspacing="0" cellspacing="0" id="balance" class="table01">
 <tr>
 	<th class="city"><img src="<?=$this->config->item('style_url')?>skin/layout/icon-city2.gif" /></th>
-    <th>Доход</th>
-    <th>Ученые</th>
-    <th>Кол-во</th>
+    <th><?=$this->lang->line('income')?></th>
+    <th><?=$this->lang->line('scientists')?></th>
+    <th><?=$this->lang->line('amount')?></th>
 </tr>
 <?
     $summ_dohod = 0;
@@ -84,13 +84,13 @@
 
 <table cellspacing="0" cellpadding="0" id="upkeepReductionTable" class="table01" border="0px">
     <tr>
-        <th colspan="4">Содержание армии</th>
+        <th colspan="4"><?=$this->lang->line('army_cost')?></th>
     </tr>
         <tr >
-            <td class="reason">Войска</td>
+            <td class="reason"><?=$this->lang->line('troops')?></td>
             <td class="costs"><?=number_format($army_gold)?></td>
-            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="Стоимость">
-                <div class="brownBarDiv" style="width:100%" title="Стоимость">
+            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="<?=$this->lang->line('cost')?>">
+                <div class="brownBarDiv" style="width:100%" title="<?=$this->lang->line('cost')?>">
                 </div>
             </div>
             </td>
@@ -98,10 +98,10 @@
             <td class="hidden"></td>
         </tr>
                     <tr class="altbottomLine">
-            <td class="reason">- Исследования</td>
+            <td class="reason">- <?=$this->lang->line('researches')?></td>
             <td class="boldcosts"><?=number_format($army_gold_research)?></td>
-            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="Стоимость">
-                <div class="brownBarDiv" style="width:<?if($army_gold_research > 0 and $army_gold > 0){?><?=floor(($army_gold_research/$army_gold)*100)?><?}else{?>100<?}?>%" title="Стоимость">
+            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="<?=$this->lang->line('cost')?>">
+                <div class="brownBarDiv" style="width:<?if($army_gold_research > 0 and $army_gold > 0){?><?=floor(($army_gold_research/$army_gold)*100)?><?}else{?>100<?}?>%" title="<?=$this->lang->line('cost')?>">
                 </div>
             </div>
             </td>
@@ -110,10 +110,10 @@
         </tr>
 
                         <tr >
-            <td class="reason">Флоты</td>
+            <td class="reason"><?=$this->lang->line('fleets')?></td>
             <td class="costs"><?=number_format($fleet_gold)?></td>
-            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="Стоимость">
-                <div class="brownBarDiv" style="width:100%" title="Стоимость">
+            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="<?=$this->lang->line('cost')?>">
+                <div class="brownBarDiv" style="width:100%" title="<?=$this->lang->line('cost')?>">
                 </div>
             </div>
             </td>
@@ -121,10 +121,10 @@
             <td class="hidden"></td>
         </tr>
                     <tr class="altbottomLine">
-            <td class="reason">- Исследования</td>
+            <td class="reason">- <?=$this->lang->line('researches')?></td>
             <td class="boldcosts"><?=number_format($fleet_gold_research)?></td>
-            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="Стоимость">
-                <div class="brownBarDiv" style="width:<?if($fleet_gold_research > 0 and $fleet_gold > 0){?><?=floor(($fleet_gold_research/$fleet_gold)*100)?><?}else{?>100<?}?>%" title="Стоимость">
+            <td class="bar"><div class="greenBarDiv barBorder" style="width:99%" title="<?=$this->lang->line('cost')?>">
+                <div class="brownBarDiv" style="width:<?if($fleet_gold_research > 0 and $fleet_gold > 0){?><?=floor(($fleet_gold_research/$fleet_gold)*100)?><?}else{?>100<?}?>%" title="<?=$this->lang->line('cost')?>">
                 </div>
             </div>
             </td>
@@ -132,7 +132,7 @@
             <td class="hidden"><?=number_format($fleet_gold_research)?></td>
         </tr>
          <tr class="result">
- 		<td class="reason"><img src="<?=$this->config->item('style_url')?>skin/layout/sigma.gif" alt="Сумма" /></td>
+ 		<td class="reason"><img src="<?=$this->config->item('style_url')?>skin/layout/sigma.gif" alt="<?=$this->lang->line('total')?>" /></td>
  		<td class="costs"></td>
  		<td class="bar"></td>
  		<td class="hidden"><?=number_format($army_gold_research+$fleet_gold_research)?></td>
@@ -140,31 +140,31 @@
 </table>
 
 <table cellspacing="0" cellpadding="0" id="upkeepReductionTable" class="table01" border="0px">
-    <tr><th colspan="4">Всего</th></tr>
+    <tr><th colspan="4"><?=$this->lang->line('total')?></th></tr>
     <tr>
-        <td class="reason">Доход</td>
+        <td class="reason"><?=$this->lang->line('income')?></td>
         <td class="costs"></td>
  		<td class="bar">
-            <div class="greenBarDiv barBorder" style="width:99%" title="Доход">
-                <div class="brownBarDiv" style="width: 100%" title="Доход">
+            <div class="greenBarDiv barBorder" style="width:99%" title="<?=$this->lang->line('income')?>">
+                <div class="brownBarDiv" style="width: 100%" title="<?=$this->lang->line('income')?>">
                 </div>
             </div>
         </td>
         <td class="hidden"><?=number_format($summ_ostalos)?></td>
     </tr>
     <tr>
-        <td class="reason"> - Содержание</td>
+        <td class="reason"> - <?=$this->lang->line('upkeep')?></td>
         <td class="costs"></td>
  		<td class="bar">
-            <div class="redBarDiv barBorder" style="width:99%" title="Стоимость">
-                                <div class="brownBarDiv" style="width: <?if($summ_ostalos > 0 and ($all_army_gold*-1) > 0){?><?=100-floor((($all_army_gold*-1)/$summ_ostalos)*100)?><?}else{?>100<?}?>%" title="Доход">
+            <div class="redBarDiv barBorder" style="width:99%" title="<?=$this->lang->line('cost')?>">
+                                <div class="brownBarDiv" style="width: <?if($summ_ostalos > 0 and ($all_army_gold*-1) > 0){?><?=100-floor((($all_army_gold*-1)/$summ_ostalos)*100)?><?}else{?>100<?}?>%" title="<?=$this->lang->line('income')?>">
                 </div>
             </div>
         </td>
         <td class="hidden"><?=number_format($all_army_gold)?></td>
     </tr>
     <tr class="result">
-        <td class="reason"><img src="<?=$this->config->item('style_url')?>skin/layout/sigma.gif" alt="Сумма" /></td>
+        <td class="reason"><img src="<?=$this->config->item('style_url')?>skin/layout/sigma.gif" alt="<?=$this->lang->line('total')?>" /></td>
         <td class="costs"></td>
  		<td class="bar"></td>
         <td class="hidden"><?=number_format($summ_ostalos - ($all_army_gold*-1))?></td>

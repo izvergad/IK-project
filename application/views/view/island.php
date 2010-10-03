@@ -1,14 +1,14 @@
 
 <div id="mainview" class="island<?=$this->Island_Model->island->type?>">
-    <h3>Города на острове <?=$this->Island_Model->island->name?></h3>
+    <h3><?=$this->lang->line('towns_on_island')?> <?=$this->Island_Model->island->name?></h3>
     <ul id="cities">
 <?for ($i = 0; $i <=15; $i++){?>
 <?if ($this->Island_Model->towns[$i] == false){?>
         <li id="cityLocation<?=$i?>" class="cityLocation buildplace">
             <div class="claim"></div>
-            <a href="<?=$this->config->item('base_url')?>game/colonize/<?=$this->Island_Model->island->id?>/<?=$i?>/" title="Хотите основать здесь колонию?">
+            <a href="<?=$this->config->item('base_url')?>game/colonize/<?=$this->Island_Model->island->id?>/<?=$i?>/" title="<?=$this->lang->line('colonize_here')?>">
                 <span class="textLabel">
-                    <span class="before"></span>Стройплощадка
+                    <span class="before"></span><?=$this->lang->line('building_ground')?>
                     <span class="after"></span>
                 </span>
             </a>
@@ -29,43 +29,45 @@
             </a>
 <?}?>
             <ul class="cityinfo">
-                <li class="name"><span class="textLabel">Имя: </span><?=$this->Island_Model->towns[$i]->name?></li>
-                <li class="citylevel"><span class="textLabel">Размер: </span><?=$level?></li>
-                <li class="owner"><span class="textLabel">Игрок: </span><?=$this->Island_Model->users[$i]->login?>
+                <li class="name"><span class="textLabel"><?=$this->lang->line('name')?>: </span><?=$this->Island_Model->towns[$i]->name?></li>
+                <li class="citylevel"><span class="textLabel"><?=$this->lang->line('town_size')?>: </span><?=$level?></li>
+                <li class="owner"><span class="textLabel"><?=$this->lang->line('player')?>: </span><?=$this->Island_Model->users[$i]->login?>
 <?if($this->Island_Model->users[$i]->id != $this->Player_Model->user->id){?>
-                        <a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->users[$i]->id?>/" class="messageSend" title="Отправить сообщение"><img src="<?=$this->config->item('style_url')?>skin/interface/icon_message_write.gif" alt="Отправить сообщение"></a>
-                        <a href="<?=$this->config->item('base_url')?>game/reportPlayer/<?=$this->Island_Model->users[$i]->id?>/" class="reportPlayer" title="Доложить об этом игроке Игровому Оператору..."><img src="<?=$this->config->item('style_url')?>skin/layout/icon-kick.gif" alt="Пожаловаться"></a>
+                        <a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->users[$i]->id?>/" class="messageSend" title="<?=$this->lang->line('send_message')?>"><img src="<?=$this->config->item('style_url')?>skin/interface/icon_message_write.gif" alt="<?=$this->lang->line('send_message')?>"></a>
+                        <a href="<?=$this->config->item('base_url')?>game/reportPlayer/<?=$this->Island_Model->users[$i]->id?>/" class="reportPlayer" title="<?=$this->lang->line('report_to_operator')?>"><img src="<?=$this->config->item('style_url')?>skin/layout/icon-kick.gif" alt="<?=$this->lang->line('report_player')?>"></a>
 <?}?>
                 </li>
-                <li class="name"><span class="textLabel">Баллы: </span><?=floor($this->Island_Model->users[$i]->points)?></li>
-                <li class="ally"><span class="textLabel">Альянс: </span>-</li>
+                <li class="name"><span class="textLabel"><?=$this->lang->line('points')?>: </span><?=floor($this->Island_Model->users[$i]->points)?></li>
+                <li class="ally"><span class="textLabel"><?=$this->lang->line('ally')?>: </span>-</li>
                 <!--<li class="noobModeInfo">Игрок под защитой богов.</li>-->
             </ul>
             <ul class="cityactions">
 <?if($this->Island_Model->users[$i]->id != $this->Player_Model->user->id){?>
-                <li class="diplomacy"><a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->users[$i]->id?>/" title="Дипломатия"><span class="textLabel">Дипломатия</span></a></li>
+                <li class="diplomacy"><a href="<?=$this->config->item('base_url')?>game/sendIKMessage/<?=$this->Island_Model->users[$i]->id?>/" title="<?=$this->lang->line('diplomacy')?>"><span class="textLabel"><?=$this->lang->line('diplomacy')?></span></a></li>
 <?}?>
 <?if($this->Island_Model->towns[$i]->id != $this->Player_Model->town_id){?>
+<?/*
 <?if($this->Player_Model->user->transports == 0){?>
                 <li class="transport disabled" title="Сухогрузы для транспортировки недоступны!">
-                    <span class="textLabel">Отправить ресурсы</span>
+                    <span class="textLabel"><?=$this->lang->line('transport_goods')?></span>
                 </li>
 <?}else{?>
+ */?>
                 <li class="transport">
-                    <a href="<?=$this->config->item('base_url')?>game/transport/<?=$this->Island_Model->island->id?>/<?=$this->Island_Model->towns[$i]->id?>/" title="Отправить ресурсы">
-                        <span class="textLabel">Отправить ресурсы</span>
+                    <a href="<?=$this->config->item('base_url')?>game/transport/<?=$this->Island_Model->island->id?>/<?=$this->Island_Model->towns[$i]->id?>/" title="<?=$this->lang->line('transport_goods')?>">
+                        <span class="textLabel"><?=$this->lang->line('transport_goods')?></span>
                     </a>
                 </li>
-<?}}?>
+<?/*}*/}?>
 <?if($this->Island_Model->users[$i]->id != $this->Player_Model->user->id){?>
 <?if($this->Player_Model->now_town->spyes == 0){?>
-                <li class="espionage disabled" title="Шпионы недоступны!">
-                    <span class="textLabel">Отправить шпиона</span>
+                <li class="espionage disabled" title="<?=$this->lang->line('not_spyes')?>">
+                    <span class="textLabel"><?=$this->lang->line('send_spy')?></span>
                 </li>
 <?}else{?>
                 <li class="espionage">
-                    <a href="<?=$this->config->item('base_url')?>game/sendSpy/<?=$this->Island_Model->island->id?>/<?=$this->Island_Model->towns[$i]->id?>/" title="Отправить шпиона">
-                        <span class="textLabel">Отправить шпиона</span>
+                    <a href="<?=$this->config->item('base_url')?>game/sendSpy/<?=$this->Island_Model->island->id?>/<?=$this->Island_Model->towns[$i]->id?>/" title="<?=$this->lang->line('send_spy')?>">
+                        <span class="textLabel"><?=$this->lang->line('send_spy')?></span>
                     </a>
                 </li>
 <?}?>
@@ -80,9 +82,9 @@
         <li id="barbarianVilliage">
             <a href="#" id="barbarianLink" onclick="selectBarbarianVillage(); selectGroup.activate(this, 'cities'); return false;"> </a>
             <ul class="cityinfo" id="barbarianInformation">
-                <li class="name"><span class="textLabel">Имя: </span>Деревня Варваров</li>
-                <li class="citylevel"><span class="textLabel">Размер: </span>1</li>
-                <li class="name"><span class="textLabel">Варвары: </span>1</li>
+                <li class="name"><span class="textLabel"><?=$this->lang->line('name')?>: </span><?=$this->lang->line('barbarian_village')?></li>
+                <li class="citylevel"><span class="textLabel"><?=$this->lang->line('city_level')?>: </span>1</li>
+                <li class="name"><span class="textLabel"><?=$this->lang->line('barbarians')?>: </span>1</li>
             </ul>
             <ul class="cityactions" id="barbarianActions">
 <?if(($this->Player_Model->armys[$this->Player_Model->town_id]->phalanx > 0) or
@@ -100,13 +102,13 @@
      ($this->Player_Model->armys[$this->Player_Model->town_id]->cook > 0) or
      ($this->Player_Model->armys[$this->Player_Model->town_id]->medic > 0)){?>
                 <li class="plunder">
-                    <a href="<?=$this->config->item('base_url')?>game/plunder/<?=$this->Player_Model->island_id?>/0/" title="Набег">
-                        <span class="textLabel">Набег</span>
+                    <a href="<?=$this->config->item('base_url')?>game/plunder/<?=$this->Player_Model->island_id?>/0/" title="<?=$this->lang->line('pillage')?>">
+                        <span class="textLabel"><?=$this->lang->line('pillage')?></span>
                     </a>
                 </li>
 <?}else{?>
-                <li class="plunder disabled" title="Войска/торговые суда для набега недоступны!">
-                    <span class="textLabel">Набег</span>
+                <li class="plunder disabled" title="<?=$this->lang->line('not_pillage')?>">
+                    <span class="textLabel"><?=$this->lang->line('pillage')?></span>
                 </li>
 <?}?>    
             </ul>
@@ -114,7 +116,7 @@
 <?}?>
     </ul>
 
-    <h3>Достопримечательности на острове <?=$this->Island_Model->island->name?></h3>
+    <h3><?=$this->lang->line('special_places')?> <?=$this->Island_Model->island->name?></h3>
     <ul id="islandfeatures">
         <li class="<?=$this->Data_Model->resource_class_by_type(0)?> level<?=$this->Island_Model->island->wood_level?>">
 <?$link_wood = ($this->Island_Model->island->id == $this->Player_Model->island_id) ? $this->config->item('base_url').'game/resource/'.$this->Island_Model->island->id.'/' : '#'?>
@@ -139,8 +141,8 @@
             </a>
         </li>
 <?}?>
-        <li class="forum"><a title="Форум" href="<?=$link_forum?>">
-                <span class="textLabel">Форум</span>
+        <li class="forum"><a title="<?=$this->lang->line('agora')?>" href="<?=$link_forum?>">
+                <span class="textLabel"><?=$this->lang->line('agora')?></span>
             </a>
         </li>
     </ul>
