@@ -1,4 +1,4 @@
-﻿DROP TABLE IF EXISTS `alpha_user_messages`;
+DROP TABLE IF EXISTS `alpha_user_messages`;
 CREATE TABLE `alpha_user_messages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `from` int(11) NOT NULL,
